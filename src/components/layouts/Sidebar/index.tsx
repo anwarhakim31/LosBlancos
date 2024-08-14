@@ -14,6 +14,7 @@ import {
   User,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { useMasterContext } from "@/context/MasterContext";
 
 const sideList = [
   {
@@ -83,14 +84,11 @@ interface SidebarProps {
 
 const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
   ({ isSidebarOpen }: SidebarProps, ref: ForwardedRef<HTMLDivElement>) => {
+    const context = useMasterContext();
     const pathname = usePathname();
     const [selected, setSelected] = useState(
       pathname.split("-").join(" ").split("/")[2]
     );
-
-    console.log();
-
-    console.log(selected);
 
     return (
       <aside
@@ -100,7 +98,26 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
         ref={ref}
       >
         <div className={styles.sidebar__logo}>
-          <Image src={"/logo.svg"} alt="logo" width={70} height={70} priority />
+          {context?.master.displayLogo && (
+            <Image
+              src={context?.master.logo || "/default.png"}
+              alt="logo"
+              width={100}
+              height={100}
+              priority
+            />
+          )}
+          {context?.master.displayName && (
+            <p
+              style={{
+                color: context?.master.color,
+                fontWeight: "600",
+                fontSize: "1.25rem",
+              }}
+            >
+              {context?.master.name}
+            </p>
+          )}
         </div>
         <div className={styles.sidebar__primaryList}>
           {sideList.map((item) => (

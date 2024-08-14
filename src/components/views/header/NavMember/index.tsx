@@ -8,8 +8,10 @@ import UserMenu from "./UserMenu";
 import HomeMenu from "./HomeMenu";
 import { Menu, Phone, X } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { useMasterContext } from "@/context/MasterContext";
 
 const NavbarView = () => {
+  const context = useMasterContext();
   const navRef = useRef<HTMLDivElement>(null);
   const [isActive, setIsActive] = React.useState<boolean>(false);
   const pathname = usePathname();
@@ -55,15 +57,20 @@ const NavbarView = () => {
     <nav ref={navRef} className={styles.nav}>
       <div>
         <Link href={"/"} className={styles["nav__logo"]}>
-          <Image
-            src={"/logo.svg"}
-            alt="logo"
-            width={40}
-            height={40}
-            style={{ objectFit: "contain" }}
-            priority
-          />
-          {/* <span className={styles["nav__logo__text"]}>LosBlancos</span> */}
+          {context?.master.displayLogo && (
+            <Image
+              src={context?.master?.logo || "/default.png"}
+              alt="logo"
+              width={50}
+              height={50}
+              style={{ objectFit: "contain" }}
+              priority
+            />
+          )}
+
+          {context?.master.displayName && (
+            <span className={styles["nav__logo__text"]}>LosBlancos</span>
+          )}
         </Link>
       </div>
 

@@ -4,7 +4,8 @@ import React from "react";
 import { createContext, ReactNode } from "react";
 
 interface MasterContextProps {
-  data: TypeMaster;
+  master: TypeMaster;
+  handleUpdate: (data: TypeMaster) => void;
 }
 
 const MasterContext = createContext<MasterContextProps | undefined>(undefined);
@@ -20,8 +21,16 @@ const MasterProvider = ({
   children: ReactNode;
   data: TypeMaster;
 }) => {
+  const [master, setMaster] = React.useState<object>(data);
+
+  const handleUpdate = (data: TypeMaster) => {
+    setMaster((prev) => ({ ...prev, ...data }));
+  };
+
   return (
-    <MasterContext.Provider value={{ data }}>{children}</MasterContext.Provider>
+    <MasterContext.Provider value={{ master, handleUpdate }}>
+      {children}
+    </MasterContext.Provider>
   );
 };
 
