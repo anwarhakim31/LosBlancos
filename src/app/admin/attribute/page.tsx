@@ -77,7 +77,7 @@ const AttributePage = () => {
       />
       <div className={styles.head}>
         <p>
-          Semua Atribut <span> </span>
+          Semua Atribut <span>({pagination.total})</span>
         </p>
         <div className={styles.head__search}>
           <InputSearch
@@ -92,7 +92,7 @@ const AttributePage = () => {
 
         <div className={styles.head__button}>
           <ButtonClick
-            title={`Tambah Kategori`}
+            title={`Tambah Atribut`}
             onClick={() => setIsAddData(true)}
           />
         </div>

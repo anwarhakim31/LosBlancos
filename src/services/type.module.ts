@@ -22,6 +22,12 @@ export type TypeCollection = {
   createdAt?: string;
 };
 
+export type TypeCategory = {
+  _id?: string;
+  name: string;
+  createdAt?: string;
+};
+
 export type TypeCarousel = {
   _id?: string;
   image: string;
