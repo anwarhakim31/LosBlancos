@@ -262,3 +262,16 @@
     color: $danger;
   }
 }
+
+.nodata {
+  height: 420px;
+  border: none;
+
+  &:hover {
+    background: $white !important;
+  }
+
+  td {
+    text-align: center;
+  }
+}

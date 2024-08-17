@@ -1,0 +1,17 @@
+.modal {
+  width: 100%;
+  max-width: 450px;
+  border-radius: 0.4rem;
+  background-color: $white;
+
+  &__content {
+    padding: 1rem;
+  }
+
+  &__footer {
+    padding: 1rem;
+    @include flex(flex-end, center, null);
+    gap: 0.5rem;
+    border-top: 1px solid $gray-300;
+  }
+}
