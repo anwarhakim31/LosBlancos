@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Modal from "@/components/element/Modal";
 import style from "./modal.module.scss";
 import HeaderModal from "@/components/element/HeaderModal";
@@ -7,13 +8,17 @@ import { Controller, useForm } from "react-hook-form";
 
 import { TypeUser } from "@/services/type.module";
 import FormControlSelect from "@/components/fragments/FormControlSelect";
+import { ResponseError } from "@/utils/axios/response-error";
+import { userService } from "@/services/user/method";
+import { toast } from "sonner";
 
 interface PropsType {
   onClose: () => void;
   isEditData: TypeUser | null;
+  callback: () => void;
 }
 
-const ModalEdit = ({ onClose, isEditData }: PropsType) => {
+const ModalEdit = ({ onClose, isEditData, callback }: PropsType) => {
   const {
     control,
     handleSubmit,
@@ -27,8 +32,18 @@ const ModalEdit = ({ onClose, isEditData }: PropsType) => {
     },
   });
 
-  const onsubmit = (data: TypeUser) => {
-    console.log(data);
+  const onsubmit = async (data: TypeUser) => {
+    try {
+      const res = await userService.updateUser(isEditData?._id as string, data);
+
+      if (res.status === 200) {
+        onClose();
+        toast.success(res.data.message);
+        callback();
+      }
+    } catch (error) {
+      ResponseError(error);
+    }
   };
 
   return (
@@ -44,6 +59,13 @@ const ModalEdit = ({ onClose, isEditData }: PropsType) => {
             <Controller
               name="fullname"
               control={control}
+              rules={{
+                required: "Nama Lengkap tidak boleh kosong",
+                minLength: {
+                  value: 6,
+                  message: "Nomor Telepon minimal 8 karakter",
+                },
+              }}
               render={({ field }) => (
                 <FormControlFragment
                   type="text"
@@ -58,6 +80,13 @@ const ModalEdit = ({ onClose, isEditData }: PropsType) => {
             <Controller
               name="phone"
               control={control}
+              rules={{
+                required: "Nomor Telepon tidak boleh kosong",
+                minLength: {
+                  value: 8,
+                  message: "Nomor Telepon minimal 8 karakter",
+                },
+              }}
               render={({ field }) => (
                 <FormControlFragment
                   type="number"
@@ -72,6 +101,7 @@ const ModalEdit = ({ onClose, isEditData }: PropsType) => {
             <Controller
               name="jenisKelamin"
               control={control}
+              rules={{ required: "Nama Lengkap tidak boleh kosong" }}
               render={({ field }) => (
                 <FormControlSelect
                   id="jenisKelamin"

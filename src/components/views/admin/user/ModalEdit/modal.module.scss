@@ -1,11 +1,18 @@
 .modal {
   width: 100%;
-  max-width: 450px;
+
   border-radius: 0.4rem;
   background-color: $white;
+  margin-top: auto;
+
+  @include media(sm) {
+    margin-top: 0;
+
+    max-width: 450px;
+  }
 
   &__content {
-    padding: 1rem;
+    padding: 1.5rem 1rem 1rem 1rem;
   }
 
   &__footer {

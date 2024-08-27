@@ -90,11 +90,11 @@ const AuthLayouts = () => {
                 <>
                   Belum punya akun? <Link href="/register">Daftar</Link>
                 </>
-              ) : pathname === "/forgot-password" ? (
+              ) : pathname === "/forget-password" ? (
                 <>
                   {success
                     ? "Kami telah mengirimkan email untuk reset password"
-                    : "Masukan alamat email yang telah terdaftar untuk menerima email reset kata sandi."}
+                    : "Masukan alamat email yang telah terdaftar untuk menerima email reset password."}
                 </>
               ) : (
                 <>

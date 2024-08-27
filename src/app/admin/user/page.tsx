@@ -98,6 +98,9 @@ const UserPage = () => {
       />
 
       <div className={style.action}>
+        <p>
+          Semua User <span>({pagination.total})</span>
+        </p>
         <div className={style.action__search}>
           <InputSearch
             placeholder="Cari Nama Lengkap atau Email dari Pelanggan"
@@ -108,7 +111,6 @@ const UserPage = () => {
             id="search"
           />
         </div>
-        <div className={style.action__button}></div>
       </div>
 
       <Table
@@ -147,6 +149,7 @@ const UserPage = () => {
         <ModalEdit
           onClose={() => setIsEditData(null)}
           isEditData={isEditData}
+          callback={() => getAllUser()}
         />
       )}
     </Fragment>

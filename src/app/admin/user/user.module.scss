@@ -4,6 +4,11 @@
   flex-wrap: wrap;
   gap: 1rem;
 
+  p {
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
   &__search {
     width: 100%;
     @include media(sm) {
