@@ -1,0 +1,25 @@
+.tabs {
+  width: 100%;
+  @include flex-center();
+  gap: 1rem;
+  margin-bottom: 2rem;
+
+  .tab {
+    width: 5rem;
+    border-radius: 1rem;
+    height: 2rem;
+    background: $white;
+    @include flex-center();
+    color: $secondary;
+    font-size: 0.8125rem;
+    cursor: pointer;
+    border: 2px solid $gray-100;
+    text-transform: capitalize;
+  }
+
+  .active__tab {
+    background: $secondary;
+    border: 2px solid $gray-100;
+    color: $white;
+  }
+}

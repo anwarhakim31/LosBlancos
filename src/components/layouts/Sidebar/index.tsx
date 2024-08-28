@@ -5,11 +5,12 @@ import styles from "./sidebar.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 import {
+  AlignHorizontalSpaceAround,
   BoxesIcon,
   ChevronDown,
   LayoutDashboard,
+  MonitorCog,
   Package,
-  Settings,
   User,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
@@ -23,9 +24,20 @@ const sideList = [
   },
   {
     id: 2,
-    name: "masted data",
-    icon: <Settings width={20} height={20} strokeWidth={1.5} />,
-    link: "/admin/master-data",
+    name: "master data",
+    icon: <MonitorCog width={20} height={20} strokeWidth={1.5} />,
+    dropdown: [
+      {
+        id: 1,
+        name: "Logo & Link",
+        link: "/admin/master-data/logo-link",
+      },
+      {
+        id: 2,
+        name: "Desain",
+        link: "/admin/master-data/desain",
+      },
+    ],
   },
   {
     id: 3,
@@ -44,14 +56,21 @@ const sideList = [
       },
     ],
   },
+
   {
     id: 4,
+    name: "Atribut",
+    icon: <AlignHorizontalSpaceAround width={20} height={20} strokeWidth={1} />,
+    link: "/admin/category",
+  },
+  {
+    id: 5,
     name: "kategori",
     icon: <BoxesIcon width={20} height={20} strokeWidth={1} />,
     link: "/admin/category",
   },
   {
-    id: 5,
+    id: 6,
     name: "produk",
     icon: <Package width={20} height={20} strokeWidth={1.2} />,
     link: "/admin/product",
@@ -67,7 +86,7 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
     const pathname = usePathname();
     const [selected, setSelected] = useState(pathname.split("/")[2]);
 
-    console.log(selected);
+    console.log(pathname.split("-").join(" ").split("/")[2]);
 
     return (
       <aside
@@ -91,6 +110,9 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
                     styles["sidebar__primaryList__item__active"]
                   }`}
                   style={{ marginBottom: "0.25rem" }}
+                  onClick={() => {
+                    setSelected("");
+                  }}
                 >
                   <span className={styles.sidebar__primaryList__item__icon}>
                     {item.icon}
@@ -102,7 +124,7 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
               ) : (
                 <a
                   className={`${styles.sidebar__primaryList__item}  ${
-                    pathname.includes(item.name.toLowerCase()) &&
+                    pathname.split("-").join(" ").split("/")[2] === item.name &&
                     styles["sidebar__primaryList__item__active"]
                   }`}
                   onClick={() => {

@@ -1,5 +1,7 @@
+import { redirect } from "next/navigation";
+
 const MasterDataPage = () => {
-  return <section></section>;
+  redirect("/admin/master/logo-link");
 };
 
 export default MasterDataPage;
