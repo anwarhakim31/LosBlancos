@@ -33,10 +33,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main className={styles.admin}>
       <Sidebar isSidebarOpen={isSidebarOpen} ref={sidebarRef} />
-      <AdminHeader
-        handleToggleSidebar={handleToggleSidebar}
-        isSidebarOpen={isSidebarOpen}
-      />
+      <AdminHeader handleToggleSidebar={handleToggleSidebar} />
       <section ref={sectionRef} className={styles.admin__content}>
         {children}
       </section>

@@ -4,37 +4,39 @@ import styles from "./modal.module.scss";
 import HeaderModal from "@/components/element/HeaderModal";
 import { TriangleAlert } from "lucide-react";
 import ButtonClick from "@/components/element/ButtonClick";
-import { useState } from "react";
-import { ResponseError } from "@/utils/axios/response-error";
-import { TypeUser } from "@/services/type.module";
 import { toast } from "sonner";
+import { ResponseError } from "@/utils/axios/response-error";
+import { useState } from "react";
 
-const ModalOneDelete = ({
+const ModalManyDelete = ({
   onClose,
   title,
-  setIsDeleteOne,
+  setIsDeleteMany,
+  setCheck,
   fetching,
 }: {
   onClose: () => void;
   title: string;
-  setIsDeleteOne: React.Dispatch<React.SetStateAction<TypeUser | null>>;
+  setCheck: React.Dispatch<React.SetStateAction<string[]>>;
   fetching: () => Promise<any>;
+  setIsDeleteMany: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [loading, setLoading] = useState(false);
 
-  const handleDelete = async () => {
+  const handleDeleteMany = async () => {
     setLoading(true);
     try {
       const res = await fetching();
 
       if (res.status === 200) {
         toast.success(res.data.message);
-        setIsDeleteOne(null);
+        setIsDeleteMany(false);
+        setCheck([]);
       }
     } catch (error) {
       ResponseError(error);
     } finally {
-      setLoading(false);
+      setTimeout(() => setLoading(false), 1000);
     }
   };
 
@@ -47,7 +49,6 @@ const ModalOneDelete = ({
         />
         <div className={styles.modal__content}>
           <TriangleAlert />
-
           <p>{title}</p>
         </div>
         <div className={styles.modal__footer}>
@@ -55,7 +56,11 @@ const ModalOneDelete = ({
             <ButtonClick title="Tidak" onClick={onClose} loading={loading} />
           </div>
           <div style={{ width: "100px" }}>
-            <ButtonClick title="Ya" onClick={handleDelete} />
+            <ButtonClick
+              title="Ya"
+              onClick={handleDeleteMany}
+              loading={loading}
+            />
           </div>
         </div>
       </div>
@@ -63,4 +68,4 @@ const ModalOneDelete = ({
   );
 };
 
-export default ModalOneDelete;
+export default ModalManyDelete;

@@ -4,7 +4,8 @@ import { TypeUser } from "../type.module";
 export const userService = {
   getUser: (params: object) => instance.get("/user", { params }),
   updateUser: (id: string, data: TypeUser) => instance.put(`/user/${id}`, data),
-  deleteUser: (id: string | undefined) => instance.delete(`/user/${id}`),
+  deleteOne: (id: string | undefined) => instance.delete(`/user/${id}`),
+  deleteMany: (data: string[]) => instance.delete(`/user`, { data }),
 };
 
 export const imageService = {

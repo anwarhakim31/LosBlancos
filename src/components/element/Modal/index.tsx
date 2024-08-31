@@ -3,7 +3,13 @@ import styles from "./portal.module.scss";
 import { createPortal } from "react-dom";
 
 const BackdropOverlay = ({ onClose }: { onClose: () => void }) => {
-  return <div onClick={onClose} className={styles.backdropOverlay}></div>;
+  return (
+    <div
+      role="presentation"
+      onClick={onClose}
+      className={styles.backdropOverlay}
+    ></div>
+  );
 };
 
 const ModalOverlay = ({
@@ -17,6 +23,7 @@ const ModalOverlay = ({
 }) => {
   return (
     <div
+      role="presentation"
       onClick={onClose}
       className={`${styles.modalOverlay} ${
         showModal ? styles.active : styles.default

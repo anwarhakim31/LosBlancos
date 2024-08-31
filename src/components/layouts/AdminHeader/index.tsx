@@ -8,16 +8,15 @@ import { AlignLeft, LogOut } from "lucide-react";
 
 interface PropsType {
   handleToggleSidebar: () => void;
-  isSidebarOpen: boolean;
 }
 
-const AdminHeader = ({ handleToggleSidebar, isSidebarOpen }: PropsType) => {
+const AdminHeader = ({ handleToggleSidebar }: PropsType) => {
   const session = useSession();
 
   return (
     <div className={styles.header}>
       <button
-        className={`${styles.header__button} ${isSidebarOpen && styles.active}`}
+        className={`${styles.header__button} `}
         onClick={handleToggleSidebar}
       >
         <AlignLeft width={16} height={16} />
