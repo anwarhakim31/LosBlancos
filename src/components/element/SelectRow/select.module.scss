@@ -9,7 +9,7 @@
       border: 1px solid $primary;
     }
 
-    height: 2rem;
+    height: 1.75rem;
 
     border: 1px solid $gray-300;
     border-radius: 0.4rem;
@@ -47,10 +47,11 @@
     bottom: -95px;
     border: 1px solid $gray-300;
     left: 0;
+    z-index: 99;
 
     @include flex-center();
     flex-direction: column;
-    z-index: 2;
+    z-index: 10;
     width: 120px;
     background: $white;
     border-radius: 0.4rem;

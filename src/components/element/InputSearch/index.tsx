@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
 import styles from "./input.module.scss";
 import { SearchIcon } from "lucide-react";
@@ -10,28 +11,43 @@ interface inputType {
   name: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   value: string;
+  loading?: boolean;
 }
 
-const InputSearch = ({ placeholder, id, name, onChange, value }: inputType) => {
+const InputSearch = ({
+  placeholder,
+  id,
+  name,
+  onChange,
+  value,
+  loading,
+}: inputType) => {
   const query = useSearchParams();
   const { push } = useRouter();
   const pathname = usePathname();
+  const params = new URLSearchParams(query.toString());
+
+  const updateParams = (params: URLSearchParams, value: string) => {
+    if (value) {
+      params.set("page", "1");
+      params.set("search", value);
+    } else {
+      params.delete("search");
+    }
+
+    return params.toString();
+  };
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      const params = new URLSearchParams(query.toString());
-      params.set("page", "1");
-      if (value) {
-        params.set("search", value);
-      } else {
-        params.delete("search");
-      }
-
-      push(`${pathname}?${params.toString()}`);
+      const updatedParams = updateParams(params, value);
+      push(`${pathname}?${updatedParams}`);
     }, 300);
 
     return () => clearTimeout(timeout);
-  }, [value, query, pathname, push]);
+  }, [value]);
+
+  console.log(loading);
 
   return (
     <div className={styles.wrapper}>
@@ -43,6 +59,7 @@ const InputSearch = ({ placeholder, id, name, onChange, value }: inputType) => {
         name={name}
         placeholder={placeholder}
         className={styles.input}
+        disabled={loading}
       />
       <SearchIcon />
     </div>

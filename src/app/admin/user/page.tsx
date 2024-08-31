@@ -30,12 +30,9 @@ const UserPage = () => {
   const [loading, setLoading] = useState(true);
 
   const search = query.get("search");
-  const page = query.get("page")
-    ? parseInt(query.get("page") as string)
-    : pagination.page;
-  const limit = query.get("limit")
-    ? parseInt(query.get("limit") as string)
-    : pagination.limit;
+  const page = query.get("page") && parseInt(query.get("page") as string);
+
+  const limit = query.get("limit") && parseInt(query.get("limit") as string);
 
   useEffect(() => {
     const getAllUser = async () => {
@@ -115,6 +112,7 @@ const UserPage = () => {
             name="search"
             onChange={handleSearch}
             value={searchQuery}
+            loading={loading}
             id="search"
           />
         </div>
