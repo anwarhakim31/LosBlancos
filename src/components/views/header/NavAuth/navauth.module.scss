@@ -4,7 +4,6 @@
 
   &__logo {
     @include flex(center, center, null);
-    gap: 1rem;
 
     &__text {
       font-size: 1.25rem;

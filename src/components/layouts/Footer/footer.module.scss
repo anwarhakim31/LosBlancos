@@ -160,9 +160,13 @@
       gap: 1rem;
 
       &__item {
-        @include flex(flex-start, center, null);
+        @include flex(flex-start, flex-start, null);
         width: 100%;
         gap: 1rem;
+
+        &__icon {
+          @include flex(center, center, null);
+        }
 
         p {
           font-size: 0.875rem;
@@ -172,4 +176,8 @@
       }
     }
   }
+}
+
+.marginButtom {
+  margin-bottom: auto;
 }

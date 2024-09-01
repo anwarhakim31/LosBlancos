@@ -191,7 +191,11 @@ const Footer = () => {
                 key={i}
                 className={styles.footer__info__wrapper__item}
               >
-                <div>
+                <div
+                  className={`${styles.footer__info__wrapper__item__icon}  ${
+                    i === 0 ? styles.marginButtom : ""
+                  } }`}
+                >
                   {i === 0 ? <FaLocationDot /> : null}
                   {i === 1 ? <FaPhone /> : null}
                   {i === 2 ? <FaEnvelope /> : null}
