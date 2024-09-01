@@ -17,7 +17,6 @@ const connectDB = async () => {
   try {
     mongoose.connect(MONGO_URL!, {
       dbName: "LosBlancos",
-      bufferCommands: false,
     });
 
     console.log("connected");

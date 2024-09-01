@@ -1,8 +1,8 @@
-import connectDB from "@/lib/db";
 import User from "@/lib/models/user-model";
 import nextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
+import dbConnect from "@/lib/db";
 
 const authOptions: NextAuthOptions = {
   session: {
@@ -22,9 +22,8 @@ const authOptions: NextAuthOptions = {
           email: string;
           password: string;
         };
-
+        dbConnect();
         try {
-          await connectDB();
           const user = await User.findOne({ email });
           if (!user) {
             return null;
