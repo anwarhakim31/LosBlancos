@@ -6,6 +6,8 @@ import { usePathname } from "next/navigation";
 import { Poppins } from "next/font/google";
 import RegisterView from "@/components/views/auth/Register";
 import LoginView from "@/components/views/auth/Login";
+import Image from "next/image";
+import { signIn } from "next-auth/react";
 
 // const detail = ["/register", "/login"];
 
@@ -42,6 +44,24 @@ const AuthLayouts = () => {
               </>
             )}
           </p>
+        </div>
+        <div className={styles.auth__form__divider}>
+          <button
+            className={styles.auth__form__divider__button}
+            type="button"
+            onClick={() =>
+              signIn("google", { callbackUrl: "/", redirect: false })
+            }
+          >
+            <Image src="/google.svg" width={20} height={20} alt="google" />
+            {pathname === "/register" ? "Daftar" : "Masuk"} dengan Google
+          </button>
+
+          <div className={styles.auth__form__divider__or}>
+            <div></div>
+            <span>or</span>
+            <div></div>
+          </div>
         </div>
         {pathname === "/register" && <RegisterView />}
         {pathname === "/login" && <LoginView />}

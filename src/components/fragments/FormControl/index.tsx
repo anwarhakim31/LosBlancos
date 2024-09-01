@@ -37,7 +37,7 @@ const FormControlFragment = ({
         />
         {label && (
           <label htmlFor={id} className={styles["label-input"]}>
-            {name}
+            {id}
           </label>
         )}
         {name === "password" && (

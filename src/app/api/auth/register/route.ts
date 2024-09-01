@@ -7,9 +7,9 @@ import dbConnect from "@/lib/db";
 export async function POST(req: NextRequest) {
   await dbConnect();
   try {
-    const { username, email, password } = await req.json();
+    const { fullname, email, password } = await req.json();
 
-    if (!username || !email || !password) {
+    if (!fullname || !email || !password) {
       return ResponseError(400, "Semua kolom dibutuhkan");
     }
 
@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = new User({
-      username,
+      fullname,
       email,
       password: hashedPassword,
     });

@@ -1,12 +1,13 @@
 import ButtonElement from "@/components/element/Button";
 import FormControlFragment from "@/components/fragments/FormControl";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import { Fragment, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 
 interface Input {
-  username: string;
+  fullname: string;
   email: string;
   password: string;
 }
@@ -21,7 +22,7 @@ const RegisterView = () => {
     formState: { errors },
   } = useForm<Input>({
     mode: "onSubmit",
-    defaultValues: { username: "", email: "", password: "" },
+    defaultValues: { fullname: "", email: "", password: "" },
   });
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
 
@@ -44,10 +45,17 @@ const RegisterView = () => {
           setError("email", { type: "manual", message: resJson.message });
         }
         throw new Error(resJson.message);
-      }
+      } else {
+        const result = await signIn("credentials", {
+          redirect: false,
+          email: data.email,
+          password: data.password,
+          callbackUrl: "/",
+        });
 
-      if (resJson.status === 201) {
-        Router.push("/login");
+        if (result?.ok) {
+          Router.push("/");
+        }
       }
     } catch (error) {
       console.log(error);
@@ -66,22 +74,22 @@ const RegisterView = () => {
         onSubmit={handleSubmit(onSubmit)}
         noValidate
         style={{
-          marginTop: "2.5rem",
+          marginTop: "2rem",
         }}
       >
         <Controller
           control={control}
-          name="username"
+          name="fullname"
           rules={{
-            required: "Username tidak boleh kosong.",
-            minLength: { value: 6, message: "Username minimal 6 karakter" },
+            required: "Nama Lengkap tidak boleh kosong.",
+            minLength: { value: 6, message: "Nama Lengkap minimal 6 karakter" },
           }}
           render={({ field: { ...field } }) => (
             <FormControlFragment
               type="text"
               placeholder=""
-              name="username"
-              id="username"
+              name="fullname"
+              id="nama lengkap"
               field={field}
               label={true}
               error={errors}
