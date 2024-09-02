@@ -4,6 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcrypt";
 import dbConnect from "@/lib/db";
+import jwt from "jsonwebtoken";
 
 declare module "next-auth" {
   interface User {
@@ -20,6 +21,7 @@ declare module "next-auth" {
       image?: string;
       role?: string;
       id: string;
+      accessToken?: string;
     };
   }
 
@@ -103,6 +105,7 @@ const authOptions: NextAuthOptions = {
         await dbConnect();
 
         const userDB = await User.findOne({ email: data.email });
+
         if (!userDB) {
           const newUser = new User({
             ...data,
@@ -141,6 +144,12 @@ const authOptions: NextAuthOptions = {
         session.user.name = (token.name as string) || "";
         session.user.image = (token.image as string) || "";
         session.user.role = (token.role as string) || "customer";
+
+        const accsesToken = jwt.sign(token, process.env.NEXTAUTH_SECRET || "", {
+          algorithm: "HS256",
+        });
+
+        session.user.accessToken = accsesToken;
       }
 
       return session;

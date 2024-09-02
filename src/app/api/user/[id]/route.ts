@@ -3,6 +3,7 @@ import User from "@/lib/models/user-model";
 import { ResponseError } from "@/lib/response-error";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
+import { verifyToken } from "@/lib/verify-token";
 
 export async function PUT(
   req: NextRequest,
@@ -10,6 +11,7 @@ export async function PUT(
 ) {
   await connectDB();
   try {
+    verifyToken(req);
     const body = await req.json();
 
     const { id } = params;
@@ -50,6 +52,7 @@ export async function DELETE(
 ) {
   await connectDB();
   try {
+    verifyToken(req);
     const { id } = params;
 
     const user = await User.findByIdAndDelete(id);
