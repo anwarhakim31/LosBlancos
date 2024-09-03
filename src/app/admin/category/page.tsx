@@ -3,7 +3,7 @@ import HeaderPage from "@/components/element/HeaderPage";
 import Table from "@/components/fragments/Table";
 import { categoryService } from "@/services/category/method";
 import { ResponseError } from "@/utils/axios/response-error";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
 import styles from "./category.module.scss";
 import InputSearch from "@/components/element/InputSearch";
@@ -12,7 +12,7 @@ import { TypeCategory } from "@/services/type.module";
 
 const CategoryPage = () => {
   const query = useSearchParams();
-
+  const { push } = useRouter();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState({
@@ -89,7 +89,10 @@ const CategoryPage = () => {
           />
         </div>
         <div className={styles.wrapper__button}>
-          <ButtonClick title={`Tambah Kategori`} />
+          <ButtonClick
+            title={`Tambah Kategori`}
+            onClick={() => push("/admin/category/add")}
+          />
         </div>
       </div>
 

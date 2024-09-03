@@ -60,7 +60,7 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
               href={item.link}
               scroll={false}
               className={`${styles.sidebar__primaryList__item} ${
-                pathname === item.link &&
+                pathname.startsWith(item.link) &&
                 styles["sidebar__primaryList__item__active"]
               }`}
               key={item.id}
