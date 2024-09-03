@@ -12,3 +12,11 @@ export type TypeUser = {
   alamat?: string;
   createdAt?: string;
 };
+
+export type TypeCategory = {
+  _id?: string;
+  name: string;
+  image: string;
+  description: string;
+  createdAt?: string;
+};

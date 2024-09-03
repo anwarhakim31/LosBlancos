@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChevronLeft, ChevronRight, Edit, Trash, Trash2 } from "lucide-react";
 import style from "./table.module.scss";
 import { TypeUser } from "@/services/type.module";
@@ -22,9 +23,9 @@ interface typeTable {
     total: number;
     totalPage: number;
   };
-  setIsDeleteOne: React.Dispatch<React.SetStateAction<TypeUser | null>>;
+  setIsDeleteOne: React.Dispatch<React.SetStateAction<any | null>>;
   setIsDeleteMany: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsEditData: React.Dispatch<React.SetStateAction<TypeUser | null>>;
+  setIsEditData: React.Dispatch<React.SetStateAction<any | null>>;
   check: string[];
   setCheck: React.Dispatch<React.SetStateAction<string[]>>;
 }
