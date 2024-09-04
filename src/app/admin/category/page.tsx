@@ -9,6 +9,8 @@ import styles from "./category.module.scss";
 import InputSearch from "@/components/element/InputSearch";
 import ButtonClick from "@/components/element/ButtonClick";
 import { TypeCategory } from "@/services/type.module";
+import ModalManyDelete from "@/components/fragments/ModalManyDelete";
+import ModalOneDelete from "@/components/fragments/ModalOneDelete";
 
 const CategoryPage = () => {
   const query = useSearchParams();
@@ -25,10 +27,10 @@ const CategoryPage = () => {
   const [isDeleteMany, setIsDeleteMany] = useState(false);
   const [isEditData, setIsEditData] = useState<TypeCategory | null>(null);
 
-  console.log(isEditData, isDeleteMany, isDeleteOne);
+  console.log(isEditData, isDeleteOne);
 
   const [check, setCheck] = useState<string[]>([]);
-  const [search, setSearch] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const thead = [
     { title: "Nama", padding: "1rem 1rem" },
@@ -40,6 +42,7 @@ const CategoryPage = () => {
     { title: "", padding: "0.5rem 1rem" },
   ];
 
+  const search = query.get("search") || "";
   const page =
     (query.get("page") && parseInt(query.get("page") as string)) ||
     pagination.page;
@@ -49,7 +52,7 @@ const CategoryPage = () => {
 
   const getAllCategory = useCallback(async () => {
     try {
-      const params = { page, limit };
+      const params = { page, limit, search };
 
       const res = await categoryService.getCategory(params);
 
@@ -62,11 +65,11 @@ const CategoryPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [page, limit]);
+  }, [page, limit, search]);
 
   useEffect(() => {
     getAllCategory();
-  }, [page, limit, getAllCategory]);
+  }, [page, limit, searchQuery, getAllCategory]);
 
   return (
     <section>
@@ -85,8 +88,8 @@ const CategoryPage = () => {
             name="search"
             placeholder="Cari Nama dari Kategori"
             loading={loading}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
         <div className={styles.wrapper__button}>
@@ -109,6 +112,23 @@ const CategoryPage = () => {
         setIsEditData={setIsEditData}
         tbody={["name", "image", "description"]}
       />
+      {isDeleteMany && (
+        <ModalManyDelete
+          setCheck={() => setCheck([])}
+          onClose={() => setIsDeleteMany(false)}
+          title="Apakah anda yakin ingin mengapus kategori terpilih ?"
+          callback={() => getAllCategory()}
+          fetching={() => categoryService.deleteMany(check)}
+        />
+      )}
+      {isDeleteOne && (
+        <ModalOneDelete
+          onClose={() => setIsDeleteOne(null)}
+          title="Apakah anda yakin ingin menghapus kategori ini ?"
+          callback={() => getAllCategory()}
+          fetching={() => categoryService.deleteOne(isDeleteOne?._id as string)}
+        />
+      )}
     </section>
   );
 };

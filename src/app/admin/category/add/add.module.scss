@@ -70,6 +70,20 @@
     position: relative;
     cursor: pointer;
 
+    &:focus-within {
+      outline: $primary 1px solid;
+      border: 1px solid $primary;
+      background: rgb(244, 244, 255);
+
+      p {
+        color: $primary !important;
+      }
+
+      h5 {
+        color: $primary !important;
+      }
+    }
+
     img {
       opacity: 0;
       object-fit: contain;

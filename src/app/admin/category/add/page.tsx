@@ -12,6 +12,7 @@ import { TypeCategory } from "@/services/type.module";
 import { ResponseError } from "@/utils/axios/response-error";
 import { categoryService } from "@/services/category/method";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const AddCategoryPage = () => {
   const {
@@ -22,9 +23,9 @@ const AddCategoryPage = () => {
   } = useForm({
     defaultValues: { name: "", image: "", description: "" },
   });
+  const { push } = useRouter();
   const [preview, setPreview] = useState("");
   const [loading, setLoading] = useState(false);
-  const [hover, setHover] = useState(false);
 
   console.log(setPreview);
 
@@ -36,6 +37,7 @@ const AddCategoryPage = () => {
       if (res.status === 201) {
         toast.success(res.data.message);
         reset();
+        push("/admin/category");
       }
     } catch (error) {
       ResponseError(error);
@@ -73,13 +75,7 @@ const AddCategoryPage = () => {
             <label htmlFor="image" onClick={(e) => e.preventDefault()}>
               Gambar{" "}
             </label>
-            <div
-              onMouseEnter={() => setHover(true)}
-              onMouseLeave={() => setHover(false)}
-              className={`${styles.wrapper__image} ${
-                hover && styles.wrapper_hover
-              }`}
-            >
+            <div tabIndex={0} className={`${styles.wrapper__image}`}>
               {!preview && (
                 <div className={styles.upload}>
                   <div className={styles.upload__icon}>

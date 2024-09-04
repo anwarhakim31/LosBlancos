@@ -130,7 +130,6 @@ const UserPage = () => {
           setCheck={setCheck}
           onClose={() => setIsDeleteMany(false)}
           title="Apakah anda yakin ingin menghapus data terpilih ?"
-          setIsDeleteMany={setIsDeleteMany}
           fetching={() => userService.deleteMany(check)}
           callback={() => getAllUser()}
         />
@@ -138,7 +137,6 @@ const UserPage = () => {
 
       {isDeleteOne && (
         <ModalOneDelete
-          setIsDeleteOne={setIsDeleteOne}
           onClose={() => setIsDeleteOne(null)}
           fetching={() => userService.deleteOne(isDeleteOne?._id as string)}
           title={"Apakah anda yakin ingin menghapus user ini ?"}
