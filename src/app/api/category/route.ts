@@ -1,6 +1,7 @@
 import connectDB from "@/lib/db";
 import Category from "@/lib/models/category-model";
 import { ResponseError } from "@/lib/response-error";
+import { verifyToken } from "@/lib/verify-token";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -29,6 +30,31 @@ export async function GET(req: NextRequest) {
         totalPage: Math.ceil(total / limit),
       },
     });
+  } catch (error) {
+    return ResponseError(404, "Internal Server Error");
+  }
+}
+
+export async function POST(req: NextRequest) {
+  await connectDB();
+  try {
+    verifyToken(req);
+
+    const data = await req.json();
+
+    const category = new Category(data);
+
+    await category.save();
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Berhasil membuat kategori",
+      },
+      {
+        status: 201,
+      }
+    );
   } catch (error) {
     return ResponseError(404, "Internal Server Error");
   }

@@ -37,6 +37,7 @@ const CategoryPage = () => {
       title: "deskripsi",
       padding: "0.5rem 1rem",
     },
+    { title: "", padding: "0.5rem 1rem" },
   ];
 
   const page =

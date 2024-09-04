@@ -88,7 +88,7 @@ const Table = ({
     }
   };
 
-  const TdComponent = (item: TypeUser, body: string) => {
+  const TdComponent = (item: any, body: string) => {
     switch (body) {
       case "createdAt":
         return (
@@ -102,6 +102,12 @@ const Table = ({
             <p className={`${item.status ? style.true : style.false}`}>
               {item.status?.toString()}
             </p>
+          </td>
+        );
+      case "description":
+        return (
+          <td className={`${style.table__description} `}>
+            <p>{item?.description}</p>
           </td>
         );
       default:
