@@ -7,4 +7,11 @@ export const masterService = {
   deleteCarousel: (id: string) => instance.delete(`/master/carousel/${id}`),
   editCarousel: (id: string, data: TypeCarousel) =>
     instance.put(`/master/carousel/${id}`, { data }),
+  getMarquee: () => instance.get("/master/marquee"),
+  editMarquee: (data: { image: string; id: string }) =>
+    instance.post("/master/marquee", data),
+  toggleMarquee: (checked: boolean) =>
+    instance.put("/master/marquee", {
+      display: checked,
+    }),
 };

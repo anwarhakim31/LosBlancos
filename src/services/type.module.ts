@@ -30,3 +30,9 @@ export type TypeCarousel = {
   caption: string;
   createdAt?: string;
 };
+
+export type TypeMarquee = {
+  _id?: string;
+  display: boolean;
+  image: string[];
+};

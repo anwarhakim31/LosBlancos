@@ -40,17 +40,19 @@ const CarouselView = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <div>
+        <div className={styles.header__box}>
           <div className={styles.header__title}>
             <List width={20} height={20} />
             <h5>List Carousel</h5>
           </div>
-          <Link
-            href="/admin/master-data/desain/carousel"
-            className={styles.header__btn}
-          >
-            Tambah
-          </Link>
+          <button disabled={loading || data.length >= 5}>
+            <Link
+              href="/admin/master-data/desain/carousel"
+              className={styles.header__btn}
+            >
+              Tambah
+            </Link>
+          </button>
         </div>
       </div>
 

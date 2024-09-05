@@ -4,12 +4,14 @@ import styles from "./toggle.module.scss";
 interface PropsType {
   checked: boolean;
   handleCheck: () => void;
+  loading?: boolean;
 }
 
-const ToggleSwitch: FC<PropsType> = ({ checked, handleCheck }) => {
+const ToggleSwitch: FC<PropsType> = ({ checked, handleCheck, loading }) => {
   return (
     <label
       htmlFor="toggle"
+      aria-disabled={loading}
       className={`${styles.track} ${checked ? styles.track__active : ""}`}
     >
       <div
@@ -22,6 +24,7 @@ const ToggleSwitch: FC<PropsType> = ({ checked, handleCheck }) => {
         onChange={handleCheck}
         name="toggle"
         className={`${styles.toggle} `}
+        disabled={loading}
       />
     </label>
   );
