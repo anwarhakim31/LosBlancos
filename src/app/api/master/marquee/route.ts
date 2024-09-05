@@ -1,4 +1,3 @@
-import cloudinary from "@/lib/cloudinary";
 import connectDB from "@/lib/db";
 import Marquee from "@/lib/models/marquee-model";
 import { ResponseError } from "@/lib/response-error";
@@ -51,11 +50,6 @@ export async function POST(req: NextRequest) {
       return ResponseError(404, "Marquee tidak ditemukan.");
     }
 
-    if (image !== marquee.image[parseInt(id)]) {
-      const publicId = marquee.image[parseInt(id)].split("/")[7];
-      await cloudinary.uploader.destroy(publicId);
-    }
-
     marquee.image[parseInt(id)] = image;
 
     marquee.save();
@@ -75,22 +69,21 @@ export async function PUT(req: NextRequest) {
     verifyToken(req);
 
     const { display } = await req.json();
-
+    console.log(display);
     const marquee = await Marquee.findOne();
 
     if (!marquee) {
       return ResponseError(404, "Marquee tidak ditemukan.");
     }
 
-    const marqueeUpdated = await Marquee.findByIdAndUpdate(marquee._id, {
+    await Marquee.findByIdAndUpdate(marquee._id, {
       display,
     });
 
-    console.log(display);
-
+    const status = display ? "aktif" : "non aktif";
     return NextResponse.json({
       success: true,
-      message: "Marquee " + marqueeUpdated.display ? "aktif" : "non aktif",
+      message: "Marquee " + status,
     });
   } catch (error) {
     return ResponseError(500, "Internal Server Error");

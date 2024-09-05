@@ -5,12 +5,12 @@ import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import { masterService } from "@/services/master/method";
 import { ResponseError } from "@/utils/axios/response-error";
-import ModalEditMarquee from "./Modal";
-import { toast } from "sonner";
+import ModalEditMarquee from "./ModalEditMarquee";
+import ErrorBadge from "@/components/element/ErrorBadge";
 
 const MarqueeView = () => {
-  const [loading, setLoading] = useState(false);
-  const [checked, setChecked] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [checked, setChecked] = useState(false);
   const [data, setData] = useState<string[]>([]);
   const [isEditData, setIsEditData] = useState<{
     image: string;
@@ -18,13 +18,10 @@ const MarqueeView = () => {
   } | null>(null);
 
   const handleCheck = async () => {
-    const newCheckedValue = !checked;
-
     try {
-      const res = await masterService.toggleMarquee(checked);
+      const res = await masterService.toggleMarquee(!checked);
       if (res.status === 200) {
-        setChecked(newCheckedValue);
-        toast.success(res.data.message);
+        setChecked(!checked);
       }
     } catch (error) {
       ResponseError(error);
@@ -62,7 +59,16 @@ const MarqueeView = () => {
           />
         </div>
       </div>
+      {!loading && !checked && (
+        <div className={styles.info}>
+          <ErrorBadge isError={"Marquee Sedang Tidak Aktif"} />
+        </div>
+      )}
       <div className={styles.content}>
+        {loading &&
+          Array(4)
+            .fill("")
+            .map((_, i) => <div key={i + 1} className={styles.skeleton}></div>)}
         {!loading &&
           data.length > 0 &&
           data.map((item, i) => (
@@ -73,14 +79,9 @@ const MarqueeView = () => {
               >
                 <Edit width={18} height={18} strokeWidth={1.5} />
               </button>
-              <Image
-                src={item}
-                alt="logo"
-                width={150}
-                height={150}
-                className={styles.logo}
-                priority
-              />
+              <div className={styles.logo}>
+                <Image src={item} alt="logo" width={70} height={70} priority />
+              </div>
             </div>
           ))}
       </div>
