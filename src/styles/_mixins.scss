@@ -1,6 +1,6 @@
 @use "./variables" as *;
 
-@mixin flex-center($justify: center, $align: center, $direction: row) {
+@mixin flex($justify, $align, $direction) {
   display: flex;
   justify-content: $justify;
   align-items: $align;

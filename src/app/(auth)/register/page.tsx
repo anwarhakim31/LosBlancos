@@ -1,10 +1,10 @@
-import RegisterView from "@/components/views/auth/register";
+import AuthLayouts from "@/components/layouts/AuthLayout";
 import { Fragment } from "react";
 
 const RegisterPage = () => {
   return (
     <Fragment>
-      <RegisterView />
+      <AuthLayouts />
     </Fragment>
   );
 };

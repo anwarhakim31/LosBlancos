@@ -1,0 +1,33 @@
+.auth {
+  width: 100vw;
+  min-height: 100vh;
+  background-color: $secondary;
+  @include flex(center, center, null);
+
+  &__form {
+    width: 100%;
+    max-width: 375px;
+    padding: 20px;
+    background-color: $white;
+    border-radius: 4px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    @include flex(center, center, column);
+
+    &__title {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    &__link {
+      margin-top: 10px;
+      color: $gray-800;
+      font-size: 0.75rem;
+      text-align: center;
+
+      a {
+        color: $primary;
+        font-weight: 600;
+      }
+    }
+  }
+}
