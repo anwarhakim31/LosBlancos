@@ -5,6 +5,7 @@ import styles from "./auths.module.scss";
 import { usePathname } from "next/navigation";
 import { Poppins } from "next/font/google";
 import RegisterView from "@/components/views/auth/Register";
+import LoginView from "@/components/views/auth/Login";
 
 // const detail = ["/register", "/login"];
 
@@ -43,6 +44,7 @@ const AuthLayouts = () => {
           </p>
         </div>
         {pathname === "/register" && <RegisterView />}
+        {pathname === "/login" && <LoginView />}
       </div>
     </main>
   );

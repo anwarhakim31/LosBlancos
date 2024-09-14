@@ -4,6 +4,17 @@ import styles from "./formcontrol.module.scss";
 import { Fragment } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
+interface InputForm {
+  type: string;
+  placeholder: string;
+  name: string;
+  id: string;
+  field: any;
+  label?: boolean;
+  error?: any;
+  handleShowPassword?: () => void;
+}
+
 const FormControlFragment = ({
   type,
   placeholder,
@@ -13,7 +24,7 @@ const FormControlFragment = ({
   label,
   error,
   handleShowPassword,
-}: any) => {
+}: InputForm) => {
   return (
     <Fragment>
       <div className={styles["input-group"]}>
@@ -45,7 +56,7 @@ const FormControlFragment = ({
       </div>
 
       <p className={styles["error-message"]}>
-        {error[name] && error[name].message && error[name].message}
+        {error[name] && error[name]?.message && error[name].message}
       </p>
     </Fragment>
   );

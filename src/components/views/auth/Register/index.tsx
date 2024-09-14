@@ -29,7 +29,7 @@ const RegisterView = () => {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/register", {
+      const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +62,13 @@ const RegisterView = () => {
 
   return (
     <Fragment>
-      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+        style={{
+          marginTop: "2.5rem",
+        }}
+      >
         <Controller
           control={control}
           name="username"

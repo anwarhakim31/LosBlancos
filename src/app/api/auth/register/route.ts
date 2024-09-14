@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-import connectDB from "@/lib/db";
 import User from "@/lib/models/user-model";
 import { ResponseError } from "@/lib/response-error";
+import connectDB from "@/lib/db";
 
 export async function POST(req: NextRequest) {
   await connectDB();
