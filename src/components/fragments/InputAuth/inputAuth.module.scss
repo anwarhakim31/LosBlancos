@@ -1,0 +1,33 @@
+.input-group {
+  position: relative;
+
+  input {
+    &:focus-within + .label-input {
+      position: absolute;
+      top: 0;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: $primary;
+    }
+  }
+
+  .label-input {
+    position: absolute;
+    @include centerLeft-Position();
+    font-size: 0.8rem;
+    text-transform: capitalize;
+    background-color: $white;
+    margin-bottom: 0.5rem;
+    display: block;
+    font-weight: 400;
+    pointer-events: none;
+    @include transition(all, 0.3s, ease-in-out);
+  }
+}
+
+.error-message {
+  height: 1.25rem;
+  margin-bottom: 0.25rem;
+  font-size: 0.75rem;
+  color: $danger;
+}

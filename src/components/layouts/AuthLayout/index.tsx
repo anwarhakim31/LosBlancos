@@ -3,6 +3,16 @@
 import Link from "next/link";
 import styles from "./auths.module.scss";
 import { usePathname } from "next/navigation";
+import RegisterView from "@/components/views/auth/Register";
+import { Poppins } from "next/font/google";
+
+// const detail = ["/register", "/login"];
+
+const poppins = Poppins({
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+  display: "swap",
+});
 
 const AuthLayouts = () => {
   const pathname = usePathname();
@@ -10,25 +20,29 @@ const AuthLayouts = () => {
   return (
     <main className={styles.auth}>
       <div className={styles.auth__form}>
-        <h3 className={styles.auth__form__title}>Register</h3>
-
-        <form></form>
-
-        <p className={styles.auth__form__link}>
-          {pathname === "/register" ? (
-            <>
-              Belum memiliki akun? <Link href="/login">Login</Link>
-            </>
-          ) : pathname === "/login" ? (
-            <>
-              Sudah memiliki akun? <Link href="/register">Register</Link>
-            </>
-          ) : (
-            <>
-              Ingat Password? <Link href="/login">Login</Link>
-            </>
-          )}
-        </p>
+        <div className={styles.auth__form__header}>
+          <h3
+            className={`${styles.auth__form__header__title} ${poppins.className}`}
+          >
+            Selamat datang di LosBlancos
+          </h3>
+          <p className={styles.auth__form__header__link}>
+            {pathname === "/register" ? (
+              <>
+                Belum punya akun? <Link href="/login">Masuk</Link>
+              </>
+            ) : pathname === "/login" ? (
+              <>
+                Sudah punya akun? <Link href="/register">Daftar</Link>
+              </>
+            ) : (
+              <>
+                Ingat Password? <Link href="/login">Login</Link>
+              </>
+            )}
+          </p>
+        </div>
+        {pathname === "/register" && <RegisterView />}
       </div>
     </main>
   );
