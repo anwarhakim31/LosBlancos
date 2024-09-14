@@ -1,0 +1,27 @@
+@use "./variables" as *;
+
+@mixin flex-center($justify: center, $align: center, $direction: row) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  flex-direction: $direction;
+}
+
+@mixin media($point) {
+  @if map-has-key($breakpoints, $point) {
+    @media (min-width: map-get($breakpoints,$point)) {
+      @content;
+    }
+  }
+}
+
+@mixin text-overflow($width: 100%) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: $width;
+}
+
+@mixin transition($properties: all, $duration: 0.3s, $timing-function: ease) {
+  transition: $properties $duration $timing-function;
+}

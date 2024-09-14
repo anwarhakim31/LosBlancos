@@ -1,0 +1,6 @@
+.red {
+  color: $danger;
+  @include media("md") {
+    color: $primary;
+  }
+}
