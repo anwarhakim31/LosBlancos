@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import connectDB from "@/lib/db";
 import User from "@/lib/models/user-model";
+import { ResponseError } from "@/lib/response-error";
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,19 +11,13 @@ export async function POST(req: NextRequest) {
     const { username, email, password } = await req.json();
 
     if (!username || !email || !password) {
-      return NextResponse.json(
-        { message: "Missing required fields" },
-        { status: 400 }
-      );
+      return ResponseError(400, "Semua kolom dibutuhkan");
     }
 
     const user = await User.findOne({ email });
 
     if (user) {
-      return NextResponse.json(
-        { message: "Email already exists" },
-        { status: 400 }
-      );
+      return ResponseError(400, "Email sudah digunakan");
     }
 
     const salt = await bcrypt.genSalt();
@@ -33,17 +28,14 @@ export async function POST(req: NextRequest) {
       email,
       password: hashedPassword,
     });
+
     await newUser.save();
 
     return NextResponse.json(
-      { success: true, message: "Account created successfully" },
+      { success: true, message: "Berhasil membuat akun" },
       { status: 201 }
     );
   } catch (error) {
-    console.error(error);
-    return NextResponse.json(
-      { message: "Internal server error" },
-      { status: 500 }
-    );
+    return ResponseError(500, "Internal Server Error");
   }
 }
