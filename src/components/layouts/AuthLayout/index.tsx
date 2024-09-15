@@ -3,8 +3,8 @@
 import Link from "next/link";
 import styles from "./auths.module.scss";
 import { usePathname } from "next/navigation";
-import RegisterView from "@/components/views/auth/Register";
 import { Poppins } from "next/font/google";
+import RegisterView from "@/components/views/auth/Register";
 
 // const detail = ["/register", "/login"];
 
