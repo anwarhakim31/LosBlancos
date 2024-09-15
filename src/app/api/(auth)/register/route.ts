@@ -13,8 +13,6 @@ export async function POST(req: NextRequest) {
       return ResponseError(400, "Semua kolom dibutuhkan");
     }
 
-    console.log(true);
-
     const user = await User.findOne({ email });
 
     if (user) {
@@ -37,7 +35,6 @@ export async function POST(req: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
-    console.log(error);
     return ResponseError(500, "Internal Server Error");
   }
 }

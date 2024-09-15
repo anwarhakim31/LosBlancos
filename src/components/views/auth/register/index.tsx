@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import ButtonElement from "@/components/element/Button";
 import FormControlFragment from "@/components/fragments/FormControl";
 import { useRouter } from "next/navigation";
@@ -70,7 +68,7 @@ const RegisterView = () => {
           name="username"
           rules={{
             required: "Username tidak boleh kosong.",
-            minLength: { value: 6, message: "username minimal 6 karakter" },
+            minLength: { value: 6, message: "Username minimal 6 karakter" },
           }}
           render={({ field: { ...field } }) => (
             <FormControlFragment
