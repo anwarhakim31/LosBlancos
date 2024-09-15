@@ -37,3 +37,9 @@
   left: 10px;
   transform: translateY(-50%);
 }
+
+@mixin centerRight-Position($right) {
+  top: 50%;
+  right: $right;
+  transform: translateY(-50%);
+}

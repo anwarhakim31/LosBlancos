@@ -10,6 +10,7 @@
   border: 1px solid $gray-400;
   background-color: $primary;
   @include flex(center, center, null);
+  gap: 4px;
   cursor: pointer;
   @include transition(all, 0.3s, ease-in-out);
 
@@ -19,5 +20,20 @@
   }
   &:disabled {
     cursor: not-allowed;
+  }
+  &__loader {
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    border: 3px solid $white;
+    border-top: 3px solid $primary;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
   }
 }

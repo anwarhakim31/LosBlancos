@@ -29,11 +29,11 @@ const AuthLayouts = () => {
           <p className={styles.auth__form__header__link}>
             {pathname === "/register" ? (
               <>
-                Belum punya akun? <Link href="/login">Masuk</Link>
+                Sudah punya akun? <Link href="/login">Masuk</Link>
               </>
             ) : pathname === "/login" ? (
               <>
-                Sudah punya akun? <Link href="/register">Daftar</Link>
+                Belum punya akun? <Link href="/register">Daftar</Link>
               </>
             ) : (
               <>

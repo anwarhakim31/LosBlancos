@@ -9,7 +9,8 @@ interface ButtonProps {
 
 const ButtonElement: React.FC<ButtonProps> = ({ type, title, loading }) => {
   return (
-    <button type={type} className={styles.button}>
+    <button type={type} className={styles.button} disabled={loading}>
+      {loading && <span className={styles.button__loader}></span>}
       {loading ? "Loading..." : title}
     </button>
   );

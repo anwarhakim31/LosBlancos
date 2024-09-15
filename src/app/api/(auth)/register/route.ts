@@ -5,13 +5,15 @@ import User from "@/lib/models/user-model";
 import { ResponseError } from "@/lib/response-error";
 
 export async function POST(req: NextRequest) {
+  await connectDB();
   try {
-    await connectDB();
     const { username, email, password } = await req.json();
 
     if (!username || !email || !password) {
       return ResponseError(400, "Semua kolom dibutuhkan");
     }
+
+    console.log(true);
 
     const user = await User.findOne({ email });
 
@@ -35,6 +37,7 @@ export async function POST(req: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
+    console.log(error);
     return ResponseError(500, "Internal Server Error");
   }
 }

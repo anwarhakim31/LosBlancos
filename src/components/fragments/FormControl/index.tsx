@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import InputElement from "@/components/element/Input";
-import styles from "./inputAuth.module.scss";
+import styles from "./formcontrol.module.scss";
 import { Fragment } from "react";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
-const InputAuthFragment = ({
+const FormControlFragment = ({
   type,
   placeholder,
   name,
@@ -11,6 +12,7 @@ const InputAuthFragment = ({
   field,
   label,
   error,
+  handleShowPassword,
 }: any) => {
   return (
     <Fragment>
@@ -27,6 +29,19 @@ const InputAuthFragment = ({
             {name}
           </label>
         )}
+        {name === "password" && (
+          <button
+            type="button"
+            className={styles["show-password"]}
+            onClick={handleShowPassword}
+          >
+            {type === "password" ? (
+              <FaRegEye size={15} />
+            ) : (
+              <FaRegEyeSlash size={17} />
+            )}
+          </button>
+        )}
       </div>
 
       <p className={styles["error-message"]}>
@@ -36,4 +51,4 @@ const InputAuthFragment = ({
   );
 };
 
-export default InputAuthFragment;
+export default FormControlFragment;

@@ -4,6 +4,9 @@ import styles from "./input.module.scss";
 const InputElement = ({ type, placeholder, name, id, field }: any) => {
   return (
     <input
+      style={{
+        paddingRight: name === "password" && "2.5rem",
+      }}
       type={type}
       placeholder={placeholder}
       name={name}
