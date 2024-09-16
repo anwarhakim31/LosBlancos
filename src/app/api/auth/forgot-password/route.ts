@@ -1,10 +1,10 @@
 import connectDB from "@/lib/db";
 import User from "@/lib/models/user-model";
-import bcrypt from "bcrypt";
 import { ResponseError } from "@/lib/response-error";
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { compileResetTemplate } from "@/lib/template/send";
+import VerifyToken from "@/lib/models/verify-model";
 
 const { RESEND_DOMAIN, RESEND_APIKEY } = process.env;
 
@@ -15,10 +15,6 @@ export async function POST(req: NextRequest) {
   try {
     const { email } = await req.json();
 
-    const token = await bcrypt.hash(email, 10);
-
-    const confirmLink = `${RESEND_DOMAIN}/reset-password?token=${token} `;
-
     const user = await User.findOne({ email: email });
 
     if (!user) {
@@ -27,6 +23,14 @@ export async function POST(req: NextRequest) {
         { status: 404 }
       );
     }
+
+    const expired = new Date().getTime() + 60 * 60 * 1000;
+
+    const verify = new VerifyToken({ email, expired });
+
+    const { _id: token } = await verify.save();
+
+    const confirmLink = `${RESEND_DOMAIN}/reset-password?token=${token} `;
 
     const emailHtml = await compileResetTemplate(confirmLink);
 

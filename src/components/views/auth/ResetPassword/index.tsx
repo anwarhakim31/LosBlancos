@@ -4,6 +4,10 @@ import { Controller, useForm } from "react-hook-form";
 import FormControlFragment from "@/components/fragments/FormControl";
 import { Fragment, useState, FC } from "react";
 import ButtonElement from "@/components/element/Button";
+import { authService } from "@/services/auth/method";
+import { useSearchParams } from "next/navigation";
+import { AxiosError } from "axios";
+import ErrorBadge from "@/components/element/ErrorBadge";
 
 type TypeReset = {
   password: string;
@@ -18,6 +22,7 @@ const ResetPasswordView: FC<ResetViewProps> = ({ setSuccess }) => {
   const {
     control,
     formState: { errors },
+    watch,
     handleSubmit,
   } = useForm<TypeReset>({
     defaultValues: {
@@ -25,12 +30,40 @@ const ResetPasswordView: FC<ResetViewProps> = ({ setSuccess }) => {
       confirmPassword: "",
     },
   });
+  const [isError, setIsError] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const query = useSearchParams();
+
+  const token = query.get("token");
+
+  const password = watch("password");
+
   const [isShowPassword1, setIsShowPassword1] = useState<boolean>(false);
   const [isShowPassword2, setIsShowPassword2] = useState<boolean>(false);
 
-  const onSubmit = (data: TypeReset) => {
-    setSuccess(true);
-    console.log(data);
+  const onSubmit = async (data: TypeReset) => {
+    setIsLoading(true);
+    try {
+      const res = await authService.resetPassword({
+        password: data.password,
+        token: token!,
+      });
+
+      if (res.status === 200) {
+        setSuccess(true);
+      }
+    } catch (error) {
+      if (
+        error instanceof AxiosError &&
+        error.response &&
+        error.response.data.message
+      ) {
+        setIsError(error.response.data.message);
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handlePassword1 = () => {
@@ -42,6 +75,7 @@ const ResetPasswordView: FC<ResetViewProps> = ({ setSuccess }) => {
 
   return (
     <Fragment>
+      <ErrorBadge isError={isError} />
       <form onSubmit={handleSubmit(onSubmit)} style={{ marginTop: "2rem" }}>
         <Controller
           name="password"
@@ -52,8 +86,8 @@ const ResetPasswordView: FC<ResetViewProps> = ({ setSuccess }) => {
           }}
           render={({ field: { ...field } }) => (
             <FormControlFragment
-              {...field}
               label={true}
+              name="password"
               type={isShowPassword1 ? "text" : "password"}
               id="password"
               field={field}
@@ -69,14 +103,12 @@ const ResetPasswordView: FC<ResetViewProps> = ({ setSuccess }) => {
           rules={{
             required: "Konfimasi Password tidak boleh kosong",
             minLength: { value: 6, message: "Password minimal 6 karakter" },
-            validate: (value) =>
-              value !== control._getWatch("password") && "Password tidak sama",
+            validate: (value) => value === password || "Password tidak sama",
           }}
           render={({ field: { ...field } }) => (
             <FormControlFragment
-              {...field}
               label={true}
-              type={isShowPassword1 ? "text" : "password"}
+              type={isShowPassword2 ? "text" : "password"}
               id="Konfirmasi Password"
               name="confirmPassword"
               field={field}
@@ -86,7 +118,7 @@ const ResetPasswordView: FC<ResetViewProps> = ({ setSuccess }) => {
             />
           )}
         />
-        <ButtonElement type="submit" title="Kirim" />
+        <ButtonElement type="submit" title="Kirim" loading={isLoading} />
       </form>
     </Fragment>
   );
