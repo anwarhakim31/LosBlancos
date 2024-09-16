@@ -1,16 +1,13 @@
 import ButtonElement from "@/components/element/Button";
 import FormControlFragment from "@/components/fragments/FormControl";
+import { authService } from "@/services/auth";
+import { TypeUser } from "@/services/auth/type.module";
+import { AxiosError } from "axios";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import { Fragment, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-
-interface Input {
-  fullname: string;
-  email: string;
-  password: string;
-}
 
 const RegisterView = () => {
   const Router = useRouter();
@@ -20,32 +17,19 @@ const RegisterView = () => {
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm<Input>({
+  } = useForm<TypeUser>({
     mode: "onSubmit",
     defaultValues: { fullname: "", email: "", password: "" },
   });
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
 
-  const onSubmit = async (data: Input) => {
+  const onSubmit = async (data: TypeUser) => {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const res = await authService.registerAccount(data);
 
-      const resJson = await res.json();
-
-      if (!res.ok) {
-        if (resJson.message === "Email sudah digunakan") {
-          setError("email", { type: "manual", message: resJson.message });
-        }
-        throw new Error(resJson.message);
-      } else {
+      if (res.status === 201) {
         const result = await signIn("credentials", {
           redirect: false,
           email: data.email,
@@ -58,7 +42,16 @@ const RegisterView = () => {
         }
       }
     } catch (error) {
-      console.log(error);
+      if (
+        error instanceof AxiosError &&
+        error.response &&
+        error.response.data.message
+      ) {
+        setError("email", {
+          type: "manual",
+          message: error.response.data.message,
+        });
+      }
     } finally {
       setLoading(false);
     }
