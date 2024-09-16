@@ -37,7 +37,10 @@ export async function POST(req: NextRequest) {
       html: emailHtml,
     });
 
-    return NextResponse.json({ success: true }, { status: 200 });
+    return NextResponse.json(
+      { success: true, message: "Request reset password success" },
+      { status: 200 }
+    );
   } catch (error) {
     console.log(error);
     return ResponseError(500, "Internal Server Error");

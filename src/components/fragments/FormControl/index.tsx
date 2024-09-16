@@ -15,6 +15,8 @@ interface InputForm {
   handleShowPassword?: () => void;
 }
 
+const showPassword = ["password", "confirmPassword"];
+
 const FormControlFragment = ({
   type,
   placeholder,
@@ -40,7 +42,7 @@ const FormControlFragment = ({
             {id}
           </label>
         )}
-        {name === "password" && (
+        {showPassword.includes(name) && (
           <button
             type="button"
             className={styles["show-password"]}

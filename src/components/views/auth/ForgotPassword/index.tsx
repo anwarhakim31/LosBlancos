@@ -4,15 +4,19 @@ import FormControlFragment from "@/components/fragments/FormControl";
 import { authService } from "@/services/auth/method";
 import { AxiosError } from "axios";
 
-import { Fragment, useState } from "react";
+import { Fragment, useState, FC } from "react";
 import { useForm, Controller } from "react-hook-form";
 
 interface TypeUser {
   email: string;
 }
+interface ForgotViewProps {
+  setSuccess: (success: boolean) => void;
+}
 
-const ForgotView = () => {
+const ForgotView: FC<ForgotViewProps> = ({ setSuccess }) => {
   const [loading, setLoading] = useState<boolean>(false);
+
   const [isError, setIsError] = useState<string>("");
   const {
     control,
@@ -29,7 +33,9 @@ const ForgotView = () => {
     try {
       const res = await authService.resetPassword(data);
 
-      console.log(res);
+      if (res.status === 200) {
+        setSuccess(true);
+      }
     } catch (error) {
       if (
         error instanceof AxiosError &&
