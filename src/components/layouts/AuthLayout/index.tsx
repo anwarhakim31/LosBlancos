@@ -44,10 +44,10 @@ const AuthLayouts = () => {
       <div className={styles.auth__form}>
         {success && pathname === "/forgot-password" && (
           <div className={styles.auth__form__success}>
-            <Image src={"/mailer.svg"} alt="success" width={150} height={150} />
+            <Image src={"/mailer.svg"} alt="success" width={175} height={175} />
           </div>
         )}
-        {success && pathname === "/forgot-password" && (
+        {success && pathname === "/reset-password" && (
           <div className={styles.auth__form__check}>
             <Image src={"/check.svg"} alt="success" width={150} height={150} />
           </div>

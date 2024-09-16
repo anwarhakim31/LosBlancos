@@ -57,7 +57,7 @@ const LoginView = () => {
 
   return (
     <Fragment>
-      <ErrorBadge                           isError={isError} />
+      <ErrorBadge isError={isError} />
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <Controller
           name="email"
