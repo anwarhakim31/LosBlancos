@@ -9,8 +9,6 @@ import LoginView from "@/components/views/auth/Login";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 
-// const detail = ["/register", "/login"];
-
 const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
@@ -19,6 +17,17 @@ const poppins = Poppins({
 
 const AuthLayouts = () => {
   const pathname = usePathname();
+
+  const renderView = () => {
+    switch (pathname) {
+      case "/register":
+        return <RegisterView />;
+      case "/login":
+        return <LoginView />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <main className={styles.auth}>
@@ -45,26 +54,28 @@ const AuthLayouts = () => {
             )}
           </p>
         </div>
-        <div className={styles.auth__form__divider}>
-          <button
-            className={styles.auth__form__divider__button}
-            type="button"
-            onClick={() =>
-              signIn("google", { callbackUrl: "/", redirect: false })
-            }
-          >
-            <Image src="/google.svg" width={20} height={20} alt="google" />
-            {pathname === "/register" ? "Daftar" : "Masuk"} dengan Google
-          </button>
+        {pathname !== "/forgot-password" && (
+          <div className={styles.auth__form__divider}>
+            <button
+              className={styles.auth__form__divider__button}
+              type="button"
+              onClick={() =>
+                signIn("google", { callbackUrl: "/", redirect: false })
+              }
+            >
+              <Image src="/google.svg" width={20} height={20} alt="google" />
+              {pathname === "/register" ? "Daftar" : "Masuk"} dengan Google
+            </button>
 
-          <div className={styles.auth__form__divider__or}>
-            <div></div>
-            <span>or</span>
-            <div></div>
+            <div className={styles.auth__form__divider__or}>
+              <div></div>
+              <span>or</span>
+              <div></div>
+            </div>
           </div>
-        </div>
-        {pathname === "/register" && <RegisterView />}
-        {pathname === "/login" && <LoginView />}
+        )}
+
+        {renderView()}
       </div>
     </main>
   );

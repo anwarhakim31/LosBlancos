@@ -1,6 +1,6 @@
 import ButtonElement from "@/components/element/Button";
 import FormControlFragment from "@/components/fragments/FormControl";
-import { authService } from "@/services/auth";
+import { authService } from "@/services/auth/method";
 import { TypeUser } from "@/services/auth/type.module";
 import { AxiosError } from "axios";
 import { signIn } from "next-auth/react";
