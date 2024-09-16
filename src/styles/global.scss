@@ -14,7 +14,8 @@ body {
 }
 
 a {
-  text-decoration: none;
+  all: unset;
+  cursor: pointer;
 }
 
 ul[role="list"] ol[role="list"] {

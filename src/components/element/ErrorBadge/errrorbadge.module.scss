@@ -1,0 +1,17 @@
+.badge {
+  height: 2rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: -0.5rem;
+  background-color: rgb(255, 244, 242);
+  @include flex(center, center, null);
+
+  &__error {
+    color: $danger;
+    font-size: 0.8rem;
+    display: block;
+    text-align: center;
+    font-weight: 500;
+  }
+}
