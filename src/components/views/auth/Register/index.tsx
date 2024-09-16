@@ -63,13 +63,7 @@ const RegisterView = () => {
 
   return (
     <Fragment>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        noValidate
-        style={{
-          marginTop: "2rem",
-        }}
-      >
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <Controller
           control={control}
           name="fullname"

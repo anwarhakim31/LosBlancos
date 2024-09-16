@@ -8,6 +8,7 @@ import RegisterView from "@/components/views/auth/Register";
 import LoginView from "@/components/views/auth/Login";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
+import ForgotView from "@/components/views/auth/ForgotPassword";
 
 const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
@@ -24,6 +25,8 @@ const AuthLayouts = () => {
         return <RegisterView />;
       case "/login":
         return <LoginView />;
+      case "/forgot-password":
+        return <ForgotView />;
       default:
         return null;
     }
@@ -49,7 +52,8 @@ const AuthLayouts = () => {
               </>
             ) : (
               <>
-                Ingat Password? <Link href="/login">Login</Link>
+                Masukan alamat email yang telah terdaftar untuk menerima email
+                reset kata sandi.
               </>
             )}
           </p>

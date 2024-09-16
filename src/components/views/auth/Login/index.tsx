@@ -2,10 +2,11 @@ import ButtonElement from "@/components/element/Button";
 import FormControlFragment from "@/components/fragments/FormControl";
 import Link from "next/link";
 import styles from "./loginview.module.scss";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { Controller, useForm } from "react-hook-form";
+import ErrorBadge from "@/components/element/ErrorBadge";
 
 interface FormData {
   email: string;
@@ -54,18 +55,9 @@ const LoginView = () => {
     }
   };
 
-  useEffect(() => {
-    if (isError) {
-      const timeOut = setTimeout(() => {
-        setIsError("");
-      }, 3000);
-      return () => clearTimeout(timeOut);
-    }
-  }, [isError]);
-
   return (
     <Fragment>
-      <span className={styles.error}>{isError}</span>
+      <ErrorBadge isError={isError} />
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <Controller
           name="email"
