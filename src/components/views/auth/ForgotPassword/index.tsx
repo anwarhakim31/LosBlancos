@@ -31,7 +31,7 @@ const ForgotView: FC<ForgotViewProps> = ({ setSuccess }) => {
   const onSubmit = async (data: TypeUser) => {
     setLoading(true);
     try {
-      const res = await authService.resetPassword(data);
+      const res = await authService.forgotPassword(data);
 
       if (res.status === 200) {
         setSuccess(true);

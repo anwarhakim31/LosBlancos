@@ -82,6 +82,28 @@
         color: $gray-800;
         font-size: 0.8rem;
       }
+
+      &__button {
+        height: 2rem;
+        width: 5rem;
+        display: block;
+        margin: auto;
+        border-radius: 0.5rem;
+        background-color: $primary;
+        border: none;
+        outline: none;
+        margin-top: 2rem;
+        cursor: pointer;
+        @include transition(all, 0.3s, ease-in-out);
+
+        &:hover {
+          background-color: $primary-hover;
+          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+        }
+        a {
+          color: $white !important;
+        }
+      }
     }
 
     form {

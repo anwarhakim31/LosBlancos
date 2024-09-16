@@ -49,7 +49,7 @@ const AuthLayouts = () => {
         )}
         {success && pathname === "/reset-password" && (
           <div className={styles.auth__form__check}>
-            <Image src={"/check.svg"} alt="success" width={150} height={150} />
+            <Image src={"/check.svg"} alt="success" width={100} height={100} />
           </div>
         )}
         <div className={styles.auth__form__header}>
@@ -85,6 +85,11 @@ const AuthLayouts = () => {
               </>
             )}
           </p>
+          {pathname === "/reset-password" && success && (
+            <button className={styles.auth__form__header__button}>
+              <Link href="/login">Masuk</Link>
+            </button>
+          )}
         </div>
         {!googleRender.includes(pathname) && (
           <div className={styles.auth__form__divider}>
