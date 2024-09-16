@@ -1,9 +1,8 @@
 .auth {
   width: 100vw;
-  min-height: 100vh;
+  padding-block: 5rem;
   background-color: $secondary;
   @include flex(center, center, null);
-  padding: 1rem;
 
   &__form {
     width: 100%;

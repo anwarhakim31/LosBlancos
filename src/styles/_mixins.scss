@@ -43,3 +43,7 @@
   right: $right;
   transform: translateY(-50%);
 }
+
+@mixin container() {
+  width: min(1280px, (100% - 1rem));
+}
