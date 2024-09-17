@@ -1,0 +1,35 @@
+.button {
+  position: absolute;
+  top: -2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  width: 4rem;
+  height: 4rem;
+  border: none;
+  @include flex(center, center, null);
+  background: $gray-100;
+  border-radius: 50%;
+  cursor: pointer;
+
+  .icon {
+    font-size: 1.5rem;
+    color: $dark;
+    animation: top 1.5s linear infinite;
+
+    @keyframes top {
+      100% {
+        opacity: 1;
+        transform: translateY(-0.5rem);
+      }
+      50% {
+        opacity: 1;
+        transform: translateY(-0.25rem);
+      }
+      0% {
+        opacity: 0.3;
+        transform: translateY(1rem);
+      }
+    }
+  }
+}

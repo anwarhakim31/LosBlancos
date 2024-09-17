@@ -60,3 +60,24 @@
   cursor: pointer;
   @include transition(all, 0.3s, ease-in-out);
 }
+
+@mixin container {
+  width: 100%;
+  max-width: $container;
+  margin: 0 auto;
+
+  @include media(sm) {
+    max-width: 540px;
+  }
+
+  @include media(md) {
+    max-width: $container;
+  }
+}
+
+@mixin container-gap() {
+  padding: 1rem;
+  @include media(md) {
+    padding-inline: 2rem;
+  }
+}
