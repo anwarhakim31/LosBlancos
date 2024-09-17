@@ -3,6 +3,7 @@ import "./../styles/global.scss";
 import { Open_Sans } from "next/font/google";
 import { getServerSession } from "next-auth";
 import Header from "@/components/layouts/Header";
+import Footer from "@/components/layouts/Footer";
 
 const openSans = Open_Sans({
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -23,6 +24,7 @@ export default async function RootLayout({
         <body className={openSans.className}>
           <Header />
           {children}
+          <Footer />
         </body>
       </SessionProviderClient>
     </html>

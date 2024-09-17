@@ -1,0 +1,175 @@
+.footer {
+  width: 100%;
+  position: relative;
+  background-color: $primary-variant;
+  @include container-gap();
+  padding-block: 5rem;
+
+  &__container {
+    @include container();
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    flex-direction: column;
+    @include media(md) {
+      flex-direction: row;
+      gap: 4rem;
+    }
+  }
+
+  &__title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    margin-right: auto;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: $white;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  &__detail {
+    @include flex(center, flex-start, null);
+    flex-direction: column;
+    flex: 1;
+    min-width: 200px;
+
+    &__mark {
+      @include flex(flex-start, center, null);
+      width: 100%;
+      gap: 0.5rem;
+
+      &__logo {
+        width: 100px;
+        height: 100px;
+        @include flex(center, center, null);
+        gap: 1rem;
+      }
+
+      &__name {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: $white;
+      }
+    }
+
+    &__description {
+      font-size: 0.875rem;
+      color: $white;
+      line-height: 1.5em;
+      margin-top: 1rem;
+    }
+
+    &__social {
+      @include flex(flex-start, center, null);
+      width: 100%;
+      gap: 1rem;
+      margin-top: 2rem;
+
+      &__item {
+        @include flex(center, center, null);
+        width: 2.5rem;
+        height: 2.5rem;
+        background-color: $secondary;
+        border-radius: 50%;
+        font-size: 1.5rem;
+        outline: 1px solid $secondary;
+        animation: signal 1.5s infinite;
+
+        @keyframes signal {
+          0% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(1.05);
+          }
+          100% {
+            transform: scale(1);
+          }
+        }
+      }
+    }
+  }
+
+  &__menu {
+    @include flex(flex-start, center, null);
+    flex-direction: column;
+    flex: 1;
+    min-width: 200px;
+    &__list {
+      display: flex;
+      justify-content: flex-start;
+      width: 100%;
+      color: $white;
+      flex-direction: column;
+      text-transform: capitalize;
+      margin-top: 1rem;
+      gap: 1rem;
+
+      &__item {
+        font-size: 0.875rem;
+        font-weight: 400;
+        color: $white;
+      }
+    }
+  }
+  &__payment {
+    @include flex(flex-start, flex-end, null);
+    flex-direction: column;
+
+    @include media(md) {
+      width: 300px;
+    }
+
+    @include media(lg) {
+      max-width: 250px;
+    }
+
+    &__wrapper {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-wrap: wrap;
+
+      gap: 0.5rem;
+      width: 100%;
+      text-transform: capitalize;
+      gap: 0.5rem;
+
+      &__item {
+        background-color: $white;
+        border-radius: 4px;
+        padding: 0.5rem;
+      }
+    }
+  }
+
+  &__info {
+    @include flex(flex-start, center, null);
+    flex-direction: column;
+    flex: 1;
+    min-width: 200px;
+    &__wrapper {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      color: $white;
+      justify-content: center;
+      flex-direction: column;
+      margin-top: 1rem;
+      gap: 1rem;
+
+      &__item {
+        @include flex(flex-start, center, null);
+        width: 100%;
+        gap: 1rem;
+
+        p {
+          font-size: 0.875rem;
+          font-weight: 400;
+          color: $white;
+        }
+      }
+    }
+  }
+}

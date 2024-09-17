@@ -1,18 +1,11 @@
-"use client";
-import { signIn, signOut, useSession } from "next-auth/react";
-import React from "react";
+import Product from "@/components/views/home/Product";
 
-const HomePage = () => {
-  const { data } = useSession();
-  console.log(data);
-
+const Page = () => {
   return (
     <div>
-      <button onClick={() => (data ? signOut() : signIn())}>
-        {data ? "Sign Out" : "Sign In"}
-      </button>
+      <Product />
     </div>
   );
 };
 
-export default HomePage;
+export default Page;

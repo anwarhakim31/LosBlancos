@@ -18,7 +18,7 @@ const Header = () => {
     <Fragment>
       {!authRender.includes(pathname) && <div className={styles.top}></div>}
       <header className={styles.header}>
-        <NavAuthView />
+        {authRender.includes(pathname) && <NavAuthView />}
       </header>
     </Fragment>
   );

@@ -1,6 +1,5 @@
 .nav {
-  width: 100%;
-  max-width: $container;
+  @include container();
   @include flex(space-between, center, null);
 
   &__logo {

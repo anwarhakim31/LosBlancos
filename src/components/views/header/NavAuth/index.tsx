@@ -3,6 +3,8 @@ import styles from "./navauth.module.scss";
 import Link from "next/link";
 import { FaPhone } from "react-icons/fa";
 
+import Image from "next/image";
+
 const NavAuthView = () => {
   const handleHelp = () => {
     const message = `Halo admin, saya butuh bantuan.`;
@@ -16,7 +18,15 @@ const NavAuthView = () => {
     <nav className={styles.nav}>
       <div>
         <Link href={"/"} className={styles["nav__logo"]}>
-          <span className={styles["nav__logo__text"]}>LosBlancos</span>
+          <Image
+            src={"/losblancos.svg"}
+            alt="logo"
+            width={80}
+            height={80}
+            style={{ objectFit: "contain" }}
+            priority
+          />
+          {/* <span className={styles["nav__logo__text"]}>LosBlancos</span> */}
         </Link>
       </div>
       <div className={styles["nav__help"]}>
