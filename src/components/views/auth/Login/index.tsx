@@ -102,7 +102,7 @@ const LoginView = () => {
           )}
         />
 
-        <Link href={"/forgot-password"} className={styles.link}>
+        <Link href={"/forget-password"} className={styles.link}>
           Lupa Password?
         </Link>
         <ButtonElement type="submit" title="Masuk" loading={isLoading} />

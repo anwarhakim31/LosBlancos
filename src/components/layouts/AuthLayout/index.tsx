@@ -18,7 +18,7 @@ const poppins = Poppins({
   display: "swap",
 });
 
-const googleRender = ["/forgot-password", "/reset-password"];
+const googleRender = ["/forget-password", "/reset-password"];
 
 const AuthLayouts = () => {
   const pathname = usePathname();
@@ -30,7 +30,7 @@ const AuthLayouts = () => {
         return <RegisterView />;
       case "/login":
         return <LoginView />;
-      case "/forgot-password":
+      case "/forget-password":
         return !success ? <ForgotView setSuccess={setSuccess} /> : null;
       case "/reset-password":
         return !success ? <ResetPasswordView setSuccess={setSuccess} /> : null;

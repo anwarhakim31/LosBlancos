@@ -44,10 +44,6 @@
   transform: translateY(-50%);
 }
 
-@mixin container() {
-  width: min(1280px, (100% - 1rem));
-}
-
 @mixin btn() {
   width: 100%;
   height: 2.5rem;

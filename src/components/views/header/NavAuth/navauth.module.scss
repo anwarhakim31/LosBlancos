@@ -1,0 +1,38 @@
+.nav {
+  width: 100%;
+  max-width: $container;
+  @include flex(space-between, center, null);
+
+  &__logo {
+    @include flex(center, center, null);
+    gap: 1rem;
+
+    &__text {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: $dark;
+    }
+  }
+
+  &__help {
+    @include flex(center, center, null);
+    gap: 0.5rem;
+    font-size: 0.635rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    color: $dark;
+    text-transform: uppercase;
+
+    &__btn {
+      @include flex(center, center, null);
+      width: 1rem;
+      height: 1rem;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+
+      color: $gray-700;
+      font-size: 0.875rem;
+    }
+  }
+}
