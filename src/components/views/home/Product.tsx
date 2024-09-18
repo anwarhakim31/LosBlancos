@@ -1,7 +1,6 @@
-import React from "react";
-
+import styles from "./product.module.scss";
 const Product = () => {
-  return <div>Product</div>;
+  return <section className={styles.section}>Product</section>;
 };
 
 export default Product;
