@@ -66,13 +66,13 @@ const authOptions: NextAuthOptions = {
         try {
           const userDB = await User.findOne({ email: data.email });
           if (!userDB) {
-            const newUser = new User({ ...data, role: "user" });
+            const newUser = new User({ ...data, role: "member" });
             await newUser.save();
           }
 
           token.email = data.email;
           token.fullname = data.fullname;
-          token.role = userDB.role || "user";
+          token.role = userDB.role || "member";
         } catch (error) {
           console.log(error);
         }
@@ -92,6 +92,7 @@ const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn: "/login",
+    signOut: "/login",
   },
 };
 

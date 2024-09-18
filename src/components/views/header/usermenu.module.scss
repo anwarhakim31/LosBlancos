@@ -1,0 +1,60 @@
+.wrapper {
+  margin-left: auto;
+  @include flex(center, center, null);
+
+  @include media(md) {
+    margin-left: 0;
+  }
+
+  &__user {
+    @include flex(center, center, null);
+    gap: 1rem;
+
+    &__cart {
+      @include flex(center, center, null);
+    }
+
+    &__profile {
+      @include flex(center, center, null);
+      gap: 0.5rem;
+
+      img {
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+      }
+
+      &__icon {
+        background-color: $secondary;
+        border-radius: 50%;
+        width: 1.5rem;
+        height: 1.5rem;
+        overflow: hidden;
+        @include flex(center, flex-end, null);
+      }
+
+      p {
+        font-size: 0.75rem;
+        max-width: 100px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  &__button {
+    all: unset;
+    @include flex(center, center, null);
+    width: 4rem;
+    height: 1.75rem;
+    border-radius: 0.4rem;
+    border: none;
+    cursor: pointer;
+    color: $white;
+    font-weight: 500;
+    background-color: $primary;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+  }
+}
