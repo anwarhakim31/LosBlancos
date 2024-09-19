@@ -10,6 +10,7 @@ const Input = ({ type, placeholder, name, id, field }: any) => {
       type={type}
       placeholder={placeholder}
       name={name}
+      autoComplete="off"
       id={id}
       {...field}
       className={styles.input}

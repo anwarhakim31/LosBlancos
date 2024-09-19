@@ -4,20 +4,27 @@ import HeaderModal from "@/components/element/HeaderModal";
 import ButtonSubmit from "@/components/element/ButtonSubmit";
 import FormControlFragment from "@/components/fragments/FormControl";
 import { Controller, useForm } from "react-hook-form";
-import Dropdown from "@/components/element/Dropdown";
+
 import { TypeUser } from "@/services/type.module";
+import FormControlSelect from "@/components/fragments/FormControlSelect";
 
 interface PropsType {
-  onclose: () => void;
+  onClose: () => void;
+  isEditData: TypeUser | null;
 }
 
-const ModalEdit = ({ onclose }: PropsType) => {
+const ModalEdit = ({ onClose, isEditData }: PropsType) => {
   const {
     control,
     handleSubmit,
+
     formState: { errors },
   } = useForm<TypeUser>({
-    defaultValues: { fullname: "", email: "", phone: null, jenisKelamin: "" },
+    defaultValues: {
+      fullname: isEditData?.fullname || "",
+      phone: isEditData?.phone || "",
+      jenisKelamin: isEditData?.jenisKelamin || "",
+    },
   });
 
   const onsubmit = (data: TypeUser) => {
@@ -25,9 +32,13 @@ const ModalEdit = ({ onclose }: PropsType) => {
   };
 
   return (
-    <Modal onClose={onclose}>
-      <div role="dialog" className={style.modal}>
-        <HeaderModal title="Edit Data User" onClose={onclose} />
+    <Modal onClose={onClose}>
+      <div
+        role="dialog"
+        className={style.modal}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <HeaderModal title="Edit Data User" onClose={onClose} />
         <form onSubmit={handleSubmit(onsubmit)}>
           <div className={style.modal__content}>
             <Controller
@@ -58,7 +69,20 @@ const ModalEdit = ({ onclose }: PropsType) => {
                 />
               )}
             />
-            <Dropdown />
+            <Controller
+              name="jenisKelamin"
+              control={control}
+              render={({ field }) => (
+                <FormControlSelect
+                  id="jenisKelamin"
+                  name="Jenis Kelamin"
+                  field={field}
+                  error={errors}
+                  placeholder="Pilih Jenis Kelamin"
+                  options={["Laki-Laki", "Perempuan"]}
+                />
+              )}
+            />
           </div>
           <div className={style.modal__footer}>
             <div style={{ width: "100px" }}>

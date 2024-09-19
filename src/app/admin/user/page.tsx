@@ -29,7 +29,7 @@ const UserPage = () => {
 
   const [isDeleteOne, setIsDeleteOne] = useState<TypeUser | null>(null);
   const [isDeleteMany, setIsDeleteMany] = useState(false);
-  // const [isEditData, setIsEditData] = useState<TypeUser | null>(null);
+  const [isEditData, setIsEditData] = useState<TypeUser | null>(null);
   const [check, setCheck] = useState<string[]>([]);
 
   const [loading, setLoading] = useState(true);
@@ -116,6 +116,7 @@ const UserPage = () => {
         data={data}
         setIsDeleteOne={setIsDeleteOne}
         setIsDeleteMany={setIsDeleteMany}
+        setIsEditData={setIsEditData}
         tbody={tbody}
         pagination={pagination}
         loading={loading}
@@ -142,7 +143,12 @@ const UserPage = () => {
           callback={() => getAllUser()}
         />
       )}
-      <ModalEdit onclose={() => console.log()} />
+      {isEditData && (
+        <ModalEdit
+          onClose={() => setIsEditData(null)}
+          isEditData={isEditData}
+        />
+      )}
     </Fragment>
   );
 };

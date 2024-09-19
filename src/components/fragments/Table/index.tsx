@@ -24,6 +24,7 @@ interface typeTable {
   };
   setIsDeleteOne: React.Dispatch<React.SetStateAction<TypeUser | null>>;
   setIsDeleteMany: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsEditData: React.Dispatch<React.SetStateAction<TypeUser | null>>;
   check: string[];
   setCheck: React.Dispatch<React.SetStateAction<string[]>>;
 }
@@ -35,6 +36,7 @@ const Table = ({
   pagination,
   setIsDeleteOne,
   setIsDeleteMany,
+  setIsEditData,
   loading,
   setCheck,
   check,
@@ -191,7 +193,10 @@ const Table = ({
                       ))}
                       <td>
                         <div>
-                          <button className={style.edit}>
+                          <button
+                            className={style.edit}
+                            onClick={() => setIsEditData(items)}
+                          >
                             <Edit width={16} height={16} />
                           </button>
                           <button

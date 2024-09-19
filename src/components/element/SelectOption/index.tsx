@@ -1,10 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef, useState } from "react";
-import styles from "./dropdown.module.scss";
+import styles from "./select.module.scss";
 
-const options = ["Option 1", "Option 2", "Option 3"];
-
-const Dropdown = ({ name, id, field, placeholder, style }: any) => {
+const SelectOption = ({
+  name,
+  id,
+  field,
+  placeholder,
+  style,
+  options,
+}: any) => {
   const ref = useRef<HTMLDivElement>(null);
   const [isSelected, setIsSelected] = useState("");
   const [active, setActive] = useState(false);
@@ -12,7 +17,14 @@ const Dropdown = ({ name, id, field, placeholder, style }: any) => {
   const handleClick = (option: string) => {
     setIsSelected(option);
     setActive(false);
+    field.onChange(option);
   };
+
+  useEffect(() => {
+    if (field.value) {
+      setIsSelected(field.value);
+    }
+  }, [field.value]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -48,13 +60,13 @@ const Dropdown = ({ name, id, field, placeholder, style }: any) => {
 
       {active && (
         <div role="dialog" className={styles.dropdown} style={style}>
-          {options.map((option, i) => (
+          {options.map((option: string, i: number) => (
             <p
               key={i}
               role="button"
               tabIndex={0}
               onKeyDown={(e) => e.key === "Enter" && handleClick(option)}
-              className={styles.dropdown__item}
+              className={` ${isSelected === option ? styles.select : ""}`}
               onClick={() => handleClick(option)}
             >
               {option}
@@ -66,4 +78,4 @@ const Dropdown = ({ name, id, field, placeholder, style }: any) => {
   );
 };
 
-export default Dropdown;
+export default SelectOption;
