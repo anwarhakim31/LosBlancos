@@ -1,6 +1,6 @@
 import ButtonElement from "@/components/element/ButtonSubmit";
 import ErrorBadge from "@/components/element/ErrorBadge";
-import FormControlFragment from "@/components/fragments/FormControl";
+import FormControlAnimate from "@/components/fragments/FormControlAnimate";
 import { authService } from "@/services/auth/method";
 import { AxiosError } from "axios";
 
@@ -71,7 +71,7 @@ const ForgotView: FC<ForgotViewProps> = ({ setSuccess }) => {
             required: "Email tidak boleh kosong",
           }}
           render={({ field: { ...field } }) => (
-            <FormControlFragment
+            <FormControlAnimate
               type="email"
               placeholder=""
               name="email"

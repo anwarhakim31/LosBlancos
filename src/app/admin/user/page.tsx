@@ -3,7 +3,7 @@
 import HeaderPage from "@/components/element/HeaderPage";
 import style from "./user.module.scss";
 
-import { ChangeEvent, Fragment, useEffect, useState } from "react";
+import { ChangeEvent, Fragment, useCallback, useEffect, useState } from "react";
 import { ResponseError } from "@/utils/axios/response-error";
 import { userService } from "@/services/user/method";
 import { TypeUser } from "@/services/type.module";
@@ -12,7 +12,7 @@ import ModalOneDelete from "@/components/fragments/ModalOneDelete";
 import Table from "@/components/fragments/Table";
 import { useSearchParams } from "next/navigation";
 import ModalManyDelete from "@/components/fragments/ModalManyDelete";
-// import ModalEdit from "@/components/views/admin/user/ModalEdit";
+import ModalEdit from "@/components/views/admin/user/ModalEdit";
 
 const UserPage = () => {
   const query = useSearchParams();
@@ -39,7 +39,7 @@ const UserPage = () => {
 
   const limit = query.get("limit") && parseInt(query.get("limit") as string);
 
-  const getAllUser = async () => {
+  const getAllUser = useCallback(async () => {
     try {
       const params = { page, limit, search };
       const res = await userService.getUser(params);
@@ -53,11 +53,11 @@ const UserPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [search, page, limit]);
 
   useEffect(() => {
     getAllUser();
-  }, [page, limit, search]);
+  }, [page, limit, search, getAllUser]);
 
   const tbody: string[] = [
     "fullname",
@@ -142,7 +142,7 @@ const UserPage = () => {
           callback={() => getAllUser()}
         />
       )}
-      {/* <ModalEdit onclose={() => console.log()} /> */}
+      <ModalEdit onclose={() => console.log()} />
     </Fragment>
   );
 };

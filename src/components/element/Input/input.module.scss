@@ -3,9 +3,16 @@
   padding: 0.6375rem;
   border-radius: 0.4rem;
   border: 1px solid $gray-300;
+  height: 2.25rem;
+  font-size: 0.75rem;
 
   &:focus {
     outline: $primary 1px solid;
     border: 1px solid $primary;
+  }
+
+  &::placeholder {
+    font-size: 0.75rem;
+    color: $gray-400;
   }
 }

@@ -1,5 +1,5 @@
 import ButtonElement from "@/components/element/ButtonSubmit";
-import FormControlFragment from "@/components/fragments/FormControl";
+import FormControlAnimate from "@/components/fragments/FormControlAnimate";
 import { authService } from "@/services/auth/method";
 import { TypeUser } from "@/services/type.module";
 import { AxiosError } from "axios";
@@ -72,7 +72,7 @@ const RegisterView = () => {
             minLength: { value: 6, message: "Nama Lengkap minimal 6 karakter" },
           }}
           render={({ field: { ...field } }) => (
-            <FormControlFragment
+            <FormControlAnimate
               type="text"
               placeholder=""
               name="fullname"
@@ -96,7 +96,7 @@ const RegisterView = () => {
             required: "Email tidak boleh kosong",
           }}
           render={({ field: { ...field } }) => (
-            <FormControlFragment
+            <FormControlAnimate
               type="email"
               placeholder=""
               name="email"
@@ -116,7 +116,7 @@ const RegisterView = () => {
             minLength: { value: 6, message: "Password minimal 6 karakter" },
           }}
           render={({ field: { ...field } }) => (
-            <FormControlFragment
+            <FormControlAnimate
               type={`${isShowPassword ? "text" : "password"}`}
               placeholder=""
               name="password"

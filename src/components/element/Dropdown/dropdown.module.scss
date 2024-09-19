@@ -1,0 +1,58 @@
+.wrapper {
+  position: relative;
+  .input {
+    width: 100%;
+    padding: 0.6375rem;
+    border-radius: 0.4rem;
+    border: 1px solid $gray-300;
+    height: 2.25rem;
+    font-size: 0.75rem;
+    cursor: pointer;
+
+    &:focus {
+      outline: $primary 1px solid;
+      border: 1px solid $primary;
+    }
+
+    &::placeholder {
+      font-size: 0.75rem;
+      color: $gray-400;
+    }
+
+    &:disabled {
+      background: $white;
+    }
+  }
+
+  .dropdown {
+    width: 100%;
+    max-height: 70px;
+    margin-top: 2px;
+    border-radius: 0.4rem;
+    overflow-y: auto;
+    border: 1px solid $gray-300;
+    background: $white;
+    position: absolute;
+    z-index: 10;
+
+    p {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: $gray-700;
+      cursor: pointer;
+      padding: 0.5rem;
+      &:hover {
+        color: $primary;
+        background: $gray-100;
+      }
+      &:focus-visible {
+        outline-color: $primary;
+      }
+    }
+  }
+}
+
+.active {
+  outline: $primary 1px solid;
+  border: 1px solid $primary;
+}

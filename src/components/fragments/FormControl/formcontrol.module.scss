@@ -1,47 +1,13 @@
 .input-group {
   position: relative;
 
-  input {
-    &:focus + .label-input,
-    &:not(:placeholder-shown) + .label-input {
-      position: absolute;
-      top: 0;
-      font-size: 0.7rem;
-      font-weight: 500;
-      color: $primary;
-    }
-
-    &:focus ~ .show-password {
-      color: $primary;
-    }
-  }
-
-  .label-input {
-    position: absolute;
-    @include centerLeft-Position();
-    font-size: 0.8rem;
+  label {
+    font-size: 0.75rem;
     text-transform: capitalize;
-    background-color: $white;
-    margin-bottom: 0.5rem;
     display: block;
-    font-weight: 400;
-    pointer-events: none;
-    @include transition(all, 0.3s, ease-in-out);
-  }
-
-  .show-password {
-    all: unset;
-    position: absolute;
-    @include flex(center, center, row);
-    @include centerRight-Position(1px);
-    height: 90%;
-    cursor: pointer;
-    color: $gray-600;
-    width: 2rem;
-    border-radius: 0.4rem;
-    &:hover {
-      background-color: $gray-200;
-    }
+    width: fit-content;
+    margin-bottom: 0.25rem;
+    font-weight: 500;
   }
 }
 
