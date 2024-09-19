@@ -1,0 +1,188 @@
+.container {
+  background: $white;
+  border: 1px solid $gray-300;
+  border-radius: 0.25rem;
+}
+
+.wrapper {
+  overflow-x: auto;
+  height: 420px;
+  border-bottom: 1px solid $gray-300;
+}
+
+.table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+
+  thead {
+    background-color: $primary;
+    color: $white;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+
+    th {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-size: 0.8125rem;
+      white-space: nowrap;
+      font-weight: 700;
+      text-transform: capitalize;
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 0.5px solid $gray-100;
+      &:nth-child(even) {
+        background-color: $gray-50;
+      }
+
+      &:hover {
+        background-color: $gray-100;
+      }
+
+      td {
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+        font-size: 0.8125rem;
+        font-weight: 400;
+        position: relative;
+
+        div {
+          @include flex-center();
+          gap: 0.5rem;
+
+          button {
+            color: $gray-500;
+            border: 1px solid $gray-500;
+            border-radius: 0.25rem;
+            width: 1.25rem;
+            height: 1.25rem;
+
+            @include flex-center();
+          }
+        }
+      }
+    }
+  }
+}
+
+.pagination {
+  @include flex(space-between, center, null);
+  padding: 0.75rem 1rem;
+
+  button {
+    cursor: pointer;
+  }
+
+  p {
+    font-size: 0.75rem;
+    font-weight: 400;
+  }
+
+  &__btnwrapper {
+    @include flex(center, center, null);
+    gap: 0.5rem;
+
+    @include media(md) {
+      gap: 0.75rem;
+    }
+  }
+
+  &__prev {
+    @include flex(center, center, null);
+    border: 1px solid $gray-300;
+    padding: 0.25rem;
+    background: $primary;
+    border-radius: 0.25rem;
+    color: $white;
+    &:disabled {
+      background: $gray-300;
+      cursor: default;
+    }
+  }
+
+  &__btn {
+    @include flex(center, center, null);
+    border: none;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: $white;
+    color: $primary;
+    border-radius: 50%;
+
+    &__active {
+      border-bottom: 1px solid $gray-300;
+      box-shadow: 0 0.2rem 0.25rem rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  &__next {
+    @include flex(center, center, null);
+    border: 1px solid $gray-300;
+    padding: 0.25rem;
+    background: $primary;
+    border-radius: 0.25rem;
+    color: $white;
+    &:disabled {
+      background: $gray-300;
+      cursor: default;
+    }
+  }
+}
+
+.trash {
+  &:hover {
+    stroke-width: 1.5;
+    border: 1px solid $danger;
+
+    * {
+      color: $danger;
+    }
+  }
+}
+
+.edit {
+  &:hover {
+    stroke-width: 1.5;
+    border: 1px solid $success;
+
+    * {
+      color: $success;
+    }
+  }
+}
+
+.loading {
+  min-height: 470px;
+  background: $neutral;
+  position: relative;
+  overflow: hidden;
+
+  &__shimmer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.5),
+      transparent
+    );
+    animation: shimmer 1s linear infinite;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
