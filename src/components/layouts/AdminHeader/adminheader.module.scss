@@ -1,0 +1,10 @@
+.header {
+  width: 100vw;
+  height: 4rem;
+  background-color: $white;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.15);
+}

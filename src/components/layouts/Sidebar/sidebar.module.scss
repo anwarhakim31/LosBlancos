@@ -1,0 +1,15 @@
+.sidebar {
+  width: 200px;
+  height: 100vh;
+  background: $white;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 3;
+  padding: 1rem;
+  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.15);
+  img {
+    width: 50px;
+    height: 50px;
+  }
+}
