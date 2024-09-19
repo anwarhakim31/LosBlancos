@@ -22,11 +22,17 @@ const sideList = [
   },
 ];
 
-const Sidebar = () => {
+const Sidebar = ({ isSidebarOpen }: { isSidebarOpen: boolean }) => {
   const pathname = usePathname();
 
+  console.log(isSidebarOpen);
+
   return (
-    <aside className={styles.sidebar}>
+    <aside
+      className={`${styles.sidebar} ${
+        isSidebarOpen ? styles["sidebar__active"] : ""
+      }`}
+    >
       <div className={styles.sidebar__logo}>
         <Image src={"/logo.svg"} alt="logo" width={70} height={70} priority />
         {/* <h3>LosBlancos</h3> */}

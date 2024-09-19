@@ -7,4 +7,30 @@
   left: 0;
   top: 0;
   box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.15);
+  @include flex(flex-end, center, null);
+  padding: 1rem;
+
+  &__button {
+    cursor: pointer;
+    width: 2rem;
+    height: 2rem;
+    position: absolute;
+    z-index: 99;
+    left: 1rem;
+    border-radius: 50%;
+    @include flex-center();
+    font-size: 1rem;
+    border: 1px solid $gray-200;
+    box-shadow: 0 0.1rem 0.1rem rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease-in-out;
+
+    @include media(md) {
+      display: none;
+    }
+  }
+}
+
+.active {
+  left: 208px;
+  box-shadow: 0 0.1rem 0.3rem $primary;
 }

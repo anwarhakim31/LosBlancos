@@ -1,14 +1,28 @@
+"use client";
 import Sidebar from "@/components/layouts/Sidebar";
-import React from "react";
+import React, { useRef, useState } from "react";
 import styles from "./layout.module.scss";
 import AdminHeader from "@/components/layouts/AdminHeader";
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+
+  const handleToggleSidebar = () => {
+    console.log(true);
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <main className={styles.admin}>
-      <Sidebar />
-      <AdminHeader />
-      <section className={styles.admin__content}>{children}</section>
+      <Sidebar isSidebarOpen={isSidebarOpen} />
+      <AdminHeader
+        handleToggleSidebar={handleToggleSidebar}
+        isSidebarOpen={isSidebarOpen}
+      />
+      <section ref={sectionRef} className={styles.admin__content}>
+        {children}
+      </section>
     </main>
   );
 };
