@@ -28,6 +28,61 @@
       display: none;
     }
   }
+
+  &__user {
+    @include flex(center, center, null);
+    gap: 0.5rem;
+
+    &__profile {
+      @include flex(center, center, null);
+      width: 9rem;
+      height: 2rem;
+      border-radius: 0.25rem;
+      background: $white;
+      overflow: hidden;
+      border: none;
+
+      gap: 0.5rem;
+
+      &__image {
+        width: 2rem;
+        height: 2rem;
+        object-fit: contain;
+        border-radius: 50%;
+        background: $primary;
+      }
+
+      &__detail {
+        @include flex(center, flex-start, null);
+        flex-direction: column;
+
+        p {
+          font-size: 0.75rem;
+          font-weight: 500;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          text-wrap: nowrap;
+        }
+      }
+    }
+
+    &__button {
+      @include flex(center, center, null);
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      font-size: 1rem;
+      background: $white;
+      border: 1px solid $gray-200;
+      box-shadow: 0 0.1rem 0.1rem rgba(0, 0, 0, 0.5);
+
+      cursor: pointer;
+
+      &:hover {
+        box-shadow: 0 0.1rem 0.3rem $primary;
+      }
+    }
+  }
 }
 
 .active {
