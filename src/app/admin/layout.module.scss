@@ -1,0 +1,14 @@
+.admin {
+  background: $gray-100;
+  display: flex;
+  min-height: 100vh;
+  padding-top: 4rem;
+  padding-left: 12.5rem;
+
+  &__content {
+    width: 100%;
+    height: 100%;
+    padding-left: 1rem;
+    padding-top: 1rem;
+  }
+}
