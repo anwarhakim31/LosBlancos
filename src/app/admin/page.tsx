@@ -1,11 +1,7 @@
-import React from "react";
+import { redirect } from "next/navigation";
 
 const AdminPage = () => {
-  return (
-    <div style={{ background: "red", height: "200vh", width: "100%" }}>
-      AdminPage
-    </div>
-  );
+  redirect("/admin/dashboard");
 };
 
 export default AdminPage;

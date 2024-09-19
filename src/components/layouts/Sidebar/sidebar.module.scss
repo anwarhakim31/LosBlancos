@@ -6,10 +6,67 @@
   left: 0;
   top: 0;
   z-index: 3;
-  padding: 1rem;
+  padding: 0 1rem;
   box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.15);
-  img {
-    width: 50px;
-    height: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    img {
+      width: 65px;
+      height: 65px;
+      object-fit: contain;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: $dark;
+    }
+  }
+
+  &__primaryList {
+    @include flex-center();
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0 1rem;
+
+    &__item {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      gap: 0.5rem;
+      padding: 0.4rem 0.75rem;
+      border-radius: 0.25rem;
+
+      &__icon {
+        @include flex-center();
+        font-size: 1.25rem;
+        color: $gray-600;
+      }
+
+      &__name {
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
+      &:hover {
+        background: $primary;
+        & > * {
+          color: $white;
+        }
+      }
+      &__active {
+        background: $primary;
+        & > * {
+          color: $white;
+        }
+      }
+    }
   }
 }

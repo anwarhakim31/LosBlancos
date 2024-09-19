@@ -7,6 +7,12 @@
   flex-direction: $direction;
 }
 
+@mixin flex-center() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @mixin media($point) {
   @if map-has-key($breakpoints, $point) {
     @media (min-width: map-get($breakpoints,$point)) {
