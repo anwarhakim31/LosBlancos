@@ -2,18 +2,24 @@ import { ChevronLeft, ChevronRight, Edit, Trash } from "lucide-react";
 import style from "./table.module.scss";
 import { TypeUser } from "@/services/type.module";
 import { Fragment } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import SelectRow from "@/components/element/SelectRow";
 
 interface typeTable {
   thead: {
     title: string;
     padding: string;
   }[];
-  data: TypeUser[];
+  data: TypeUser[] | null;
   loading: boolean;
-  page: number;
-  limit: number;
+
   tbody: string[];
-  setPage: (page: number) => void;
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPage: number;
+  };
   setIsDeleteOne: (isDeleteOne: TypeUser) => void;
 }
 
@@ -21,18 +27,21 @@ const Table = ({
   thead,
   data,
   tbody,
-  page,
-  limit,
-  setPage,
+  pagination,
   setIsDeleteOne,
   loading,
 }: typeTable) => {
-  const lastIndex = page * limit;
+  const { replace } = useRouter();
+  const pathname = usePathname();
+  const query = useSearchParams();
+
+  const { page, limit, total, totalPage } = pagination;
+
+  const lastIndex = page > totalPage ? 0 : page * limit;
   const firstIndex = lastIndex - limit;
-  //   const dataSlice = data?.slice(firstIndex, lastIndex);
-  const totalPage = Math.ceil(data?.length / limit);
 
   const pageNumber = [];
+
   for (let i = 1; i <= totalPage; i++) {
     pageNumber.push(i);
   }
@@ -46,6 +55,9 @@ const Table = ({
 
   return (
     <div className={style.container}>
+      <div className={style.setting}>
+        <SelectRow limit={limit} />
+      </div>
       {loading ? (
         <div className={style.loading}>
           <div className={style.loading__shimmer}></div>
@@ -69,8 +81,14 @@ const Table = ({
                 </tr>
               </thead>
               <tbody>
-                {data?.map((items: TypeUser) => (
-                  <tr key={items._id}>
+                {data?.map((items: TypeUser, i) => (
+                  <tr
+                    key={items._id}
+                    style={{
+                      borderBottom:
+                        i + 1 === lastIndex ? "none" : "1px solid #d9dffa",
+                    }}
+                  >
                     {tbody.map((body, i) => (
                       <Fragment key={i}>
                         <td>{items[body as keyof TypeUser]}</td>
@@ -96,15 +114,21 @@ const Table = ({
           </div>
           <div className={style.pagination}>
             <p>
-              Menampilkan {firstIndex + 1} -
-              {page === totalPage ? data?.length : lastIndex} dari{" "}
-              {data?.length} data
+              Menampilkan {page > totalPage ? 0 : firstIndex + 1} -
+              {page === totalPage ? total : lastIndex} dari {total} data
             </p>
             <div className={style.pagination__btnwrapper}>
               <button
                 className={style.pagination__prev}
                 disabled={page === 1}
-                onClick={() => setPage(page - 1)}
+                onClick={() => {
+                  const params = new URLSearchParams(query.toString());
+                  params.set("page", (page - 1).toString());
+
+                  replace(`${pathname}?${params.toString()}`, {
+                    scroll: false,
+                  });
+                }}
               >
                 <ChevronLeft width={16} height={16} />
               </button>
@@ -114,7 +138,14 @@ const Table = ({
                   className={`${style.pagination__btn} ${
                     page === item && style["pagination__btn__active"]
                   }`}
-                  onClick={() => setPage(item)}
+                  onClick={() => {
+                    const params = new URLSearchParams(query.toString());
+                    params.set("page", item.toString());
+
+                    replace(`${pathname}?${params.toString()}`, {
+                      scroll: false,
+                    });
+                  }}
                 >
                   {item}
                 </button>
@@ -122,8 +153,15 @@ const Table = ({
 
               <button
                 className={style.pagination__next}
-                onClick={() => setPage(page + 1)}
-                disabled={page === totalPage}
+                onClick={() => {
+                  const params = new URLSearchParams(query.toString());
+                  params.set("page", (page + 1).toString());
+
+                  replace(`${pathname}?${params.toString()}`, {
+                    scroll: false,
+                  });
+                }}
+                disabled={page >= totalPage}
               >
                 <ChevronRight width={16} height={16} />
               </button>

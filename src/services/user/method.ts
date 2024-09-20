@@ -2,7 +2,7 @@ import instance from "@/utils/axios/instance";
 import { TypeUser } from "../type.module";
 
 export const userService = {
-  getUser: () => instance.get("/user"),
+  getUser: (params: object) => instance.get("/user", { params }),
   updateUser: (id: string, data: TypeUser) => instance.put(`/user/${id}`, data),
   deleteUser: (id: string | undefined) => instance.delete(`/user/${id}`),
 };
