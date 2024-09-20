@@ -25,8 +25,6 @@ const sideList = [
 const Sidebar = ({ isSidebarOpen }: { isSidebarOpen: boolean }) => {
   const pathname = usePathname();
 
-  console.log(isSidebarOpen);
-
   return (
     <aside
       className={`${styles.sidebar} ${

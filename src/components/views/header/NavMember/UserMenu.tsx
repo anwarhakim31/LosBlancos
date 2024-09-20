@@ -9,8 +9,6 @@ const UserMenu = () => {
   const session = useSession();
   const { push } = useRouter();
 
-  console.log(session);
-
   return (
     <div className={styles.wrapper}>
       {session.status === "authenticated" ? (
@@ -19,7 +17,7 @@ const UserMenu = () => {
             <FaCartShopping />
           </Link>
 
-          <Link href={"/profil"} className={styles.wrapper__user__profile}>
+          <Link href={"/profile"} className={styles.wrapper__user__profile}>
             {session.data?.user?.image ? (
               <Image
                 src={session.data?.user?.image || ""}
@@ -34,7 +32,7 @@ const UserMenu = () => {
               </div>
             )}
 
-            <p>{session.data?.user?.name}</p>
+            <p>{session.data?.user?.fullname}</p>
           </Link>
         </div>
       ) : (

@@ -44,7 +44,7 @@ export interface FootersData {
 const footers: FootersData = {
   detail: [
     {
-      logo: "/losblancos.svg",
+      logo: "/logo.svg",
       name: "",
       description:
         "Tunjukkan dukungan Anda untuk Real Madrid dengan bangga dan bergaya dengan kaos eksklusif ini. Tambahkan ke keranjang belanja Anda sekarang dan jadilah bagian dari komunitas penggemar yang bersemangat!",

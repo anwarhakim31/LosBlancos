@@ -58,7 +58,7 @@ const NavbarView = () => {
       <div>
         <Link href={"/"} className={styles["nav__logo"]}>
           <Image
-            src={"/losblancos.svg"}
+            src={"/logo.svg"}
             alt="logo"
             width={40}
             height={40}

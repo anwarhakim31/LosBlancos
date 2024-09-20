@@ -3,7 +3,7 @@ import FormControlFragment from "@/components/fragments/FormControl";
 import Link from "next/link";
 import styles from "./loginview.module.scss";
 import React, { Fragment, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { Controller, useForm } from "react-hook-form";
 import ErrorBadge from "@/components/element/ErrorBadge";
@@ -24,10 +24,11 @@ const LoginView = () => {
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<string>("");
+  const searchParams = useSearchParams();
 
   const { push } = useRouter();
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
 
-  const callbackUrl: string = "/";
   const handleShowPassword = () => {
     setIsShowPassword(!isShowPassword);
   };

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import styles from "./auths.module.scss";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { Poppins } from "next/font/google";
 import RegisterView from "@/components/views/auth/Register";
 import LoginView from "@/components/views/auth/Login";
@@ -24,6 +24,9 @@ const googleRender = ["/forget-password", "/reset-password"];
 const AuthLayouts = () => {
   const pathname = usePathname();
   const [success, setSuccess] = useState<boolean>(false);
+  const searchParams = useSearchParams();
+
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
 
   const renderView = () => {
     switch (pathname) {
@@ -109,7 +112,7 @@ const AuthLayouts = () => {
                 className={styles.auth__form__divider__button}
                 type="button"
                 onClick={() =>
-                  signIn("google", { callbackUrl: "/", redirect: false })
+                  signIn("google", { callbackUrl, redirect: false })
                 }
               >
                 <Image src="/google.svg" width={20} height={20} alt="google" />
