@@ -15,7 +15,7 @@ declare module "next-auth" {
   interface Session {
     user?: {
       email?: string;
-      fullname?: string;
+      name?: string;
       image?: string;
       role?: string;
     };
@@ -34,6 +34,7 @@ const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   secret: process.env.NEXTAUTH_SECRET,
+
   providers: [
     CredentialsProvider({
       type: "credentials",
@@ -42,6 +43,7 @@ const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
+
       async authorize(credentials) {
         const { email, password } = credentials as {
           email: string;
@@ -73,12 +75,13 @@ const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET!,
     }),
   ],
+
   callbacks: {
     async jwt({ token, user, account }) {
       if (account?.provider === "credentials" && user) {
         token.email = user.email;
         token.image = user.image;
-        token.fullname = user.fullname;
+        token.name = user.fullname;
         token.role = user.role;
       }
 
@@ -106,7 +109,7 @@ const authOptions: NextAuthOptions = {
           }
 
           token.email = data.email;
-          token.fullname = data.fullname;
+          token.name = data.fullname;
           token.role = userDB?.role || "member";
           token.image = data.image;
         } catch (error) {
@@ -119,7 +122,7 @@ const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (session.user) {
         session.user.email = (token.email as string) || "";
-        session.user.fullname = (token.fullname as string) || "";
+        session.user.name = (token.name as string) || "";
         session.user.image = (token.image as string) || "";
         session.user.role = (token.role as string) || "member";
       }

@@ -39,7 +39,7 @@ const AdminHeader = ({ handleToggleSidebar, isSidebarOpen }: PropsType) => {
         </button>
         <button
           className={styles.header__user__button}
-          onClick={() => signOut()}
+          onClick={() => signOut({ callbackUrl: "/login" })}
         >
           <RxExit />
         </button>

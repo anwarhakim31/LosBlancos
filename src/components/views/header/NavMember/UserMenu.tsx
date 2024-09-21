@@ -31,8 +31,7 @@ const UserMenu = () => {
                 <FaUser />
               </div>
             )}
-
-            <p>{session.data?.user?.fullname}</p>
+            <p>{session.data?.user?.name}</p>
           </Link>
         </div>
       ) : (

@@ -3,8 +3,8 @@
   text-transform: uppercase;
   font-weight: 500;
   cursor: pointer;
-  &:focus {
-    outline: 1px solid $primary;
+  &:focus-visible {
+    outline: 2px solid $primary;
   }
 }
 
@@ -14,4 +14,7 @@
   text-transform: uppercase;
   font-weight: 500;
   cursor: pointer;
+  &:focus-visible {
+    outline: 2px solid $primary;
+  }
 }
