@@ -4,6 +4,7 @@ import { VscListSelection } from "react-icons/vsc";
 import { RxExit } from "react-icons/rx";
 import { IoSettingsOutline } from "react-icons/io5";
 import Image from "next/image";
+import { signOut } from "next-auth/react";
 
 interface PropsType {
   handleToggleSidebar: () => void;
@@ -36,7 +37,10 @@ const AdminHeader = ({ handleToggleSidebar, isSidebarOpen }: PropsType) => {
         <button className={styles.header__user__button}>
           <IoSettingsOutline size={"1rem"} />
         </button>
-        <button className={styles.header__user__button}>
+        <button
+          className={styles.header__user__button}
+          onClick={() => signOut()}
+        >
           <RxExit />
         </button>
       </div>

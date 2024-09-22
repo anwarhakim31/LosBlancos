@@ -15,14 +15,14 @@
   padding: 0;
   top: 0;
   @include flex(center, center, null);
-
+  background-color: white;
   top: 2rem;
   left: 0;
   position: absolute;
 
   @include media(md) {
     box-shadow: none;
-
+    background-color: transparent;
     top: 2rem;
   }
   img {

@@ -11,6 +11,6 @@ export default withAuth(mainMiddleware, [
   "admin",
   "login",
   "product",
-  "",
+
   "profile",
 ]);
