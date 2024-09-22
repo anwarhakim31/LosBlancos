@@ -11,7 +11,9 @@ const HomeMenu = () => {
       <Link href={"/product"} className={styles.list}>
         produk
       </Link>
-      <span className={styles["list"]}>Kategori</span>
+      <button tabIndex={0} className={styles["button"]}>
+        Kategori
+      </button>
       <Link href={"/product"} className={styles.list}>
         Tentang
       </Link>
