@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import styles from "./auths.module.scss";
-import { usePathname, useSearchParams } from "next/navigation";
+import { redirect, usePathname, useSearchParams } from "next/navigation";
 import { Poppins } from "next/font/google";
 import RegisterView from "@/components/views/auth/Register";
 import LoginView from "@/components/views/auth/Login";
@@ -27,6 +27,10 @@ const AuthLayouts = () => {
   const searchParams = useSearchParams();
 
   const callbackUrl = searchParams.get("callbackUrl") || "/";
+
+  if (!callbackUrl && pathname === "/reset-password") {
+    redirect("/login");
+  }
 
   const renderView = () => {
     switch (pathname) {

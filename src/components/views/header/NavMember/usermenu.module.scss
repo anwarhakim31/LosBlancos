@@ -48,13 +48,13 @@
     all: unset;
     @include flex(center, center, null);
     width: 4rem;
-    height: 1.75rem;
-    border-radius: 0.4rem;
+    height: 1.5rem;
+    border-radius: 1rem;
     border: none;
     cursor: pointer;
     color: $white;
-    font-weight: 500;
-    background-color: $primary;
+    font-weight: 400;
+    background-color: $gray-800;
     font-size: 0.75rem;
     text-transform: uppercase;
   }

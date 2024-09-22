@@ -1,12 +1,13 @@
 import Footer from "@/components/layouts/Footer";
-import Product from "@/components/views/home/Product";
+import Slider from "@/components/views/home/Silders";
+
 import { Fragment } from "react";
 
 const Page = () => {
   return (
     <Fragment>
       <main>
-        <Product />
+        <Slider />
       </main>
       <Footer />
     </Fragment>
