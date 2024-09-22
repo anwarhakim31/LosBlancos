@@ -7,16 +7,18 @@
 
   &__wrapper {
     @include flex-center();
-    height: 100px;
+    height: 80px;
     animation: infinite-scroll 10s linear infinite;
     flex-shrink: 0;
   }
 }
 
 .logo {
-  width: 350px;
-  height: 100px;
+  width: 200px;
+  height: 80px;
   object-fit: contain;
+  pointer-events: none;
+  user-select: none;
 }
 
 @keyframes infinite-scroll {
