@@ -1,0 +1,29 @@
+.container {
+  overflow: hidden;
+  margin: 5rem auto;
+  display: flex;
+  max-width: 1560px;
+  position: relative;
+
+  &__wrapper {
+    @include flex-center();
+    height: 100px;
+    animation: infinite-scroll 10s linear infinite;
+    flex-shrink: 0;
+  }
+}
+
+.logo {
+  width: 350px;
+  height: 100px;
+  object-fit: contain;
+}
+
+@keyframes infinite-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
