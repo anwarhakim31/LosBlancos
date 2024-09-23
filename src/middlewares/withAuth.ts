@@ -44,6 +44,16 @@ export default function withAuth(
       }
     }
 
+    if (token && token.role === "admin") {
+      if (req.nextUrl.pathname === "/" || req.nextUrl.pathname === "/login") {
+        return NextResponse.redirect(new URL("/admin", req.url));
+      }
+    }
+
     return middleware(req, ev);
   };
 }
+
+export const config = {
+  matcher: ["/", "/login"],
+};

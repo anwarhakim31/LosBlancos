@@ -115,9 +115,9 @@ const AuthLayouts = () => {
               <button
                 className={styles.auth__form__divider__button}
                 type="button"
-                onClick={() =>
-                  signIn("google", { callbackUrl, redirect: false })
-                }
+                onClick={() => {
+                  signIn("google", { callbackUrl, redirect: false });
+                }}
               >
                 <Image src="/google.svg" width={20} height={20} alt="google" />
                 {pathname === "/register" ? "Daftar" : "Masuk"} dengan Google
