@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import InputElement from "@/components/element/Input";
+import InputAuth from "@/components/element/Input";
 import styles from "./formcontrol.module.scss";
 import { Fragment } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
@@ -30,7 +30,7 @@ const FormControlFragment = ({
   return (
     <Fragment>
       <div className={styles["input-group"]}>
-        <InputElement
+        <InputAuth
           type={type}
           placeholder={placeholder}
           name={name}

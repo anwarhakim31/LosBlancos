@@ -7,6 +7,7 @@ import Link from "next/link";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { BsBoxes } from "react-icons/bs";
 import { usePathname } from "next/navigation";
+import { FaRegUser } from "react-icons/fa";
 const sideList = [
   {
     id: 1,
@@ -16,9 +17,15 @@ const sideList = [
   },
   {
     id: 2,
+    name: "User",
+    icon: <FaRegUser />,
+    link: "/admin/user",
+  },
+  {
+    id: 3,
     name: "Produk",
     icon: <BsBoxes />,
-    link: "/admin/products",
+    link: "/admin/product",
   },
 ];
 

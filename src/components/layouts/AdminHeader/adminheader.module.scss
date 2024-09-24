@@ -49,7 +49,15 @@
         height: 2rem;
         object-fit: contain;
         border-radius: 50%;
-        background: $primary;
+        border: 1px solid $gray-300;
+      }
+
+      &__icon {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        background: $secondary;
+        border: 1px solid $gray-300;
       }
 
       &__detail {

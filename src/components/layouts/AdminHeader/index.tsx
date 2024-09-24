@@ -4,7 +4,7 @@ import { VscListSelection } from "react-icons/vsc";
 import { RxExit } from "react-icons/rx";
 import { IoSettingsOutline } from "react-icons/io5";
 import Image from "next/image";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 interface PropsType {
   handleToggleSidebar: () => void;
@@ -12,6 +12,9 @@ interface PropsType {
 }
 
 const AdminHeader = ({ handleToggleSidebar, isSidebarOpen }: PropsType) => {
+  const session = useSession();
+
+  console.log(session);
   return (
     <div className={styles.header}>
       <button
@@ -23,14 +26,18 @@ const AdminHeader = ({ handleToggleSidebar, isSidebarOpen }: PropsType) => {
       <div className={styles.header__user}>
         <div className={styles.header__user__profile}>
           <Image
-            src={"/logo.svg"}
+            src={
+              session.data?.user?.image
+                ? session.data?.user?.image
+                : "/profile.png"
+            }
             alt="profile"
             width={26}
             height={26}
             className={styles.header__user__profile__image}
           />
           <div className={styles.header__user__profile__detail}>
-            <p>Anwar Hakim</p>
+            <p>{session.data?.user?.name}</p>
           </div>
         </div>
 

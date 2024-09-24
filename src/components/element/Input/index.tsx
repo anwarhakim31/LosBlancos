@@ -1,7 +1,7 @@
 import styles from "./input.module.scss";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const InputElement = ({ type, placeholder, name, id, field }: any) => {
+const InputAuth = ({ type, placeholder, name, id, field }: any) => {
   return (
     <input
       style={{
@@ -17,4 +17,4 @@ const InputElement = ({ type, placeholder, name, id, field }: any) => {
   );
 };
 
-export default InputElement;
+export default InputAuth;
