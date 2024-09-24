@@ -10,6 +10,7 @@ declare module "next-auth" {
     fullname: string;
     role: string;
     image: string;
+    _id: string;
   }
 
   interface Session {
@@ -18,6 +19,7 @@ declare module "next-auth" {
       name?: string;
       image?: string;
       role?: string;
+      id: string;
     };
   }
 
@@ -26,6 +28,7 @@ declare module "next-auth" {
     fullname?: string;
     image?: string;
     role?: string;
+    id: string;
   }
 }
 
@@ -62,7 +65,7 @@ const authOptions: NextAuthOptions = {
           if (!isMatch) {
             return null;
           }
-
+          console.log({ user: user });
           return user;
         } catch (error) {
           console.error("Error during authentication:", error);
@@ -77,12 +80,13 @@ const authOptions: NextAuthOptions = {
   ],
 
   callbacks: {
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, account, trigger, session }) {
       if (account?.provider === "credentials" && user) {
         token.email = user.email;
         token.image = user.image;
         token.name = user.fullname;
         token.role = user.role;
+        token.id = user._id;
       }
 
       if (account?.provider === "google" && user) {
@@ -109,18 +113,24 @@ const authOptions: NextAuthOptions = {
           }
 
           token.email = data.email;
-          token.name = data.fullname;
+          token.name = userDB.fullname || data.fullname;
           token.role = userDB?.role || "member";
           token.image = data.image;
+          token.id = userDB._id;
         } catch (error) {
           console.log(error);
         }
       }
 
+      if (trigger === "update") {
+        token.name = session.user.name;
+        token.name = session.user.email;
+      }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
+        session.user.id = (token.id as string) || "";
         session.user.email = (token.email as string) || "";
         session.user.name = (token.name as string) || "";
         session.user.image = (token.image as string) || "";

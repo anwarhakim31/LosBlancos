@@ -22,7 +22,6 @@ export default async function RootLayout({
       <SessionProviderClient session={session}>
         <body className={openSans.className}>
           <Header />
-
           {children}
         </body>
       </SessionProviderClient>

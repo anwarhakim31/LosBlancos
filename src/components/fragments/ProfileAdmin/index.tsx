@@ -6,6 +6,7 @@ import ButtonElement from "@/components/element/Button";
 import FormControlFragment from "../FormControl";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
+import { userService } from "@/services/auth/method";
 const SidebarProfile = () => {
   const session = useSession();
   const user = session?.data?.user;
@@ -13,31 +14,77 @@ const SidebarProfile = () => {
   const {
     handleSubmit,
     control,
-
     setValue,
     formState: { errors },
-  } = useForm({ defaultValues: { email: "", password: "" } });
+  } = useForm({ defaultValues: { email: "", password: "", fullname: "" } });
 
   useEffect(() => {
-    if (user) {
-      setValue("email", user?.email || "");
-    }
+    setValue("email", user?.email || "");
+    setValue("fullname", user?.name || "");
   }, [user, setValue]);
+
+  const onSubmit = async (data: { email: string; password: string }) => {
+    if (user?.id) {
+      try {
+        const res = await userService.updateUser(user?.id, data);
+
+        console.log(res);
+
+        session.update({ ...session.data, user: res.data.data });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   return (
     <aside className={styles.sidebar}>
       <p className={styles.sidebar__name}>Profile</p>
 
       <div className={styles.sidebar__logo}>
-        <Image src={"/profile.png"} alt="image" width={75} height={75} />
+        <Image
+          src={"/profile.png"}
+          alt="image"
+          width={75}
+          height={75}
+          priority
+        />
       </div>
       <h3 className={styles.sidebar__foto}>Foto</h3>
 
       <form
-        onSubmit={handleSubmit((data) => console.log(data))}
+        onSubmit={handleSubmit(onSubmit)}
         noValidate
         className={styles.sidebar__form}
       >
+        <div style={{ width: "100%" }}>
+          <label htmlFor="fullname" className={styles.sidebar__form__label}>
+            Nama Lengkap
+          </label>
+          <Controller
+            control={control}
+            name="fullname"
+            rules={{
+              required: "Nama Lengkap tidak boleh kosong.",
+              minLength: {
+                value: 6,
+                message: "Nama Lengkap minimal 6 karakter.",
+              },
+            }}
+            render={({ field }) => (
+              <FormControlFragment
+                type="text"
+                placeholder="example@domain.com"
+                name="fullname"
+                id="fullname"
+                field={field}
+                label={false}
+                error={errors}
+              />
+            )}
+          />
+        </div>
+
         <div style={{ width: "100%" }}>
           <label htmlFor="email" className={styles.sidebar__form__label}>
             Email
@@ -78,7 +125,7 @@ const SidebarProfile = () => {
             }}
             render={({ field }) => (
               <FormControlFragment
-                type="passwod"
+                type="password"
                 placeholder="* * * * * * * * *"
                 name="password"
                 id="password"
@@ -89,7 +136,6 @@ const SidebarProfile = () => {
             )}
           />
         </div>
-
         <ButtonElement type="submit" title="Simpan" />
       </form>
     </aside>

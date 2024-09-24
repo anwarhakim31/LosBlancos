@@ -8,3 +8,7 @@ export const authService = {
   resetPassword: (data: { password: string; token: string }) =>
     instance.post("/auth/reset-password", data),
 };
+
+export const userService = {
+  updateUser: (id: string, data: TypeUser) => instance.put(`/user/${id}`, data),
+};

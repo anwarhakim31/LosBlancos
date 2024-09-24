@@ -14,7 +14,6 @@ interface PropsType {
 const AdminHeader = ({ handleToggleSidebar, isSidebarOpen }: PropsType) => {
   const session = useSession();
 
-  console.log(session);
   return (
     <div className={styles.header}>
       <button
