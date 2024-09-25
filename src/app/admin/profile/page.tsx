@@ -11,7 +11,7 @@ import { imageService, userService } from "@/services/user/method";
 
 import { Plus, X } from "lucide-react";
 import { ALLOW_IMAGE_TYPE } from "@/utils/AllowImageType";
-import HeaderAdmin from "@/components/element/HeaderAdmin";
+import HeaderPage from "@/components/element/HeaderPage";
 import ImageFormat from "@/components/element/ImageFormat";
 import ErrorBadge from "@/components/element/ErrorBadge";
 
@@ -120,7 +120,7 @@ const ProfileAdminPage = () => {
 
   return (
     <section>
-      <HeaderAdmin
+      <HeaderPage
         title="Profile"
         description="Atur informasi profil Anda untuk mengontrol, melindungi, dan
           mengamankan akun Anda."

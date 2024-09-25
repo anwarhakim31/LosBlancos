@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
   role: {
     type: String,
-    enum: ["member", "admin"],
-    default: "member",
+    enum: ["customer", "admin"],
+    default: "customer",
   },
   fullname: {
     type: String,

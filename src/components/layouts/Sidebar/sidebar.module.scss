@@ -17,7 +17,7 @@
     left: 0;
   }
 
-  @include media(md) {
+  @include media(lg) {
     left: 0;
   }
 
@@ -56,14 +56,15 @@
 
       &__icon {
         @include flex-center();
-        font-size: 1.25rem;
-        color: $gray-700;
-        font-weight: 100;
+
+        color: $gray-500;
+        stroke-width: 1;
       }
 
       &__name {
         font-size: 0.875rem;
         font-weight: 400;
+        color: $gray-900;
       }
 
       &__active {

@@ -1,3 +1,27 @@
+.action {
+  @include flex(space-between, center, null);
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  &__search {
+    width: 100%;
+    @include media(sm) {
+      width: 50vh;
+    }
+  }
+
+  &__button {
+    @include flex(center, center, null);
+    gap: 1rem;
+    margin-left: auto;
+
+    @include media(md) {
+      margin-left: 0;
+    }
+  }
+}
+
 .container {
   background: $white;
   border: 1px solid $gray-300;
@@ -25,9 +49,9 @@
     th {
       padding: 0.75rem 1rem;
       text-align: left;
-      font-size: 0.875rem;
+      font-size: 0.8125rem;
       white-space: nowrap;
-      font-weight: 500;
+      font-weight: 700;
       text-transform: capitalize;
     }
   }
@@ -58,12 +82,12 @@
           gap: 0.5rem;
 
           button {
-            color: $gray-400;
-            border: 1px solid $gray-400;
+            color: $gray-500;
+            border: 1px solid $gray-500;
             border-radius: 0.25rem;
             width: 1.25rem;
             height: 1.25rem;
-            transition: all 0.3s ease-in-out;
+
             @include flex-center();
           }
         }

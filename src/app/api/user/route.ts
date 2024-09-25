@@ -7,7 +7,7 @@ export async function GET() {
   await connectDB();
 
   try {
-    const user = await User.find({ role: "member" }).select("-password");
+    const user = await User.find({ role: "customer" }).select("-password");
 
     return NextResponse.json({ success: true, user }, { status: 200 });
   } catch (error) {

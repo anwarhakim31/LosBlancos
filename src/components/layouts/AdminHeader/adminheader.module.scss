@@ -8,7 +8,7 @@
   top: 0;
   box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.15);
   @include flex(flex-end, center, null);
-  padding: 1rem;
+  padding: 0 2rem;
 
   &__button {
     cursor: pointer;
@@ -24,8 +24,9 @@
     border: 1px solid $gray-200;
     box-shadow: 0 0.1rem 0.1rem rgba(0, 0, 0, 0.5);
     transition: all 0.3s ease-in-out;
+    color: $gray-700;
 
-    @include media(md) {
+    @include media(lg) {
       display: none;
     }
   }
@@ -85,7 +86,7 @@
       background: $white;
       border: 1px solid $gray-200;
       box-shadow: 0 0.1rem 0.1rem rgba(0, 0, 0, 0.5);
-
+      color: $gray-700;
       cursor: pointer;
 
       &:hover {

@@ -1,6 +1,6 @@
 import styles from "./header.module.scss";
 
-const HeaderAdmin = ({
+const HeaderPage = ({
   title,
   description,
 }: {
@@ -15,4 +15,4 @@ const HeaderAdmin = ({
   );
 };
 
-export default HeaderAdmin;
+export default HeaderPage;
