@@ -2,20 +2,33 @@
 
 import HeaderAdmin from "@/components/element/HeaderAdmin";
 import style from "./user.module.scss";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { ChevronLeft, ChevronRight, Edit, Trash } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ResponseError } from "@/utils/axios/response-error";
+import { userService } from "@/services/user/method";
+import { TypeUser } from "@/services/type.module";
+
+const thead = [
+  { title: "Nama Lengkap", padding: "0.75rem 1rem" },
+  { title: "Email", padding: "0.75rem 1rem" },
+  { title: "status", padding: "0.75rem 1rem" },
+  { title: "Nomor Telepon", padding: "0.75rem 1rem" },
+  { title: "Kelamin", padding: "0.75rem 1rem" },
+  { title: "alamat", padding: "0.75rem 1rem" },
+  { title: "kota", padding: "0.75rem 1rem" },
+  { title: "provinsi", padding: "0.75rem 1rem" },
+  { title: "", padding: "0.75rem 1rem" },
+];
 
 const UserPage = () => {
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(7);
-  const [data, setData] = useState([
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
-  ]);
+  const [limit, setLimit] = useState(8);
+  const [data, setData] = useState([]);
 
   const lastIndex = page * limit;
   const firstIndex = lastIndex - limit;
-  const dataSlice = data.slice(firstIndex, lastIndex);
-  const totalPage = Math.ceil(data.length / limit);
+  const dataSlice = data?.slice(firstIndex, lastIndex);
+  const totalPage = Math.ceil(data?.length / limit);
 
   const pageNumber = [];
 
@@ -35,28 +48,72 @@ const UserPage = () => {
 
   const visiblePage = pageNumber.slice(startPage - 1, endPage);
 
+  useEffect(() => {
+    const getAllUser = async () => {
+      try {
+        const res = await userService.getUser();
+
+        if (res.status === 200) {
+          setData(res.data.user);
+        }
+      } catch (error) {
+        ResponseError(error);
+      }
+    };
+
+    getAllUser();
+  }, []);
+
   return (
     <section>
-      <HeaderAdmin title="Halaman User" description="Kelola data customer" />
+      <HeaderAdmin
+        title="Halaman User"
+        description="Kelola data pelanggan anda"
+      />
 
       <div className={style.container}>
         <div className={style.wrapper}>
           <table className={style.table}>
             <thead>
               <tr>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Action</th>
+                {thead.map((item, i) => (
+                  <th
+                    key={i + 1}
+                    style={{
+                      padding: item.padding,
+                    }}
+                  >
+                    {item.title}
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody>
-              {dataSlice.map((item) => (
-                <tr key={item}>
-                  <td>{item}</td>
-                  <td>asdasdas</td>
-                  <td>asdas</td>
-                  <td>asdas</td>
+              {dataSlice?.map((item: TypeUser) => (
+                <tr
+                  key={item._id}
+                  style={{
+                    borderBottom: item === lastIndex ? "none" : "",
+                  }}
+                >
+                  <td>{item.fullname}</td>
+                  <td>{item.email}</td>
+                  <td>{item.status}</td>
+                  <td>{item.phone}</td>
+                  <td>{item.jenisKelamin}</td>
+                  <td>{item.alamat}</td>
+                  <td>{item.kota}</td>
+                  <td>{item.provinsi}</td>
+                  <td>
+                    <div>
+                      <button className={style.edit}>
+                        <Edit width={16} height={16} />
+                      </button>
+                      <button className={style.trash}>
+                        <Trash width={16} height={16} />
+                      </button>
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -65,7 +122,7 @@ const UserPage = () => {
         <div className={style.pagination}>
           <p onClick={handleClick}>
             Menampilkan {firstIndex + 1} -
-            {page === totalPage ? data.length : lastIndex} dari {data.length}{" "}
+            {page === totalPage ? data?.length : lastIndex} dari {data?.length}{" "}
             data
           </p>
           <div className={style.pagination__btnwrapper}>
@@ -77,7 +134,13 @@ const UserPage = () => {
               <ChevronLeft width={16} height={16} />
             </button>
             {visiblePage.map((item) => (
-              <button key={item} className={style.pagination__btn}>
+              <button
+                key={item}
+                className={`${style.pagination__btn} ${
+                  page === item && style["pagination__btn__active"]
+                }`}
+                onClick={() => setPage(item)}
+              >
                 {item}
               </button>
             ))}

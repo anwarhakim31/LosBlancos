@@ -23,20 +23,19 @@ export default async function RootLayout({
     <html lang="en">
       <SessionProviderClient session={session}>
         <StoreProvider>
-          <Toaster
-            position="top-center"
-            closeButton
-            richColors
-            toastOptions={{
-              style: {
-                background: "white",
-                border: "1px solid #f5f5f5",
-              },
-            }}
-          />
           <body className={openSans.className}>
             <Header />
             {children}
+            <Toaster
+              position="top-center"
+              richColors
+              toastOptions={{
+                style: {
+                  background: "white",
+                  border: "1px solid #f5f5f5",
+                },
+              }}
+            />
           </body>
         </StoreProvider>
       </SessionProviderClient>

@@ -18,6 +18,12 @@ a {
   cursor: pointer;
 }
 
+button {
+  all: unset;
+  cursor: pointer;
+  padding: 0;
+}
+
 ul[role="list"] ol[role="list"] {
   list-style: none;
 }

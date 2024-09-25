@@ -1,5 +1,5 @@
 import instance from "@/utils/axios/instance";
-import { TypeUser } from "./type.module";
+import { TypeUser } from "../type.module";
 
 export const authService = {
   registerAccount: (data: TypeUser) => instance.post("/auth/register", data),
@@ -7,15 +7,4 @@ export const authService = {
     instance.post("/auth/forgot-password", data),
   resetPassword: (data: { password: string; token: string }) =>
     instance.post("/auth/reset-password", data),
-};
-
-export const userService = {
-  updateUser: (id: string, data: TypeUser) => instance.put(`/user/${id}`, data),
-};
-
-export const imageService = {
-  uploadUser: async (data: FormData) =>
-    instance.post("/user/image/upload", data),
-  deleteUser: (data: { filename: string }) =>
-    instance.delete("/user/image/delete", { data }),
 };
