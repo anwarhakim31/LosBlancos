@@ -102,30 +102,29 @@ const authOptions: NextAuthOptions = {
 
         await dbConnect();
 
-        try {
-          const userDB = await User.findOne({ email: data.email });
-          if (!userDB) {
-            const newUser = new User({
-              ...data,
-              role: "member",
-            });
-            await newUser.save();
-          }
-
-          token.email = data.email;
-          token.name = userDB.fullname || data.fullname;
-          token.role = userDB?.role || "member";
-          token.image = data.image;
-          token.id = userDB._id;
-        } catch (error) {
-          console.log(error);
+        const userDB = await User.findOne({ email: data.email });
+        if (!userDB) {
+          const newUser = new User({
+            ...data,
+            role: "member",
+          });
+          await newUser.save();
         }
+
+        token.email = data.email;
+        token.name = userDB.fullname || data.fullname;
+        token.role = userDB.role || "member";
+        token.image = userDB.image || data.image;
+        token.id = userDB._id;
       }
 
-      if (trigger === "update") {
-        token.name = session.user.name;
-        token.name = session.user.email;
+      if (trigger === "update" && session) {
+        token.picture = session.user?.image;
+        token.name = session.user?.name;
+        token.image = session.user?.image;
+        token.email = session.user?.email;
       }
+
       return token;
     },
     async session({ session, token }) {

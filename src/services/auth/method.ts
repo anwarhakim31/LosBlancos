@@ -1,5 +1,6 @@
 import instance from "@/utils/axios/instance";
 import { TypeUser } from "./type.module";
+import axios from "axios";
 
 export const authService = {
   registerAccount: (data: TypeUser) => instance.post("/auth/register", data),
@@ -10,5 +11,26 @@ export const authService = {
 };
 
 export const userService = {
-  updateUser: (id: string, data: TypeUser) => instance.put(`/user/${id}`, data),
+  updateUser: (id: string, data: TypeUser) =>
+    instance.post(`/user/${id}`, data),
+};
+
+export const imageService = {
+  upload: async (data: FormData) => {
+    try {
+      const response = await axios.post(
+        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`,
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      throw error;
+    }
+  },
 };

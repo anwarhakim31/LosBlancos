@@ -1,8 +1,9 @@
-import SessionProviderClient from "@/components/layouts/SessionProvider";
+import SessionProviderClient from "./sessionProvider";
 import "./../styles/global.scss";
 import { Open_Sans } from "next/font/google";
 import { getServerSession } from "next-auth";
 import Header from "@/components/layouts/Header";
+import StoreProvider from "./storeProvider";
 
 const openSans = Open_Sans({
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -20,10 +21,12 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <SessionProviderClient session={session}>
-        <body className={openSans.className}>
-          <Header />
-          {children}
-        </body>
+        <StoreProvider>
+          <body className={openSans.className}>
+            <Header />
+            {children}
+          </body>
+        </StoreProvider>
       </SessionProviderClient>
     </html>
   );
