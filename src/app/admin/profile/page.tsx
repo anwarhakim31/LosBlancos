@@ -4,14 +4,21 @@ import Image from "next/image";
 import styles from "./profile.module.scss";
 
 import { Controller, useForm } from "react-hook-form";
-import ButtonElement from "@/components/element/Button";
+
 import { useSession } from "next-auth/react";
 import React, { useRef, useState } from "react";
 import { imageService, userService } from "@/services/auth/method";
 
-import FormControlFragment from "@/components/fragments/FormControl";
 import { Plus, X } from "lucide-react";
 import { ALLOW_IMAGE_TYPE } from "@/utils/AllowImageType";
+import HeaderAdmin from "@/components/element/HeaderAdmin";
+import ImageFormat from "@/components/element/ImageFormat";
+import ErrorBadge from "@/components/element/ErrorBadge";
+
+import FormControlProfile from "@/components/fragments/FormControlProfile";
+import ButtonSubmit from "@/components/element/ButtonSubmit";
+import ButtonClick from "@/components/element/ButtonClick";
+import { toast } from "sonner";
 
 const ProfileAdminPage = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -22,6 +29,7 @@ const ProfileAdminPage = () => {
     handleSubmit,
     control,
     setValue,
+
     watch,
     formState: { errors },
   } = useForm({
@@ -34,18 +42,28 @@ const ProfileAdminPage = () => {
   });
 
   const image = watch("image");
+
   const [hover, setHover] = useState<boolean>(false);
-  const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
+  const [isError, setIsError] = useState<string>("");
   const [preset, setPreset] = useState<string | null>(user?.image || null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isEdit, setIsEdit] = useState<boolean>(false);
 
   const onSubmit = async (data: { email: string; password: string }) => {
     if (user?.id) {
+      setIsLoading(true);
       try {
         const res = await userService.updateUser(user?.id, data);
 
-        session.update({ ...session.data, user: res.data.data });
+        if (res.status === 200) {
+          session.update({ ...session.data, user: res.data.data });
+          setIsEdit(false);
+          toast.success(res.data.message);
+        }
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -60,13 +78,13 @@ const ProfileAdminPage = () => {
     const file = event.target.files?.[0];
 
     if (!ALLOW_IMAGE_TYPE.includes(file?.type || "")) {
-      return console.log("gagal");
+      return setIsError("Format file tidak didukung.");
     }
 
     if (file) {
       const formData = new FormData();
       formData.append("file", file);
-
+      setIsLoading(true);
       try {
         const res = await imageService.uploadUser(formData);
 
@@ -74,9 +92,12 @@ const ProfileAdminPage = () => {
           setPreset(res.data.url);
           setValue("image", res.data.url);
           event.target.value = "";
+          setIsError("");
         }
       } catch (error) {
-        console.error("Error uploading the image:", error);
+        setIsError("Gagal mengupload gambar.");
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -88,141 +109,153 @@ const ProfileAdminPage = () => {
       if (res.status === 200) {
         setPreset("");
         setValue("image", "");
+        setIsError("");
       }
     } catch (error) {
-      console.error("Error uploading the image:", error);
+      setIsError("Gagal menghapus gambar.");
     }
 
     setPreset("");
   };
 
-  const handleShowPassword = () => {
-    setIsShowPassword(!isShowPassword);
-  };
-
   return (
-    <section className={styles.sidebar}>
-      <p className={styles.sidebar__name}>Profile</p>
-
-      <div
-        className={styles.sidebar__logo}
-        onClick={preset ? handleDeleteImage : handleClick}
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-      >
-        <Image
-          src={!preset ? "/profile.png" : preset}
-          alt="image"
-          width={75}
-          height={75}
-          priority
-        />
-        <input
-          ref={inputRef}
-          type="file"
-          accept=".png, .jpg, .jpeg"
-          style={{ display: "none" }}
-          onChange={handleChangeImage}
-        />
-        {hover && (
-          <div className={styles.sidebar__logo__overlay}>
-            {preset ? (
-              <X width={20} height={20} color="#fff" />
-            ) : (
-              <Plus width={20} height={20} color="#fff" />
+    <section>
+      <HeaderAdmin
+        title="Profile"
+        description="Atur informasi profil Anda untuk mengontrol, melindungi, dan
+          mengamankan akun Anda."
+      />
+      <div className={styles.profile}>
+        <div className={styles.profile__image__wrapper}>
+          <div
+            className={styles.profile__image}
+            onClick={
+              isEdit ? (preset ? handleDeleteImage : handleClick) : undefined
+            }
+            onMouseEnter={() => isEdit && setHover(true)}
+            onMouseLeave={() => isEdit && setHover(false)}
+            style={{
+              cursor: isEdit ? "pointer" : "default",
+            }}
+          >
+            <Image
+              src={!preset ? "/profile.png" : preset}
+              alt="image"
+              width={1000}
+              height={1000}
+            />
+            <input
+              ref={inputRef}
+              type="file"
+              accept="image/*"
+              style={{ display: "none" }}
+              onChange={handleChangeImage}
+            />
+            {hover && (
+              <div className={styles.profile__image__overlay}>
+                {preset ? (
+                  <X width={30} height={30} color="#fff" />
+                ) : (
+                  <Plus width={30} height={30} color="#fff" />
+                )}
+              </div>
             )}
           </div>
-        )}
-      </div>
-      <h3 className={styles.sidebar__foto}>Foto</h3>
-
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        noValidate
-        className={styles.sidebar__form}
-      >
-        <div style={{ width: "100%" }}>
-          <label htmlFor="fullname" className={styles.sidebar__form__label}>
-            Nama Lengkap
-          </label>
-          <Controller
-            control={control}
-            name="fullname"
-            rules={{
-              required: "Nama Lengkap tidak boleh kosong.",
-              minLength: {
-                value: 6,
-                message: "Nama Lengkap minimal 6 karakter.",
-              },
-            }}
-            render={({ field }) => (
-              <FormControlFragment
-                type="text"
-                placeholder="example@domain.com"
+          <ImageFormat />
+          <ErrorBadge isError={isError} />
+        </div>
+        <div className={` ${styles.profile__content}`}>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate
+            className={styles.sidebar__form}
+          >
+            <div style={{ width: "100%" }}>
+              <Controller
+                control={control}
                 name="fullname"
-                id="fullname"
-                field={field}
-                label={false}
-                error={errors}
+                rules={{
+                  required: "Nama Lengkap tidak boleh kosong.",
+                  minLength: {
+                    value: 6,
+                    message: "Nama Lengkap minimal 6 karakter.",
+                  },
+                }}
+                render={({ field }) => (
+                  <FormControlProfile
+                    type="text"
+                    placeholder="John Doe"
+                    name="Nama Panjang"
+                    id="fullname"
+                    field={field}
+                    isEdit={isEdit}
+                    errors={errors}
+                  />
+                )}
               />
-            )}
-          />
-        </div>
+            </div>
 
-        <div style={{ width: "100%" }}>
-          <label htmlFor="email" className={styles.sidebar__form__label}>
-            Email
-          </label>
-          <Controller
-            control={control}
-            name="email"
-            rules={{
-              required: "Email tidak boleh kosong.",
-              pattern: {
-                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i,
-                message:
-                  "Pastikan alamat email Anda benar (misal:nama@domain.com)",
-              },
-            }}
-            render={({ field }) => (
-              <FormControlFragment
-                type="email"
-                placeholder="example@domain.com"
+            <div style={{ width: "100%" }}>
+              <Controller
+                control={control}
                 name="email"
-                id="email"
-                field={field}
-                label={false}
-                error={errors}
+                rules={{
+                  required: "Email tidak boleh kosong.",
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i,
+                    message:
+                      "Pastikan alamat email Anda benar (misal:nama@domain.com)",
+                  },
+                }}
+                render={({ field }) => (
+                  <FormControlProfile
+                    type="email"
+                    placeholder="example@domain.com"
+                    name="email"
+                    id="email"
+                    field={field}
+                    isEdit={isEdit}
+                    errors={errors}
+                  />
+                )}
               />
-            )}
-          />
-        </div>
-        <div style={{ width: "100%" }}>
-          <label htmlFor="email" className={styles.sidebar__form__label}>
-            Password
-          </label>
-          <Controller
-            control={control}
-            name="password"
-            rules={{
-              minLength: { value: 6, message: "Password minimal 6 karakter" },
-            }}
-            render={({ field }) => (
-              <FormControlFragment
-                type={isShowPassword ? "text" : "password"}
-                placeholder="* * * * * * * * *"
+            </div>
+            <div style={{ width: "100%" }}>
+              <Controller
+                control={control}
                 name="password"
-                id="password"
-                field={field}
-                label={false}
-                error={errors}
-                handleShowPassword={handleShowPassword}
+                rules={{
+                  minLength: {
+                    value: 6,
+                    message: "Password minimal 6 karakter",
+                  },
+                }}
+                render={({ field }) => (
+                  <FormControlProfile
+                    type="password"
+                    placeholder="* * * * * * * * *"
+                    name="password"
+                    id="password"
+                    field={field}
+                    errors={errors}
+                    isEdit={isEdit}
+                  />
+                )}
               />
-            )}
-          />
+            </div>
+            <div className={styles.profile__form__button}>
+              {isEdit ? (
+                <ButtonSubmit title="Simpan" loading={isLoading} />
+              ) : (
+                <ButtonClick
+                  title="Edit Profile"
+                  onClick={() => setIsEdit(true)}
+                />
+              )}
+            </div>
+          </form>
         </div>
-        <ButtonElement type="submit" title="Simpan" />
-      </form>
+      </div>
     </section>
   );
 };

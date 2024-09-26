@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./errrorbadge.module.scss";
 
-const ErrorBadge = ({ isError }: { isError: string }) => {
+const ErrorBadge = ({ isError }: { isError: string | undefined }) => {
   if (!isError) {
     return null;
   }

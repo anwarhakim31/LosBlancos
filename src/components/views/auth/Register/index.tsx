@@ -1,4 +1,4 @@
-import ButtonElement from "@/components/element/Button";
+import ButtonElement from "@/components/element/ButtonSubmit";
 import FormControlFragment from "@/components/fragments/FormControl";
 import { authService } from "@/services/auth/method";
 import { TypeUser } from "@/services/auth/type.module";
@@ -128,7 +128,7 @@ const RegisterView = () => {
             />
           )}
         />
-        <ButtonElement type="submit" title="Daftar" loading={loading} />
+        <ButtonElement title="Daftar" loading={loading} />
       </form>
     </Fragment>
   );

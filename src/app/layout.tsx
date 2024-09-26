@@ -4,6 +4,7 @@ import { Open_Sans } from "next/font/google";
 import { getServerSession } from "next-auth";
 import Header from "@/components/layouts/Header";
 import StoreProvider from "./storeProvider";
+import { Toaster } from "sonner";
 
 const openSans = Open_Sans({
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -22,6 +23,17 @@ export default async function RootLayout({
     <html lang="en">
       <SessionProviderClient session={session}>
         <StoreProvider>
+          <Toaster
+            position="top-center"
+            closeButton
+            richColors
+            toastOptions={{
+              style: {
+                background: "white",
+                border: "1px solid #f5f5f5",
+              },
+            }}
+          />
           <body className={openSans.className}>
             <Header />
             {children}

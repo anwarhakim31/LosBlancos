@@ -3,7 +3,7 @@
 import { Controller, useForm } from "react-hook-form";
 import FormControlFragment from "@/components/fragments/FormControl";
 import { Fragment, useState, FC } from "react";
-import ButtonElement from "@/components/element/Button";
+import ButtonElement from "@/components/element/ButtonSubmit";
 import { authService } from "@/services/auth/method";
 import { useSearchParams } from "next/navigation";
 import { AxiosError } from "axios";
@@ -118,7 +118,7 @@ const ResetPasswordView: FC<ResetViewProps> = ({ setSuccess }) => {
             />
           )}
         />
-        <ButtonElement type="submit" title="Kirim" loading={isLoading} />
+        <ButtonElement title="Kirim" loading={isLoading} />
       </form>
     </Fragment>
   );

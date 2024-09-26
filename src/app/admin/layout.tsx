@@ -9,7 +9,6 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
 
   const handleToggleSidebar = () => {
-    console.log(true);
     setIsSidebarOpen(!isSidebarOpen);
   };
 

@@ -1,0 +1,39 @@
+.label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: $gray-700;
+  margin-bottom: 0.25rem;
+  white-space: nowrap;
+  display: block;
+  text-transform: capitalize;
+}
+
+.input {
+  width: 100%;
+  border: none;
+  outline: none;
+  height: 2rem;
+  background: white;
+  color: $gray-600;
+
+  &__active {
+    border-bottom: 2px solid $gray-300;
+  }
+
+  &:disabled {
+    border-bottom: 2px solid $white;
+  }
+
+  &:focus {
+    border-bottom: 2px solid $primary;
+  }
+}
+
+.error {
+  color: $danger;
+  font-size: 0.75rem;
+  font-weight: 600;
+  height: 1rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
