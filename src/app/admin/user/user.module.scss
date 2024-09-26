@@ -1,0 +1,113 @@
+.container {
+  background: $white;
+  border: 1px solid $gray-300;
+  border-radius: 0.25rem;
+}
+
+.wrapper {
+  overflow-x: auto;
+  min-height: 402px;
+  border-bottom: 1px solid $gray-300;
+}
+
+.table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+
+  thead {
+    background-color: $primary;
+    color: $white;
+    th {
+      padding: 1rem 1rem;
+      text-align: left;
+      font-size: 0.875rem;
+
+      font-weight: 500;
+      text-transform: capitalize;
+    }
+  }
+
+  tbody {
+    tr {
+      &:nth-child(even) {
+        background-color: $gray-50;
+      }
+
+      &:hover {
+        background-color: $gray-100;
+      }
+
+      td {
+        padding: 1rem 1rem;
+        font-size: 0.875rem;
+        font-size: 0.8125rem;
+        font-weight: 400;
+      }
+    }
+  }
+}
+
+.pagination {
+  @include flex(space-between, center, null);
+  padding: 0.75rem 1rem;
+
+  button {
+    cursor: pointer;
+  }
+
+  p {
+    font-size: 0.75rem;
+    font-weight: 400;
+  }
+
+  &__btnwrapper {
+    @include flex(center, center, null);
+    gap: 0.5rem;
+
+    @include media(md) {
+      gap: 0.75rem;
+    }
+  }
+
+  &__prev {
+    @include flex(center, center, null);
+    border: 1px solid $gray-300;
+    padding: 0.25rem;
+    background: $primary;
+    border-radius: 0.25rem;
+    color: $white;
+    &:disabled {
+      background: $gray-300;
+      cursor: default;
+    }
+  }
+
+  &__btn {
+    @include flex(center, center, null);
+    border: none;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: $white;
+    color: $primary;
+    border-radius: 50%;
+
+    &__active {
+      border-bottom: 1px solid $gray-300;
+      box-shadow: 0 0.2rem 0.25rem rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  &__next {
+    @include flex(center, center, null);
+    border: 1px solid $gray-300;
+    padding: 0.25rem;
+    background: $primary;
+    border-radius: 0.25rem;
+    color: $white;
+    &:disabled {
+      background: $gray-300;
+      cursor: default;
+    }
+  }
+}
