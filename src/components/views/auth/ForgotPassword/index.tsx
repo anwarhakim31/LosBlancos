@@ -1,4 +1,4 @@
-import ButtonElement from "@/components/element/Button";
+import ButtonElement from "@/components/element/ButtonSubmit";
 import ErrorBadge from "@/components/element/ErrorBadge";
 import FormControlFragment from "@/components/fragments/FormControl";
 import { authService } from "@/services/auth/method";
@@ -83,7 +83,7 @@ const ForgotView: FC<ForgotViewProps> = ({ setSuccess }) => {
           )}
         />
 
-        <ButtonElement type="submit" title="Kirim" loading={loading} />
+        <ButtonElement title="Kirim" loading={loading} />
       </form>
     </Fragment>
   );

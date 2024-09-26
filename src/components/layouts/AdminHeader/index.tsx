@@ -20,7 +20,7 @@ const AdminHeader = ({ handleToggleSidebar, isSidebarOpen }: PropsType) => {
         className={`${styles.header__button} ${isSidebarOpen && styles.active}`}
         onClick={handleToggleSidebar}
       >
-        <AlignLeft />
+        <AlignLeft width={16} height={16} />
       </button>
       <div className={styles.header__user}>
         <Link href={"/admin/profile"} className={styles.header__user__profile}>
@@ -44,7 +44,7 @@ const AdminHeader = ({ handleToggleSidebar, isSidebarOpen }: PropsType) => {
           className={styles.header__user__button}
           onClick={() => signOut({ callbackUrl: "/login" })}
         >
-          <LogOut width={18} height={18} strokeWidth={1.5} />
+          <LogOut width={16} height={16} strokeWidth={1.5} />
         </button>
       </div>
     </div>

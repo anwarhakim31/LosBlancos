@@ -1,4 +1,4 @@
-import ButtonElement from "@/components/element/Button";
+import ButtonElement from "@/components/element/ButtonSubmit";
 import FormControlFragment from "@/components/fragments/FormControl";
 import Link from "next/link";
 import styles from "./loginview.module.scss";
@@ -106,7 +106,7 @@ const LoginView = () => {
         <Link href={"/forget-password"} className={styles.link}>
           Lupa Password?
         </Link>
-        <ButtonElement type="submit" title="Masuk" loading={isLoading} />
+        <ButtonElement title="Masuk" loading={isLoading} />
       </form>
     </Fragment>
   );
