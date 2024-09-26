@@ -18,6 +18,7 @@ import ErrorBadge from "@/components/element/ErrorBadge";
 import FormControlProfile from "@/components/fragments/FormControlProfile";
 import ButtonSubmit from "@/components/element/ButtonSubmit";
 import ButtonClick from "@/components/element/ButtonClick";
+import { toast } from "sonner";
 
 const ProfileAdminPage = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -54,8 +55,11 @@ const ProfileAdminPage = () => {
       try {
         const res = await userService.updateUser(user?.id, data);
 
-        session.update({ ...session.data, user: res.data.data });
-        setIsEdit(false);
+        if (res.status === 200) {
+          session.update({ ...session.data, user: res.data.data });
+          setIsEdit(false);
+          toast.success(res.data.message);
+        }
       } catch (error) {
         console.log(error);
       } finally {
