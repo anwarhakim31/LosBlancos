@@ -4,27 +4,27 @@ import React from "react";
 import styles from "./sidebar.module.scss";
 import Image from "next/image";
 import Link from "next/link";
-import { LuLayoutDashboard } from "react-icons/lu";
-import { BsBoxes } from "react-icons/bs";
+
+import { BoxesIcon, LayoutDashboard, User } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { FaRegUser } from "react-icons/fa";
+
 const sideList = [
   {
     id: 1,
     name: "Dashboard",
-    icon: <LuLayoutDashboard />,
+    icon: <LayoutDashboard width={20} height={20} strokeWidth={2} />,
     link: "/admin/dashboard",
   },
   {
     id: 2,
     name: "User",
-    icon: <FaRegUser />,
+    icon: <User width={20} height={20} strokeWidth={2} />,
     link: "/admin/user",
   },
   {
     id: 3,
     name: "Produk",
-    icon: <BsBoxes />,
+    icon: <BoxesIcon width={20} height={20} strokeWidth={1} />,
     link: "/admin/product",
   },
 ];

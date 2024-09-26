@@ -57,12 +57,13 @@
       &__icon {
         @include flex-center();
         font-size: 1.25rem;
-        color: $primary;
+        color: $gray-700;
+        font-weight: 100;
       }
 
       &__name {
         font-size: 0.875rem;
-        font-weight: 400;
+        font-weight: 500;
       }
 
       &__active {

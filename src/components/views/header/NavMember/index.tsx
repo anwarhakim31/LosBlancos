@@ -1,19 +1,18 @@
 import React, { useEffect, useRef } from "react";
 import styles from "./navbar.module.scss";
 import Link from "next/link";
-import { FaPhone } from "react-icons/fa";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+
 import { authRender } from "@/components/layouts/Header";
 import UserMenu from "./UserMenu";
 import HomeMenu from "./HomeMenu";
-
-import { MdClose, MdMenu } from "react-icons/md";
+import { Menu, Phone, X } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 const NavbarView = () => {
   const navRef = useRef<HTMLDivElement>(null);
-  const pathname = usePathname();
   const [isActive, setIsActive] = React.useState<boolean>(false);
+  const pathname = usePathname();
 
   const handleHelp = () => {
     const message = `Halo admin, saya butuh bantuan.`;
@@ -27,7 +26,6 @@ const NavbarView = () => {
     const handleScroll = () => {
       if (navRef.current && navRef.current.parentElement) {
         const parentElement = navRef.current.parentElement;
-        console.log(parentElement.classList.contains("header_active__xXEJC"));
 
         const hasActiveClass = parentElement.classList.contains(
           "header_active__xXEJC"
@@ -82,7 +80,7 @@ const NavbarView = () => {
         <div className={styles["nav__help"]}>
           <p>butuh bantuan?</p>
           <button className={styles["nav__help__btn"]} onClick={handleHelp}>
-            <FaPhone />
+            <Phone />
           </button>
         </div>
       )}
@@ -91,7 +89,7 @@ const NavbarView = () => {
           className={styles.nav__burger}
           onClick={() => setIsActive(!isActive)}
         >
-          {isActive ? <MdClose /> : <MdMenu />}
+          {isActive ? <X /> : <Menu />}
         </button>
       )}
 

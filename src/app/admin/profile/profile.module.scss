@@ -1,12 +1,4 @@
 .sidebar {
-  position: fixed;
-  top: 50%;
-  right: 0;
-  width: 300px;
-  transform: translateY(-50%);
-  background-color: $white;
-  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.15);
-  z-index: 1;
   border-radius: 0.4rem;
   @include flex(center, center, column);
   padding: 1rem 2rem;

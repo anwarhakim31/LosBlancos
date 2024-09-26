@@ -1,16 +1,18 @@
 import styles from "./footer.module.scss";
 import Image from "next/image";
-import {
-  FaEnvelope,
-  FaFacebook,
-  FaGlobe,
-  FaInstagram,
-  FaPhone,
-  FaTwitter,
-} from "react-icons/fa";
+
 import Link from "next/link";
-import { FaLocationDot } from "react-icons/fa6";
+
 import ButtonScroll from "@/components/views/footer/ButtonScroll";
+import {
+  Facebook,
+  Globe,
+  Instagram,
+  LocateFixed,
+  Mail,
+  Phone,
+  Twitter,
+} from "lucide-react";
 
 export interface SocialLink {
   type: "website" | "facebook" | "instagram" | "twitter";
@@ -91,7 +93,7 @@ const footers: FootersData = {
     {
       title:
         "Jl.Bulak Timur, No. 23, Cikar, Cipayung, Taman Jaya, Kota Depok, Jawa Barat 16418",
-      link: "https://www.google.com/maps/place/Kec.+Cipayung,+Kota+Depok,+Jawa+Barat/@-6.4325274,106.7825288,14z/data=!3m1!4b1!4m6!3m5!1s0x2e69e99a875b16eb:0x91bd5deac4a9f2cf!8m2!3d-6.4197444!4d106.796065!16s%2Fg%2F120rrg2g?entry=ttu&g_ep=EgoyMDI0MDkxMS4wIKXMDSoASAFQAw%3D%3D",
+      link: "https://www.google.com/maps/place/Kec.+Cipayung,+Kota+Depok,+Jawa+Barat/@-6.4325274,106.7825288,16z/data=!3m1!4b1!4m6!3m5!1s0x2e69e99a875b16eb:0x91bd5deac4a9f2cf!8m2!3d-6.4197444!4d106.796065!16s%2Fg%2F120rrg2g?entry=ttu&g_ep=EgoyMDI0MDkxMS4wIKXMDSoASAFQAw%3D%3D",
     },
     {
       title: "(+62) 813106352543",
@@ -141,10 +143,18 @@ const Footer = () => {
                   target="__blank"
                   className={styles.footer__detail__social__item}
                 >
-                  {social.type === "website" && <FaGlobe color="#fff" />}
-                  {social.type === "instagram" && <FaInstagram color="#fff" />}
-                  {social.type === "facebook" && <FaFacebook color="#fff" />}
-                  {social.type === "twitter" && <FaTwitter color="#fff" />}
+                  {social.type === "website" && (
+                    <Globe width={16} height={16} color="#fff" />
+                  )}
+                  {social.type === "instagram" && (
+                    <Instagram width={16} height={16} color="#fff" />
+                  )}
+                  {social.type === "facebook" && (
+                    <Facebook width={16} height={16} color="#fff" />
+                  )}
+                  {social.type === "twitter" && (
+                    <Twitter width={16} height={16} color="#fff" />
+                  )}
                 </Link>
               ))}
             </div>
@@ -196,9 +206,9 @@ const Footer = () => {
                     i === 0 ? styles.marginButtom : ""
                   } }`}
                 >
-                  {i === 0 ? <FaLocationDot /> : null}
-                  {i === 1 ? <FaPhone /> : null}
-                  {i === 2 ? <FaEnvelope /> : null}
+                  {i === 0 ? <LocateFixed width={16} height={16} /> : null}
+                  {i === 1 ? <Phone width={16} height={16} /> : null}
+                  {i === 2 ? <Mail width={16} height={16} /> : null}
                 </div>
                 <p>{info && info.title}</p>
               </Link>

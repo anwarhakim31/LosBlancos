@@ -1,10 +1,10 @@
 import React from "react";
 import styles from "./adminheader.module.scss";
-import { VscListSelection } from "react-icons/vsc";
-import { RxExit } from "react-icons/rx";
-import { IoSettingsOutline } from "react-icons/io5";
+
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
+import { AlignLeft, LogOut } from "lucide-react";
 
 interface PropsType {
   handleToggleSidebar: () => void;
@@ -20,10 +20,10 @@ const AdminHeader = ({ handleToggleSidebar, isSidebarOpen }: PropsType) => {
         className={`${styles.header__button} ${isSidebarOpen && styles.active}`}
         onClick={handleToggleSidebar}
       >
-        <VscListSelection />
+        <AlignLeft />
       </button>
       <div className={styles.header__user}>
-        <div className={styles.header__user__profile}>
+        <Link href={"/admin/profile"} className={styles.header__user__profile}>
           <Image
             src={
               session.data?.user?.image
@@ -38,16 +38,13 @@ const AdminHeader = ({ handleToggleSidebar, isSidebarOpen }: PropsType) => {
           <div className={styles.header__user__profile__detail}>
             <p>{session.data?.user?.name}</p>
           </div>
-        </div>
+        </Link>
 
-        <button className={styles.header__user__button}>
-          <IoSettingsOutline size={"1rem"} />
-        </button>
         <button
           className={styles.header__user__button}
           onClick={() => signOut({ callbackUrl: "/login" })}
         >
-          <RxExit />
+          <LogOut width={18} height={18} strokeWidth={1.5} />
         </button>
       </div>
     </div>
