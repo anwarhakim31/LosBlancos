@@ -2,9 +2,9 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import styles from "./usermenu.module.scss";
 import Link from "next/link";
-import { FaUser } from "react-icons/fa";
+
 import Image from "next/image";
-import { FaCartShopping } from "react-icons/fa6";
+import { ShoppingCart, User } from "lucide-react";
 const UserMenu = () => {
   const session = useSession();
   const { push } = useRouter();
@@ -14,7 +14,7 @@ const UserMenu = () => {
       {session.status === "authenticated" ? (
         <div className={styles.wrapper__user}>
           <Link href={"/keranjang"} className={styles.wrapper__user__cart}>
-            <FaCartShopping />
+            <ShoppingCart />
           </Link>
 
           <Link href={"/profile"} className={styles.wrapper__user__profile}>
@@ -28,7 +28,7 @@ const UserMenu = () => {
               />
             ) : (
               <div className={styles.wrapper__user__profile__icon}>
-                <FaUser />
+                <User />
               </div>
             )}
             <p>{session.data?.user?.name}</p>

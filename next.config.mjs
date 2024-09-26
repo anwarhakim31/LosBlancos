@@ -1,7 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["lh3.googleusercontent.com", "res.cloudinary.com"],
+    domains: [
+      "lh3.googleusercontent.com",
+      "res.cloudinary.com",
+      "losblancosid.s3.ap-southeast-1.amazonaws.com",
+    ],
   },
   sassOptions: {
     prependData: `

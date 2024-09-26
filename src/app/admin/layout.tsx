@@ -3,7 +3,6 @@ import Sidebar from "@/components/layouts/Sidebar";
 import React, { useRef, useState } from "react";
 import styles from "./layout.module.scss";
 import AdminHeader from "@/components/layouts/AdminHeader";
-import SidebarProfile from "@/components/fragments/ProfileAdmin";
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -24,7 +23,6 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
       <section ref={sectionRef} className={styles.admin__content}>
         {children}
       </section>
-      <SidebarProfile />
     </main>
   );
 };

@@ -2,7 +2,7 @@
 import InputAuth from "@/components/element/Input";
 import styles from "./formcontrol.module.scss";
 import { Fragment } from "react";
-import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import { EyeIcon, EyeOff } from "lucide-react";
 
 interface InputForm {
   type: string;
@@ -49,9 +49,9 @@ const FormControlFragment = ({
             onClick={handleShowPassword}
           >
             {type === "password" ? (
-              <FaRegEye size={15} />
+              <EyeIcon width={17} height={17} />
             ) : (
-              <FaRegEyeSlash size={17} />
+              <EyeOff width={17} height={17} />
             )}
           </button>
         )}

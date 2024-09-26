@@ -1,20 +1,19 @@
+"use client";
+
 import Image from "next/image";
 import styles from "./profile.module.scss";
 
 import { Controller, useForm } from "react-hook-form";
 import ButtonElement from "@/components/element/Button";
-import FormControlFragment from "../FormControl";
 import { useSession } from "next-auth/react";
 import React, { useRef, useState } from "react";
 import { imageService, userService } from "@/services/auth/method";
-import { FaPlus } from "react-icons/fa";
-import { FaX } from "react-icons/fa6";
 
-const reloadSession = () => {
-  const event = new Event("visibilitychange");
-  document.dispatchEvent(event);
-};
-const SidebarProfile = () => {
+import FormControlFragment from "@/components/fragments/FormControl";
+import { Plus, X } from "lucide-react";
+import { ALLOW_IMAGE_TYPE } from "@/utils/AllowImageType";
+
+const ProfileAdminPage = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const session = useSession();
   const user = session?.data?.user;
@@ -30,14 +29,14 @@ const SidebarProfile = () => {
       email: user?.email || "",
       password: "",
       fullname: user?.name || "",
-      image: user?.image,
+      image: user?.image || "",
     },
   });
+
   const image = watch("image");
   const [hover, setHover] = useState<boolean>(false);
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
-
-  console.log(image);
+  const [preset, setPreset] = useState<string | null>(user?.image || null);
 
   const onSubmit = async (data: { email: string; password: string }) => {
     if (user?.id) {
@@ -45,7 +44,6 @@ const SidebarProfile = () => {
         const res = await userService.updateUser(user?.id, data);
 
         session.update({ ...session.data, user: res.data.data });
-        reloadSession();
       } catch (error) {
         console.log(error);
       }
@@ -61,19 +59,20 @@ const SidebarProfile = () => {
   ) => {
     const file = event.target.files?.[0];
 
+    if (!ALLOW_IMAGE_TYPE.includes(file?.type || "")) {
+      return console.log("gagal");
+    }
+
     if (file) {
       const formData = new FormData();
       formData.append("file", file);
-      formData.append(
-        "upload_preset",
-        process.env.NEXT_PUBLIC_CLOUDINARY_PRESET as string
-      );
 
       try {
-        const res = await imageService.upload(formData);
+        const res = await imageService.uploadUser(formData);
 
-        if (res.url) {
-          setValue("image", res.url);
+        if (res.status === 200) {
+          setPreset(res.data.url);
+          setValue("image", res.data.url);
           event.target.value = "";
         }
       } catch (error) {
@@ -83,7 +82,18 @@ const SidebarProfile = () => {
   };
 
   const handleDeleteImage = async () => {
-    setValue("image", "");
+    try {
+      const res = await imageService.deleteUser({ filename: image });
+
+      if (res.status === 200) {
+        setPreset("");
+        setValue("image", "");
+      }
+    } catch (error) {
+      console.error("Error uploading the image:", error);
+    }
+
+    setPreset("");
   };
 
   const handleShowPassword = () => {
@@ -91,17 +101,17 @@ const SidebarProfile = () => {
   };
 
   return (
-    <aside className={styles.sidebar}>
+    <section className={styles.sidebar}>
       <p className={styles.sidebar__name}>Profile</p>
 
       <div
         className={styles.sidebar__logo}
-        onClick={image ? handleDeleteImage : handleClick}
+        onClick={preset ? handleDeleteImage : handleClick}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
         <Image
-          src={!image ? "/profile.png" : image}
+          src={!preset ? "/profile.png" : preset}
           alt="image"
           width={75}
           height={75}
@@ -116,7 +126,11 @@ const SidebarProfile = () => {
         />
         {hover && (
           <div className={styles.sidebar__logo__overlay}>
-            {image ? <FaX color="#fff" /> : <FaPlus color="#fff" />}
+            {preset ? (
+              <X width={20} height={20} color="#fff" />
+            ) : (
+              <Plus width={20} height={20} color="#fff" />
+            )}
           </div>
         )}
       </div>
@@ -209,8 +223,8 @@ const SidebarProfile = () => {
         </div>
         <ButtonElement type="submit" title="Simpan" />
       </form>
-    </aside>
+    </section>
   );
 };
 
-export default SidebarProfile;
+export default ProfileAdminPage;

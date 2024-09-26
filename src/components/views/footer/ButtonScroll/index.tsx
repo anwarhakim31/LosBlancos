@@ -1,7 +1,7 @@
 "use client";
 
-import { GoChevronUp } from "react-icons/go";
 import styles from "./buttonscroll.module.scss";
+import { ChevronUpIcon } from "lucide-react";
 
 const ButtonScroll = () => {
   const handleScroll = () => {
@@ -13,7 +13,7 @@ const ButtonScroll = () => {
 
   return (
     <button type="button" className={styles.button} onClick={handleScroll}>
-      <GoChevronUp className={styles.icon} />
+      <ChevronUpIcon className={styles.icon} />
     </button>
   );
 };

@@ -36,6 +36,7 @@
     @include centerRight-Position(1px);
     height: 90%;
     cursor: pointer;
+    color: $gray-600;
     width: 2rem;
     border-radius: 0.4rem;
     &:hover {

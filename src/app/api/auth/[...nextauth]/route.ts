@@ -115,6 +115,7 @@ const authOptions: NextAuthOptions = {
         token.name = userDB.fullname || data.fullname;
         token.role = userDB.role || "member";
         token.image = userDB.image || data.image;
+        token.picture = userDB.image || data.image;
         token.id = userDB._id;
       }
 
