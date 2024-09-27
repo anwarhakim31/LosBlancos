@@ -45,7 +45,7 @@ export default function withAuth(
     }
 
     if (token && token.role === "admin") {
-      if (req.nextUrl.pathname === "/" || req.nextUrl.pathname === "/login") {
+      if (req.nextUrl.pathname === "/" || authPage.includes(pathname)) {
         return NextResponse.redirect(new URL("/admin", req.url));
       }
     }

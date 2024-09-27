@@ -106,17 +106,23 @@ const authOptions: NextAuthOptions = {
         if (!userDB) {
           const newUser = new User({
             ...data,
-            role: "member",
+            role: "customer",
           });
           await newUser.save();
+          token.email = data.email;
+          token.name = newUser.fullname || data.fullname;
+          token.role = newUser.role || "customer";
+          token.image = newUser.image || data.image;
+          token.picture = newUser.image || data.image;
+          token.id = newUser._id;
+        } else {
+          token.email = data.email;
+          token.name = userDB.fullname || data.fullname;
+          token.role = userDB.role || "customer";
+          token.image = userDB.image || data.image;
+          token.picture = userDB.image || data.image;
+          token.id = userDB._id;
         }
-
-        token.email = data.email;
-        token.name = userDB.fullname || data.fullname;
-        token.role = userDB.role || "member";
-        token.image = userDB.image || data.image;
-        token.picture = userDB.image || data.image;
-        token.id = userDB._id;
       }
 
       if (trigger === "update" && session) {
@@ -134,7 +140,7 @@ const authOptions: NextAuthOptions = {
         session.user.email = (token.email as string) || "";
         session.user.name = (token.name as string) || "";
         session.user.image = (token.image as string) || "";
-        session.user.role = (token.role as string) || "member";
+        session.user.role = (token.role as string) || "customer";
       }
 
       return session;
