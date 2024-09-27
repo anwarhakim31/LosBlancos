@@ -56,6 +56,10 @@ const Modal = ({
     if (showModal) {
       document.body.style.overflow = "hidden";
     }
+
+    return () => {
+      document.body.style.overflow = "unset";
+    };
   }, [showModal]);
 
   if (!isMounted || !portalElement) return null;

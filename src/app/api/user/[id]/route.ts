@@ -43,3 +43,31 @@ export async function PUT(
     return ResponseError(500, "Internal Server Error");
   }
 }
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  await connectDB();
+  try {
+    const { id } = params;
+
+    const user = await User.findByIdAndDelete(id);
+
+    if (!user) {
+      return ResponseError(404, "Gagal. User tidak ditemukan");
+    }
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Berhasil menghapus user",
+      },
+      {
+        status: 200,
+      }
+    );
+  } catch (error) {
+    return ResponseError(500, "Internal Server Error");
+  }
+}

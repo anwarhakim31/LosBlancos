@@ -8,7 +8,7 @@ import { ResponseError } from "@/utils/axios/response-error";
 import { userService } from "@/services/user/method";
 import { TypeUser } from "@/services/type.module";
 import InputSearch from "@/components/element/InputSearch";
-import ModalDelete from "@/components/fragments/ModalDelete";
+import ModalOneDelete from "@/components/fragments/ModalOneDelete";
 
 const thead = [
   { title: "Nama Lengkap", padding: "1rem 1rem" },
@@ -16,9 +16,7 @@ const thead = [
   { title: "status", padding: "0.5rem 1rem" },
   { title: "Nomor Telepon", padding: "0.75rem 1rem" },
   { title: "Kelamin", padding: "0.5rem 1rem" },
-  // { title: "alamat", padding: "0.75rem 1rem" },
-  // { title: "kota", padding: "0.75rem 1rem" },
-  // { title: "provinsi", padding: "0.75rem 1rem" },
+
   { title: "", padding: "0.75rem 0.5rem" },
 ];
 
@@ -27,14 +25,13 @@ const UserPage = () => {
   const [limit, setLimit] = useState(8);
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
-  const [isDelete, setIsDelete] = useState(false);
+  const [isDeleteOne, setIsDeleteOne] = useState({});
 
   const lastIndex = page * limit;
   const firstIndex = lastIndex - limit;
   const dataSlice = data?.slice(firstIndex, lastIndex);
   const totalPage = Math.ceil(data?.length / limit);
 
-  console.log(isDelete);
   const pageNumber = [];
 
   const handleClick = () => {
@@ -86,11 +83,7 @@ const UserPage = () => {
             id="search"
           />
         </div>
-        <div className={style.action__button}>
-          {/* <div style={{ width: "150px" }}>
-            <ButtonClick onClick={handleClick} title="Tambah User" />
-          </div> */}
-        </div>
+        <div className={style.action__button}></div>
       </div>
 
       <div className={style.container}>
@@ -123,15 +116,16 @@ const UserPage = () => {
                   <td>{item.status}</td>
                   <td>{item.phone}</td>
                   <td>{item.jenisKelamin}</td>
-                  {/* <td>{item.alamat}</td>
-                  <td>{item.kota}</td>
-                  <td>{item.provinsi}</td> */}
+
                   <td>
                     <div>
                       <button className={style.edit}>
                         <Edit width={16} height={16} />
                       </button>
-                      <button className={style.trash}>
+                      <button
+                        className={style.trash}
+                        onClick={() => setIsDeleteOne(item)}
+                      >
                         <Trash width={16} height={16} />
                       </button>
                     </div>
@@ -177,7 +171,13 @@ const UserPage = () => {
           </div>
         </div>
       </div>
-      <ModalDelete onClose={() => setIsDelete(false)} data={data} />
+      {Object.keys(isDeleteOne).length > 0 && (
+        <ModalOneDelete
+          data={isDeleteOne}
+          onClose={() => setIsDeleteOne({})}
+          title={"Apakah anda yakin ingin menghapus user ini ?"}
+        />
+      )}
     </Fragment>
   );
 };
