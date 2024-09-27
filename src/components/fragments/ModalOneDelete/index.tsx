@@ -4,34 +4,16 @@ import styles from "./modal.module.scss";
 import HeaderModal from "@/components/element/HeaderModal";
 import { TriangleAlert } from "lucide-react";
 import ButtonClick from "@/components/element/ButtonClick";
-import { userService } from "@/services/user/method";
-import { ResponseError } from "@/utils/axios/response-error";
-import { toast } from "sonner";
 
 const ModalOneDelete = ({
   onClose,
-  data,
   title,
+  handleDelete,
 }: {
   onClose: () => void;
-  data: any | null;
   title: string;
+  handleDelete: () => Promise<void>;
 }) => {
-  const handleDelete = async () => {
-    if (data) {
-      try {
-        const res = await userService.deleteUser(data._id);
-
-        if (res.status === 200) {
-          toast.success(res.data.message);
-          onClose();
-        }
-      } catch (error) {
-        ResponseError(error);
-      }
-    }
-  };
-
   return (
     <Modal onClose={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>

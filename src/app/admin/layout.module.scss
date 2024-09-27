@@ -10,7 +10,7 @@
     margin-left: 0;
     margin-top: 4rem;
 
-    @include media(md) {
+    @include media(lg) {
       margin-left: 12.5rem;
       padding: 2rem;
     }
