@@ -1,7 +1,7 @@
 import ButtonElement from "@/components/element/ButtonSubmit";
 import FormControlFragment from "@/components/fragments/FormControl";
 import { authService } from "@/services/auth/method";
-import { TypeUser } from "@/services/auth/type.module";
+import { TypeUser } from "@/services/type.module";
 import { AxiosError } from "axios";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";

@@ -7,7 +7,7 @@ import { Controller, useForm } from "react-hook-form";
 
 import { useSession } from "next-auth/react";
 import React, { useRef, useState } from "react";
-import { imageService, userService } from "@/services/auth/method";
+import { imageService, userService } from "@/services/user/method";
 
 import { Plus, X } from "lucide-react";
 import { ALLOW_IMAGE_TYPE } from "@/utils/AllowImageType";
