@@ -3,7 +3,7 @@ const nextConfig = {
   images: {
     domains: [
       "lh3.googleusercontent.com",
-      "res.cloudinary.com",
+      "lh5.googleusercontent.com",
       "losblancosid.s3.ap-southeast-1.amazonaws.com",
     ],
   },
