@@ -16,6 +16,8 @@ export default function withAuth(
 ) {
   return async (req: NextRequest, ev: NextFetchEvent) => {
     const pathname = req.nextUrl.pathname.split("/")[1];
+    const { searchParams } = new URL(req.url);
+    const page = parseInt(searchParams.get("page") || "1");
 
     const token = await getToken({
       req,
@@ -48,6 +50,12 @@ export default function withAuth(
       if (req.nextUrl.pathname === "/" || authPage.includes(pathname)) {
         return NextResponse.redirect(new URL("/admin", req.url));
       }
+    }
+
+    if (page < 1) {
+      return NextResponse.redirect(
+        new URL(`${req.nextUrl.pathname}?page=1`, req.url)
+      );
     }
 
     return middleware(req, ev);

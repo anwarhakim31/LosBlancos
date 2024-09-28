@@ -11,25 +11,39 @@ import InputSearch from "@/components/element/InputSearch";
 import ModalOneDelete from "@/components/fragments/ModalOneDelete";
 import { toast } from "sonner";
 import Table from "@/components/fragments/Table";
+import { useSearchParams } from "next/navigation";
 
 const UserPage = () => {
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(8);
-  const [data, setData] = useState([]);
+  const query = useSearchParams();
+
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 8,
+    total: 0,
+    totalPage: 0,
+  });
+
+  const [data, setData] = useState(null);
   const [search, setSearch] = useState("");
   const [isDeleteOne, setIsDeleteOne] = useState<TypeUser | null>(null);
   const [loading, setLoading] = useState(true);
 
-  console.log(setLimit);
+  const page = query.get("page")
+    ? parseInt(query.get("page") as string)
+    : pagination.page;
+  const limit = query.get("limit")
+    ? parseInt(query.get("limit") as string)
+    : pagination.limit;
 
   useEffect(() => {
     const getAllUser = async () => {
-      setLoading(true);
       try {
-        const res = await userService.getUser();
+        const params = { page, limit, search };
+        const res = await userService.getUser(params);
 
         if (res.status === 200) {
           setData(res.data.user);
+          setPagination(res.data.pagination);
         }
       } catch (error) {
         ResponseError(error);
@@ -39,7 +53,7 @@ const UserPage = () => {
     };
 
     getAllUser();
-  }, [isDeleteOne]);
+  }, [page, limit, isDeleteOne, search]);
 
   const handleDelete = async () => {
     try {
@@ -97,9 +111,7 @@ const UserPage = () => {
         data={data}
         setIsDeleteOne={setIsDeleteOne}
         tbody={tbody}
-        setPage={setPage}
-        page={page}
-        limit={limit}
+        pagination={pagination}
         loading={loading}
       />
       {isDeleteOne && (
