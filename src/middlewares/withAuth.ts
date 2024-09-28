@@ -6,6 +6,8 @@ import {
   NextResponse,
 } from "next/server";
 
+const row = [8, 16, 24];
+
 const onlyAdmin = ["admin"];
 
 const authPage = ["login", "register", "forget-password", "reset-password"];
@@ -18,6 +20,7 @@ export default function withAuth(
     const pathname = req.nextUrl.pathname.split("/")[1];
     const { searchParams } = new URL(req.url);
     const page = parseInt(searchParams.get("page") || "1");
+    const limit = parseInt(searchParams.get("limit") || "8");
 
     const token = await getToken({
       req,
@@ -55,6 +58,12 @@ export default function withAuth(
     if (page < 1) {
       return NextResponse.redirect(
         new URL(`${req.nextUrl.pathname}?page=1`, req.url)
+      );
+    }
+
+    if (!row.includes(limit)) {
+      return NextResponse.redirect(
+        new URL(`${req.nextUrl.pathname}?limit=8`, req.url)
       );
     }
 

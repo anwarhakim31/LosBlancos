@@ -9,6 +9,7 @@ interface typeTable {
   thead: {
     title: string;
     padding: string;
+    textAlign?: "left" | "center" | "right";
   }[];
   data: TypeUser[] | null;
   loading: boolean;
@@ -53,6 +54,27 @@ const Table = ({
 
   const visiblePage = pageNumber.slice(startPage - 1, endPage);
 
+  const TdComponent = (item: TypeUser, body: string) => {
+    switch (body) {
+      case "createdAt":
+        return (
+          <td style={{ textAlign: "center" }}>
+            {item.createdAt?.split("T")[0]}
+          </td>
+        );
+      case "status":
+        return (
+          <td className={`${style.table__status} `}>
+            <p className={`${item.status ? style.true : style.false}`}>
+              {item.status?.toString()}
+            </p>
+          </td>
+        );
+      default:
+        return <td>{item[body as keyof TypeUser]}</td>;
+    }
+  };
+
   return (
     <div className={style.container}>
       <div className={style.setting}>
@@ -73,6 +95,7 @@ const Table = ({
                       key={i + 1}
                       style={{
                         padding: item.padding,
+                        textAlign: item.textAlign ? item.textAlign : "left",
                       }}
                     >
                       {item.title}
@@ -90,9 +113,7 @@ const Table = ({
                     }}
                   >
                     {tbody.map((body, i) => (
-                      <Fragment key={i}>
-                        <td>{items[body as keyof TypeUser]}</td>
-                      </Fragment>
+                      <Fragment key={i}>{TdComponent(items, body)}</Fragment>
                     ))}
                     <td>
                       <div>

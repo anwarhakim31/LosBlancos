@@ -9,18 +9,30 @@ export async function GET(req: NextRequest) {
 
   try {
     const { searchParams } = new URL(req.url);
+
     const page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "8");
+    const search = searchParams.get("search") || "";
     const skip = (page - 1) * limit;
 
-    const user = await User.find({ role: "customer" })
+    const searchRegex = new RegExp(search?.toString().trim(), "i");
+
+    const fileterQuery = {
+      role: "customer",
+      $or: [
+        { fullname: { $regex: searchRegex } },
+        { email: { $regex: searchRegex } },
+      ],
+    };
+
+    const user = await User.find(fileterQuery)
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
       .select("-password")
       .exec();
 
-    const total = await User.countDocuments({ role: "customer" });
+    const total = await User.countDocuments(fileterQuery);
 
     return NextResponse.json(
       {
