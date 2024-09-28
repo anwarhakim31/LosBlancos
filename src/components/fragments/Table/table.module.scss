@@ -6,7 +6,7 @@
 
 .wrapper {
   overflow-x: auto;
-  min-height: 420px;
+  min-height: 426px;
   border-bottom: 1px solid $gray-300;
 }
 
@@ -45,7 +45,7 @@
 
       td {
         padding: 0.75rem 1rem;
-
+        white-space: nowrap;
         font-size: 0.75rem;
         font-weight: 400;
         position: relative;
@@ -66,6 +66,31 @@
         }
       }
     }
+  }
+
+  &__status {
+    @include flex(center, center, null);
+    p {
+      padding: 0.1rem 1rem;
+
+      border-radius: 2rem;
+      font-size: 0.75rem;
+      font-weight: 400;
+
+      text-transform: capitalize;
+
+      &.false {
+        color: $danger;
+        background: rgb(255, 229, 229);
+      }
+
+      &.true {
+        color: $success;
+        background: rgb(255, 229, 229);
+      }
+    }
+
+    border-radius: 0.25rem;
   }
 }
 
@@ -162,7 +187,7 @@
 }
 
 .loading {
-  height: 470px;
+  height: 480px;
   background: $neutral;
   position: relative;
   overflow: hidden;

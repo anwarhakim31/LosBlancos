@@ -10,4 +10,5 @@ export type TypeUser = {
   provinsi?: string;
   kota?: string;
   alamat?: string;
+  createdAt?: string;
 };

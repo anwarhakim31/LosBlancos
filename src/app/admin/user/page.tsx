@@ -3,7 +3,7 @@
 import HeaderPage from "@/components/element/HeaderPage";
 import style from "./user.module.scss";
 
-import { Fragment, useEffect, useState } from "react";
+import { ChangeEvent, Fragment, useEffect, useState } from "react";
 import { ResponseError } from "@/utils/axios/response-error";
 import { userService } from "@/services/user/method";
 import { TypeUser } from "@/services/type.module";
@@ -15,6 +15,7 @@ import { useSearchParams } from "next/navigation";
 
 const UserPage = () => {
   const query = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState(query.get("search") || "");
 
   const [pagination, setPagination] = useState({
     page: 1,
@@ -24,10 +25,11 @@ const UserPage = () => {
   });
 
   const [data, setData] = useState(null);
-  const [search, setSearch] = useState("");
+
   const [isDeleteOne, setIsDeleteOne] = useState<TypeUser | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const search = query.get("search");
   const page = query.get("page")
     ? parseInt(query.get("page") as string)
     : pagination.page;
@@ -74,17 +76,30 @@ const UserPage = () => {
     "status",
     "phone",
     "jenisKelamin",
+    "createdAt",
   ];
 
   const thead = [
     { title: "Nama Lengkap", padding: "1rem 1rem" },
     { title: "Email", padding: "1rem 1rem" },
-    { title: "status", padding: "0.5rem 1rem" },
+    {
+      title: "status data",
+      padding: "0.5rem 1rem",
+      textAlign: "center" as const,
+    },
     { title: "Nomor Telepon", padding: "0.75rem 1rem" },
     { title: "Kelamin", padding: "0.5rem 1rem" },
-
+    {
+      title: "Daftar",
+      padding: "0.5rem 1rem",
+      textAlign: "center" as const,
+    },
     { title: "", padding: "0.75rem 0.5rem" },
   ];
+
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
 
   return (
     <Fragment>
@@ -96,10 +111,10 @@ const UserPage = () => {
       <div className={style.action}>
         <div className={style.action__search}>
           <InputSearch
-            placeholder="Cari Nama, Email dari Pelanggan"
+            placeholder="Cari Nama Lengkap atau Email dari Pelanggan"
             name="search"
-            onChange={(e) => setSearch(e.target.value)}
-            value={search}
+            onChange={handleSearch}
+            value={searchQuery}
             id="search"
           />
         </div>
