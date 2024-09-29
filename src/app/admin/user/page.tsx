@@ -9,9 +9,9 @@ import { userService } from "@/services/user/method";
 import { TypeUser } from "@/services/type.module";
 import InputSearch from "@/components/element/InputSearch";
 import ModalOneDelete from "@/components/fragments/ModalOneDelete";
-import { toast } from "sonner";
 import Table from "@/components/fragments/Table";
 import { useSearchParams } from "next/navigation";
+import ModalManyDelete from "@/components/fragments/ModalManyDelete";
 
 const UserPage = () => {
   const query = useSearchParams();
@@ -27,6 +27,9 @@ const UserPage = () => {
   const [data, setData] = useState(null);
 
   const [isDeleteOne, setIsDeleteOne] = useState<TypeUser | null>(null);
+  const [isDeleteMany, setIsDeleteMany] = useState(false);
+  const [check, setCheck] = useState<string[]>([]);
+
   const [loading, setLoading] = useState(true);
 
   const search = query.get("search");
@@ -52,20 +55,7 @@ const UserPage = () => {
     };
 
     getAllUser();
-  }, [page, limit, isDeleteOne, search]);
-
-  const handleDelete = async () => {
-    try {
-      const res = await userService.deleteUser(isDeleteOne?._id);
-
-      if (res.status === 200) {
-        toast.success(res.data.message);
-        setIsDeleteOne(null);
-      }
-    } catch (error) {
-      ResponseError(error);
-    }
-  };
+  }, [page, limit, isDeleteOne, search, isDeleteMany]);
 
   const tbody: string[] = [
     "fullname",
@@ -123,14 +113,28 @@ const UserPage = () => {
         thead={thead}
         data={data}
         setIsDeleteOne={setIsDeleteOne}
+        setIsDeleteMany={setIsDeleteMany}
         tbody={tbody}
         pagination={pagination}
         loading={loading}
+        setCheck={setCheck}
+        check={check}
       />
+      {isDeleteMany && (
+        <ModalManyDelete
+          setCheck={setCheck}
+          onClose={() => setIsDeleteMany(false)}
+          title="Apakah anda yakin ingin menghapus data terpilih ?"
+          setIsDeleteMany={setIsDeleteMany}
+          fetching={() => userService.deleteMany(check)}
+        />
+      )}
+
       {isDeleteOne && (
         <ModalOneDelete
+          setIsDeleteOne={setIsDeleteOne}
           onClose={() => setIsDeleteOne(null)}
-          handleDelete={handleDelete}
+          fetching={() => userService.deleteOne(isDeleteOne?._id as string)}
           title={"Apakah anda yakin ingin menghapus user ini ?"}
         />
       )}

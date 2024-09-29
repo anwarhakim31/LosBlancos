@@ -22,7 +22,10 @@ interface typeTable {
     total: number;
     totalPage: number;
   };
-  setIsDeleteOne: (isDeleteOne: TypeUser) => void;
+  setIsDeleteOne: React.Dispatch<React.SetStateAction<TypeUser | null>>;
+  setIsDeleteMany: React.Dispatch<React.SetStateAction<boolean>>;
+  check: string[];
+  setCheck: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const Table = ({
@@ -31,12 +34,15 @@ const Table = ({
   tbody,
   pagination,
   setIsDeleteOne,
+  setIsDeleteMany,
   loading,
+  setCheck,
+  check,
 }: typeTable) => {
   const { replace } = useRouter();
   const pathname = usePathname();
   const query = useSearchParams();
-  const [check, setCheck] = useState<string[]>([]);
+
   const [isAllChecked, setIsAllChecked] = useState(false);
 
   const { page, limit, total, totalPage } = pagination;
@@ -103,7 +109,15 @@ const Table = ({
   return (
     <div className={style.container}>
       <div className={style.setting}>
-        <button className={style.deleteAll}>
+        <button
+          className={`${style.deleteAll} ${
+            check?.length > 0
+              ? style.deleteAll__active
+              : style.deleteAll__disable
+          }`}
+          disabled={check?.length === 0}
+          onClick={() => setIsDeleteMany(true)}
+        >
           <Trash2 />
         </button>
         <SelectRow limit={limit} />
@@ -152,6 +166,7 @@ const Table = ({
                       <Checkbox
                         checked={
                           items._id !== undefined &&
+                          check !== null &&
                           check.some((item: string) => item === items._id)
                         }
                         onChange={(e) =>
@@ -194,6 +209,8 @@ const Table = ({
                 className={style.pagination__prev}
                 disabled={page === 1}
                 onClick={() => {
+                  setCheck([]);
+                  setIsAllChecked(false);
                   const params = new URLSearchParams(query.toString());
                   params.set("page", (page - 1).toString());
 
@@ -211,6 +228,8 @@ const Table = ({
                     page === item && style["pagination__btn__active"]
                   }`}
                   onClick={() => {
+                    setCheck([]);
+                    setIsAllChecked(false);
                     const params = new URLSearchParams(query.toString());
                     params.set("page", item.toString());
 
@@ -226,6 +245,8 @@ const Table = ({
               <button
                 className={style.pagination__next}
                 onClick={() => {
+                  setCheck([]);
+                  setIsAllChecked(false);
                   const params = new URLSearchParams(query.toString());
                   params.set("page", (page + 1).toString());
 

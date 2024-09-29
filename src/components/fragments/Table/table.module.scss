@@ -242,6 +242,16 @@
   border-radius: 0.4rem;
   transition: all 0.3s ease-in-out;
 
+  &__active {
+    opacity: 1;
+    pointer-events: initial;
+  }
+
+  &__disable {
+    opacity: 0;
+    pointer-events: none;
+  }
+
   &:hover {
     border: 1px solid $danger;
   }

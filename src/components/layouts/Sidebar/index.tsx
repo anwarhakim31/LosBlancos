@@ -52,6 +52,7 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
           {sideList.map((item) => (
             <Link
               href={item.link}
+              scroll={false}
               className={`${styles.sidebar__primaryList__item} ${
                 pathname === item.link &&
                 styles["sidebar__primaryList__item__active"]

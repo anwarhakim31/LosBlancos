@@ -47,8 +47,6 @@ const InputSearch = ({
     return () => clearTimeout(timeout);
   }, [value]);
 
-  console.log(loading);
-
   return (
     <div className={styles.wrapper}>
       <input

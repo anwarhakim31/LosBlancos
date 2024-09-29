@@ -51,3 +51,22 @@ export async function GET(req: NextRequest) {
     return ResponseError(500, "Internal Server Error");
   }
 }
+export async function DELETE(req: NextRequest) {
+  await connectDB();
+  try {
+    const data = await req.json();
+
+    if (data.length === 0) {
+      return ResponseError(400, "Data tidak boleh kosong");
+    }
+
+    await User.deleteMany({ _id: { $in: data } });
+
+    return NextResponse.json(
+      { success: true, message: "Berhasil menghapus data" },
+      { status: 200 }
+    );
+  } catch (error) {
+    return ResponseError(500, "Internal Server Error");
+  }
+}
