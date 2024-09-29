@@ -1,6 +1,7 @@
 import connectDB from "@/lib/db";
 import User from "@/lib/models/user-model";
 import { ResponseError } from "@/lib/response-error";
+import { verifyToken } from "@/lib/verify-token";
 
 import { NextResponse, NextRequest } from "next/server";
 
@@ -54,6 +55,7 @@ export async function GET(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   await connectDB();
   try {
+    verifyToken(req);
     const data = await req.json();
 
     if (data.length === 0) {

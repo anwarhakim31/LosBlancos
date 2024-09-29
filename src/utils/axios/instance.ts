@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getSession } from "next-auth/react";
 
 const header = {
   Accept: "application/json",
@@ -14,9 +15,14 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(
-  (config) => {
+  async (config) => {
     if (config.data instanceof FormData) {
       config.headers["Content-Type"] = "multipart/form-data";
+    }
+
+    const session = await getSession();
+    if (session?.user?.accessToken) {
+      config.headers["Authorization"] = `Bearer ${session.user.accessToken}`;
     }
     return config;
   },
