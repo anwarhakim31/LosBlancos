@@ -1,9 +1,10 @@
-import { ChevronLeft, ChevronRight, Edit, Trash } from "lucide-react";
+import { ChevronLeft, ChevronRight, Edit, Trash, Trash2 } from "lucide-react";
 import style from "./table.module.scss";
 import { TypeUser } from "@/services/type.module";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import SelectRow from "@/components/element/SelectRow";
+import Checkbox from "@/components/element/Checkbox";
 
 interface typeTable {
   thead: {
@@ -35,6 +36,8 @@ const Table = ({
   const { replace } = useRouter();
   const pathname = usePathname();
   const query = useSearchParams();
+  const [check, setCheck] = useState<string[]>([]);
+  const [isAllChecked, setIsAllChecked] = useState(false);
 
   const { page, limit, total, totalPage } = pagination;
 
@@ -53,6 +56,28 @@ const Table = ({
     page === 1 ? Math.min(totalPage, page + 2) : Math.min(totalPage, page + 1);
 
   const visiblePage = pageNumber.slice(startPage - 1, endPage);
+
+  const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
+    if (e.target.checked) {
+      setCheck((prev) => [...prev, id.toString()]);
+    } else {
+      setCheck((prev) => prev.filter((item) => item !== id.toString()));
+    }
+  };
+
+  const handleCheckAll = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsAllChecked(!isAllChecked);
+
+    if (!e.target.checked) {
+      setCheck([]);
+    } else {
+      setCheck(
+        data
+          ?.filter((item) => item?._id !== undefined)
+          .map((item) => item?._id!.toString()) || []
+      );
+    }
+  };
 
   const TdComponent = (item: TypeUser, body: string) => {
     switch (body) {
@@ -78,6 +103,9 @@ const Table = ({
   return (
     <div className={style.container}>
       <div className={style.setting}>
+        <button className={style.deleteAll}>
+          <Trash2 />
+        </button>
         <SelectRow limit={limit} />
       </div>
       {loading ? (
@@ -90,6 +118,14 @@ const Table = ({
             <table className={style.table}>
               <thead>
                 <tr>
+                  <th>
+                    <Checkbox
+                      id="all"
+                      onChange={handleCheckAll}
+                      checked={isAllChecked}
+                      style={{ border: "1px solid white" }}
+                    />
+                  </th>
                   {thead.map((item, i) => (
                     <th
                       key={i + 1}
@@ -112,6 +148,21 @@ const Table = ({
                         i + 1 === lastIndex ? "none" : "1px solid #d9dffa",
                     }}
                   >
+                    <td>
+                      <Checkbox
+                        checked={
+                          items._id !== undefined &&
+                          check.some((item: string) => item === items._id)
+                        }
+                        onChange={(e) =>
+                          handleCheck(
+                            e,
+                            items._id !== undefined ? items._id : ""
+                          )
+                        }
+                        id={items._id}
+                      />
+                    </td>
                     {tbody.map((body, i) => (
                       <Fragment key={i}>{TdComponent(items, body)}</Fragment>
                     ))}
