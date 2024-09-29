@@ -12,6 +12,7 @@ import ModalOneDelete from "@/components/fragments/ModalOneDelete";
 import Table from "@/components/fragments/Table";
 import { useSearchParams } from "next/navigation";
 import ModalManyDelete from "@/components/fragments/ModalManyDelete";
+// import ModalEdit from "@/components/views/admin/user/ModalEdit";
 
 const UserPage = () => {
   const query = useSearchParams();
@@ -28,6 +29,7 @@ const UserPage = () => {
 
   const [isDeleteOne, setIsDeleteOne] = useState<TypeUser | null>(null);
   const [isDeleteMany, setIsDeleteMany] = useState(false);
+  // const [isEditData, setIsEditData] = useState<TypeUser | null>(null);
   const [check, setCheck] = useState<string[]>([]);
 
   const [loading, setLoading] = useState(true);
@@ -37,25 +39,25 @@ const UserPage = () => {
 
   const limit = query.get("limit") && parseInt(query.get("limit") as string);
 
-  useEffect(() => {
-    const getAllUser = async () => {
-      try {
-        const params = { page, limit, search };
-        const res = await userService.getUser(params);
+  const getAllUser = async () => {
+    try {
+      const params = { page, limit, search };
+      const res = await userService.getUser(params);
 
-        if (res.status === 200) {
-          setData(res.data.user);
-          setPagination(res.data.pagination);
-        }
-      } catch (error) {
-        ResponseError(error);
-      } finally {
-        setLoading(false);
+      if (res.status === 200) {
+        setData(res.data.user);
+        setPagination(res.data.pagination);
       }
-    };
+    } catch (error) {
+      ResponseError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     getAllUser();
-  }, [page, limit, isDeleteOne, search, isDeleteMany]);
+  }, [page, limit, search]);
 
   const tbody: string[] = [
     "fullname",
@@ -127,6 +129,7 @@ const UserPage = () => {
           title="Apakah anda yakin ingin menghapus data terpilih ?"
           setIsDeleteMany={setIsDeleteMany}
           fetching={() => userService.deleteMany(check)}
+          callback={() => getAllUser()}
         />
       )}
 
@@ -136,8 +139,10 @@ const UserPage = () => {
           onClose={() => setIsDeleteOne(null)}
           fetching={() => userService.deleteOne(isDeleteOne?._id as string)}
           title={"Apakah anda yakin ingin menghapus user ini ?"}
+          callback={() => getAllUser()}
         />
       )}
+      {/* <ModalEdit onclose={() => console.log()} /> */}
     </Fragment>
   );
 };

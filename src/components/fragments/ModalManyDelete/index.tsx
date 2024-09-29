@@ -14,12 +14,14 @@ const ModalManyDelete = ({
   setIsDeleteMany,
   setCheck,
   fetching,
+  callback,
 }: {
   onClose: () => void;
   title: string;
   setCheck: React.Dispatch<React.SetStateAction<string[]>>;
   fetching: () => Promise<any>;
   setIsDeleteMany: React.Dispatch<React.SetStateAction<boolean>>;
+  callback: () => Promise<any>;
 }) => {
   const [loading, setLoading] = useState(false);
 
@@ -32,6 +34,7 @@ const ModalManyDelete = ({
         toast.success(res.data.message);
         setIsDeleteMany(false);
         setCheck([]);
+        callback();
       }
     } catch (error) {
       ResponseError(error);

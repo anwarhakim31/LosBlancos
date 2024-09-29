@@ -153,49 +153,57 @@ const Table = ({
                   ))}
                 </tr>
               </thead>
+
               <tbody>
-                {data?.map((items: TypeUser, i) => (
-                  <tr
-                    key={items._id}
-                    style={{
-                      borderBottom:
-                        i + 1 === lastIndex ? "none" : "1px solid #d9dffa",
-                    }}
-                  >
-                    <td>
-                      <Checkbox
-                        checked={
-                          items._id !== undefined &&
-                          check !== null &&
-                          check.some((item: string) => item === items._id)
-                        }
-                        onChange={(e) =>
-                          handleCheck(
-                            e,
-                            items._id !== undefined ? items._id : ""
-                          )
-                        }
-                        id={items._id}
-                      />
-                    </td>
-                    {tbody.map((body, i) => (
-                      <Fragment key={i}>{TdComponent(items, body)}</Fragment>
-                    ))}
-                    <td>
-                      <div>
-                        <button className={style.edit}>
-                          <Edit width={16} height={16} />
-                        </button>
-                        <button
-                          className={style.trash}
-                          onClick={() => setIsDeleteOne(items)}
-                        >
-                          <Trash width={16} height={16} />
-                        </button>
-                      </div>
-                    </td>
+                {data && data.length === 0 && (
+                  <tr className={style.nodata}>
+                    <td colSpan={thead.length + 1}>Data Tidak ada.</td>
                   </tr>
-                ))}
+                )}
+                {data &&
+                  data.length > 0 &&
+                  data?.map((items: TypeUser, i) => (
+                    <tr
+                      key={items._id}
+                      style={{
+                        borderBottom:
+                          i + 1 === lastIndex ? "none" : "1px solid #d9dffa",
+                      }}
+                    >
+                      <td>
+                        <Checkbox
+                          checked={
+                            items._id !== undefined &&
+                            check !== null &&
+                            check.some((item: string) => item === items._id)
+                          }
+                          onChange={(e) =>
+                            handleCheck(
+                              e,
+                              items._id !== undefined ? items._id : ""
+                            )
+                          }
+                          id={items._id}
+                        />
+                      </td>
+                      {tbody.map((body, i) => (
+                        <Fragment key={i}>{TdComponent(items, body)}</Fragment>
+                      ))}
+                      <td>
+                        <div>
+                          <button className={style.edit}>
+                            <Edit width={16} height={16} />
+                          </button>
+                          <button
+                            className={style.trash}
+                            onClick={() => setIsDeleteOne(items)}
+                          >
+                            <Trash width={16} height={16} />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>

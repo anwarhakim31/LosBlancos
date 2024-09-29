@@ -6,7 +6,6 @@ import { TriangleAlert } from "lucide-react";
 import ButtonClick from "@/components/element/ButtonClick";
 import { useState } from "react";
 import { ResponseError } from "@/utils/axios/response-error";
-import { TypeUser } from "@/services/type.module";
 import { toast } from "sonner";
 
 const ModalOneDelete = ({
@@ -14,11 +13,13 @@ const ModalOneDelete = ({
   title,
   setIsDeleteOne,
   fetching,
+  callback,
 }: {
   onClose: () => void;
   title: string;
-  setIsDeleteOne: React.Dispatch<React.SetStateAction<TypeUser | null>>;
+  setIsDeleteOne: React.Dispatch<React.SetStateAction<any | null>>;
   fetching: () => Promise<any>;
+  callback: () => Promise<any>;
 }) => {
   const [loading, setLoading] = useState(false);
 
@@ -30,6 +31,7 @@ const ModalOneDelete = ({
       if (res.status === 200) {
         toast.success(res.data.message);
         setIsDeleteOne(null);
+        callback();
       }
     } catch (error) {
       ResponseError(error);
