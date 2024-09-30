@@ -27,6 +27,18 @@ export async function PUT(
 
     const user = await User.findByIdAndUpdate(id, body, { new: true });
 
+    if (
+      user.jenisKelamin &&
+      user.phone &&
+      user.alamat &&
+      user.provinsi &&
+      user.kota
+    ) {
+      await User.findByIdAndUpdate(id, {
+        $set: { status: true },
+      });
+    }
+
     return NextResponse.json(
       {
         success: true,
