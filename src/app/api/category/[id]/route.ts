@@ -1,3 +1,4 @@
+import cloudinary from "@/lib/cloudinary";
 import connectDB from "@/lib/db";
 import Category from "@/lib/models/category-model";
 import { ResponseError } from "@/lib/response-error";
@@ -13,11 +14,15 @@ export async function DELETE(
     verifyToken(req);
     const { id } = params;
 
-    const category = await Category.findByIdAndDelete(id);
+    const isExis = await Category.findById(id);
 
-    if (!category) {
+    if (!isExis) {
       return ResponseError(404, "Gagal. Kategori tidak ditemukan");
     }
+    const publicId = isExis?.image.split("/")[7];
+    await cloudinary.uploader.destroy(publicId);
+
+    await Category.findByIdAndDelete(id);
 
     return NextResponse.json({
       success: true,

@@ -92,7 +92,7 @@ const AddCategoryPage = () => {
               id="description"
               {...register("description", {
                 required: "Deksripsi tidak boleh kosong",
-                maxLength: { value: 255, message: "Maksimal 255 karakter" },
+                maxLength: { value: 555, message: "Maksimal 555 karakter" },
               })}
               className={styles.textarea}
               cols={30}
