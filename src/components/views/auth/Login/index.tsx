@@ -1,5 +1,5 @@
 import ButtonElement from "@/components/element/ButtonSubmit";
-import FormControlFragment from "@/components/fragments/FormControl";
+import FormControlAnimate from "@/components/fragments/FormControlAnimate";
 import Link from "next/link";
 import styles from "./loginview.module.scss";
 import React, { Fragment, useState } from "react";
@@ -71,7 +71,7 @@ const LoginView = () => {
             },
           }}
           render={({ field: { ...field } }) => (
-            <FormControlFragment
+            <FormControlAnimate
               type="email"
               placeholder=""
               label={true}
@@ -90,7 +90,7 @@ const LoginView = () => {
             minLength: { value: 6, message: "Password minimal 6 karakter" },
           }}
           render={({ field: { ...field } }) => (
-            <FormControlFragment
+            <FormControlAnimate
               type={isShowPassword ? "text" : "password"}
               placeholder=""
               name="password"

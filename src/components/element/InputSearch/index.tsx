@@ -54,6 +54,7 @@ const InputSearch = ({
         id={id}
         value={value}
         onChange={onChange}
+        autoComplete="off"
         name={name}
         placeholder={placeholder}
         className={styles.input}

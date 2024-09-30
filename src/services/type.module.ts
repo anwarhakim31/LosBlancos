@@ -5,7 +5,7 @@ export type TypeUser = {
   fullname?: string;
   email?: string;
   password?: string;
-  phone?: number;
+  phone?: number | string;
   jenisKelamin?: string;
   provinsi?: string;
   kota?: string;

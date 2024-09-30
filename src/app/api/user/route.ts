@@ -9,6 +9,7 @@ export async function GET(req: NextRequest) {
   await connectDB();
 
   try {
+    verifyToken(req);
     const { searchParams } = new URL(req.url);
 
     const page = parseInt(searchParams.get("page") || "1");
@@ -55,7 +56,14 @@ export async function GET(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   await connectDB();
   try {
-    verifyToken(req);
+    const verify = verifyToken(req);
+
+    if (verify && typeof verify === "object" && "role" in verify) {
+      if (verify.role !== "admin") {
+        return ResponseError(401, "Hak akses tidak diberikan");
+      }
+    }
+
     const data = await req.json();
 
     if (data.length === 0) {

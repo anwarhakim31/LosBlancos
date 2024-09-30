@@ -65,7 +65,7 @@ const Modal = ({
     }
 
     return () => {
-      document.body.style.overflow = "unset";
+      document.body.removeAttribute("style");
     };
   }, [showModal]);
 

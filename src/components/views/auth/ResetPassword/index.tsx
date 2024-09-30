@@ -1,7 +1,7 @@
 "use client";
 
 import { Controller, useForm } from "react-hook-form";
-import FormControlFragment from "@/components/fragments/FormControl";
+import FormControlAnimate from "@/components/fragments/FormControlAnimate";
 import { Fragment, useState, FC } from "react";
 import ButtonElement from "@/components/element/ButtonSubmit";
 import { authService } from "@/services/auth/method";
@@ -85,7 +85,7 @@ const ResetPasswordView: FC<ResetViewProps> = ({ setSuccess }) => {
             minLength: { value: 6, message: "Password minimal 6 karakter" },
           }}
           render={({ field: { ...field } }) => (
-            <FormControlFragment
+            <FormControlAnimate
               label={true}
               name="password"
               type={isShowPassword1 ? "text" : "password"}
@@ -106,7 +106,7 @@ const ResetPasswordView: FC<ResetViewProps> = ({ setSuccess }) => {
             validate: (value) => value === password || "Password tidak sama",
           }}
           render={({ field: { ...field } }) => (
-            <FormControlFragment
+            <FormControlAnimate
               label={true}
               type={isShowPassword2 ? "text" : "password"}
               id="Konfirmasi Password"
