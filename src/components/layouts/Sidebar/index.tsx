@@ -5,26 +5,32 @@ import styles from "./sidebar.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 
-import { BoxesIcon, LayoutDashboard, User } from "lucide-react";
+import { BoxesIcon, LayoutDashboard, Package, User } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 const sideList = [
   {
     id: 1,
     name: "Dashboard",
-    icon: <LayoutDashboard width={20} height={20} strokeWidth={2} />,
+    icon: <LayoutDashboard width={20} height={20} strokeWidth={1.5} />,
     link: "/admin/dashboard",
   },
   {
     id: 2,
     name: "User",
-    icon: <User width={20} height={20} strokeWidth={2} />,
+    icon: <User width={20} height={20} strokeWidth={1.5} />,
     link: "/admin/user",
   },
   {
     id: 3,
-    name: "Produk",
+    name: "Kategori",
     icon: <BoxesIcon width={20} height={20} strokeWidth={1} />,
+    link: "/admin/category",
+  },
+  {
+    id: 4,
+    name: "Produk",
+    icon: <Package width={20} height={20} strokeWidth={1.2} />,
     link: "/admin/product",
   },
 ];

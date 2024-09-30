@@ -7,7 +7,7 @@ import FormControlFragment from "@/components/fragments/FormControl";
 import { Controller, useForm } from "react-hook-form";
 
 import { TypeUser } from "@/services/type.module";
-import FormControlSelect from "@/components/fragments/FormControlSelect";
+import FormControlSelect from "@/components/fragments/FormControlDropdown";
 import { ResponseError } from "@/utils/axios/response-error";
 import { userService } from "@/services/user/method";
 import { toast } from "sonner";

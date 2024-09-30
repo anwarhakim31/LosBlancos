@@ -1,10 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: [
-      "lh3.googleusercontent.com",
-      "lh5.googleusercontent.com",
-      "losblancosid.s3.ap-southeast-1.amazonaws.com",
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "losblancosid.s3.ap-southeast-1.amazonaws.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
   sassOptions: {
