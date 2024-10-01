@@ -1,7 +1,7 @@
 "use client";
 import HeaderPage from "@/components/element/HeaderPage";
 import Input from "@/components/element/Input";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./manage.module.scss";
 import { useForm } from "react-hook-form";
 import UploadImage from "@/components/fragments/UploadImage";
@@ -9,12 +9,16 @@ import { useState } from "react";
 import ButtonSubmit from "@/components/element/ButtonSubmit";
 import { ResponseError } from "@/utils/axios/response-error";
 import { TypeCarousel } from "@/services/type.module";
+import { masterService } from "@/services/master/method";
+import { toast } from "sonner";
 
 const ManageCarousel = () => {
+  const { replace } = useRouter();
   const params = useSearchParams();
   const id = params.get("id") || "";
   const {
     register,
+    reset,
     setValue,
     watch,
     handleSubmit,
@@ -34,10 +38,20 @@ const ManageCarousel = () => {
   console.log(id);
 
   const onSubmit = async (data: TypeCarousel) => {
-    console.log(data);
+    setLoading(true);
+
     try {
+      const res = await masterService.addCarousel(data);
+
+      if (res.status === 201) {
+        toast.success(res.data.message);
+        replace("/admin/master-data/desain");
+      }
     } catch (error) {
       ResponseError(error);
+    } finally {
+      setLoading(false);
+      reset();
     }
   };
 
@@ -88,7 +102,23 @@ const ManageCarousel = () => {
             }}
           />
         </div>
+
         <small>{errors.url && errors.url.message}</small>
+        <div className={styles.wrapper}>
+          <label htmlFor="caption">Caption </label>
+          <Input
+            id="caption"
+            type="text"
+            placeholder="Masukkan Caption"
+            field={{
+              ...register("caption", {
+                required: "Caption tidak boleh kosong",
+                maxLength: { value: 20, message: "Maksimal 20 karakter" },
+              }),
+            }}
+          />
+        </div>
+        <small>{errors.caption && errors.caption.message}</small>
         <div className={styles.wrapper}>
           <label htmlFor="desription">Deskripsi</label>
           <textarea
