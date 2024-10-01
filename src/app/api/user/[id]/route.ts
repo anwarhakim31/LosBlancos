@@ -16,6 +16,12 @@ export async function PUT(
 
     const { id } = params;
 
+    const isExist = await User.findById(id);
+
+    if (!isExist) {
+      return ResponseError(404, "User tidak ditemukan");
+    }
+
     if (body.password === "") {
       delete body.password;
     }
@@ -67,11 +73,13 @@ export async function DELETE(
     verifyToken(req);
     const { id } = params;
 
-    const user = await User.findByIdAndDelete(id);
+    const isExist = await User.findById(id);
 
-    if (!user) {
-      return ResponseError(404, "Gagal. User tidak ditemukan");
+    if (!isExist) {
+      return ResponseError(404, "User tidak ditemukan");
     }
+
+    await User.findByIdAndDelete(id);
 
     return NextResponse.json(
       {

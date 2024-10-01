@@ -9,8 +9,7 @@ export const userService = {
 };
 
 export const imageService = {
-  uploadUser: async (data: FormData) =>
-    instance.post("/user/image/upload", data),
+  uploadUser: (data: FormData) => instance.post("/user/image/upload", data),
   deleteUser: (data: { filename: string }) =>
     instance.delete("/user/image/delete", { data }),
 };

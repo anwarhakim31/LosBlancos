@@ -11,10 +11,13 @@ import ButtonClick from "@/components/element/ButtonClick";
 import { TypeCategory } from "@/services/type.module";
 import ModalManyDelete from "@/components/fragments/ModalManyDelete";
 import ModalOneDelete from "@/components/fragments/ModalOneDelete";
+import { useAppDispatch } from "@/store/hook";
+import { setDataEdit } from "@/store/slices/actionSlice";
 
 const CategoryPage = () => {
+  const dispatch = useAppDispatch();
   const query = useSearchParams();
-  const { push } = useRouter();
+  const { push, replace } = useRouter();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState({
@@ -25,9 +28,11 @@ const CategoryPage = () => {
   });
   const [isDeleteOne, setIsDeleteOne] = useState<TypeCategory | null>(null);
   const [isDeleteMany, setIsDeleteMany] = useState(false);
-  const [isEditData, setIsEditData] = useState<TypeCategory | null>(null);
 
-  console.log(isEditData, isDeleteOne);
+  const setIsEditData = (data: TypeCategory | null) => {
+    dispatch(setDataEdit(data));
+    replace(`/admin/category/edit?id=${data?._id}`);
+  };
 
   const [check, setCheck] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");

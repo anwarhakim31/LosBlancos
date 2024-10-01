@@ -16,13 +16,11 @@ export async function DELETE(req: NextRequest) {
       );
     }
 
-    // Parameters untuk penghapusan file di S3
     const deleteParams = {
       Bucket: process.env.NEXT_AWS_BUCKET!,
       Key: file,
     };
 
-    // Mengirim perintah DeleteObjectCommand untuk menghapus file
     const command = new DeleteObjectCommand(deleteParams);
     await s3.send(command);
 

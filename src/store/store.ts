@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import globalReducer from "./slices/globalSlice";
+import actionReducer from "./slices/actionSlice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       global: globalReducer,
+      action: actionReducer,
     },
   });
 };
