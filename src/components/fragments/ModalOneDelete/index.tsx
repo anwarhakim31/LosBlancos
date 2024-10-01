@@ -11,13 +11,11 @@ import { toast } from "sonner";
 const ModalOneDelete = ({
   onClose,
   title,
-  setIsDeleteOne,
   fetching,
   callback,
 }: {
   onClose: () => void;
   title: string;
-  setIsDeleteOne: React.Dispatch<React.SetStateAction<any | null>>;
   fetching: () => Promise<any>;
   callback: () => Promise<any>;
 }) => {
@@ -30,7 +28,7 @@ const ModalOneDelete = ({
 
       if (res.status === 200) {
         toast.success(res.data.message);
-        setIsDeleteOne(null);
+        onClose();
         callback();
       }
     } catch (error) {

@@ -1,0 +1,26 @@
+.wrapper {
+  @include flex(flex-start, center, null);
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+
+  &__back {
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    background: $white;
+    @include flex-center();
+    font-size: 1rem;
+    border: 1px solid $gray-200;
+    box-shadow: 0 0.1rem 0.1rem rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease-in-out;
+    color: $gray-700;
+    &:focus-visible {
+      border: 1px solid $primary;
+    }
+  }
+
+  &__title {
+    font-size: 0.8125rem;
+    font-weight: 500;
+  }
+}
