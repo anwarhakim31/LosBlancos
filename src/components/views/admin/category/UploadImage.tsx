@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { imageService } from "@/services/image/method";
 import { ALLOW_IMAGE_TYPE } from "@/utils/AllowImageType";
 import { toast } from "sonner";
@@ -13,6 +13,7 @@ const UploadImage = ({
   loading,
   setValue,
   register,
+  image,
 }: {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   loading: boolean;
@@ -26,6 +27,7 @@ const UploadImage = ({
     image: string;
     description: string;
   }>;
+  image?: string;
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState("");
@@ -35,6 +37,13 @@ const UploadImage = ({
   const handleImageCLick = () => {
     inputRef.current?.click();
   };
+
+  useEffect(() => {
+    if (image) {
+      setPreview(image);
+    }
+  }, [image]);
+
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     setFiles(file as File);

@@ -6,6 +6,6 @@ export const categoryService = {
   addCategory: (data: TypeCategory) => instance.post("/category", data),
   deleteMany: (data: string[]) => instance.delete("/category", { data }),
   deleteOne: (id: string) => instance.delete("/category/" + id),
-  editCategory: (data: TypeCategory) =>
-    instance.put("/category/" + data._id, data),
+  editCategory: (id: string, data: TypeCategory) =>
+    instance.put("/category/" + id, data),
 };
