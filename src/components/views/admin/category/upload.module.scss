@@ -1,0 +1,189 @@
+.image {
+  width: 100%;
+  border-radius: 0.4rem;
+  height: 200px;
+  border: 1px solid $gray-300;
+  position: relative;
+  cursor: pointer;
+  z-index: 1;
+
+  &:focus-within {
+    outline: $primary 1px solid;
+    border: 1px solid $primary;
+    background: rgb(226, 226, 253);
+
+    p {
+      color: $primary !important;
+    }
+
+    h5 {
+      color: $primary !important;
+    }
+    span {
+      color: $primary !important;
+    }
+  }
+
+  .upload {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    @include flex-center();
+    flex-direction: column;
+
+    h5 {
+      font-size: 0.8125rem;
+      font-weight: 400;
+      color: $gray-400;
+      margin-top: 1rem;
+      user-select: none;
+    }
+
+    p {
+      font-size: 0.75rem;
+      font-weight: 400;
+      color: $gray-400;
+      margin-top: 0.25rem;
+      user-select: none;
+    }
+    span {
+      font-size: 0.6rem !important;
+      color: $gray-400;
+      margin-top: 0.25rem;
+      user-select: none;
+    }
+
+    &__icon {
+      width: 4rem;
+      height: 4rem;
+      background-color: $gray-200;
+      @include flex(center, center, null);
+      border-radius: 50%;
+      position: relative;
+
+      svg {
+        width: 3.9rem;
+        height: 3.9rem;
+
+        position: absolute;
+
+        left: 50%;
+        top: 50%;
+        stroke-width: 1;
+        transform: translate(-50%, -50%);
+        fill: white;
+      }
+
+      &__top {
+        width: 1.5rem;
+        height: 1.5rem;
+        background-color: $primary;
+        z-index: 1;
+        border-radius: 50%;
+        position: absolute;
+        bottom: 0;
+
+        svg {
+          width: 1rem;
+          height: 1rem;
+          color: $white;
+          fill: none;
+          stroke-width: 2;
+        }
+      }
+    }
+  }
+}
+
+.progress {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  padding: 1rem;
+  @include flex-center();
+  flex-direction: column;
+
+  .detail {
+    display: flex;
+    width: 100%;
+
+    max-width: 300px;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    gap: 0.5rem;
+    p {
+      font-size: 0.75rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: $dark !important;
+    }
+  }
+
+  &__bar {
+    width: 100%;
+    max-width: 300px;
+    height: 0.5rem;
+    background: rgb(244, 244, 255);
+    overflow: hidden;
+    border-radius: 0.5rem;
+    border: 1px solid $gray-300;
+
+    &__progress {
+      width: 0;
+      height: 100%;
+      background-color: $primary;
+    }
+  }
+}
+
+.preview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  padding: 1rem;
+  @include flex-center();
+  flex-direction: column;
+
+  .detail {
+    @include flex-center();
+    gap: 0.5rem;
+    max-width: 300px;
+
+    span {
+      font-size: 0.75rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: $dark !important;
+    }
+    button {
+      @include flex-center();
+      gap: 0.5rem;
+    }
+  }
+}
+
+.active {
+  outline: $primary 1px solid;
+  border: 1px solid $primary;
+  background: rgb(226, 226, 253);
+
+  p {
+    color: $primary !important;
+  }
+
+  h5 {
+    color: $primary !important;
+  }
+  span {
+    color: $primary !important;
+  }
+}

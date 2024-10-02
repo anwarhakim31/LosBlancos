@@ -16,7 +16,7 @@ export type TypeUser = {
 export type TypeCategory = {
   _id?: string;
   name: string;
-  image?: string;
+  image: string;
   description: string;
   createdAt?: string;
 };

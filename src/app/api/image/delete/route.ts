@@ -1,35 +1,22 @@
-import { s3 } from "@/lib/aws3";
-import { ResponseError } from "@/lib/response-error";
-import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { NextRequest, NextResponse } from "next/server";
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({
+  cloud_name: process.env.NEXT_PUBLIC_CLOUD_NAME,
+  api_key: process.env.NEXT_PUBLIC_CLOUD_APIKEY,
+  api_secret: process.env.NEXT_PUBLIC_CLOUD_APISECRET,
+});
 
 export async function DELETE(req: NextRequest) {
+  const url = await req.json();
+
+  const publicId = url.split("/")[7];
+
   try {
-    const { filename } = await req.json(); // Mendapatkan nama file dari request body
+    const result = await cloudinary.uploader.destroy(publicId);
 
-    const file = filename.split("/")[3];
-
-    if (!filename) {
-      return NextResponse.json(
-        { success: false, message: "Filename not provided" },
-        { status: 400 }
-      );
-    }
-
-    const deleteParams = {
-      Bucket: process.env.NEXT_AWS_BUCKET!,
-      Key: file,
-    };
-
-    const command = new DeleteObjectCommand(deleteParams);
-    await s3.send(command);
-
-    return NextResponse.json(
-      { success: true, message: `File ${file} deleted successfully` },
-      { status: 200 }
-    );
+    return NextResponse.json({ message: "Image deleted successfully", result });
   } catch (error) {
-    console.error(error);
-    return ResponseError(500, "Internal Server Error");
+    return NextResponse.json({ message: "Error deleting image", error });
   }
 }
