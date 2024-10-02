@@ -39,7 +39,7 @@ const CategoryPage = () => {
 
   const thead = [
     { title: "Nama", padding: "1rem 1rem" },
-    { title: "gambar", padding: "1rem 1rem" },
+    { title: "gambar", padding: "1rem 1rem", textAlign: "center" as const },
     {
       title: "deskripsi",
       padding: "0.5rem 1rem",

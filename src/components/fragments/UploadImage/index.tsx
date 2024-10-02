@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useRef, useState } from "react";
 import { imageService } from "@/services/image/method";
 import { ALLOW_IMAGE_TYPE } from "@/utils/AllowImageType";
@@ -6,7 +7,6 @@ import Cloud from "@/assets/cloud.svg";
 import { ArrowUp, Image as LucideImage, X } from "lucide-react";
 import { ResponseError } from "@/utils/axios/response-error";
 import styles from "./upload.module.scss";
-import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 
 const UploadImage = ({
   setLoading,
@@ -17,16 +17,8 @@ const UploadImage = ({
 }: {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   loading: boolean;
-  setValue: UseFormSetValue<{
-    name: string;
-    image: string;
-    description: string;
-  }>;
-  register: UseFormRegister<{
-    name: string;
-    image: string;
-    description: string;
-  }>;
+  setValue: any;
+  register: any;
   image?: string;
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);

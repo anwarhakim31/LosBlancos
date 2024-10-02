@@ -20,3 +20,13 @@ export type TypeCategory = {
   description: string;
   createdAt?: string;
 };
+
+export type TypeCarousel = {
+  _id?: string;
+  image: string;
+  title: string;
+  url: string;
+  description: string;
+  caption: string;
+  createdAt?: string;
+};

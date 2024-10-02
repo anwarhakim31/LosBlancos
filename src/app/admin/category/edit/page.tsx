@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./edit.module.scss";
 import HeaderPage from "@/components/element/HeaderPage";
 import ButtonSubmit from "@/components/element/ButtonSubmit";
-import UploadImage from "@/components/views/admin/category/UploadImage";
+import UploadImage from "@/components/fragments/UploadImage";
 import Input from "@/components/element/Input";
 import { toast } from "sonner";
 import { ResponseError } from "@/utils/axios/response-error";
@@ -112,7 +112,7 @@ const EditCategoryPage = () => {
               id="description"
               {...register("description", {
                 required: "Deksripsi tidak boleh kosong",
-                maxLength: { value: 255, message: "Maksimal 255 karakter" },
+                maxLength: { value: 555, message: "Maksimal 555 karakter" },
               })}
               className={styles.textarea}
               cols={30}

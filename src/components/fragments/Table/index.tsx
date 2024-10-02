@@ -6,6 +6,7 @@ import { Fragment, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import SelectRow from "@/components/element/SelectRow";
 import Checkbox from "@/components/element/Checkbox";
+import Image from "next/image";
 
 interface typeTable {
   thead: {
@@ -29,6 +30,43 @@ interface typeTable {
   check: string[];
   setCheck: React.Dispatch<React.SetStateAction<string[]>>;
 }
+
+const TdComponent = (item: any, body: string) => {
+  switch (body) {
+    case "createdAt":
+      return (
+        <td style={{ textAlign: "center" }}>{item.createdAt?.split("T")[0]}</td>
+      );
+    case "status":
+      return (
+        <td className={`${style.table__status} `}>
+          <p className={`${item.status ? style.true : style.false}`}>
+            {item.status?.toString()}
+          </p>
+        </td>
+      );
+    case "description":
+      return (
+        <td className={`${style.table__description} `}>
+          <p>{item?.description}</p>
+        </td>
+      );
+    case "image":
+      return (
+        <td className={`${style.table__image} `}>
+          <Image
+            src={item?.image}
+            alt="image"
+            width={50}
+            height={50}
+            priority
+          />
+        </td>
+      );
+    default:
+      return <td>{item[body as keyof TypeUser]}</td>;
+  }
+};
 
 const Table = ({
   thead,
@@ -85,33 +123,6 @@ const Table = ({
           ?.filter((item) => item?._id !== undefined)
           .map((item) => item?._id!.toString()) || []
       );
-    }
-  };
-
-  const TdComponent = (item: any, body: string) => {
-    switch (body) {
-      case "createdAt":
-        return (
-          <td style={{ textAlign: "center" }}>
-            {item.createdAt?.split("T")[0]}
-          </td>
-        );
-      case "status":
-        return (
-          <td className={`${style.table__status} `}>
-            <p className={`${item.status ? style.true : style.false}`}>
-              {item.status?.toString()}
-            </p>
-          </td>
-        );
-      case "description":
-        return (
-          <td className={`${style.table__description} `}>
-            <p>{item?.description}</p>
-          </td>
-        );
-      default:
-        return <td>{item[body as keyof TypeUser]}</td>;
     }
   };
 

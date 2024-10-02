@@ -4,7 +4,7 @@ import { useRef } from "react";
 import styles from "./coraousal.module.scss";
 import Image from "next/image";
 
-const Caraousal = () => {
+const HorizontalSlider = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   return (
@@ -81,4 +81,4 @@ const Caraousal = () => {
   );
 };
 
-export default Caraousal;
+export default HorizontalSlider;

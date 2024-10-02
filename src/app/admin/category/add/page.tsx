@@ -4,7 +4,7 @@ import HeaderPage from "@/components/element/HeaderPage";
 import styles from "./add.module.scss";
 import Input from "@/components/element/Input";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 
 import ButtonSubmit from "@/components/element/ButtonSubmit";
 import { TypeCategory } from "@/services/type.module";
@@ -12,7 +12,7 @@ import { ResponseError } from "@/utils/axios/response-error";
 import { categoryService } from "@/services/category/method";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import UploadImage from "@/components/views/admin/category/UploadImage";
+import UploadImage from "@/components/fragments/UploadImage";
 
 const AddCategoryPage = () => {
   const {
@@ -48,7 +48,7 @@ const AddCategoryPage = () => {
   };
 
   return (
-    <section>
+    <Fragment>
       <ButtonBackPage />
 
       <div className={styles.container}>
@@ -85,14 +85,14 @@ const AddCategoryPage = () => {
           </div>
           <small>{errors.image && errors.image.message}</small>
           <div className={styles.wrapper}>
-            <label htmlFor="nama">Deskripsi </label>
+            <label htmlFor="description">Deskripsi </label>
 
             <textarea
               placeholder="Masukkan deskripsi kategori"
               id="description"
               {...register("description", {
                 required: "Deksripsi tidak boleh kosong",
-                maxLength: { value: 255, message: "Maksimal 255 karakter" },
+                maxLength: { value: 555, message: "Maksimal 555 karakter" },
               })}
               className={styles.textarea}
               cols={30}
@@ -108,7 +108,7 @@ const AddCategoryPage = () => {
           </div>
         </form>
       </div>
-    </section>
+    </Fragment>
   );
 };
 

@@ -56,3 +56,17 @@ input[type="number"] {
   -moz-appearance: none;
   appearance: none;
 }
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex {
+  display: flex;
+}
+
+.gap-1 {
+  gap: 1rem;
+}
