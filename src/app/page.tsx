@@ -1,6 +1,6 @@
 import Footer from "@/components/layouts/Footer";
 import HorizontalSlider from "@/components/views/home/HorizontalSlider";
-import Slider from "@/components/views/home/Silders";
+import HomeCarousel from "@/components/views/home/HomeCarousel";
 
 import { Fragment } from "react";
 
@@ -8,7 +8,7 @@ const Page = () => {
   return (
     <Fragment>
       <main>
-        <Slider />
+        <HomeCarousel />
         <HorizontalSlider />
       </main>
       <Footer />

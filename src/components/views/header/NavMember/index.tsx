@@ -89,7 +89,11 @@ const NavbarView = () => {
           className={styles.nav__burger}
           onClick={() => setIsActive(!isActive)}
         >
-          {isActive ? <X /> : <Menu />}
+          {isActive ? (
+            <X width={20} height={20} />
+          ) : (
+            <Menu width={20} height={20} />
+          )}
         </button>
       )}
 
