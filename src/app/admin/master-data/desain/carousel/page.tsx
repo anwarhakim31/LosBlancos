@@ -82,7 +82,7 @@ const ManageCarousel = () => {
             field={{
               ...register("title", {
                 required: "Title tidak boleh kosong",
-                maxLength: { value: 20, message: "Maksimal 20 karakter" },
+                maxLength: { value: 24, message: "Maksimal 24 karakter" },
               }),
             }}
           />
@@ -97,7 +97,6 @@ const ManageCarousel = () => {
             field={{
               ...register("url", {
                 required: "Target URL tidak boleh kosong",
-                maxLength: { value: 20, message: "Maksimal 20 karakter" },
               }),
             }}
           />
@@ -113,7 +112,7 @@ const ManageCarousel = () => {
             field={{
               ...register("caption", {
                 required: "Caption tidak boleh kosong",
-                maxLength: { value: 20, message: "Maksimal 20 karakter" },
+                maxLength: { value: 24, message: "Maksimal 24 karakter" },
               }),
             }}
           />
@@ -126,7 +125,7 @@ const ManageCarousel = () => {
             placeholder="Masukkan Deskripsi"
             {...register("description", {
               required: "Deskripsi tidak boleh kosong",
-              maxLength: { value: 20, message: "Maksimal 20 karakter" },
+              maxLength: { value: 112, message: "Maksimal 112 karakter" },
             })}
             className={styles.textarea}
             cols={30}
