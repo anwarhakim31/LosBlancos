@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/store/hook";
 import { setEditCarousel } from "@/store/slices/actionSlice";
 
-const Carousel = () => {
+const CarouselView = () => {
   const dispatch = useAppDispatch();
   const { push } = useRouter();
   const [data, setData] = useState([]);
@@ -40,16 +40,18 @@ const Carousel = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <div className={styles.header__title}>
-          <List width={20} height={20} />
-          <h5>List Carousel</h5>
+        <div>
+          <div className={styles.header__title}>
+            <List width={20} height={20} />
+            <h5>List Carousel</h5>
+          </div>
+          <Link
+            href="/admin/master-data/desain/carousel"
+            className={styles.header__btn}
+          >
+            Tambah
+          </Link>
         </div>
-        <Link
-          href="/admin/master-data/desain/carousel"
-          className={styles.header__btn}
-        >
-          Tambah
-        </Link>
       </div>
 
       <div className={styles.content}>
@@ -73,7 +75,7 @@ const Carousel = () => {
                     src={item.image}
                     alt="image"
                     width={1000}
-                    height={1000}
+                    height={300}
                     priority
                   />
                 </div>
@@ -128,4 +130,4 @@ const Carousel = () => {
   );
 };
 
-export default Carousel;
+export default CarouselView;
