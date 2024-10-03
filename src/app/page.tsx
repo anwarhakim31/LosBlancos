@@ -5,9 +5,7 @@ import HomeCarousel from "@/components/views/home/HomeCarousel";
 import { Fragment } from "react";
 
 const fetchCarouselData = async () => {
-  const res = await fetch("http://localhost:3000/api/master/carousel", {
-    cache: "no-store",
-  });
+  const res = await fetch("http://localhost:3000/api/master/carousel");
   if (!res.ok) {
     throw new Error("Failed to fetch carousel data");
   }
@@ -15,7 +13,15 @@ const fetchCarouselData = async () => {
 };
 
 const Page = async () => {
-  const data = await fetchCarouselData();
+  let data;
+
+  try {
+    data = await fetchCarouselData();
+  } catch (error) {
+    console.error("Error fetching carousel data:", error);
+
+    data = [];
+  }
 
   return (
     <Fragment>

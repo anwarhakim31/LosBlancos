@@ -47,10 +47,7 @@
     }
 
     &__list {
-      p {
-        font-size: 0.875rem;
-      }
-
+      margin-bottom: 2rem;
       @include media(md) {
         @include flex(space-between, flex-start, null);
       }
@@ -60,14 +57,138 @@
         width: 100%;
         min-height: 200px;
         padding: 0.5rem;
-        height: 100%;
-        border: 1px solid $gray-300;
 
+        border: 1px solid $gray-300;
         @include media(md) {
           width: 300px;
           min-height: 120px;
         }
+        img {
+          object-fit: cover;
+          object-position: center;
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      &__text {
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-top: 0.5rem;
+        display: none;
+
+        p {
+          font-size: 0.75rem;
+        }
+
+        @include media(md) {
+          display: block;
+        }
+      }
+
+      &__textMobile {
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-top: 0.5rem;
+
+        display: block;
+        p {
+          font-size: 0.75rem;
+        }
+        @include media(md) {
+          display: none;
+        }
+      }
+
+      &__sd {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
       }
     }
   }
+}
+
+.edit {
+  border: 1px solid $gray-300;
+  border-radius: 0.5rem;
+  padding: 0.25rem;
+  @include flex-center();
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+
+  svg {
+    transition: all 0.3s ease-in-out;
+  }
+
+  &:hover {
+    border: 1px solid $success;
+
+    svg {
+      color: $success;
+    }
+  }
+}
+
+.delete {
+  border: 1px solid $gray-300;
+  border-radius: 0.5rem;
+  padding: 0.25rem;
+  @include flex-center();
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+
+  svg {
+    transition: all 0.3s ease-in-out;
+  }
+
+  &:hover {
+    border: 1px solid $danger;
+
+    svg {
+      color: $danger;
+    }
+  }
+}
+
+.wrapper {
+  margin-bottom: 2rem;
+  gap: 1rem;
+  @include media(md) {
+    @include flex(flex-start, flex-start, null);
+  }
+}
+
+.skeleton {
+  border-radius: 0.5rem;
+  width: 100%;
+  min-height: 200px;
+  padding: 0.5rem;
+  background: $neutral;
+
+  border: 1px solid $gray-300;
+  @include media(md) {
+    width: 300px;
+    min-height: 120px;
+  }
+
+  @include shimmer();
+}
+
+.skeleton_h5 {
+  margin-top: 0.5rem;
+  width: 200px;
+  height: 14px;
+  background: $neutral;
+
+  @include shimmer();
+}
+
+.skeleton_p {
+  margin-top: 0.25rem;
+  width: 100px;
+  height: 14px;
+  background: $neutral;
+
+  @include shimmer();
 }

@@ -17,7 +17,7 @@ export async function GET() {
         carousel,
       },
       {
-        status: 201,
+        status: 200,
       }
     );
   } catch (error) {
