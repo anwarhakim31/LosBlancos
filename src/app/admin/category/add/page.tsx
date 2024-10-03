@@ -25,7 +25,7 @@ const AddCategoryPage = () => {
     defaultValues: { name: "", image: "", description: "" },
   });
 
-  const { push } = useRouter();
+  const { replace } = useRouter();
 
   const [loading, setLoading] = useState(false);
 
@@ -38,7 +38,7 @@ const AddCategoryPage = () => {
       if (res.status === 201) {
         toast.success(res.data.message);
         reset();
-        push("/admin/category");
+        replace("/admin/category");
       }
     } catch (error) {
       ResponseError(error);

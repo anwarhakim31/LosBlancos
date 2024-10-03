@@ -4,7 +4,6 @@ import React, { Fragment, useEffect, useState } from "react";
 import styles from "./header.module.scss";
 import { usePathname } from "next/navigation";
 import NavbarView from "@/components/views/header/NavMember";
-
 export const authRender = [
   "/register",
   "/login",

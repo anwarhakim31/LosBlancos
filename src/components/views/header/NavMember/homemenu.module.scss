@@ -1,7 +1,9 @@
 .list {
   font-size: 0.75rem;
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 300;
+  color: $white;
+  mix-blend-mode: difference;
   cursor: pointer;
   &:focus-visible {
     outline: 2px solid $primary;
@@ -12,7 +14,9 @@
   all: unset;
   font-size: 0.75rem;
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 300;
+  color: $white;
+  mix-blend-mode: difference;
   cursor: pointer;
   &:focus-visible {
     outline: 2px solid $primary;
