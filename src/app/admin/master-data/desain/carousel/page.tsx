@@ -5,17 +5,19 @@ import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./manage.module.scss";
 import { useForm } from "react-hook-form";
 import UploadImage from "@/components/fragments/UploadImage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ButtonSubmit from "@/components/element/ButtonSubmit";
 import { ResponseError } from "@/utils/axios/response-error";
 import { TypeCarousel } from "@/services/type.module";
 import { masterService } from "@/services/master/method";
 import { toast } from "sonner";
+import { useAppSelector } from "@/store/hook";
 
 const ManageCarousel = () => {
   const { replace } = useRouter();
   const params = useSearchParams();
   const id = params.get("id") || "";
+  const dataEdit = useAppSelector((state) => state.action.editCarousel);
   const {
     register,
     reset,
@@ -35,23 +37,50 @@ const ManageCarousel = () => {
   const image = watch("image");
   const [loading, setLoading] = useState(false);
 
-  console.log(id);
+  useEffect(() => {
+    if (dataEdit && id) {
+      setValue("caption", dataEdit.caption);
+      setValue("description", dataEdit.description);
+      setValue("image", dataEdit.image);
+      setValue("title", dataEdit.title);
+      setValue("url", dataEdit.url);
+    } else if (!dataEdit && id) {
+      replace("/admin/master-data/desain");
+    }
+  }, [id, dataEdit]);
+
+  console.log(dataEdit);
 
   const onSubmit = async (data: TypeCarousel) => {
     setLoading(true);
 
-    try {
-      const res = await masterService.addCarousel(data);
-
-      if (res.status === 201) {
-        toast.success(res.data.message);
-        replace("/admin/master-data/desain");
+    if (dataEdit && id) {
+      try {
+        const res = await masterService.editCarousel(id, data);
+        if (res.status === 200) {
+          toast.success(res.data.message);
+          replace("/admin/master-data/desain");
+        }
+      } catch (error) {
+        ResponseError(error);
+      } finally {
+        setLoading(false);
+        reset();
       }
-    } catch (error) {
-      ResponseError(error);
-    } finally {
-      setLoading(false);
-      reset();
+    } else {
+      try {
+        const res = await masterService.addCarousel(data);
+
+        if (res.status === 201) {
+          toast.success(res.data.message);
+          replace("/admin/master-data/desain");
+        }
+      } catch (error) {
+        ResponseError(error);
+      } finally {
+        setLoading(false);
+        reset();
+      }
     }
   };
 

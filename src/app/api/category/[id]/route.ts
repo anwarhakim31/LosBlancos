@@ -49,6 +49,12 @@ export async function PUT(
       return ResponseError(404, "Kategori tidak ditemukan");
     }
 
+    const publicId = isExist?.image.split("/")[7];
+
+    if (data.image !== isExist.image) {
+      await cloudinary.uploader.destroy(publicId);
+    }
+
     await Category.findByIdAndUpdate(id, data);
 
     return NextResponse.json({
