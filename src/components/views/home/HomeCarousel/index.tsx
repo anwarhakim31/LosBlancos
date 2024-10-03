@@ -1,7 +1,7 @@
 "use client";
 
 import { Fragment, useCallback, useEffect, useState } from "react";
-import styles from "./sliders.module.scss";
+import styles from "./caraousel.module.scss";
 import Link from "next/link";
 import Image from "next/image";
 import { TypeCarousel } from "@/services/type.module";

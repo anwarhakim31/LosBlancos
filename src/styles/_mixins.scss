@@ -77,6 +77,12 @@
   }
 }
 
+@mixin container2 {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
 @mixin container-gap() {
   padding: 1rem;
   @include media(md) {

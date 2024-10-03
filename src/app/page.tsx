@@ -3,9 +3,10 @@ import HorizontalSlider from "@/components/views/home/HorizontalSlider";
 import HomeCarousel from "@/components/views/home/HomeCarousel";
 
 import { Fragment } from "react";
+import { ServerURL } from "@/utils/contant";
 
 const fetchCarouselData = async () => {
-  const res = await fetch("http://localhost:3000/api/master/carousel");
+  const res = await fetch(ServerURL + "/master/carousel");
   if (!res.ok) {
     throw new Error("Failed to fetch carousel data");
   }

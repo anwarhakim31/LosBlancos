@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import styles from "./coraousal.module.scss";
+import styles from "./marquee.module.scss";
 import Image from "next/image";
 
 const HorizontalSlider = () => {
