@@ -42,7 +42,7 @@ const CollectionPage = () => {
     { title: "gambar", padding: "1rem 1rem", textAlign: "center" as const },
     {
       title: "deskripsi",
-      padding: "0.5rem 1rem",
+      padding: "0.5rem 2rem",
     },
     { title: "", padding: "0.5rem 1rem" },
   ];

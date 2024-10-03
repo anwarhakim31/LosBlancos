@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import ButtonSubmit from "@/components/element/ButtonSubmit";
 import { useMasterContext } from "@/context/MasterContext";
 import { masterService } from "@/services/master/method";
+import { v4 as uuid } from "uuid";
 
 const LogoView = () => {
   const context = useMasterContext();
@@ -65,7 +66,7 @@ const LogoView = () => {
       formData.append("file", file);
       formData.append("upload_preset", process.env.NEXT_PUBLIC_CLOUD_PRESET!);
 
-      const originalFileName = file.name.split(".")[0];
+      const originalFileName = `${uuid()}/${file.name.split(".")[0]}`;
       formData.append("public_id", originalFileName);
       setLoading(true);
       try {
@@ -139,7 +140,7 @@ const LogoView = () => {
           <InputFile
             id="logo"
             onChange={(file) => handleUploadLogo(file)}
-            value={formData.logo.split("/").slice(7).join("")}
+            value={formData.logo.split("/").slice(8).join("")}
           />
           <div style={{ marginTop: "10px" }} className="flex-center">
             <ImageFormat />
@@ -201,7 +202,7 @@ const LogoView = () => {
           <InputFile
             id="favicon"
             onChange={(file) => handleUploadLogo(file)}
-            value={formData.favicon.split("/").slice(7).join("")}
+            value={formData.favicon.split("/").slice(8).join("")}
           />
           <div style={{ marginTop: "10px" }} className="flex-center">
             <ImageFormat />

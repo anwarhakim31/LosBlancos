@@ -105,7 +105,7 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
         ref={ref}
       >
         <div className={styles.sidebar__logo}>
-          {context?.master.displayLogo && (
+          {context?.master.displayLogo ? (
             <Image
               src={context?.master.logo || "/default.png"}
               alt="logo"
@@ -113,8 +113,8 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
               height={100}
               priority
             />
-          )}
-          {context?.master.displayName && (
+          ) : null}
+          {context?.master.displayName ? (
             <p
               style={{
                 color: context?.master.color,
@@ -124,7 +124,7 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
             >
               {context?.master.name}
             </p>
-          )}
+          ) : null}
         </div>
         <div className={styles.sidebar__primaryList}>
           {sideList.map((item) => (

@@ -57,8 +57,8 @@ const TdComponent = (item: any, body: string) => {
           <Image
             src={item?.image}
             alt="image"
-            width={50}
-            height={50}
+            width={200}
+            height={200}
             priority
           />
         </td>
