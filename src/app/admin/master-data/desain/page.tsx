@@ -1,7 +1,7 @@
 "use client";
 import HeaderPage from "@/components/element/HeaderPage";
 import styles from "./desain.module.scss";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import CarousalView from "@/components/views/admin/mater-data/Caraousel";
 import MarqueeView from "@/components/views/admin/mater-data/Marquee";
@@ -22,7 +22,7 @@ const DesainPage = () => {
   }, [tabParams, replace]);
 
   return (
-    <section>
+    <Fragment>
       <HeaderPage
         title="Halaman Desain"
         description="Kelola desain toko beruntuk logo, Merek"
@@ -46,7 +46,7 @@ const DesainPage = () => {
 
       {selectedTab === "carousel" && <CarousalView />}
       {selectedTab === "marquee" && <MarqueeView />}
-    </section>
+    </Fragment>
   );
 };
 

@@ -18,17 +18,17 @@
   }
 
   .dot {
-    width: 1.25rem;
-    height: 1.25rem;
+    width: 1.1rem;
+    height: 1.1rem;
     background: $primary-variant;
     border-radius: 50%;
     border: 1px solid $white;
     @include flex(center, center, null);
-    transform: translateX(-0.75rem);
+    transform: translateX(-0.65rem);
     transition: all 0.3s ease-in-out;
 
     &__active {
-      transform: translateX(0.75rem);
+      transform: translateX(0.65rem);
     }
   }
 

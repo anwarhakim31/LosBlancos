@@ -84,9 +84,13 @@ interface SidebarProps {
 const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
   ({ isSidebarOpen }: SidebarProps, ref: ForwardedRef<HTMLDivElement>) => {
     const pathname = usePathname();
-    const [selected, setSelected] = useState(pathname.split("/")[2]);
+    const [selected, setSelected] = useState(
+      pathname.split("-").join(" ").split("/")[2]
+    );
 
-    console.log(pathname.split("-").join(" ").split("/")[2]);
+    console.log();
+
+    console.log(selected);
 
     return (
       <aside

@@ -15,7 +15,7 @@
 
     &__box {
       @include container2();
-      padding: 1rem 2rem;
+      padding: 0.75rem 2rem;
       width: 100%;
       @include flex(space-between, center, null);
     }
@@ -36,7 +36,7 @@
       gap: 0.5rem;
       background: $white;
       color: $primary;
-      font-size: 0.875rem;
+      font-size: 0.8125rem;
       padding: 0.25rem 1rem;
       border-radius: 0.25rem;
     }
@@ -125,6 +125,7 @@
 
   svg {
     transition: all 0.3s ease-in-out;
+    color: $gray-500;
   }
 
   &:hover {
@@ -146,6 +147,7 @@
 
   svg {
     transition: all 0.3s ease-in-out;
+    color: $gray-500;
   }
 
   &:hover {
