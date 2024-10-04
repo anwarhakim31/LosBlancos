@@ -162,7 +162,7 @@ const UploadImage = ({
       {preview && (
         <div className={styles.preview}>
           <div className={styles.detail}>
-            <span>{preview.split("/").slice(8).join("")}</span>
+            <span>{preview.split("/").slice(8).join("/")}</span>
             <button type="button" onClick={handleImageDelete}>
               <X width={16} height={16} />
             </button>

@@ -1,7 +1,7 @@
 "use client";
 import HeaderPage from "@/components/element/HeaderPage";
 import Table from "@/components/fragments/Table";
-import { collectionSevice } from "@/services/collection/method";
+import { collectionSevice } from "@/services/category/method";
 import { ResponseError } from "@/utils/axios/response-error";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";

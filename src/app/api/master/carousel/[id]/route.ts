@@ -61,6 +61,9 @@ export async function PUT(
 
     const carousel = await Carousel.findById(id);
 
+    console.log(id);
+    console.log(data);
+
     if (!carousel) {
       return ResponseError(404, "Gagal. Carousel tidak ditemukan");
     }
@@ -70,8 +73,6 @@ export async function PUT(
     if (data.image !== carousel.image) {
       await cloudinary.uploader.destroy(publicId);
     }
-
-    console.log(data);
 
     await Carousel.findByIdAndUpdate(id, data);
 
@@ -85,6 +86,7 @@ export async function PUT(
       }
     );
   } catch (error) {
+    console.log(error);
     return ResponseError(500, "Internal Server Error");
   }
 }

@@ -10,7 +10,7 @@ import UploadImage from "@/components/fragments/UploadImage";
 import Input from "@/components/element/Input";
 import { toast } from "sonner";
 import { ResponseError } from "@/utils/axios/response-error";
-import { collectionSevice } from "@/services/collection/method";
+import { collectionSevice } from "@/services/category/method";
 import { TypeCollection } from "@/services/type.module";
 import { useForm } from "react-hook-form";
 
