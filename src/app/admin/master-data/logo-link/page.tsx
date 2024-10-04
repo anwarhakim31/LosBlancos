@@ -1,5 +1,6 @@
 import HeaderPage from "@/components/element/HeaderPage";
 import LogoView from "@/components/views/admin/mater-data/Logo";
+
 import React, { Fragment } from "react";
 
 const LogoLinkPage = () => {

@@ -13,7 +13,7 @@ const masterModel = new mongoose.Schema({
     type: String,
     required: false,
   },
-  colorName: {
+  color: {
     type: String,
     required: false,
   },
@@ -27,7 +27,7 @@ const masterModel = new mongoose.Schema({
   },
   description: {
     type: String,
-    required: true,
+    required: false,
   },
 });
 

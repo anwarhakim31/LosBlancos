@@ -12,15 +12,27 @@ import { imageService } from "@/services/image/method";
 import { ALLOW_IMAGE_TYPE } from "@/utils/AllowImageType";
 import { toast } from "sonner";
 import ButtonSubmit from "@/components/element/ButtonSubmit";
+import { useMasterContext } from "@/context/MasterContext";
+import { masterService } from "@/services/master/method";
 
 const LogoView = () => {
+  const master = useMasterContext();
   const [formData, setFormData] = useState({
     logo: "",
     name: "",
     color: "",
+    favicon: "",
   });
 
   const [loading, setLoading] = useState(false);
+  const [logoDisplay, setLogoDisplay] = useState(
+    master?.data.displayLogo || false
+  );
+  const [displayName, setDisplayName] = useState(
+    master?.data.displayName || false
+  );
+
+  console.log(setDisplayName, setLogoDisplay);
 
   const handleUploadLogo = async (file: File) => {
     if (file && !ALLOW_IMAGE_TYPE.includes(file.type)) {
@@ -53,6 +65,20 @@ const LogoView = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const data = Object.fromEntries(
+      Object.entries(formData).filter(([, v]) => v !== "")
+    );
+    try {
+      const res = await masterService.editMain(data);
+
+      if (res.status === 200) {
+        toast.success(res.data.message);
+      }
+      console.log(res);
+    } catch (error) {
+      ResponseError(error);
+    }
   };
 
   return (
@@ -72,12 +98,12 @@ const LogoView = () => {
             <ToggleSwitch
               loading={loading}
               handleCheck={() => {}}
-              checked={false}
+              checked={logoDisplay || false}
             />
           </div>
           <div className={styles.content__list__image}>
             <Image
-              src={formData.logo || "/default.png"}
+              src={master?.data.logo || "/default.png"}
               alt="logo"
               width={150}
               height={150}
@@ -98,11 +124,13 @@ const LogoView = () => {
             <ToggleSwitch
               loading={loading}
               handleCheck={() => {}}
-              checked={false}
+              checked={displayName || false}
             />
           </div>
           <div className={styles.content__list__name}>
-            <h1>LosBlancos</h1>
+            <h1 style={{ color: master?.data.color || "black" }}>
+              {master?.data.name}
+            </h1>
           </div>
           <Input
             placeholder="Masukan nama toko"
@@ -132,7 +160,7 @@ const LogoView = () => {
           <h5>Favicon</h5>
           <div className={styles.content__list__image}>
             <Image
-              src={formData.logo || "/default.png"}
+              src={master?.data.favicon || "/default.png"}
               alt="logo"
               width={150}
               height={150}
