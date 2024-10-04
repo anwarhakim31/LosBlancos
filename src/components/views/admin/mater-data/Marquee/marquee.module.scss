@@ -15,7 +15,7 @@
     background: $primary;
 
     &__box {
-      padding: 1rem 2rem;
+      padding: 0.75rem 2rem;
       @include container2();
       @include flex(space-between, center, null);
     }
@@ -56,9 +56,9 @@
     }
 
     &__box {
-      height: 150px;
       border: 1px solid $gray-300;
       border-radius: 0.4rem;
+      height: 140px;
       overflow: hidden;
       @include flex(center, center, null);
       position: relative;
@@ -101,16 +101,15 @@
       }
 
       .logo {
-        height: 120px;
-        width: 120px;
-
         pointer-events: none;
         user-select: none;
+        max-width: 100px;
 
         img {
           height: 100%;
           width: 100%;
           object-fit: contain;
+          object-position: center;
         }
       }
     }
@@ -118,7 +117,7 @@
 }
 
 .skeleton {
-  height: 120px;
+  height: 140px;
   border: 1px solid $gray-300;
   border-radius: 0.4rem;
   overflow: hidden;

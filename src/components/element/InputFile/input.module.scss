@@ -1,0 +1,42 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.inputname {
+  flex: 1;
+  padding: 0.25rem;
+  border: none;
+  outline: none;
+  font-size: 0.75rem;
+  pointer-events: none;
+
+  &:focus {
+    outline: $primary 1px solid;
+    border: 1px solid $primary;
+  }
+
+  &::placeholder {
+    font-size: 0.75rem;
+    color: $gray-400;
+  }
+}
+
+.inputbutton {
+  padding: 0.55rem;
+  background-color: $primary;
+  letter-spacing: 1px;
+  color: white;
+  border: none;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.inputfile {
+  display: none;
+  background-color: #0056b3;
+}

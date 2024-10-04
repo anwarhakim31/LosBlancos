@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: "Marquee diperbarui",
+      message: "Marquee berhasil diperbarui",
     });
   } catch (error) {
     return ResponseError(500, "Internal Server Error");

@@ -1,5 +1,5 @@
 import instance from "@/utils/axios/instance";
-import { TypeCarousel } from "../type.module";
+import { TypeCarousel, TypeMaster } from "../type.module";
 
 export const masterService = {
   addCarousel: (data: TypeCarousel) => instance.post("/master/carousel", data),
@@ -14,4 +14,6 @@ export const masterService = {
     instance.put("/master/marquee", {
       display: checked,
     }),
+  getMain: () => instance.get("/master/main"),
+  editMain: (data: TypeMaster) => instance.patch("/master/main", data),
 };

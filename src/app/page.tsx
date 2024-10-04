@@ -7,8 +7,12 @@ import { ServerURL } from "@/utils/contant";
 
 const Page = async () => {
   const [dataCarousel, dataMarquee] = await Promise.all([
-    fetch(ServerURL + "/master/carousel").then((res) => res.json()),
-    fetch(ServerURL + "/master/marquee").then((res) => res.json()),
+    fetch(ServerURL + "/master/carousel", { cache: "no-store" }).then((res) =>
+      res.json()
+    ),
+    fetch(ServerURL + "/master/marquee", { cache: "no-store" }).then((res) =>
+      res.json()
+    ),
   ]);
 
   return (

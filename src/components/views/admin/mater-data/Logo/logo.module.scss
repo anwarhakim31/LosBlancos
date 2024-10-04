@@ -1,0 +1,137 @@
+.container {
+  background: $white;
+  border-radius: 0.25rem;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  @include flex-center();
+  flex-direction: column;
+  margin-top: 2rem;
+
+  .header {
+    width: 100%;
+    color: $white;
+    background: $primary;
+
+    &__box {
+      @include container2();
+      padding: 1rem 2rem;
+      width: 100%;
+      @include flex(space-between, center, null);
+    }
+
+    &__title {
+      @include flex(center, center, null);
+      gap: 0.5rem;
+
+      h5 {
+        all: unset;
+        font-size: 0.8125rem;
+        font-weight: 600;
+      }
+    }
+
+    &__btn {
+      @include flex(center, center, null);
+      gap: 0.5rem;
+      background: $white;
+      color: $primary;
+      font-size: 0.875rem;
+      padding: 0.25rem 1rem;
+      border-radius: 0.25rem;
+    }
+  }
+
+  .content {
+    width: 100%;
+    height: 100%;
+
+    @include container2();
+    display: flex;
+    flex-direction: column;
+
+    &__list {
+      width: 100%;
+
+      padding: 1rem;
+      padding-bottom: 2rem;
+      min-height: max-content;
+      border: 1px solid $gray-300;
+
+      &__head {
+        @include flex(space-between, center, null);
+      }
+
+      h5 {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: $gray-700;
+      }
+
+      &__image {
+        @include flex-center();
+        width: 147.5px;
+        height: 147.5px;
+        margin: auto;
+        img {
+          object-fit: contain;
+          object-position: center;
+
+          width: 100px;
+          height: 100px;
+        }
+      }
+
+      &__name {
+        @include flex-center();
+        width: 150px;
+        height: 150px;
+        margin: auto;
+        h1 {
+          font-size: 1.5rem;
+          font-weight: 700;
+        }
+      }
+
+      &:nth-child(1) {
+        border-bottom: none;
+      }
+
+      &:nth-child(3) {
+        border-top: none;
+      }
+
+      &__color {
+        padding: 0.25rem;
+        border: 1px solid $gray-300;
+
+        margin-top: 0.5rem;
+        margin-inline: auto;
+        display: block;
+        border-radius: 0.25rem;
+        font-size: 0.75rem;
+
+        &:focus {
+          outline: 1px solid $primary;
+        }
+      }
+    }
+
+    @include media(md) {
+      flex-direction: row;
+
+      &__list {
+        &:nth-child(1) {
+          border-right: none;
+          border-bottom: 1px solid $gray-300;
+        }
+
+        &:nth-child(3) {
+          border-top: 1px solid $gray-300;
+          border-left: none;
+        }
+      }
+    }
+  }
+}

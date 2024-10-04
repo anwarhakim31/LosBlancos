@@ -36,3 +36,14 @@ export type TypeMarquee = {
   display: boolean;
   image: string[];
 };
+
+export type TypeMaster = {
+  _id?: string;
+  logo?: string;
+  displayLogo?: boolean;
+  name?: string;
+  color?: string;
+  displayName?: boolean;
+  favicon?: string;
+  description?: string;
+};

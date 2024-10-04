@@ -80,7 +80,7 @@ const MarqueeView = () => {
                 <Edit width={18} height={18} strokeWidth={1.5} />
               </button>
               <div className={styles.logo}>
-                <Image src={item} alt="logo" width={70} height={70} priority />
+                <Image src={item} alt="logo" width={70} height={50} priority />
               </div>
             </div>
           ))}

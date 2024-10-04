@@ -25,6 +25,7 @@ const ModalEditMarquee = ({ onClose, isEditData, callback }: PropsType) => {
   });
 
   const onSubmit = async (data: { image: string; id: string }) => {
+    setLoading(true);
     try {
       const res = await masterService.editMarquee(data);
 
@@ -35,6 +36,8 @@ const ModalEditMarquee = ({ onClose, isEditData, callback }: PropsType) => {
       }
     } catch (error) {
       reportError(error);
+    } finally {
+      setLoading(false);
     }
   };
 
