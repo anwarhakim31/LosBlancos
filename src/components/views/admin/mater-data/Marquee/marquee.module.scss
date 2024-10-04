@@ -1,6 +1,6 @@
 .container {
   background: $white;
-  border-radius: 0.4rem;
+  border-radius: 0.25rem;
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -9,11 +9,16 @@
   flex-direction: column;
 
   .header {
-    padding: 1rem 2rem;
     @include flex(space-between, center, null);
     width: 100%;
     color: $white;
     background: $primary;
+
+    &__box {
+      padding: 1rem 2rem;
+      @include container2();
+      @include flex(space-between, center, null);
+    }
 
     &__title {
       @include flex(center, center, null);
@@ -41,14 +46,102 @@
     width: 100%;
     height: 100%;
     padding: 1.5rem;
+    @include container2();
     display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
+
+    gap: 1rem;
+
+    @include media(xs) {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
 
     &__box {
-      grid-column: span 3 / span 3;
-      width: 100%;
       height: 150px;
-      background: $gray-200;
+      border: 1px solid $gray-300;
+      border-radius: 0.4rem;
+      overflow: hidden;
+      @include flex(center, center, null);
+      position: relative;
+
+      @include media(xs) {
+        grid-column: span 6 / span 6;
+      }
+
+      @include media(md) {
+        grid-column: span 4 / span 4;
+      }
+
+      @include media(lg) {
+        grid-column: span 3 / span 3;
+      }
+
+      button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 0.25rem 0.5rem;
+        border-left: 1px solid $gray-300;
+        border-bottom: 1px solid $gray-300;
+        @include flex-center();
+        border-bottom-left-radius: 0.4rem;
+        background: $gray-100;
+        transition: all 0.3s ease-in-out;
+
+        svg {
+          color: $gray-500;
+        }
+
+        &:hover {
+          background: rgb(234, 255, 234);
+
+          svg {
+            color: $success;
+          }
+        }
+      }
+
+      .logo {
+        height: 120px;
+        width: 120px;
+
+        pointer-events: none;
+        user-select: none;
+
+        img {
+          height: 100%;
+          width: 100%;
+          object-fit: contain;
+        }
+      }
     }
   }
+}
+
+.skeleton {
+  height: 120px;
+  border: 1px solid $gray-300;
+  border-radius: 0.4rem;
+  overflow: hidden;
+  @include flex(center, center, null);
+  position: relative;
+  background: $neutral;
+
+  @include media(xs) {
+    grid-column: span 6 / span 6;
+  }
+
+  @include media(md) {
+    grid-column: span 4 / span 4;
+  }
+
+  @include media(lg) {
+    grid-column: span 3 / span 3;
+  }
+
+  @include shimmer();
+}
+
+.info {
+  margin-top: 0.5rem;
+  width: 200px;
 }

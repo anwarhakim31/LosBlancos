@@ -1,5 +1,6 @@
 .wrapper {
   width: 100%;
+
   aspect-ratio: 16 / 9;
   background: $gray-200;
   position: relative;
@@ -119,6 +120,7 @@
       text-align: center;
       border-radius: 2rem;
       transition: all 0.3s ease-in-out;
+      font-size: 0.875rem;
 
       &:hover {
         background: $primary-hover;
@@ -133,6 +135,7 @@
 .content_mobile {
   display: block;
   padding: 3rem 1rem;
+  height: 50vh;
   @include flex-center();
   flex-direction: column;
 

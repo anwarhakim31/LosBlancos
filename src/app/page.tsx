@@ -5,30 +5,19 @@ import HomeCarousel from "@/components/views/home/HomeCarousel";
 import { Fragment } from "react";
 import { ServerURL } from "@/utils/contant";
 
-const fetchCarouselData = async () => {
-  const res = await fetch(ServerURL + "/master/carousel");
-  if (!res.ok) {
-    throw new Error("Failed to fetch carousel data");
-  }
-  return res.json();
-};
-
 const Page = async () => {
-  let data;
-
-  try {
-    data = await fetchCarouselData();
-  } catch (error) {
-    console.error("Error fetching carousel data:", error);
-
-    data = [];
-  }
+  const [dataCarousel, dataMarquee] = await Promise.all([
+    fetch(ServerURL + "/master/carousel").then((res) => res.json()),
+    fetch(ServerURL + "/master/marquee").then((res) => res.json()),
+  ]);
 
   return (
     <Fragment>
       <main>
-        <HomeCarousel data={data} />
-        <HorizontalSlider />
+        <HomeCarousel data={dataCarousel} />
+        {dataMarquee.marquee.display && (
+          <HorizontalSlider data={dataMarquee.marquee.image} />
+        )}
       </main>
       <Footer />
     </Fragment>

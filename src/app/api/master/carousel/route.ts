@@ -36,6 +36,12 @@ export async function POST(req: NextRequest) {
       return ResponseError(400, "Data tidak boleh kosong");
     }
 
+    const total = await Carousel.countDocuments();
+
+    if (total >= 5) {
+      return ResponseError(400, "Carousel tidak boleh lebih dari 5");
+    }
+
     const carousel = new Carousel(data);
 
     await carousel.save();
