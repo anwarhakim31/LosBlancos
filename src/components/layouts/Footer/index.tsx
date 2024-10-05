@@ -1,3 +1,4 @@
+"use client";
 import styles from "./footer.module.scss";
 import Image from "next/image";
 
@@ -13,6 +14,7 @@ import {
   Phone,
   Twitter,
 } from "lucide-react";
+import { useMasterContext } from "@/context/MasterContext";
 
 export interface SocialLink {
   type: "website" | "facebook" | "instagram" | "twitter";
@@ -107,6 +109,8 @@ const footers: FootersData = {
 };
 
 const Footer = () => {
+  const context = useMasterContext();
+
   return (
     <footer className={styles.footer}>
       <ButtonScroll />
@@ -114,10 +118,10 @@ const Footer = () => {
         {footers.detail.map((footer, i) => (
           <div key={i} className={styles.footer__detail}>
             <div className={styles.footer__detail__mark}>
-              {footer.logo && (
+              {context?.master.logo && (
                 <div className={styles.footer__detail__mark__logo}>
                   <Image
-                    src={footer.logo}
+                    src={context?.master.logo || "../default.svg"}
                     alt="logo"
                     width={100}
                     height={100}
@@ -126,9 +130,10 @@ const Footer = () => {
                   />
                 </div>
               )}
-              {footer.name && (
+
+              {context?.master.displayName && (
                 <h3 className={styles.footer__detail__mark__name}>
-                  {footer.name}
+                  {context?.master.name}
                 </h3>
               )}
             </div>

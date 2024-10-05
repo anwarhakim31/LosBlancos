@@ -63,8 +63,10 @@ const TdComponent = (item: any, body: string) => {
           />
         </td>
       );
+    case "value":
+      return <td style={{ textAlign: "center" }}>{item[body]?.length}</td>;
     default:
-      return <td>{item[body as keyof TypeUser]}</td>;
+      return <td>{item[body]}</td>;
   }
 };
 

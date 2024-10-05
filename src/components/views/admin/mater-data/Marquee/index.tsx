@@ -53,6 +53,7 @@ const MarqueeView = () => {
             <h5>Marquee</h5>
           </div>
           <ToggleSwitch
+            id="display_marquee"
             checked={checked}
             handleCheck={handleCheck}
             loading={loading}

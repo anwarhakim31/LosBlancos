@@ -5,12 +5,13 @@ interface PropsType {
   checked: boolean;
   handleCheck: () => void;
   loading?: boolean;
+  id: string;
 }
 
-const ToggleSwitch: FC<PropsType> = ({ checked, handleCheck, loading }) => {
+const ToggleSwitch: FC<PropsType> = ({ checked, handleCheck, loading, id }) => {
   return (
     <label
-      htmlFor="toggle"
+      htmlFor={id}
       aria-disabled={loading}
       className={`${styles.track} ${checked ? styles.track__active : ""}`}
     >
@@ -19,7 +20,7 @@ const ToggleSwitch: FC<PropsType> = ({ checked, handleCheck, loading }) => {
       ></div>
       <input
         type="checkbox"
-        id="toggle"
+        id={id}
         checked={checked}
         onChange={handleCheck}
         name="toggle"

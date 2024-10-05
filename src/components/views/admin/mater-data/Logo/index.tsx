@@ -16,7 +16,7 @@ import { useMasterContext } from "@/context/MasterContext";
 import { masterService } from "@/services/master/method";
 
 const LogoView = () => {
-  const master = useMasterContext();
+  const context = useMasterContext();
   const [formData, setFormData] = useState({
     logo: "",
     name: "",
@@ -26,16 +26,32 @@ const LogoView = () => {
 
   const [loading, setLoading] = useState(false);
   const [logoDisplay, setLogoDisplay] = useState(
-    master?.data.displayLogo || false
+    context?.master.displayLogo || false
   );
   const [displayName, setDisplayName] = useState(
-    master?.data.displayName || false
+    context?.master.displayName || false
   );
 
-  console.log(setDisplayName, setLogoDisplay);
+  const handleChange = async (data: boolean, name: string) => {
+    const newCheck = !data;
+
+    try {
+      const res = await masterService.editMain({ [name]: newCheck });
+
+      if (res.status === 200) {
+        name === "displayLogo"
+          ? setLogoDisplay(!logoDisplay)
+          : setDisplayName(!displayName);
+        toast.success(res.data.message);
+        context?.handleUpdate(res.data.data);
+      }
+    } catch (error) {
+      ResponseError(error);
+    }
+  };
 
   const handleUploadLogo = async (file: File) => {
-    if (file && !ALLOW_IMAGE_TYPE.includes(file.type)) {
+    if (!ALLOW_IMAGE_TYPE.includes(file.type)) {
       return toast.error("Format file tidak didukung");
     }
 
@@ -48,6 +64,9 @@ const LogoView = () => {
 
       formData.append("file", file);
       formData.append("upload_preset", process.env.NEXT_PUBLIC_CLOUD_PRESET!);
+
+      const originalFileName = file.name.split(".")[0];
+      formData.append("public_id", originalFileName);
       setLoading(true);
       try {
         const res = await imageService.upload(formData, () => {});
@@ -74,8 +93,14 @@ const LogoView = () => {
 
       if (res.status === 200) {
         toast.success(res.data.message);
+        context?.handleUpdate(res.data.data);
+        setFormData({
+          logo: "",
+          name: "",
+          color: "",
+          favicon: "",
+        });
       }
-      console.log(res);
     } catch (error) {
       ResponseError(error);
     }
@@ -96,21 +121,26 @@ const LogoView = () => {
           <div className={styles.content__list__head}>
             <h5>Gambar Logo</h5>
             <ToggleSwitch
+              id="display_logo"
               loading={loading}
-              handleCheck={() => {}}
+              handleCheck={() => handleChange(logoDisplay, "displayLogo")}
               checked={logoDisplay || false}
             />
           </div>
           <div className={styles.content__list__image}>
             <Image
-              src={master?.data.logo || "/default.png"}
+              src={context?.master.logo || "/default.png"}
               alt="logo"
               width={150}
               height={150}
               priority
             />
           </div>
-          <InputFile onChange={(file) => handleUploadLogo(file)} />
+          <InputFile
+            id="logo"
+            onChange={(file) => handleUploadLogo(file)}
+            value={formData.logo.split("/").slice(7).join("")}
+          />
           <div style={{ marginTop: "10px" }} className="flex-center">
             <ImageFormat />
           </div>
@@ -123,13 +153,14 @@ const LogoView = () => {
             <h5>Nama Logo</h5>
             <ToggleSwitch
               loading={loading}
-              handleCheck={() => {}}
+              id="display_name"
+              handleCheck={() => handleChange(displayName, "displayName")}
               checked={displayName || false}
             />
           </div>
           <div className={styles.content__list__name}>
-            <h1 style={{ color: master?.data.color || "black" }}>
-              {master?.data.name}
+            <h1 style={{ color: context?.master.color || "black" }}>
+              {context?.master.name}
             </h1>
           </div>
           <Input
@@ -160,14 +191,18 @@ const LogoView = () => {
           <h5>Favicon</h5>
           <div className={styles.content__list__image}>
             <Image
-              src={master?.data.favicon || "/default.png"}
+              src={context?.master.favicon || "/default.png"}
               alt="logo"
               width={150}
               height={150}
               priority
             />
           </div>
-          <InputFile onChange={(file) => handleUploadLogo(file)} />
+          <InputFile
+            id="favicon"
+            onChange={(file) => handleUploadLogo(file)}
+            value={formData.favicon.split("/").slice(7).join("")}
+          />
           <div style={{ marginTop: "10px" }} className="flex-center">
             <ImageFormat />
           </div>

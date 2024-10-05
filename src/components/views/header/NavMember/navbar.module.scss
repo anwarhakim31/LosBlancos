@@ -56,10 +56,11 @@
   &__logo {
     @include flex(center, center, null);
 
+    height: 60px;
+
     &__text {
       font-size: 1.25rem;
       font-weight: 700;
-      color: $dark;
     }
   }
 

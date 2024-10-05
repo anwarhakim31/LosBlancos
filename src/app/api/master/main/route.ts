@@ -56,7 +56,9 @@ export async function PATCH(req: NextRequest) {
       return ResponseError(400, "Format warna harus Hexadecimal");
     }
 
-    const dataUpdate = await Master.findByIdAndUpdate(master._id, data);
+    const dataUpdate = await Master.findByIdAndUpdate(master._id, data, {
+      new: true,
+    });
 
     return NextResponse.json({
       success: true,

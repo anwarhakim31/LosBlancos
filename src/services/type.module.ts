@@ -47,3 +47,9 @@ export type TypeMaster = {
   favicon?: string;
   description?: string;
 };
+
+export type TypeAttribute = {
+  _id?: string;
+  name?: string;
+  values?: string[];
+};

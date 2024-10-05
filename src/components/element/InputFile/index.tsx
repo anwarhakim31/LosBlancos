@@ -1,15 +1,21 @@
-import { useState } from "react";
 import styles from "./input.module.scss";
 
-const InputFile = ({ onChange }: { onChange: (file: File) => void }) => {
-  const [fileName, setFileName] = useState("");
-
+const InputFile = ({
+  onChange,
+  value,
+  id,
+}: {
+  onChange: (file: File) => void;
+  value?: string;
+  id: string;
+}) => {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      setFileName(file.name);
       onChange(file);
     }
+
+    event.target.value = "";
   };
 
   return (
@@ -19,16 +25,17 @@ const InputFile = ({ onChange }: { onChange: (file: File) => void }) => {
         className={styles.inputname}
         placeholder="Pilih file..."
         readOnly
-        value={fileName}
-        id="fileName"
+        value={value}
+        id={`${id}-filename`}
       />
-      <label htmlFor="file-upload" className={styles.inputbutton}>
+      <label htmlFor={id} className={styles.inputbutton}>
         Pilih
       </label>
       <input
         type="file"
-        id="file-upload"
-        accept="image/*"
+        id={id}
+        name={id}
+        accept=".jpg, .jpeg, .png, .webp, .svg"
         onChange={handleFileChange}
         className={styles.inputfile}
       />
