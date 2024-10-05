@@ -55,7 +55,7 @@ const ModalOneDelete = ({
             <ButtonClick title="Tidak" onClick={onClose} loading={loading} />
           </div>
           <div style={{ width: "100px" }}>
-            <ButtonClick title="Ya" onClick={handleDelete} />
+            <ButtonClick title="Ya" onClick={handleDelete} loading={loading} />
           </div>
         </div>
       </div>

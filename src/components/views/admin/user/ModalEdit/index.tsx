@@ -11,6 +11,7 @@ import FormControlSelect from "@/components/fragments/FormControlSelect";
 import { ResponseError } from "@/utils/axios/response-error";
 import { userService } from "@/services/user/method";
 import { toast } from "sonner";
+import { useState } from "react";
 
 interface PropsType {
   onClose: () => void;
@@ -19,6 +20,7 @@ interface PropsType {
 }
 
 const ModalEdit = ({ onClose, isEditData, callback }: PropsType) => {
+  const [loading, setLoading] = useState(false);
   const {
     control,
     handleSubmit,
@@ -33,6 +35,7 @@ const ModalEdit = ({ onClose, isEditData, callback }: PropsType) => {
   });
 
   const onsubmit = async (data: TypeUser) => {
+    setLoading(true);
     try {
       const res = await userService.updateUser(isEditData?._id as string, data);
 
@@ -43,17 +46,22 @@ const ModalEdit = ({ onClose, isEditData, callback }: PropsType) => {
       }
     } catch (error) {
       ResponseError(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <Modal onClose={onClose}>
+    <Modal onClose={loading ? () => {} : onClose}>
       <div
         role="dialog"
         className={style.modal}
         onClick={(e) => e.stopPropagation()}
       >
-        <HeaderModal title="Edit Data User" onClose={onClose} />
+        <HeaderModal
+          title="Edit Data User"
+          onClose={loading ? () => {} : onClose}
+        />
         <form onSubmit={handleSubmit(onsubmit)}>
           <div className={style.modal__content}>
             <Controller

@@ -62,7 +62,7 @@ const sideList = [
     id: 4,
     name: "Atribut",
     icon: <AlignHorizontalSpaceAround width={20} height={20} strokeWidth={1} />,
-    link: "/admin/category",
+    link: "/admin/attribute",
   },
   {
     id: 5,
