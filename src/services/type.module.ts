@@ -51,5 +51,5 @@ export type TypeMaster = {
 export type TypeAttribute = {
   _id?: string;
   name?: string;
-  values?: string[];
+  value?: string[];
 };

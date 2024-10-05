@@ -9,10 +9,12 @@ import { Plus, X } from "lucide-react";
 import { ResponseError } from "@/utils/axios/response-error";
 import { attributeService } from "@/services/attribute/method";
 import { toast } from "sonner";
+import { TypeAttribute } from "@/services/type.module";
 
 interface PropsType {
   onClose: () => void;
   callback: () => Promise<any>;
+  isEditData: TypeAttribute | null;
 }
 
 const validation = (setError: any, error: any, formData: any) => {
@@ -35,7 +37,7 @@ const validation = (setError: any, error: any, formData: any) => {
   return status;
 };
 
-const ModalAddAttribute = ({ onClose, callback }: PropsType) => {
+const ModalEditAtrribute = ({ onClose, callback, isEditData }: PropsType) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({ name: "", value: "" });
   const [formData, setFormData] = useState({
@@ -53,7 +55,10 @@ const ModalAddAttribute = ({ onClose, callback }: PropsType) => {
     if (valid) {
       setLoading(true);
       try {
-        const res = await attributeService.postAtribute(formData);
+        const res = await attributeService.editAtrribute(
+          isEditData?._id as string,
+          formData
+        );
 
         if (res.status === 200) {
           toast.success(res.data.message);
@@ -71,6 +76,17 @@ const ModalAddAttribute = ({ onClose, callback }: PropsType) => {
       }
     }
   };
+
+  useEffect(() => {
+    if (isEditData) {
+      setFormData({
+        ...formData,
+        name: isEditData?.name || "",
+        value: isEditData?.value || [""],
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isEditData]);
 
   useEffect(() => {
     if (formData.value.some((value) => value !== "")) {
@@ -91,7 +107,7 @@ const ModalAddAttribute = ({ onClose, callback }: PropsType) => {
         onClick={(e) => e.stopPropagation()}
       >
         <HeaderModal
-          title="Tambah Kategori"
+          title="Edit Kategori"
           onClose={loading ? () => {} : onClose}
         />
         <form onSubmit={handleSubmit}>
@@ -102,6 +118,7 @@ const ModalAddAttribute = ({ onClose, callback }: PropsType) => {
               name="nama"
               id="name"
               field={{
+                value: formData.name,
                 onChange: (e: FormEvent<HTMLInputElement>) =>
                   setFormData({
                     ...formData,
@@ -178,4 +195,4 @@ const ModalAddAttribute = ({ onClose, callback }: PropsType) => {
   );
 };
 
-export default ModalAddAttribute;
+export default ModalEditAtrribute;
