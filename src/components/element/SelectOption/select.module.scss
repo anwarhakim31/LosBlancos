@@ -60,3 +60,26 @@
 .select {
   color: $primary !important;
 }
+
+.icon {
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
+  @include flex-center();
+  transform: translateY(-50%);
+  pointer-events: none;
+  &:focus-within {
+    outline: none !important;
+    border: none !important;
+  }
+  svg {
+    transition: all 0.3s ease-in-out;
+    :focus {
+      outline: none !important;
+      border: none !important;
+    }
+    &.active__icon {
+      transform: rotate(180deg);
+    }
+  }
+}

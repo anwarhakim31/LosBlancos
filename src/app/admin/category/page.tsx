@@ -85,6 +85,7 @@ const CategoryPage = () => {
           <ButtonClick
             title={`Tambah Kategori`}
             onClick={() => setIsAddData(true)}
+            loading={loading}
           />
         </div>
       </div>

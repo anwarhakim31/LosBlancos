@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef, useState } from "react";
 import styles from "./select.module.scss";
+import { ChevronDown } from "lucide-react";
 
 const SelectOption = ({
   name,
@@ -57,6 +58,13 @@ const SelectOption = ({
         }}
         onKeyDown={(e) => e.key === "Enter" && setActive(!active)}
       />
+      <button type="button" className={`${styles.icon} `}>
+        <ChevronDown
+          width={16}
+          height={16}
+          className={active ? styles.active__icon : ""}
+        />
+      </button>
 
       {active && (
         <div role="dialog" className={styles.dropdown} style={style}>

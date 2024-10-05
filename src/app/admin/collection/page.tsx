@@ -101,6 +101,7 @@ const CollectionPage = () => {
           <ButtonClick
             title={`Tambah Koleksi`}
             onClick={() => push("/admin/collection/add")}
+            loading={loading}
           />
         </div>
       </div>
