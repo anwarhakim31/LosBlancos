@@ -6,7 +6,7 @@ export const masterService = {
   getCarousel: () => instance.get("/master/carousel"),
   deleteCarousel: (id: string) => instance.delete(`/master/carousel/${id}`),
   editCarousel: (id: string, data: TypeCarousel) =>
-    instance.put(`/master/carousel/${id}`, { data }),
+    instance.put(`/master/carousel/${id}`, data),
   getMarquee: () => instance.get("/master/marquee"),
   editMarquee: (data: { image: string; id: string }) =>
     instance.post("/master/marquee", data),

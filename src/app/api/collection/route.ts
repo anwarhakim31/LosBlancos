@@ -1,5 +1,5 @@
 import connectDB from "@/lib/db";
-import Category from "@/lib/models/category-model";
+import Collection from "@/lib/models/collection-model";
 import { ResponseError } from "@/lib/response-error";
 import { verifyToken } from "@/lib/verify-token";
 import { NextRequest, NextResponse } from "next/server";
@@ -19,17 +19,17 @@ export async function GET(req: NextRequest) {
       name: { $regex: searchRegex },
     };
 
-    const category = await Category.find(filterQuery)
+    const collection = await Collection.find(filterQuery)
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
       .exec();
 
-    const total = await Category.countDocuments(filterQuery);
+    const total = await Collection.countDocuments(filterQuery);
 
     return NextResponse.json({
       success: true,
-      category,
+      collection,
       pagination: {
         page,
         limit,
@@ -49,14 +49,22 @@ export async function POST(req: NextRequest) {
 
     const data = await req.json();
 
-    const category = new Category(data);
+    if (data.name) {
+      const isExist = await Collection.findOne({ name: data.name });
 
-    await category.save();
+      if (isExist) {
+        return ResponseError(400, "Nama kolek sudah digunakan");
+      }
+    }
+
+    const collection = new Collection(data);
+
+    await collection.save();
 
     return NextResponse.json(
       {
         success: true,
-        message: "Berhasil membuat kategori",
+        message: "Berhasil membuat koleksi",
       },
       {
         status: 201,
@@ -74,7 +82,7 @@ export async function DELETE(req: NextRequest) {
 
     const data = await req.json();
 
-    await Category.deleteMany({ _id: { $in: data } });
+    await Collection.deleteMany({ _id: { $in: data } });
 
     return NextResponse.json(
       {

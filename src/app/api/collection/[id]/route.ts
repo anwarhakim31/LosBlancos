@@ -1,6 +1,6 @@
 import cloudinary from "@/lib/cloudinary";
 import connectDB from "@/lib/db";
-import Category from "@/lib/models/category-model";
+import Collection from "@/lib/models/collection-model";
 import { ResponseError } from "@/lib/response-error";
 import { verifyToken } from "@/lib/verify-token";
 import { NextRequest, NextResponse } from "next/server";
@@ -14,19 +14,19 @@ export async function DELETE(
     verifyToken(req);
     const { id } = params;
 
-    const isExis = await Category.findById(id);
+    const isExis = await Collection.findById(id);
 
     if (!isExis) {
-      return ResponseError(404, "Gagal. Kategori tidak ditemukan");
+      return ResponseError(404, "Gagal. koleksi tidak ditemukan");
     }
     const publicId = isExis?.image.split("/")[7];
     await cloudinary.uploader.destroy(publicId);
 
-    await Category.findByIdAndDelete(id);
+    await Collection.findByIdAndDelete(id);
 
     return NextResponse.json({
       success: true,
-      message: "Berhasil menghapus kategori",
+      message: "Berhasil menghapus koleksi",
     });
   } catch (error) {
     return ResponseError(500, "Internal Server Error");
@@ -43,10 +43,10 @@ export async function PUT(
     const { id } = params;
     const data = await req.json();
 
-    const isExist = await Category.findById(id);
+    const isExist = await Collection.findById(id);
 
     if (!isExist) {
-      return ResponseError(404, "Kategori tidak ditemukan");
+      return ResponseError(404, "Koleksi tidak ditemukan");
     }
 
     const publicId = isExist?.image.split("/")[7];
@@ -55,11 +55,11 @@ export async function PUT(
       await cloudinary.uploader.destroy(publicId);
     }
 
-    await Category.findByIdAndUpdate(id, data);
+    await Collection.findByIdAndUpdate(id, data);
 
     return NextResponse.json({
       success: true,
-      message: "Berhasil mengubah kategori",
+      message: "Berhasil mengubah koleksi",
     });
   } catch (error) {
     return ResponseError(500, "Internal Server Error");

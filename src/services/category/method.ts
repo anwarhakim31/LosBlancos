@@ -1,11 +1,11 @@
 import instance from "@/utils/axios/instance";
-import { TypeCategory } from "../type.module";
+import { TypeCollection } from "../type.module";
 
-export const categoryService = {
-  getCategory: (params: object) => instance.get("/category", { params }),
-  addCategory: (data: TypeCategory) => instance.post("/category", data),
-  deleteMany: (data: string[]) => instance.delete("/category", { data }),
-  deleteOne: (id: string) => instance.delete("/category/" + id),
-  editCategory: (id: string, data: TypeCategory) =>
-    instance.put("/category/" + id, data),
+export const collectionSevice = {
+  getCollection: (params: object) => instance.get("/collection", { params }),
+  addCollection: (data: TypeCollection) => instance.post("/collection", data),
+  deleteMany: (data: string[]) => instance.delete("/collection", { data }),
+  deleteOne: (id: string) => instance.delete("/collection/" + id),
+  editCollection: (id: string, data: TypeCollection) =>
+    instance.put("/collection/" + id, data),
 };

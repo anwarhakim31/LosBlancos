@@ -1,20 +1,20 @@
 "use client";
 import HeaderPage from "@/components/element/HeaderPage";
 import Table from "@/components/fragments/Table";
-import { categoryService } from "@/services/category/method";
+import { collectionSevice } from "@/services/category/method";
 import { ResponseError } from "@/utils/axios/response-error";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
-import styles from "./category.module.scss";
+import styles from "./collection.module.scss";
 import InputSearch from "@/components/element/InputSearch";
 import ButtonClick from "@/components/element/ButtonClick";
-import { TypeCategory } from "@/services/type.module";
+import { TypeCollection } from "@/services/type.module";
 import ModalManyDelete from "@/components/fragments/ModalManyDelete";
 import ModalOneDelete from "@/components/fragments/ModalOneDelete";
 import { useAppDispatch } from "@/store/hook";
 import { setDataEdit } from "@/store/slices/actionSlice";
 
-const CategoryPage = () => {
+const CollectionPage = () => {
   const dispatch = useAppDispatch();
   const query = useSearchParams();
   const { push, replace } = useRouter();
@@ -26,12 +26,12 @@ const CategoryPage = () => {
     total: 0,
     totalPage: 0,
   });
-  const [isDeleteOne, setIsDeleteOne] = useState<TypeCategory | null>(null);
+  const [isDeleteOne, setIsDeleteOne] = useState<TypeCollection | null>(null);
   const [isDeleteMany, setIsDeleteMany] = useState(false);
 
-  const setIsEditData = (data: TypeCategory | null) => {
+  const setIsEditData = (data: TypeCollection | null) => {
     dispatch(setDataEdit(data));
-    replace(`/admin/category/edit?id=${data?._id}`);
+    replace(`/admin/collection/edit?id=${data?._id}`);
   };
 
   const [check, setCheck] = useState<string[]>([]);
@@ -55,14 +55,14 @@ const CategoryPage = () => {
     (query.get("limit") && parseInt(query.get("limit") as string)) ||
     pagination.limit;
 
-  const getAllCategory = useCallback(async () => {
+  const getAllCollection = useCallback(async () => {
     try {
       const params = { page, limit, search };
 
-      const res = await categoryService.getCategory(params);
+      const res = await collectionSevice.getCollection(params);
 
       if (res.status === 200) {
-        setData(res.data.category);
+        setData(res.data.collection);
         setPagination(res.data.pagination);
       }
     } catch (error) {
@@ -73,18 +73,18 @@ const CategoryPage = () => {
   }, [page, limit, search]);
 
   useEffect(() => {
-    getAllCategory();
-  }, [page, limit, searchQuery, getAllCategory]);
+    getAllCollection();
+  }, [page, limit, searchQuery, getAllCollection]);
 
   return (
     <section>
       <HeaderPage
-        title="Halaman Kategori"
-        description="Kelola data kategori untuk mengelompokkan setiap produk."
+        title="Halaman Koleksi"
+        description="Kelola koleksi produk untuk mengelompokkan berdasarkan tema"
       />
       <div className={styles.wrapper}>
         <p>
-          Semua category{" "}
+          Semua Koleksi{" "}
           <span> ({pagination.total ? pagination.total : 0})</span>
         </p>
         <div className={styles.wrapper__search}>
@@ -99,8 +99,8 @@ const CategoryPage = () => {
         </div>
         <div className={styles.wrapper__button}>
           <ButtonClick
-            title={`Tambah Kategori`}
-            onClick={() => push("/admin/category/add")}
+            title={`Tambah Koleksi`}
+            onClick={() => push("/admin/collection/add")}
           />
         </div>
       </div>
@@ -122,20 +122,22 @@ const CategoryPage = () => {
           setCheck={() => setCheck([])}
           onClose={() => setIsDeleteMany(false)}
           title="Apakah anda yakin ingin mengapus kategori terpilih ?"
-          callback={() => getAllCategory()}
-          fetching={() => categoryService.deleteMany(check)}
+          callback={() => getAllCollection()}
+          fetching={() => collectionSevice.deleteMany(check)}
         />
       )}
       {isDeleteOne && (
         <ModalOneDelete
           onClose={() => setIsDeleteOne(null)}
           title="Apakah anda yakin ingin menghapus kategori ini ?"
-          callback={() => getAllCategory()}
-          fetching={() => categoryService.deleteOne(isDeleteOne?._id as string)}
+          callback={() => getAllCollection()}
+          fetching={() =>
+            collectionSevice.deleteOne(isDeleteOne?._id as string)
+          }
         />
       )}
     </section>
   );
 };
 
-export default CategoryPage;
+export default CollectionPage;

@@ -1,10 +1,10 @@
 "use client";
 
-import { TypeCarousel, TypeCategory } from "@/services/type.module";
+import { TypeCarousel, TypeCollection } from "@/services/type.module";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface ActionState {
-  dataEdit: TypeCategory | undefined;
+  dataEdit: TypeCollection | undefined;
   editCarousel: TypeCarousel | undefined;
 }
 
