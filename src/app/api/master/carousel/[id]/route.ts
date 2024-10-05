@@ -71,6 +71,8 @@ export async function PUT(
       await cloudinary.uploader.destroy(publicId);
     }
 
+    console.log(data);
+
     await Carousel.findByIdAndUpdate(id, data);
 
     return NextResponse.json(

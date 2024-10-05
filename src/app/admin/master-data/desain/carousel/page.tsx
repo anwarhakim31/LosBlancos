@@ -51,8 +51,6 @@ const ManageCarousel = () => {
     }
   }, [id, dataEdit, replace, setValue]);
 
-  console.log(dataEdit);
-
   const onSubmit = async (data: TypeCarousel) => {
     setLoading(true);
 

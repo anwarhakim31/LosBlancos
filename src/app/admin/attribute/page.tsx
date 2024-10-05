@@ -5,16 +5,15 @@ import React, { Fragment, useCallback, useEffect, useState } from "react";
 import styles from "./attibute.module.scss";
 import InputSearch from "@/components/element/InputSearch";
 import ButtonClick from "@/components/element/ButtonClick";
-import ModalAddAttribute from "@/components/views/admin/atribut/ModalAddAttribute";
-import { attributeService } from "@/services/attribute/method";
 import { useSearchParams } from "next/navigation";
 import { ResponseError } from "@/utils/axios/response-error";
-
 import Table from "@/components/fragments/Table";
 import ModalManyDelete from "@/components/fragments/ModalManyDelete";
 import ModalOneDelete from "@/components/fragments/ModalOneDelete";
 import { TypeAttribute } from "@/services/type.module";
 import ModalEditAtrribute from "@/components/views/admin/atribut/ModalEditAttribute";
+import ModalAddAttribute from "@/components/views/admin/atribut/ModalAddAttribute";
+import { attributeService } from "@/services/attribute/method";
 
 const AttributePage = () => {
   const params = useSearchParams();

@@ -8,6 +8,7 @@ import Cloud from "@/assets/cloud.svg";
 import { ArrowUp, Image as LucideImage, X } from "lucide-react";
 import { ResponseError } from "@/utils/axios/response-error";
 import styles from "./upload.module.scss";
+import { v4 as uuidv4 } from "uuid";
 
 const UploadImage = ({
   setLoading,
@@ -33,6 +34,7 @@ const UploadImage = ({
 
   useEffect(() => {
     if (image) {
+      console.log(image);
       setPreview(image);
     }
   }, [image]);
@@ -52,7 +54,7 @@ const UploadImage = ({
         formData.append("file", file);
         formData.append("upload_preset", process.env.NEXT_PUBLIC_CLOUD_PRESET!);
 
-        const originalFileName = file.name.split(".")[0];
+        const originalFileName = `${uuidv4()}/${file.name.split(".")[0]}`;
         formData.append("public_id", originalFileName);
 
         const res = await imageService.upload(formData, (percentage) => {
@@ -160,7 +162,7 @@ const UploadImage = ({
       {preview && (
         <div className={styles.preview}>
           <div className={styles.detail}>
-            <span>{preview.split("/")[7]}</span>
+            <span>{preview.split("/").slice(8).join("")}</span>
             <button type="button" onClick={handleImageDelete}>
               <X width={16} height={16} />
             </button>

@@ -6,9 +6,10 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   AlignHorizontalSpaceAround,
-  BoxesIcon,
   ChevronDown,
+  Layers3,
   LayoutDashboard,
+  LibraryBig,
   MonitorCog,
   Package,
   User,
@@ -67,11 +68,17 @@ const sideList = [
   {
     id: 5,
     name: "kategori",
-    icon: <BoxesIcon width={20} height={20} strokeWidth={1} />,
+    icon: <Layers3 width={20} height={20} strokeWidth={1} />,
     link: "/admin/category",
   },
   {
     id: 6,
+    name: "Koleksi",
+    icon: <LibraryBig width={20} height={20} strokeWidth={1} />,
+    link: "/admin/collection",
+  },
+  {
+    id: 7,
     name: "produk",
     icon: <Package width={20} height={20} strokeWidth={1.2} />,
     link: "/admin/product",

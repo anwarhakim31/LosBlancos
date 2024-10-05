@@ -13,11 +13,12 @@ export type TypeUser = {
   createdAt?: string;
 };
 
-export type TypeCategory = {
+export type TypeCollection = {
   _id?: string;
   name: string;
   image: string;
   description: string;
+  slug: string;
   createdAt?: string;
 };
 
