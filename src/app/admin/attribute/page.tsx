@@ -11,15 +11,19 @@ import { useSearchParams } from "next/navigation";
 import { ResponseError } from "@/utils/axios/response-error";
 
 import Table from "@/components/fragments/Table";
+import ModalManyDelete from "@/components/fragments/ModalManyDelete";
+import ModalOneDelete from "@/components/fragments/ModalOneDelete";
+import { TypeAttribute } from "@/services/type.module";
+import ModalEditAtrribute from "@/components/views/admin/atribut/ModalEditAttribute";
 
 const AttributePage = () => {
   const params = useSearchParams();
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [isAddData, setIsAddData] = useState(false);
-  const [isEditData, setIsEditData] = useState(null);
-  const [isDeleteOne, setIsDeleteOne] = useState(null);
+  const [isEditData, setIsEditData] = useState<TypeAttribute | null>(null);
+  const [isDeleteOne, setIsDeleteOne] = useState<TypeAttribute | null>(null);
   const [isDeleteMany, setIsDeleteMany] = useState(false);
   const [check, setCheck] = useState<string[]>([]);
   const [pagination, setPagination] = useState({
@@ -28,15 +32,6 @@ const AttributePage = () => {
     total: 0,
     totalPage: 0,
   });
-
-  console.log(
-    isDeleteOne,
-    isDeleteMany,
-    isEditData,
-    setIsEditData,
-    setIsDeleteOne,
-    setIsDeleteMany
-  );
 
   const limit = parseInt(params.get("limit") as string) || pagination.limit;
   const page = parseInt(params.get("page") as string) || pagination.page;
@@ -59,7 +54,7 @@ const AttributePage = () => {
   const getData = useCallback(async () => {
     try {
       const res = await attributeService.getAttribute(search, limit, page);
-      console.log(res);
+
       if (res.status === 200) {
         setData(res.data.attribute);
         setPagination(res.data.pagination);
@@ -110,9 +105,9 @@ const AttributePage = () => {
         setCheck={setCheck}
         thead={thead}
         check={check}
-        setIsEditData={setIsAddData}
-        setIsDeleteMany={setIsAddData}
-        setIsDeleteOne={setIsAddData}
+        setIsEditData={setIsEditData}
+        setIsDeleteMany={setIsDeleteMany}
+        setIsDeleteOne={setIsDeleteOne}
         tbody={["name", "value"]}
       />
 
@@ -120,6 +115,35 @@ const AttributePage = () => {
         <ModalAddAttribute
           callback={() => getData()}
           onClose={() => setIsAddData(false)}
+        />
+      ) : null}
+
+      {isDeleteMany ? (
+        <ModalManyDelete
+          onClose={() => setIsDeleteMany(false)}
+          callback={() => getData()}
+          title="Apakah anda yakin ingin menghapus atribut terpilih ?"
+          setCheck={setCheck}
+          fetching={() => attributeService.deleteMany(check)}
+        />
+      ) : null}
+
+      {isDeleteOne ? (
+        <ModalOneDelete
+          onClose={() => setIsDeleteOne(null)}
+          fetching={() =>
+            attributeService.deleteOne(isDeleteOne?._id as string)
+          }
+          title="Apakah anda yakin ingin menghapus atribut ini ?"
+          callback={() => getData()}
+        />
+      ) : null}
+
+      {isEditData ? (
+        <ModalEditAtrribute
+          onClose={() => setIsEditData(null)}
+          callback={() => getData()}
+          isEditData={isEditData}
         />
       ) : null}
     </Fragment>

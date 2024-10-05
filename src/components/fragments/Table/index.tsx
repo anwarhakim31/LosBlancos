@@ -64,7 +64,14 @@ const TdComponent = (item: any, body: string) => {
         </td>
       );
     case "value":
-      return <td style={{ textAlign: "center" }}>{item[body]?.length}</td>;
+      return (
+        <td
+          style={{ textAlign: "center", userSelect: "none" }}
+          title={item[body]}
+        >
+          {item[body]?.length}
+        </td>
+      );
     default:
       return <td>{item[body]}</td>;
   }

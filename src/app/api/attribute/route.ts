@@ -61,3 +61,28 @@ export async function POST(req: NextRequest) {
     return ResponseError(500, "Internal Server Error");
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  await connectDB();
+  try {
+    verifyToken(req);
+    const data = await req.json();
+
+    for (const id of data) {
+      const isExist = await Attribute.findById(id);
+
+      if (!isExist) {
+        return ResponseError(404, "Atribut tidak ditemukan");
+      }
+    }
+
+    await Attribute.deleteMany({ _id: { $in: data } });
+
+    return NextResponse.json({
+      success: true,
+      message: "Berhasil mehapus data terpilih",
+    });
+  } catch (error) {
+    return ResponseError(500, "Internal Server Error");
+  }
+}

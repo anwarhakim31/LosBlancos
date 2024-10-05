@@ -56,18 +56,20 @@ export async function GET(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   await connectDB();
   try {
-    const verify = verifyToken(req);
-
-    if (verify && typeof verify === "object" && "role" in verify) {
-      if (verify.role !== "admin") {
-        return ResponseError(401, "Hak akses tidak diberikan");
-      }
-    }
+    verifyToken(req);
 
     const data = await req.json();
 
     if (data.length === 0) {
       return ResponseError(400, "Data tidak boleh kosong");
+    }
+
+    for (const id of data) {
+      const isExist = await User.findById(id);
+
+      if (!isExist) {
+        return ResponseError(404, "User tidak ditemukan");
+      }
     }
 
     await User.deleteMany({ _id: { $in: data } });
