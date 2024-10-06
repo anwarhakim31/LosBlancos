@@ -60,3 +60,23 @@ export type TypeAttribute = {
   name?: string;
   value?: string[];
 };
+
+export type TypeProduct = {
+  _id?: string;
+  name: string;
+  description: string;
+  price: number | string;
+  image: string[];
+  stock?: string[];
+  category: string[];
+  collection: string;
+  status?: string;
+  createdAt?: string;
+};
+
+export type TypeStock = {
+  _id?: string;
+  attribute: string;
+  value: string;
+  stock: number;
+};

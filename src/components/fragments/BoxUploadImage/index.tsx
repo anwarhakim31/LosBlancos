@@ -161,7 +161,7 @@ const BoxUploadWrapper = ({ onChange }: propsType) => {
           onRemove={handleRemoveBox}
         />
       ))}
-      {boxes.length < 6 && boxes[5]?.preview !== "" && (
+      {boxes.length >= 6 ? null : (
         <Fragment>
           <div onClick={handleClick} className={styles.wrapper}>
             <div className={styles.upload}>

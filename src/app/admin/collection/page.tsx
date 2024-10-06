@@ -57,9 +57,7 @@ const CollectionPage = () => {
 
   const getAllCollection = useCallback(async () => {
     try {
-      const params = { page, limit, search };
-
-      const res = await collectionSevice.getCollection(params);
+      const res = await collectionSevice.getCollection(search, limit, page);
 
       if (res.status === 200) {
         setData(res.data.collection);
