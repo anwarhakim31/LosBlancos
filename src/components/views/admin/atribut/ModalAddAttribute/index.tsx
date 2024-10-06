@@ -102,6 +102,7 @@ const ModalAddAttribute = ({ onClose, callback }: PropsType) => {
               name="nama"
               id="name"
               field={{
+                value: formData.name,
                 onChange: (e: FormEvent<HTMLInputElement>) =>
                   setFormData({
                     ...formData,

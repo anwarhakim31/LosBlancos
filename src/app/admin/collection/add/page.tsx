@@ -9,7 +9,7 @@ import { Fragment, useState } from "react";
 import ButtonSubmit from "@/components/element/ButtonSubmit";
 import { TypeCollection } from "@/services/type.module";
 import { ResponseError } from "@/utils/axios/response-error";
-import { collectionSevice } from "@/services/category/method";
+import { collectionSevice } from "@/services/collection/method";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import UploadImage from "@/components/fragments/UploadImage";
