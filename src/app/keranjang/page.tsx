@@ -83,16 +83,18 @@ const CartPage = () => {
           <BreadCrubm />
           <h1>Keranjang</h1>
           <div className={styles.content}>
-            <div
-              className={styles.card_loader}
-              style={{
-                opacity: loading ? 1 : 0,
-                visibility: loading ? "visible" : "hidden",
-              }}
-            >
-              <div className={styles.loading}></div>
-              <small style={{ marginTop: "0.5rem" }}>Loading</small>
-            </div>
+            {loading && (
+              <div
+                className={styles.card_loader}
+                style={{
+                  opacity: loading ? 1 : 0,
+                  visibility: loading ? "visible" : "hidden",
+                }}
+              >
+                <div className={styles.loading}></div>
+                <small style={{ marginTop: "0.5rem" }}>Loading</small>
+              </div>
+            )}
             {!loading && cart?.items?.length === 0 && (
               <div className={styles.empty}>
                 <Image

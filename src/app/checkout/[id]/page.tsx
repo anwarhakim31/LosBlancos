@@ -1,11 +1,17 @@
 "use client";
+import styles from "./checkout.module.scss";
+import BreadCrubm from "@/components/element/BreadCrubm";
+import Footer from "@/components/layouts/Footer";
+import ShippingView from "@/components/views/checkout/ShippingView";
 
 import { transactionService } from "@/services/transaction/method";
 import { ResponseError } from "@/utils/axios/response-error";
-import React, { useEffect, useState } from "react";
+
+import React, { Fragment, useEffect, useState } from "react";
 
 const Checkout = ({ params }: { params: { id: string } }) => {
   const { id } = params;
+
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -28,7 +34,23 @@ const Checkout = ({ params }: { params: { id: string } }) => {
 
   console.log(data);
 
-  return <div>Checkout</div>;
+  return (
+    <Fragment>
+      <main>
+        <section className={styles.container}>
+          <BreadCrubm />
+          <h1>Checkout</h1>
+          <div className={styles.content}>
+            <div className={styles.left}>
+              <ShippingView />
+            </div>
+            <div className={styles.right}></div>
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </Fragment>
+  );
 };
 
 export default Checkout;

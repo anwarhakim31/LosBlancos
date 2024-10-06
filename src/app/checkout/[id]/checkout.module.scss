@@ -1,0 +1,30 @@
+.container {
+  @include container();
+  margin-block: 8rem;
+  min-height: calc(100vh - 100px);
+  h1 {
+    font-weight: 500;
+    margin-bottom: 2rem;
+  }
+}
+
+.content {
+  flex: 1;
+  display: grid;
+  gap: 1rem;
+  position: relative;
+
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+
+  @include media(md) {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .left {
+    grid-column: span 3 / span 3;
+  }
+
+  .right {
+    grid-column: span 2 / span 2;
+  }
+}

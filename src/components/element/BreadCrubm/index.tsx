@@ -11,8 +11,15 @@ const BreadCrubm = () => {
 
   const pathSegments = pathname.split("/").filter((segment) => segment);
 
-  if (pathSegments.length === 3) {
+  if (pathSegments.length === 3 && pathSegments.length <= 3) {
     pathSegments.splice(2, 3);
+  }
+
+  if (
+    pathname.startsWith("/checkout/") ||
+    pathname.startsWith("/pembayaran/")
+  ) {
+    pathSegments.splice(1, 2);
   }
 
   return (

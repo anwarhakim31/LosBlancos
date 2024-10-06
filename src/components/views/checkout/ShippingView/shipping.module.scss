@@ -1,0 +1,37 @@
+.wrapper {
+  min-height: 140px;
+  border: 1px solid $gray-300;
+  border-radius: 0.4rem;
+  padding: 1rem;
+  flex-direction: column;
+  display: flex;
+  justify-content: space-between;
+
+  h3 {
+    font-weight: 500;
+  }
+
+  p {
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    color: $danger;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+  }
+
+  button {
+    margin-left: auto;
+    padding: 0.4rem 0.75rem;
+    border: 1px solid $gray-400;
+    color: $gray-700;
+    font-size: 0.8125rem;
+    border-radius: 0.25rem;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      border: 1px solid $primary;
+      color: $primary;
+    }
+  }
+}
