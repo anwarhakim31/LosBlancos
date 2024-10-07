@@ -1,0 +1,72 @@
+.container {
+  width: 100%;
+  position: relative;
+
+  .text {
+    width: 100%;
+    padding: 0.6375rem;
+    border-radius: 0.4rem;
+    border: 1px solid $gray-300;
+    height: 2.25rem;
+    font-size: 0.75rem;
+    cursor: pointer;
+
+    &:focus {
+      outline: $primary 1px solid;
+      border: 1px solid $primary;
+    }
+
+    &::placeholder {
+      font-size: 0.75rem;
+      color: $gray-400;
+    }
+  }
+
+  .icon {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    @include flex-center();
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+      transition: all 0.3s ease-in-out;
+
+      &.active {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  .dropdown {
+    width: 100%;
+    max-height: 100px;
+    background: $white;
+    position: absolute;
+    border-radius: 0.4rem;
+    margin-top: 2px;
+    z-index: 10;
+    border: 1px solid $gray-300;
+    overflow-y: auto;
+
+    span {
+      font-size: 0.75rem;
+      display: block;
+      width: 100%;
+      cursor: pointer;
+      padding: 0.5rem;
+      &:focus-visible {
+        outline: $primary 1px solid;
+
+        border-radius: 0.4rem;
+      }
+
+      &:hover {
+        background: $gray-100;
+      }
+    }
+  }
+}

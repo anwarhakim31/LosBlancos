@@ -1,0 +1,127 @@
+.container {
+  margin-top: 2rem;
+  background: $white;
+  padding: 2rem;
+  border-radius: 0.4rem;
+
+  small {
+    height: 1.25rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+    color: $danger;
+    display: block;
+  }
+
+  @include media(md) {
+    small {
+      margin-left: 136px;
+      color: $danger;
+    }
+  }
+}
+
+.wrapper {
+  display: flex;
+
+  gap: 1rem;
+  flex-direction: column;
+
+  @include media(md) {
+    flex-direction: row;
+  }
+
+  .textarea {
+    width: 100%;
+    padding: 0.6375rem;
+    border-radius: 0.4rem;
+    border: 1px solid $gray-300;
+    height: 4rem;
+    font-size: 0.8125rem;
+    resize: none;
+
+    &::placeholder {
+      font-size: 0.8125rem;
+      color: $gray-500;
+      letter-spacing: 0.01px;
+    }
+
+    &:focus-within {
+      outline: $primary 1px solid;
+      border: 1px solid $primary;
+    }
+  }
+
+  label {
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  @include media(md) {
+    label {
+      min-width: 120px;
+    }
+  }
+
+  .gambar {
+    flex: 1;
+    min-height: max-content;
+    overflow: hidden;
+    border: 1px solid $gray-300;
+    border-radius: 0.25rem;
+    padding: 0.75rem;
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .category {
+    flex: 1;
+    min-height: 75px;
+    overflow: hidden;
+    border: 1px solid $gray-300;
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+
+    div {
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 0.25rem 0.75rem;
+      height: min-content;
+      border-radius: 1rem;
+      display: flex;
+
+      align-items: center;
+
+      color: $primary;
+      background: rgb(227, 227, 249);
+      p {
+        user-select: none;
+      }
+
+      button {
+        width: 0.75rem;
+        height: 0.75rem;
+        background: $danger;
+        color: $white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        margin-left: 0.5rem;
+      }
+    }
+  }
+}
+
+.detail {
+  max-width: 1130px;
+
+  @include media(xl) {
+    grid-column: span 4 / span 4;
+  }
+}

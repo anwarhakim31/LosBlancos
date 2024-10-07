@@ -94,6 +94,7 @@ const AttributePage = () => {
           <ButtonClick
             title={`Tambah Atribut`}
             onClick={() => setIsAddData(true)}
+            loading={loading}
           />
         </div>
       </div>

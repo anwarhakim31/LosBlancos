@@ -1,0 +1,36 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.info {
+  padding: 0.6375rem;
+  border: 1px solid $gray-300;
+  border-right: none;
+  border-top-left-radius: 0.4rem;
+  border-bottom-left-radius: 0.4rem;
+  height: 2.25rem;
+  font-size: 0.75rem;
+  line-height: 0.9rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.6375rem;
+  border: 1px solid $gray-300;
+  border-top-right-radius: 0.4rem;
+  border-bottom-right-radius: 0.4rem;
+  height: 2.25rem;
+  font-size: 0.75rem;
+
+  &:focus {
+    outline: $primary 1px solid;
+    border: 1px solid $primary;
+  }
+
+  &::placeholder {
+    font-size: 0.75rem;
+    color: $gray-400;
+  }
+}
