@@ -85,9 +85,11 @@ const BoxUploadWrapper = ({ onChange }: propsType) => {
   const [lastBoxId, setLastBoxId] = useState<string | null>(null);
 
   const handleAddBox = () => {
-    const newBox = { id: uuid(), preview: "", progress: 0 };
-    setBoxes((prevBoxes) => [...prevBoxes, newBox]);
-    setLastBoxId(newBox.id);
+    if (boxes.length < 6) {
+      const newBox = { id: uuid(), preview: "", progress: 0 };
+      setBoxes((prevBoxes) => [...prevBoxes, newBox]);
+      setLastBoxId(newBox.id);
+    }
   };
 
   const handleRemoveBox = (id: string) => {
@@ -141,6 +143,9 @@ const BoxUploadWrapper = ({ onChange }: propsType) => {
     const file = e.target.files?.[0];
 
     if (!file) {
+      if (inputRef.current) {
+        inputRef.current.value = "";
+      }
       if (lastBoxId) {
         handleRemoveBox(lastBoxId);
         setLastBoxId(null);
@@ -157,6 +162,8 @@ const BoxUploadWrapper = ({ onChange }: propsType) => {
     }
   };
 
+  console.log(boxes[5]?.progress);
+
   return (
     <div className={styles.container}>
       {boxes.map((box, i) => (
@@ -169,9 +176,15 @@ const BoxUploadWrapper = ({ onChange }: propsType) => {
           i={i}
         />
       ))}
-      {boxes.length >= 6 ? null : (
+      {boxes.length >= 6 && boxes[boxes.length - 1].preview && boxes ? null : (
         <Fragment>
-          <div onClick={handleClick} className={styles.wrapper}>
+          <div
+            onClick={handleClick}
+            className={styles.wrapper}
+            style={{
+              display: boxes[5]?.progress > 0 ? "none" : "flex",
+            }}
+          >
             <div className={styles.upload}>
               <button type="button">
                 <Plus width={24} height={24} />

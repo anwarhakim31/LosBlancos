@@ -66,13 +66,10 @@ const DetailProduct = ({
       <small>{errors && errors.name?.message}</small>
       <div className={styles.wrapper}>
         <label htmlFor="price">Harga</label>
-        <InputCurrency
-          id="price"
-          field={{
-            ...register("price", {
-              required: "Harga tidak boleh kosong",
-            }),
-          }}
+        <Controller
+          name="price"
+          control={control}
+          render={({ field }) => <InputCurrency id="price" field={field} />}
         />
       </div>
       <small>{errors.price?.message}</small>

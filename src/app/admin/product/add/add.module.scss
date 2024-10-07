@@ -50,6 +50,8 @@
 }
 
 .stock {
+  margin-bottom: 2rem;
+
   @include media(xl) {
     grid-column: span 2 / span 2;
   }

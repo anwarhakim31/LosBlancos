@@ -14,8 +14,11 @@ import { collectionSevice } from "@/services/collection/method";
 import ButtonSubmit from "@/components/element/ButtonSubmit";
 import { ResponseError } from "@/utils/axios/response-error";
 import { productService } from "@/services/product/method";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const AddProductPage = () => {
+  const router = useRouter();
   const {
     control,
     register,
@@ -24,6 +27,7 @@ const AddProductPage = () => {
     getValues,
     watch,
     handleSubmit,
+    reset,
   } = useForm<TypeProduct>({
     defaultValues: {
       name: "",
@@ -33,28 +37,31 @@ const AddProductPage = () => {
       category: [],
       stock: [],
       collection: "",
+      attribute: "",
     },
   });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const category = watch("category");
   const stocks = watch("stock");
   const [atribut, setAtribut] = useState<TypeAttribute | undefined>(undefined);
 
-  console.log(setLoading);
+  console.log(watch());
 
   const onSubmit = async (data: TypeProduct) => {
-    setError("");
-    if (!atribut) {
-      setError("Atribut tidak boleh kosong");
-    }
+    setLoading(true);
 
     try {
       const res = await productService.create(data);
 
-      console.log(res);
+      if (res.status === 201) {
+        router.push("/admin/product");
+        toast.success(res.data.message);
+        reset();
+      }
     } catch (error) {
       ResponseError(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -81,14 +88,14 @@ const AddProductPage = () => {
               <Controller
                 name="collection"
                 control={control}
-                rules={{ required: "Koleksi harus di pilih" }}
+                rules={{ required: "Koleksi tidak bolek kosong" }}
                 render={({ field: { onChange } }) => (
                   <SelectOptionFetch
                     placeholder="Pilih Koleksi"
                     id="collection"
                     name="collection"
                     setValue={(value) => {
-                      onChange(value);
+                      onChange(value.name);
                     }}
                     fetching={(search = "") =>
                       collectionSevice.getCollection(search)
@@ -100,24 +107,32 @@ const AddProductPage = () => {
             <small>{errors.collection?.message}</small>
             <div className={styles.wrapper}>
               <label htmlFor="attribute">Atribut </label>
-              <SelectOptionFetch
-                placeholder="Pilih atribut"
-                id="attribute"
+              <Controller
+                control={control}
                 name="attribute"
-                fetching={(search = "") =>
-                  attributeService.getAttribute(search)
-                }
-                setValue={(value) => {
-                  setError("");
-                  if (value.value) {
-                    return setAtribut(value);
-                  } else {
-                    return setAtribut(value);
-                  }
-                }}
+                rules={{ required: "Atribut tidak boleh kosong" }}
+                render={({ field: { onChange } }) => (
+                  <SelectOptionFetch
+                    placeholder="Pilih atribut"
+                    id="attribute"
+                    name="attribute"
+                    fetching={(search = "") =>
+                      attributeService.getAttribute(search)
+                    }
+                    setValue={(value) => {
+                      if (value.value) {
+                        onChange(value.name);
+                        return setAtribut(value);
+                      } else {
+                        onChange("");
+                        return setAtribut(value);
+                      }
+                    }}
+                  />
+                )}
               />
             </div>
-            <small>{error}</small>
+            <small>{errors.attribute?.message}</small>
             {atribut && atribut.value && atribut?.value?.length > 0 && (
               <Fragment>
                 <div className={styles.wrapper}>
