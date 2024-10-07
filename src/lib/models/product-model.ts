@@ -35,7 +35,7 @@ const productSchema = new mongoose.Schema(
         required: true,
       },
     ],
-    collection: {
+    collectionName: {
       type: String,
       required: true,
     },

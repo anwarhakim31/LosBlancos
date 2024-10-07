@@ -1,46 +1,67 @@
+import connectDB from "@/lib/db";
 import Product from "@/lib/models/product-model";
 import Stock from "@/lib/models/stock-model";
 import { ResponseError } from "@/lib/response-error";
+import { verifyToken } from "@/lib/verify-token";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const params = new URL(req.url).searchParams;
-  const page = parseInt(params.get("page") || "1");
-  const limit = parseInt(params.get("limit") || "8");
-  const skipp = (page - 1) * limit;
+  await connectDB();
+  try {
+    const { searchParams } = new URL(req.url);
+    const page = parseInt(searchParams.get("page") || "1");
+    const limit = parseInt(searchParams.get("limit") || "8");
+    const search = searchParams.get("search")?.toString() || "";
+    const skip = (page - 1) * limit;
 
-  const search = params.get("search") || "";
-  const searchRegex = new RegExp(search.trim(), "i");
+    const searchRegex = new RegExp(search.trim(), "i");
 
-  const filterQuery = {
-    $or: [
-      { name: { $regex: searchRegex } },
-      { description: { $regex: searchRegex } },
-    ],
-  };
+    const filterQuery = {
+      name: { $regex: searchRegex },
+    };
 
-  const products = await Product.find(filterQuery)
-    .sort({ createdAt: -1 })
-    .skip(skipp)
-    .limit(limit)
-    .exec();
-  const total = await Product.countDocuments(filterQuery);
+    const products = await Product.find(filterQuery)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .exec();
 
-  return NextResponse.json({
-    success: true,
-    message: "Berhasil mendapatkan produk",
-    products,
-    pagination: {
-      page,
-      limit,
-      total,
-      totalPage: Math.ceil(total / limit),
-    },
-  });
+    const total = await Product.countDocuments(filterQuery);
+
+    const stockAtribut = await Stock.find({
+      productId: { $in: products.map((p) => p._id) },
+    });
+
+    const updatedProducts = products.map((product) => {
+      const stock = stockAtribut.filter(
+        (s) => s.productId.toString() === product._id.toString()
+      );
+
+      return {
+        ...product.toObject(),
+        stockAtribut: stock,
+      };
+    });
+
+    return NextResponse.json({
+      success: true,
+      products: updatedProducts,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPage: Math.ceil(total / limit),
+      },
+    });
+  } catch (error) {
+    return ResponseError(404, "Internal Server Error");
+  }
 }
 
 export async function POST(req: NextRequest) {
+  await connectDB();
   try {
+    verifyToken(req);
     const {
       name,
       description,
@@ -93,6 +114,34 @@ export async function POST(req: NextRequest) {
         status: 201,
       }
     );
+  } catch (error) {
+    console.log(error);
+    return ResponseError(500, "Internal Server Error");
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  await connectDB();
+  try {
+    verifyToken(req);
+    const data = await req.json();
+
+    for (const id of data) {
+      const isExist = await Product.findById(id);
+
+      if (!isExist) {
+        return ResponseError(404, "Produk tidak ditemukan ");
+      }
+    }
+
+    await Product.deleteMany({ _id: { $in: data } });
+
+    await Stock.deleteMany({ productId: { $in: data } });
+
+    return NextResponse.json({
+      success: true,
+      message: "Berhasil menambahkan produk",
+    });
   } catch (error) {
     console.log(error);
     return ResponseError(500, "Internal Server Error");

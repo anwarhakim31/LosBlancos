@@ -1,11 +1,11 @@
 "use client";
 import ButtonBackPage from "@/components/element/ButtonBackPage";
-import React, { Fragment, useState } from "react";
-import styles from "./add.module.scss";
+import React, { Fragment, useEffect, useState } from "react";
+import styles from "./edit.module.scss";
 import HeaderPage from "@/components/element/HeaderPage";
 import { Controller, useForm } from "react-hook-form";
 
-import { TypeAttribute, TypeProduct } from "@/services/type.module";
+import { TypeAttribute, TypeProduct, TypeStock } from "@/services/type.module";
 import DetailProduct from "@/components/views/admin/product/DetailProduct";
 import SelectOptionFetch from "@/components/element/SelectOptionFetch";
 import { attributeService } from "@/services/attribute/method";
@@ -14,8 +14,9 @@ import { collectionSevice } from "@/services/collection/method";
 import ButtonSubmit from "@/components/element/ButtonSubmit";
 import { ResponseError } from "@/utils/axios/response-error";
 import { productService } from "@/services/product/method";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
+import { useAppSelector } from "@/store/hook";
 
 const AddProductPage = () => {
   const router = useRouter();
@@ -40,18 +41,42 @@ const AddProductPage = () => {
       attribute: "",
     },
   });
+  const dataEdit = useAppSelector((state) => state.action.editProduct);
+  const params = useSearchParams();
+  const id = params.get("id");
   const [loading, setLoading] = useState(false);
   const category = watch("category");
   const stocks = watch("stock");
   const [atribut, setAtribut] = useState<TypeAttribute | undefined>(undefined);
 
+  useEffect(() => {
+    if (dataEdit) {
+      setValue("name", dataEdit.name);
+      setValue("description", dataEdit.description);
+      setValue("price", dataEdit.price);
+      setValue("image", dataEdit.image);
+      setValue("category", dataEdit.category);
+      setValue("collection", dataEdit.collection);
+      setValue("attribute", dataEdit.attribute);
+      if (dataEdit.stockAtribut) {
+        const toAtribute =
+          dataEdit.stockAtribut.map((item: TypeStock) => item.value) || [];
+
+        setAtribut({ name: dataEdit.attribute, value: toAtribute });
+      }
+      setValue("stock", dataEdit.stockAtribut || []);
+    } else {
+      router.push("/admin/product");
+    }
+  }, [dataEdit, id, router, setValue]);
+
   const onSubmit = async (data: TypeProduct) => {
     setLoading(true);
 
     try {
-      const res = await productService.create(data);
+      const res = await productService.edit(data, id as string);
 
-      if (res.status === 201) {
+      if (res.status === 200) {
         router.push("/admin/product");
         toast.success(res.data.message);
         reset();
@@ -87,11 +112,12 @@ const AddProductPage = () => {
                 name="collection"
                 control={control}
                 rules={{ required: "Koleksi tidak bolek kosong" }}
-                render={({ field: { onChange } }) => (
+                render={({ field: { onChange, value } }) => (
                   <SelectOptionFetch
                     placeholder="Pilih Koleksi"
                     id="collection"
                     name="collection"
+                    value={value}
                     setValue={(value) => {
                       onChange(value.name);
                     }}
@@ -109,10 +135,11 @@ const AddProductPage = () => {
                 control={control}
                 name="attribute"
                 rules={{ required: "Atribut tidak boleh kosong" }}
-                render={({ field: { onChange } }) => (
+                render={({ field: { onChange, value } }) => (
                   <SelectOptionFetch
                     placeholder="Pilih atribut"
                     id="attribute"
+                    value={value}
                     name="attribute"
                     fetching={(search = "") =>
                       attributeService.getAttribute(search)

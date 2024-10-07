@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./input.module.scss";
 
 interface propsType {
@@ -15,6 +15,12 @@ const InputCurrency = ({ id, field }: propsType) => {
     if (isNaN(number)) return "";
     return new Intl.NumberFormat("id-ID").format(number);
   };
+
+  useEffect(() => {
+    if (field.value) {
+      setValue(field.value);
+    }
+  }, [field]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = e.target.value;

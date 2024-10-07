@@ -8,10 +8,16 @@ import ButtonClick from "@/components/element/ButtonClick";
 import Table from "@/components/fragments/Table";
 import { productService } from "@/services/product/method";
 import { ResponseError } from "@/utils/axios/response-error";
+import ModalManyDelete from "@/components/fragments/ModalManyDelete";
+import ModalOneDelete from "@/components/fragments/ModalOneDelete";
+import { TypeProduct } from "@/services/type.module";
+import { useAppDispatch } from "@/store/hook";
+import { setEditProduct } from "@/store/slices/actionSlice";
 
 const ProductAdminPage = () => {
+  const dispatch = useAppDispatch();
   const { push } = useRouter();
-  const params = useSearchParams();
+  const query = useSearchParams();
   const [data, setData] = useState([]);
   const [pagination, setPagination] = useState({
     page: 1,
@@ -22,15 +28,12 @@ const ProductAdminPage = () => {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [check, setCheck] = useState<string[]>([]);
-  const [isDeleteOne, setIsDeleteOne] = useState(null);
+  const [isDeleteOne, setIsDeleteOne] = useState<TypeProduct | null>(null);
   const [isDeleteMany, setIsDeleteMany] = useState(false);
 
-  console.log(isDeleteOne);
-  console.log(isDeleteMany);
-
-  const page = parseInt(params.get("page") as string) || pagination.page;
-  const limit = parseInt(params.get("limit") as string) || pagination.limit;
-  const search = params.get("search") || "";
+  const page = parseInt(query.get("page") as string) || pagination.page;
+  const limit = parseInt(query.get("limit") as string) || pagination.limit;
+  const search = query.get("search") || "";
 
   const getData = useCallback(async () => {
     try {
@@ -49,7 +52,7 @@ const ProductAdminPage = () => {
 
   useEffect(() => {
     getData();
-  }, [getData]);
+  }, [getData, search, page, limit]);
 
   const thead = [
     { title: "Nama", padding: "1rem 1rem" },
@@ -72,7 +75,7 @@ const ProductAdminPage = () => {
           <InputSearch
             id="search"
             name="search"
-            placeholder="Cari Nama dari Kategori"
+            placeholder="Cari Nama dari product"
             loading={loading}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -100,10 +103,30 @@ const ProductAdminPage = () => {
         ]}
         setIsDeleteOne={setIsDeleteOne}
         setIsDeleteMany={setIsDeleteMany}
-        setIsEditData={(data) => console.log(data)}
+        setIsEditData={(dataEdit) => {
+          dispatch(setEditProduct(dataEdit));
+          push("/admin/product/edit?id=" + dataEdit._id);
+        }}
         setCheck={setCheck}
         check={check}
       />
+      {isDeleteMany && (
+        <ModalManyDelete
+          title="Apakah anda yakin ingin menghapus data terpilih ?"
+          onClose={() => setIsDeleteMany(false)}
+          setCheck={setCheck}
+          callback={() => getData()}
+          fetching={() => productService.deleteMany(check)}
+        />
+      )}
+      {isDeleteOne && (
+        <ModalOneDelete
+          title="Apakah anda yakin ingin menghapus data ?"
+          onClose={() => setIsDeleteOne(null)}
+          callback={() => getData()}
+          fetching={() => productService.deleteOne(isDeleteOne._id as string)}
+        />
+      )}
     </Fragment>
   );
 };

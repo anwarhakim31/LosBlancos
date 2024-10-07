@@ -64,6 +64,8 @@ const TdComponent = (item: any, body: string) => {
           />
         </td>
       );
+    case "stock":
+      return <td style={{ textAlign: "center" }}>{item[body]}</td>;
     case "imageProduct":
       return (
         <td className={`${style.table__imageProduct} `}>

@@ -35,21 +35,32 @@ const DetailProduct = ({
   return (
     <div className={styles.detail}>
       <div className={styles.wrapper}>
-        <label htmlFor="image">Gambar</label>
+        <label
+          htmlFor="image"
+          style={{ width: "min-content", height: "min-content" }}
+        >
+          Gambar
+        </label>
         <Controller
           control={control}
           name="image"
           rules={{ required: "Gambar tidak boleh kosong" }}
-          render={({ field: { onChange } }) => (
+          render={({ field: { onChange, value } }) => (
             <BoxUploadWrapper
               onChange={(updateImage) => onChange(updateImage)}
+              value={value}
             />
           )}
         />
 
         <input type="text" style={{ display: "none" }} id="image" />
       </div>
-      <small>{errors && errors.image?.message}</small>
+      {errors && errors.image ? (
+        <small>{errors.image?.message}</small>
+      ) : (
+        <small>Format File: PNG, JPG, JPEG, WEBP & Max. 5 MB</small>
+      )}
+
       <div className={styles.wrapper}>
         <label htmlFor="name">Nama Produk</label>
         <Input
@@ -80,11 +91,12 @@ const DetailProduct = ({
             control={control}
             name="category"
             rules={{ required: "Kategori tidak boleh kosong" }}
-            render={({ field: { onChange } }) => (
+            render={({ field: { onChange, value } }) => (
               <SelectOptionFetch
                 placeholder="Pilih Kategori"
                 id="category"
                 name="category"
+                value={value}
                 setValue={(value) => {
                   const category = getValues("category") || [];
 

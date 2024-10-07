@@ -10,7 +10,7 @@ const ButtonSubmit: React.FC<ButtonProps> = ({ title, loading }) => {
   return (
     <button type="submit" className={styles.button} disabled={loading}>
       {loading && <span className={styles.button__loader}></span>}
-      {loading ? "Loading..." : title}
+      {loading ? "Loading" : title}
     </button>
   );
 };

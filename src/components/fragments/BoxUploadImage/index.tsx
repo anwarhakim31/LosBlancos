@@ -1,10 +1,12 @@
 import { Plus, X } from "lucide-react";
 import styles from "./box.module.scss";
 import Image from "next/image";
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { v4 as uuid } from "uuid";
 import { imageService } from "@/services/image/method";
 import { ResponseError } from "@/utils/axios/response-error";
+import { ALLOW_IMAGE_TYPE } from "@/utils/AllowImageType";
+import { toast } from "sonner";
 
 interface BoxUploadImageProps {
   id: string;
@@ -75,14 +77,27 @@ const BoxUploadImage = ({
 
 interface propsType {
   onChange: (updatedBoxes: string[]) => void;
+  value: string[];
 }
 
-const BoxUploadWrapper = ({ onChange }: propsType) => {
+const BoxUploadWrapper = ({ onChange, value }: propsType) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [boxes, setBoxes] = useState<
     { id: string; preview: string; progress: number }[]
   >([]);
   const [lastBoxId, setLastBoxId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (value) {
+      setBoxes(
+        value.map((preview) => ({
+          id: uuid(),
+          preview,
+          progress: 0,
+        }))
+      );
+    }
+  }, [value]);
 
   const handleAddBox = () => {
     if (boxes.length < 6) {
@@ -100,6 +115,14 @@ const BoxUploadWrapper = ({ onChange }: propsType) => {
   };
 
   const handleUpload = async (file: File, id: string) => {
+    if (!ALLOW_IMAGE_TYPE.includes(file.type)) {
+      return toast.error("Format file tidak didukung");
+    }
+
+    if (file.size > 2 * 1024 * 1024) {
+      return toast.error("Ukuran file terlalu besar");
+    }
+
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", process.env.NEXT_PUBLIC_CLOUD_PRESET!);
@@ -161,8 +184,6 @@ const BoxUploadWrapper = ({ onChange }: propsType) => {
       }
     }
   };
-
-  console.log(boxes[5]?.progress);
 
   return (
     <div className={styles.container}>
