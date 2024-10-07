@@ -67,7 +67,7 @@ export type TypeProduct = {
   description: string;
   price: number | string;
   image: string[];
-  stock?: string[];
+  stock: TypeStock[];
   category: string[];
   collection: string;
   status?: string;

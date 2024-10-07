@@ -3,10 +3,10 @@ import InputCurrency from "@/components/element/InputCurrency";
 import BoxUploadWrapper from "@/components/fragments/BoxUploadImage";
 import SelectOptionFetch from "@/components/element/SelectOptionFetch";
 import { categoryService } from "@/services/category/method";
-
-import { collectionSevice } from "@/services/collection/method";
 import styles from "./detail.module.scss";
 import {
+  Controller,
+  ControllerProps,
   FieldErrors,
   UseFormGetValues,
   UseFormRegister,
@@ -21,6 +21,7 @@ interface propsType {
   errors: FieldErrors<TypeProduct>;
   getValues: UseFormGetValues<TypeProduct>;
   category: string[];
+  control: ControllerProps<TypeProduct>["control"];
 }
 
 const DetailProduct = ({
@@ -29,24 +30,26 @@ const DetailProduct = ({
   errors,
   getValues,
   category,
+  control,
 }: propsType) => {
-  const handleUpload = (updatedImages: string[]) => {
-    setValue("image", updatedImages);
-  };
-
-  console.log(category);
-
   return (
     <div className={styles.detail}>
       <div className={styles.wrapper}>
         <label htmlFor="image">Gambar</label>
-
-        <BoxUploadWrapper
-          onChange={(updateImage) => handleUpload(updateImage)}
+        <Controller
+          control={control}
+          name="image"
+          rules={{ required: "Gambar tidak boleh kosong" }}
+          render={({ field: { onChange } }) => (
+            <BoxUploadWrapper
+              onChange={(updateImage) => onChange(updateImage)}
+            />
+          )}
         />
+
         <input type="text" style={{ display: "none" }} id="image" />
       </div>
-      <small></small>
+      <small>{errors && errors.image?.message}</small>
       <div className={styles.wrapper}>
         <label htmlFor="name">Nama Produk</label>
         <Input
@@ -76,22 +79,27 @@ const DetailProduct = ({
       <div className={styles.wrapper}>
         <label htmlFor="category">Kategori</label>
         <div style={{ width: "100%" }}>
-          <SelectOptionFetch
-            placeholder="Pilih Kategori"
-            id="category"
+          <Controller
+            control={control}
             name="category"
-            setValue={(value) => {
-              const category = getValues("category") || [];
+            rules={{ required: "Kategori tidak boleh kosong" }}
+            render={({ field: { onChange } }) => (
+              <SelectOptionFetch
+                placeholder="Pilih Kategori"
+                id="category"
+                name="category"
+                setValue={(value) => {
+                  const category = getValues("category") || [];
 
-              console.log(value);
+                  if (!category.includes(value.name) && value !== "") {
+                    category.push(value.name);
+                  }
 
-              if (!category.includes(value.name) && value !== "") {
-                category.push(value.name);
-              }
-
-              setValue("category", category);
-            }}
-            fetching={(search = "") => categoryService.get(search)}
+                  onChange(category);
+                }}
+                fetching={(search = "") => categoryService.get(search)}
+              />
+            )}
           />
           <div className={styles.category}>
             {category &&
@@ -114,20 +122,8 @@ const DetailProduct = ({
           </div>
         </div>
       </div>
-      <small>{errors.price?.message}</small>
-      <div className={styles.wrapper}>
-        <label htmlFor="collection">Koleksi</label>
-        <SelectOptionFetch
-          placeholder="Pilih Koleksi"
-          id="collection"
-          name="koleksi"
-          setValue={(value) => {
-            setValue("collection", value);
-          }}
-          fetching={(search = "") => collectionSevice.getCollection(search)}
-        />
-      </div>
-      <small>{errors.price?.message}</small>
+
+      <small>{errors.category?.message}</small>
       <div className={styles.wrapper}>
         <label htmlFor="description">Deskripsi</label>
         <textarea
@@ -139,7 +135,7 @@ const DetailProduct = ({
           placeholder="Masukan Deskripsi"
         ></textarea>
       </div>
-      <small>{errors.price?.message}</small>
+      <small>{errors.description?.message}</small>
     </div>
   );
 };

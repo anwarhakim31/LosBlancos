@@ -11,6 +11,7 @@ interface BoxUploadImageProps {
   preview: string;
   progress: number;
   onRemove: (id: string) => void;
+  i: number;
 }
 
 const BoxUploadImage = ({
@@ -18,12 +19,18 @@ const BoxUploadImage = ({
   preview,
   progress,
   onRemove,
+  i,
 }: BoxUploadImageProps) => {
   return (
     <div
       className={styles.wrapper}
       style={{ display: !preview && progress === 0 ? "none" : "flex" }}
     >
+      {i === 0 && (
+        <div className={styles.default}>
+          <p>Utama</p>
+        </div>
+      )}
       {!preview && progress > 0 && (
         <div className={styles.progress}>
           <p>Mengunggah</p>
@@ -152,13 +159,14 @@ const BoxUploadWrapper = ({ onChange }: propsType) => {
 
   return (
     <div className={styles.container}>
-      {boxes.map((box) => (
+      {boxes.map((box, i) => (
         <BoxUploadImage
           key={box.id}
           id={box.id}
           preview={box.preview}
           progress={box.progress}
           onRemove={handleRemoveBox}
+          i={i}
         />
       ))}
       {boxes.length >= 6 ? null : (

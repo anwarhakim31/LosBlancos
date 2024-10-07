@@ -1,7 +1,7 @@
 .container {
-  margin-top: 2rem;
+  margin-top: 1rem;
   background: $white;
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: 0.4rem;
 
   small {
@@ -52,6 +52,17 @@
 .stock {
   @include media(xl) {
     grid-column: span 2 / span 2;
+  }
+
+  span {
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  @include media(md) {
+    span {
+      min-width: 120px;
+    }
   }
 
   .list {
