@@ -1,7 +1,6 @@
 .wrapper {
   @include flex(flex-start, center, null);
   gap: 0.5rem;
-  margin-bottom: 1rem;
 
   &__back {
     width: 1.75rem;

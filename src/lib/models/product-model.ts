@@ -15,27 +15,39 @@ const productSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    images: [
+    image: [
       {
         type: String,
       },
     ],
     stock: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Stock",
+        attribute: {
+          type: String,
+          required: true,
+        },
+        value: {
+          type: String,
+          required: true,
+        },
+        stock: {
+          type: Number,
+          required: true,
+        },
       },
     ],
     category: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Category",
+        type: String,
         required: true,
       },
     ],
-    collections: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Collection",
+    status: {
+      type: String,
+      required: false,
+    },
+    collection: {
+      type: String,
       required: true,
     },
     reviewCount: {

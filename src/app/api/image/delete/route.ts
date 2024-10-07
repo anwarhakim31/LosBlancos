@@ -5,7 +5,6 @@ export async function DELETE(req: NextRequest) {
   const url = await req.json();
 
   const publicId = url.split("/")[8];
-  console.log(publicId);
 
   try {
     const result = await cloudinary.uploader.destroy(publicId);
