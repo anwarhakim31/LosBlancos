@@ -20,33 +20,22 @@ const productSchema = new mongoose.Schema(
         type: String,
       },
     ],
-    stock: [
-      {
-        attribute: {
-          type: String,
-          required: true,
-        },
-        value: {
-          type: String,
-          required: true,
-        },
-        stock: {
-          type: Number,
-          required: true,
-        },
-      },
-    ],
+    attribute: {
+      type: String,
+      required: true,
+    },
+    stock: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
     category: [
       {
         type: String,
         required: true,
       },
     ],
-    status: {
-      type: String,
-      required: false,
-    },
-    collection: {
+    collectionName: {
       type: String,
       required: true,
     },

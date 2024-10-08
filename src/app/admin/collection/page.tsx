@@ -48,6 +48,7 @@ const CollectionPage = () => {
   ];
 
   const search = query.get("search") || "";
+
   const page =
     (query.get("page") && parseInt(query.get("page") as string)) ||
     pagination.page;

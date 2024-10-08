@@ -1,16 +1,22 @@
 "use client";
 
-import { TypeCarousel, TypeCollection } from "@/services/type.module";
+import {
+  TypeCarousel,
+  TypeCollection,
+  TypeProduct,
+} from "@/services/type.module";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface ActionState {
   dataEdit: TypeCollection | undefined;
   editCarousel: TypeCarousel | undefined;
+  editProduct: TypeProduct | undefined;
 }
 
 const initialState: ActionState = {
   dataEdit: undefined,
   editCarousel: undefined,
+  editProduct: undefined,
 };
 
 const actionSlice = createSlice({
@@ -23,11 +29,13 @@ const actionSlice = createSlice({
     setEditCarousel: (state, action) => {
       state.editCarousel = action.payload;
     },
+    setEditProduct: (state, action) => {
+      state.editProduct = action.payload;
+    },
   },
 });
 
-export const { setDataEdit, setEditCarousel } = actionSlice.actions;
+export const { setDataEdit, setEditCarousel, setEditProduct } =
+  actionSlice.actions;
 
 export default actionSlice.reducer;
-
-export const selectedEditCarousel = (state: TypeCarousel) => state;

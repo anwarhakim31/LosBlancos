@@ -10,6 +10,7 @@ interface propsType {
   name: string;
   setValue: (value: any) => void;
   fetching: () => Promise<any>;
+  value?: any;
 }
 
 const SelectOptionFetch = ({
@@ -17,12 +18,20 @@ const SelectOptionFetch = ({
   id,
   setValue,
   fetching,
+  value,
 }: propsType) => {
   const compRef = useRef<HTMLDivElement>(null);
   const [data, setData] = useState([]);
   const [select, setSelect] = React.useState("");
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (value) {
+      setSelect(value || "");
+      // const match = data.filter(item: ProdcutType => item.value === value);
+    }
+  }, [value, data]);
 
   useEffect(() => {
     const getData = async () => {

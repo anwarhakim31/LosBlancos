@@ -47,6 +47,16 @@ export async function POST(req: NextRequest) {
     verifyToken(req);
     const data = await req.json();
 
+    if (new Set(data.value).size !== data.value.length) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Terdapat duplikasi nilai dalam attribute value",
+        },
+        { status: 400 }
+      );
+    }
+
     const attribute = new Attribute({
       ...data,
     });

@@ -7,6 +7,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import SelectRow from "@/components/element/SelectRow";
 import Checkbox from "@/components/element/Checkbox";
 import Image from "next/image";
+import { formatCurrency } from "@/utils/contant";
 
 interface typeTable {
   thead: {
@@ -62,6 +63,24 @@ const TdComponent = (item: any, body: string) => {
             priority
           />
         </td>
+      );
+    case "stock":
+      return <td style={{ textAlign: "center" }}>{item[body]}</td>;
+    case "imageProduct":
+      return (
+        <td className={`${style.table__imageProduct} `}>
+          <Image
+            src={item?.image[0]}
+            alt="image"
+            width={100}
+            height={100}
+            priority
+          />
+        </td>
+      );
+    case "price":
+      return (
+        <td style={{ padding: "1rem 1rem" }}>{formatCurrency(item[body])}</td>
       );
     case "value":
       return (

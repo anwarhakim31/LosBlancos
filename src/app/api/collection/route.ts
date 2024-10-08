@@ -15,6 +15,7 @@ export async function GET(req: NextRequest) {
 
     const searchRegex = new RegExp(search.trim(), "i");
 
+    console.log(searchParams);
     const filterQuery = {
       name: { $regex: searchRegex },
     };

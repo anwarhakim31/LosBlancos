@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect, useState } from "react";
 import styles from "./input.module.scss";
 
 interface propsType {
@@ -7,16 +8,39 @@ interface propsType {
 }
 
 const InputCurrency = ({ id, field }: propsType) => {
+  const [value, setValue] = useState<string>("");
+
+  const formatCurrency = (value: string) => {
+    const number = parseInt(value.replace(/\D/g, ""), 10);
+    if (isNaN(number)) return "";
+    return new Intl.NumberFormat("id-ID").format(number);
+  };
+
+  useEffect(() => {
+    if (field.value) {
+      setValue(field.value);
+    }
+  }, [field]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value;
+    const formattedValue = formatCurrency(rawValue);
+    setValue(formattedValue);
+    field.onChange(rawValue.replace(/\D/g, ""));
+  };
+
   return (
     <div className={styles.wrapper}>
       <p className={styles.info}>IDR</p>
       <input
-        type="number"
+        type="text"
+        name={id}
         id={id}
         className={styles.input}
         placeholder="0"
-        min={0}
-        {...field}
+        value={value}
+        onChange={handleChange}
+        onBlur={field.onBlur}
       />
     </div>
   );
