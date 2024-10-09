@@ -11,11 +11,18 @@ interface propsType {
 }
 
 const LightBox: FC<propsType> = ({ onClose, data, isOpen }) => {
-  const [isSelected, setSelected] = useState(isOpen);
+  const [isSelected, setIsSelected] = useState(isOpen);
 
-  const handleNext = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleNext = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    isSelected < data.length ? setSelected(isSelected + 1) : setSelected(1);
+    isSelected < data.length ? setIsSelected(isSelected + 1) : setIsSelected(1);
+  };
+
+  const handlePrevious = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+    isSelected <= 1
+      ? setIsSelected(data.length)
+      : setIsSelected(isSelected - 1);
   };
 
   return (
@@ -27,7 +34,7 @@ const LightBox: FC<propsType> = ({ onClose, data, isOpen }) => {
             <div
               key={newIndex}
               className={styles.container}
-              onClick={(e) => e.stopPropagation()}
+              onClick={handleNext}
               style={{ display: isSelected === newIndex ? "block" : "none" }}
             >
               <Image src={item} alt="galeri1" width={1000} height={1000} />
@@ -57,7 +64,7 @@ const LightBox: FC<propsType> = ({ onClose, data, isOpen }) => {
         title="Sebelumnya"
         className={styles.arrow}
         style={{ top: "50%", left: "10px" }}
-        onClick={() => console.log(true)}
+        onClick={handlePrevious}
       >
         <ChevronLeft />
       </button>

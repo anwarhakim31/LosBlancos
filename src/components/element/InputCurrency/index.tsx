@@ -17,10 +17,11 @@ const InputCurrency = ({ id, field }: propsType) => {
   };
 
   useEffect(() => {
-    if (field.value) {
-      setValue(field.value);
+    if (field.value && value === "") {
+      const number = parseInt(value.replace(/\D/g, ""), 10);
+      setValue(new Intl.NumberFormat("id-ID").format(number));
     }
-  }, [field]);
+  }, [field, value]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = e.target.value;

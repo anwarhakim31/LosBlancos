@@ -86,7 +86,7 @@ const EditCategoryPage = () => {
               field={{
                 ...register("name", {
                   required: "Nama tidak boleh kosong",
-                  maxLength: { value: 20, message: "Maksimal 20 karakter" },
+                  maxLength: { value: 32, message: "Maksimal 32 karakter" },
                 }),
               }}
             />
@@ -101,7 +101,7 @@ const EditCategoryPage = () => {
               field={{
                 ...register("slug", {
                   required: "Slug tidak boleh kosong",
-                  maxLength: { value: 20, message: "Maksimal 20 karakter" },
+                  maxLength: { value: 32, message: "Maksimal 32 karakter" },
                 }),
               }}
             />
@@ -138,7 +138,7 @@ const EditCategoryPage = () => {
           <small>{errors.description && errors.description.message}</small>
 
           <div
-            style={{ width: "100px", marginLeft: "auto", marginTop: "20px" }}
+            style={{ width: "100px", marginLeft: "auto", marginTop: "32px" }}
           >
             <ButtonSubmit title="Simpan" loading={loading} />
           </div>

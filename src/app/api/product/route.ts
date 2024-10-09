@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
       stock,
       image,
       category,
-      collection,
+      collectionName,
       attribute,
     } = await req.json();
 
@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
       price,
       image,
       category,
-      collection,
+      collectionName,
       attribute,
     });
     const result = await product.save();
