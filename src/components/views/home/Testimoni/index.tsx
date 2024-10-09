@@ -10,14 +10,14 @@ const lora = Lora({
   display: "swap",
 });
 
-const Testimoni = () => {
+const TestimoniView = () => {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className={styles.testimoni}>
-      <div className={styles.testimoni__head}>
+    <div className={styles.container}>
+      <div className={styles.container__head}>
         <h1 className={lora.className}>Testimoni Pelanggan</h1>
-        <div className={styles.testimoni__head__btn}>
+        <div className={styles.container__head__btn}>
           <button
             type="button"
             aria-label="scroll-left"
@@ -38,16 +38,18 @@ const Testimoni = () => {
           </button>
         </div>
       </div>
-      <div className={styles.testimoni__wrapper} ref={wrapperRef}>
-        <div className={styles.testimoni__item}></div>
-        <div className={styles.testimoni__item}></div>
-        <div className={styles.testimoni__item}></div>
-        <div className={styles.testimoni__item}></div>
-        <div className={styles.testimoni__item}></div>
-        <div className={styles.testimoni__item}></div>
+      <div className={styles.container__max}>
+        <div className={styles.container__wrapper} ref={wrapperRef}>
+          <div className={styles.container__item}></div>
+          <div className={styles.container__item}></div>
+          <div className={styles.container__item}></div>
+          <div className={styles.container__item}></div>
+          <div className={styles.container__item}></div>
+          <div className={styles.container__item}></div>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Testimoni;
+export default TestimoniView;

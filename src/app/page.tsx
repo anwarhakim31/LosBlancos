@@ -4,8 +4,9 @@ import HomeCarousel from "@/components/views/home/HomeCarousel";
 
 import { Fragment } from "react";
 import { ServerURL } from "@/utils/contant";
-import ShowProduct from "@/components/views/home/ShowProduct";
-import Testimoni from "@/components/views/home/Testimoni";
+import ShowProductView from "@/components/views/home/ShowProduct";
+import TestimoniView from "@/components/views/home/Testimoni";
+import GaleriView from "@/components/views/home/Galeri";
 
 const Page = async () => {
   const [dataCarousel, dataMarquee, dataNewProduct] = await Promise.all([
@@ -27,12 +28,16 @@ const Page = async () => {
         {dataMarquee.marquee.display && (
           <HorizontalSlider data={dataMarquee.marquee.image} />
         )}
-        <ShowProduct header={"Produk Terbaru"} data={dataNewProduct.products} />
-        <ShowProduct
+        <ShowProductView
+          header={"Produk Terbaru"}
+          data={dataNewProduct.products}
+        />
+        <ShowProductView
           header={"Produk Terlaris"}
           data={dataNewProduct.products}
         />
-        <Testimoni />
+        <TestimoniView />
+        <GaleriView />
       </main>
       <Footer />
     </Fragment>

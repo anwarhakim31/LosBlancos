@@ -17,7 +17,7 @@ interface PropsType {
   data: TypeProduct[];
 }
 
-const ShowProduct: FC<PropsType> = ({ header, data }) => {
+const ShowProductView: FC<PropsType> = ({ header, data }) => {
   return (
     <div className={styles.container}>
       <h1 className={lora.className}>{header}</h1>
@@ -63,4 +63,4 @@ const ShowProduct: FC<PropsType> = ({ header, data }) => {
   );
 };
 
-export default ShowProduct;
+export default ShowProductView;
