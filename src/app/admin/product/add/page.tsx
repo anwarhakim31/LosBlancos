@@ -36,7 +36,7 @@ const AddProductPage = () => {
       image: [],
       category: [],
       stock: [],
-      collection: "",
+      collectionName: "",
       attribute: "",
     },
   });
@@ -82,15 +82,15 @@ const AddProductPage = () => {
           />
           <div className={styles.stock}>
             <div className={styles.wrapper}>
-              <label htmlFor="collection">Koleksi</label>
+              <label htmlFor="collectionName">Koleksi</label>
               <Controller
-                name="collection"
+                name="collectionName"
                 control={control}
                 rules={{ required: "Koleksi tidak bolek kosong" }}
                 render={({ field: { onChange } }) => (
                   <SelectOptionFetch
                     placeholder="Pilih Koleksi"
-                    id="collection"
+                    id="collectionName"
                     name="collection"
                     setValue={(value) => {
                       onChange(value.name);
@@ -102,7 +102,7 @@ const AddProductPage = () => {
                 )}
               />
             </div>
-            <small>{errors.collection?.message}</small>
+            <small>{errors.collectionName?.message}</small>
             <div className={styles.wrapper}>
               <label htmlFor="attribute">Atribut </label>
               <Controller

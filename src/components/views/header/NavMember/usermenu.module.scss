@@ -11,14 +11,18 @@
     gap: 1rem;
 
     &__wishlist {
-      color: $white;
-      mix-blend-mode: difference;
+      @include media(md) {
+        color: $white;
+      }
+
       @include flex(center, center, null);
     }
 
     &__cart {
-      color: $white;
-      mix-blend-mode: difference;
+      @include media(md) {
+        color: $white;
+      }
+
       @include flex(center, center, null);
     }
 
@@ -32,7 +36,7 @@
         border-radius: 50%;
         object-fit: cover;
         object-position: center;
-        background: $gray-200;
+        background: $secondary;
       }
 
       &__icon {
@@ -41,7 +45,9 @@
         width: 1rem;
         height: 1rem;
         stroke-width: 1;
-        color: $white;
+        @include media(md) {
+          color: $white;
+        }
         overflow: hidden;
         @include flex(center, flex-end, null);
       }
@@ -54,8 +60,8 @@
         overflow: hidden;
         white-space: nowrap;
         color: $white;
-        mix-blend-mode: difference;
-        font-weight: 300;
+
+        font-weight: 500;
 
         @include media(md) {
           display: block;

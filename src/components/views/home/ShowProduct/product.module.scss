@@ -1,0 +1,106 @@
+.container {
+  width: 100%;
+  height: 100%;
+  display: block;
+
+  @include container();
+  margin-block: 8rem;
+  h1 {
+    text-align: center;
+    font-size: 1.75rem;
+    font-weight: 600;
+
+    @include media(md) {
+      font-size: 2.5rem;
+    }
+  }
+
+  .scroller {
+    margin-block: 3rem 1rem;
+    display: flex;
+    gap: 2rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 2rem;
+    scroll-behavior: smooth;
+
+    &__card {
+      scroll-snap-align: start;
+      width: 220px;
+      overflow: hidden;
+      padding: 1rem;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 0.5rem;
+
+      &__image {
+        border: 1px solid $gray-300;
+        border-radius: 0.4rem;
+        display: block;
+        width: 100%;
+        height: 220px;
+        background: $gray-200;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center;
+        }
+      }
+
+      &__content {
+        display: flex;
+        flex-direction: column;
+
+        align-items: start;
+
+        &__collection {
+          font-size: 0.75rem;
+          font-weight: 500;
+          color: $gray-500;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+        }
+
+        &__title {
+          font-size: 1rem;
+          font-weight: 700;
+          color: $dark;
+          margin-bottom: auto;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+        }
+      }
+      &__price {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: $dark;
+      }
+    }
+  }
+
+  .showall {
+    width: max-content;
+    display: block;
+    margin-inline: auto;
+    height: 1rem;
+    border: 1px solid $gray-300;
+    border-radius: 2rem;
+    padding: 0.5rem 1.5rem;
+    @include flex-center();
+    span {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: $gray-600;
+    }
+  }
+}

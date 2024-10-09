@@ -23,7 +23,7 @@ export default async function RootLayout({
 }>) {
   const session = await getServerSession();
 
-  const res = await fetch(ServerURL + "/master/main", { cache: "no-store" });
+  const res = await fetch(ServerURL + "/master/main", { cache: "force-cache" });
   const data = await res.json();
 
   return (

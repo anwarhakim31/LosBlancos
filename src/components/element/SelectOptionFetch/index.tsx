@@ -16,6 +16,7 @@ interface propsType {
 const SelectOptionFetch = ({
   placeholder,
   id,
+  name,
   setValue,
   fetching,
   value,
@@ -29,7 +30,6 @@ const SelectOptionFetch = ({
   useEffect(() => {
     if (value) {
       setSelect(value || "");
-      // const match = data.filter(item: ProdcutType => item.value === value);
     }
   }, [value, data]);
 
@@ -39,7 +39,7 @@ const SelectOptionFetch = ({
         const res = await fetching();
 
         if (res.status === 200) {
-          setData(res.data[id]);
+          setData(res.data[name]);
         }
       } catch (error) {
         ResponseError(error);
@@ -49,7 +49,7 @@ const SelectOptionFetch = ({
     };
 
     getData();
-  }, [fetching, id]);
+  }, [fetching, name]);
 
   const handleSelect = (value: any) => {
     setSelect(value?.name || "");

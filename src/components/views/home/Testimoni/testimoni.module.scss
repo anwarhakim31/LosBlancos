@@ -1,0 +1,76 @@
+.container {
+  display: block;
+  margin-block: 8rem;
+
+  &__head {
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 600;
+
+      @include media(md) {
+        font-size: 2.5rem;
+      }
+    }
+    @include container();
+    @include flex(space-between, center, null);
+    margin-bottom: 2rem;
+
+    &__btn {
+      @include flex(center, center, null);
+      gap: 1rem;
+
+      button {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        border: 1px solid $gray-300;
+        @include flex-center();
+      }
+    }
+  }
+
+  &__max {
+    margin: 4rem 1rem 2rem;
+
+    overflow: hidden;
+    @include media(xl) {
+      margin-left: calc((100vw - 1100px) / 2);
+    }
+  }
+
+  &__wrapper {
+    width: 100%;
+    display: flex;
+    gap: 4rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-right: calc((100vw - 1150px) / 2);
+    scroll-behavior: smooth;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__item {
+    scroll-snap-align: start;
+    flex: 0 0 75%;
+    @include media(xs) {
+      flex: 0 0 70%;
+    }
+
+    @include media(sm) {
+      flex: 0 0 50%;
+    }
+
+    @include media(sm) {
+      flex: 0 0 35%;
+    }
+
+    @include media(xl) {
+      flex: 0 0 20%;
+    }
+
+    height: 200px;
+    background: $primary;
+  }
+}

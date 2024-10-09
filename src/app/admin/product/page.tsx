@@ -58,7 +58,7 @@ const ProductAdminPage = () => {
     { title: "Nama", padding: "1rem 1rem" },
     { title: "Gambar", padding: "1rem 2rem", textAlign: "center" as const },
     { title: "Harga", padding: "1rem 1rem" },
-    { title: "Stok", padding: "1rem 1rem" },
+    { title: "Stok", padding: "1rem 1rem", textAlign: "center" as const },
     { title: "Koleksi", padding: "1rem 1rem" },
     { title: "Atribut", padding: "1rem 1rem" },
     { title: "", padding: "1rem 1rem" },
@@ -98,7 +98,7 @@ const ProductAdminPage = () => {
           "imageProduct",
           "price",
           "stock",
-          "collection",
+          "collectionName",
           "attribute",
         ]}
         setIsDeleteOne={setIsDeleteOne}

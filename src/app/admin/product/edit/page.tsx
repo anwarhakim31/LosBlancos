@@ -37,7 +37,7 @@ const AddProductPage = () => {
       image: [],
       category: [],
       stock: [],
-      collection: "",
+      collectionName: "",
       attribute: "",
     },
   });
@@ -56,7 +56,7 @@ const AddProductPage = () => {
       setValue("price", dataEdit.price);
       setValue("image", dataEdit.image);
       setValue("category", dataEdit.category);
-      setValue("collection", dataEdit.collection);
+      setValue("collectionName", dataEdit.collectionName);
       setValue("attribute", dataEdit.attribute);
       if (dataEdit.stockAtribut) {
         const toAtribute =
@@ -107,16 +107,16 @@ const AddProductPage = () => {
           />
           <div className={styles.stock}>
             <div className={styles.wrapper}>
-              <label htmlFor="collection">Koleksi</label>
+              <label htmlFor="collectionName">Koleksi</label>
               <Controller
-                name="collection"
+                name="collectionName"
                 control={control}
                 rules={{ required: "Koleksi tidak bolek kosong" }}
                 render={({ field: { onChange, value } }) => (
                   <SelectOptionFetch
                     placeholder="Pilih Koleksi"
-                    id="collection"
-                    name="collection"
+                    id="collectionName"
+                    name="collectionName"
                     value={value}
                     setValue={(value) => {
                       onChange(value.name);
@@ -128,7 +128,7 @@ const AddProductPage = () => {
                 )}
               />
             </div>
-            <small>{errors.collection?.message}</small>
+            <small>{errors.collectionName?.message}</small>
             <div className={styles.wrapper}>
               <label htmlFor="attribute">Atribut </label>
               <Controller
