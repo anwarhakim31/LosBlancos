@@ -111,19 +111,20 @@ export async function POST(req: NextRequest) {
       },
       body: JSON.stringify(payload),
     });
-
+    const data = await res.json();
     if (!res.ok) {
-      return ResponseError(
-        500,
-        "Gagal memproses pembayaran" +
-          res.statusText +
-          MIDTRANS_BASE_URL +
-          MIDTRANS_SERVER_KEY +
-          res
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Gagal melakukan pembayaran",
+          data: data,
+          res: res,
+        },
+        {
+          status: 500,
+        }
       );
     }
-
-    const data = await res.json();
 
     if (data.status_code !== 201) {
       return ResponseError(500, data.message);
