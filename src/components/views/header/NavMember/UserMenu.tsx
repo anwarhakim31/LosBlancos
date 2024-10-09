@@ -33,12 +33,6 @@ const UserMenu = () => {
               height={50}
               priority
             />
-
-            {
-              <p className={styles.wrapper__user__profile__name}>
-                {session.data?.user?.name}
-              </p>
-            }
           </Link>
         </div>
       ) : (

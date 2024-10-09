@@ -1,10 +1,14 @@
 .list {
   font-size: 0.75rem;
   text-transform: uppercase;
-  font-weight: 300;
-  color: $white;
-  mix-blend-mode: difference;
+  font-weight: 600;
+
   cursor: pointer;
+
+  @include media(md) {
+    color: $white;
+  }
+
   &:focus-visible {
     outline: 2px solid $primary;
   }
@@ -14,9 +18,11 @@
   all: unset;
   font-size: 0.75rem;
   text-transform: uppercase;
-  font-weight: 300;
-  color: $white;
-  mix-blend-mode: difference;
+  font-weight: 600;
+  @include media(md) {
+    color: $white;
+  }
+
   cursor: pointer;
   &:focus-visible {
     outline: 2px solid $primary;

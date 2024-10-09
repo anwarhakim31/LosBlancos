@@ -79,7 +79,7 @@ export async function PUT(
 
     return NextResponse.json({
       success: true,
-      message: "Berhasil menambahkan produk",
+      message: "Berhasil mengubah produk",
     });
   } catch (error) {
     return ResponseError(500, "Internal Server Error");

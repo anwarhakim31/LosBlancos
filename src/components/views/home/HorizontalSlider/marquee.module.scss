@@ -1,8 +1,8 @@
 .container {
   overflow: hidden;
-  margin: 5rem auto;
+  margin: 6rem auto;
   display: flex;
-  max-width: 1560px;
+  max-width: 2560px;
   position: relative;
 
   &__wrapper {
@@ -14,7 +14,7 @@
 }
 
 .logo {
-  width: 350px;
+  width: 250px;
   height: 80px;
   object-fit: contain;
   pointer-events: none;

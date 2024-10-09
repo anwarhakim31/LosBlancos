@@ -1,0 +1,66 @@
+.testimoni {
+  display: block;
+  margin-block: 5rem 2rem;
+  overflow: hidden;
+
+  &__head {
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+
+      @include media(md) {
+        font-size: 2.5rem;
+      }
+    }
+    @include container();
+    @include flex(space-between, center, null);
+    margin-bottom: 2rem;
+
+    &__btn {
+      @include flex(center, center, null);
+      gap: 1rem;
+
+      button {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        border: 1px solid $gray-300;
+        @include flex-center();
+      }
+    }
+  }
+
+  &__wrapper {
+    width: 100%;
+    display: flex;
+    gap: 4rem;
+    margin: 0 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    margin-block: 3rem 2rem;
+    scroll-behavior: smooth;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    @include media(xl) {
+      margin-left: calc((100% - 1100px) / 2);
+      padding-right: 140px;
+    }
+  }
+
+  &__item {
+    scroll-snap-align: start;
+    flex: 0 0 75%;
+    @include media(xs) {
+      flex: 0 0 50%;
+    }
+
+    @include media(md) {
+      flex: 0 0 25%;
+    }
+
+    height: 200px;
+    background: $primary;
+  }
+}
