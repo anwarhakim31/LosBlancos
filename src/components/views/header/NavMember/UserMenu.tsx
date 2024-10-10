@@ -2,9 +2,9 @@ import { useSession } from "next-auth/react";
 
 import styles from "./usermenu.module.scss";
 import Link from "next/link";
-import Notelist from "@/assets/note.svg";
 import Cart from "@/assets/cart.svg";
 import Image from "next/image";
+import { NotepadTextIcon } from "lucide-react";
 const UserMenu = () => {
   const session = useSession();
 
@@ -12,7 +12,7 @@ const UserMenu = () => {
     <div className={styles.wrapper}>
       <div className={styles.wrapper__user}>
         <Link href={"/profile"} className={styles.wrapper__user__wishlist}>
-          <Notelist width={20} height={20} strokeWidth={1.5} />
+          <NotepadTextIcon width={20} height={20} strokeWidth={1.5} />
         </Link>
 
         <Link href={"/keranjang"} className={styles.wrapper__user__cart}>
