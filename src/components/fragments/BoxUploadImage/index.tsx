@@ -104,10 +104,11 @@ const BoxUploadWrapper = ({ onChange, value }: PropsType) => {
             box.id === id ? { ...box, preview: res.data.url, progress: 0 } : box
           );
 
-          onChange(updatedBoxes.map((box) => box.preview));
-
           return updatedBoxes;
         });
+        setTimeout(() => {
+          onChange(boxes.map((box) => box.preview));
+        }, 10);
       }
     } catch (error) {
       ResponseError(error);
@@ -125,6 +126,7 @@ const BoxUploadWrapper = ({ onChange, value }: PropsType) => {
       toast.error("Maksimum upload 6 gambar. Silakan pilih lagi.");
       return;
     }
+
     Array.from(files).forEach((file) => {
       const newBoxId = uuid();
 
@@ -140,6 +142,12 @@ const BoxUploadWrapper = ({ onChange, value }: PropsType) => {
       inputRef.current.value = "";
     }
   };
+
+  useEffect(() => {
+    if (boxes.length > 0 && value.length !== boxes.length) {
+      onChange(boxes.map((box) => box.preview));
+    }
+  }, [boxes, onChange, value]);
 
   return (
     <div className={styles.container}>

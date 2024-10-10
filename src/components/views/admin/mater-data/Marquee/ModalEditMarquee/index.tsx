@@ -61,7 +61,7 @@ const ModalEditMarquee = ({ onClose, isEditData, callback }: PropsType) => {
           </div>
           <div className={style.modal__footer}>
             <div style={{ width: "100px" }}>
-              <ButtonSubmit title="Simpan" />
+              <ButtonSubmit title="Simpan" loading={loading} />
             </div>
           </div>
         </form>

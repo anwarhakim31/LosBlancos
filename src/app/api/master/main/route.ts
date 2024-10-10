@@ -24,6 +24,7 @@ export async function GET() {
         master: newMaster,
       });
     }
+    console.log(master);
 
     return NextResponse.json({
       success: true,
@@ -40,17 +41,22 @@ export async function PATCH(req: NextRequest) {
   try {
     verifyToken(req);
     const data = await req.json();
-    const master = await Master.findOne();
+    let master = await Master.findOne();
 
     if (!master) {
-      return ResponseError(404, "Master data tidak ditemukan");
+      master = await Master.create({
+        logo: "/default.png",
+        displayLogo: true,
+        name: "Nama",
+        color: "#000000",
+        displayName: false,
+        favicon: "/default.png",
+      });
     }
 
     if (data.name && data.name.length > 15) {
       return ResponseError(400, "Panjang nama logo maksimal 15 karakter");
     }
-
-    console.log(data.color);
 
     if (data.color && !data.color.startsWith("#")) {
       return ResponseError(400, "Format warna harus Hexadecimal");
