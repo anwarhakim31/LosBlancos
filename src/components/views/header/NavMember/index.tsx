@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { FC, useEffect, useRef } from "react";
 import styles from "./navbar.module.scss";
 import Link from "next/link";
 import Image from "next/image";
@@ -9,8 +9,13 @@ import HomeMenu from "./HomeMenu";
 import { Menu, Phone, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useMasterContext } from "@/context/MasterContext";
+import { TypeCollection } from "@/services/type.module";
 
-const NavbarView = () => {
+interface propsType {
+  collection: TypeCollection[];
+}
+
+const NavbarView: FC<propsType> = ({ collection }) => {
   const context = useMasterContext();
   const navRef = useRef<HTMLDivElement>(null);
   const [isActive, setIsActive] = React.useState<boolean>(false);
@@ -77,7 +82,7 @@ const NavbarView = () => {
       {!authRender.includes(pathname) && (
         <>
           <div className={styles["nav__menu"]}>
-            <HomeMenu />
+            <HomeMenu collection={collection} />
           </div>
           <UserMenu />
         </>
@@ -110,7 +115,9 @@ const NavbarView = () => {
         }`}
       >
         <div className={styles.nav__menu__mobile__wrapper}>
-          {!authRender.includes(pathname) && <HomeMenu />}
+          {!authRender.includes(pathname) && (
+            <HomeMenu collection={collection} />
+          )}
         </div>
       </div>
     </nav>
