@@ -36,7 +36,8 @@ const productSchema = new mongoose.Schema(
       },
     ],
     collectionName: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Collection",
       required: true,
     },
     reviewCount: {

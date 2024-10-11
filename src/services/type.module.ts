@@ -69,7 +69,7 @@ export type TypeProduct = {
   image: string[];
   stock: TypeStock[];
   category: string[];
-  collectionName: string;
+  collectionName: TypeCollection;
   createdAt?: string;
   attribute?: string;
   stockAtribut?: TypeStock[];

@@ -1,16 +1,22 @@
 "use client";
 
-import React, { Fragment, useEffect, useState } from "react";
+import React, { FC, Fragment, useEffect, useState } from "react";
 import styles from "./header.module.scss";
 import { usePathname } from "next/navigation";
 import NavbarView from "@/components/views/header/NavMember";
+import { TypeCollection } from "@/services/type.module";
 export const authRender = [
   "/register",
   "/login",
   "/forget-password",
   "/reset-password",
 ];
-const Header = () => {
+
+interface propsType {
+  collection: TypeCollection[];
+}
+
+const Header: FC<propsType> = ({ collection }) => {
   const pathname = usePathname();
 
   const [isActive, setIsActive] = useState(false);
@@ -57,7 +63,9 @@ const Header = () => {
           isNonActive ? styles.nonactive : ""
         }`}
       >
-        {!pathname.startsWith("/admin") && <NavbarView />}
+        {!pathname.startsWith("/admin") && (
+          <NavbarView collection={collection} />
+        )}
       </header>
     </Fragment>
   );

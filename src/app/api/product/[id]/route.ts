@@ -3,6 +3,7 @@ import Product from "@/lib/models/product-model";
 import Stock from "@/lib/models/stock-model";
 import { ResponseError } from "@/lib/response-error";
 import { verifyToken } from "@/lib/verify-token";
+import { Collection } from "mongoose";
 
 import { NextRequest, NextResponse } from "next/server";
 
@@ -46,10 +47,15 @@ export async function PUT(
       price,
       image,
       category,
-      collection,
+      collectionName,
       attribute,
       stock,
     } = await req.json();
+
+    const collectionDB = await Collection.findOne({ name: collectionName });
+    if (!collectionDB) {
+      return ResponseError(404, "Koleksi tidak ditemukan");
+    }
 
     const product = await Product.findByIdAndUpdate(id, {
       name,
@@ -57,7 +63,7 @@ export async function PUT(
       price,
       image,
       category,
-      collection,
+      collection: collectionDB._id,
       attribute,
     });
 

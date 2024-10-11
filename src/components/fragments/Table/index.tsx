@@ -82,6 +82,8 @@ const TdComponent = (item: any, body: string) => {
       return (
         <td style={{ padding: "1rem 1rem" }}>{formatCurrency(item[body])}</td>
       );
+    case "collectionName":
+      return <td>{item.collectionName.name}</td>;
     case "value":
       return (
         <td

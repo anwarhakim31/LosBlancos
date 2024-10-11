@@ -5,7 +5,7 @@ import styles from "./add.module.scss";
 import HeaderPage from "@/components/element/HeaderPage";
 import { Controller, useForm } from "react-hook-form";
 
-import { TypeAttribute, TypeProduct } from "@/services/type.module";
+import { TypeAttribute } from "@/services/type.module";
 import DetailProduct from "@/components/views/admin/product/DetailProduct";
 import SelectOptionFetch from "@/components/element/SelectOptionFetch";
 import { attributeService } from "@/services/attribute/method";
@@ -16,6 +16,7 @@ import { ResponseError } from "@/utils/axios/response-error";
 import { productService } from "@/services/product/method";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { inputProductType } from "@/utils/InputTypes.module";
 
 const AddProductPage = () => {
   const router = useRouter();
@@ -28,7 +29,7 @@ const AddProductPage = () => {
     watch,
     handleSubmit,
     reset,
-  } = useForm<TypeProduct>({
+  } = useForm<inputProductType>({
     defaultValues: {
       name: "",
       description: "",
@@ -45,7 +46,7 @@ const AddProductPage = () => {
   const stocks = watch("stock");
   const [atribut, setAtribut] = useState<TypeAttribute | undefined>(undefined);
 
-  const onSubmit = async (data: TypeProduct) => {
+  const onSubmit = async (data: inputProductType) => {
     setLoading(true);
 
     try {

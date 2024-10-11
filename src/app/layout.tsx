@@ -16,23 +16,34 @@ const openSans = Open_Sans({
   display: "swap",
 });
 
+const getMaster = async () => {
+  const res = await fetch(ServerURL + "/master/main", { cache: "no-cache" });
+  return await res.json();
+};
+
+const getCollection = async () => {
+  const res = await fetch(ServerURL + "/collection", {
+    cache: "no-cache",
+  });
+  return await res.json();
+};
+
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const session = await getServerSession();
-
-  const res = await fetch(ServerURL + "/master/main", { cache: "no-cache" });
-  const data = await res.json();
+  const master = await getMaster();
+  const collection = await getCollection();
 
   return (
     <html lang="en">
       <SessionProviderClient session={session}>
         <StoreProvider>
           <body className={openSans.className}>
-            <MasterProvider data={data.master}>
-              <Header />
+            <MasterProvider data={master.master}>
+              <Header collection={collection.collection} />
               {children}
               <Toaster
                 position="top-center"

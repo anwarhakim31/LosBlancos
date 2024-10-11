@@ -3,6 +3,7 @@ import Product from "@/lib/models/product-model";
 import Stock from "@/lib/models/stock-model";
 import { ResponseError } from "@/lib/response-error";
 import { verifyToken } from "@/lib/verify-token";
+import { Collection } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -24,6 +25,7 @@ export async function GET(req: NextRequest) {
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
+      .populate("collectionName")
       .exec();
 
     const total = await Product.countDocuments(filterQuery);
@@ -54,6 +56,7 @@ export async function GET(req: NextRequest) {
       },
     });
   } catch (error) {
+    console.log(error);
     return ResponseError(404, "Internal Server Error");
   }
 }
@@ -73,13 +76,18 @@ export async function POST(req: NextRequest) {
       attribute,
     } = await req.json();
 
+    const collectionDB = await Collection.findOne({ name: collectionName });
+    if (!collectionDB) {
+      return ResponseError(404, "Koleksi tidak ditemukan");
+    }
+
     const product = new Product({
       name,
       description,
       price,
       image,
       category,
-      collectionName,
+      collection: collectionDB._id,
       attribute,
     });
     const result = await product.save();

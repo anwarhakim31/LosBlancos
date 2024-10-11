@@ -5,7 +5,7 @@ import styles from "./edit.module.scss";
 import HeaderPage from "@/components/element/HeaderPage";
 import { Controller, useForm } from "react-hook-form";
 
-import { TypeAttribute, TypeProduct, TypeStock } from "@/services/type.module";
+import { TypeAttribute, TypeStock } from "@/services/type.module";
 import DetailProduct from "@/components/views/admin/product/DetailProduct";
 import SelectOptionFetch from "@/components/element/SelectOptionFetch";
 import { attributeService } from "@/services/attribute/method";
@@ -17,6 +17,7 @@ import { productService } from "@/services/product/method";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { useAppSelector } from "@/store/hook";
+import { inputProductType } from "@/utils/InputTypes.module";
 
 const AddProductPage = () => {
   const router = useRouter();
@@ -29,7 +30,7 @@ const AddProductPage = () => {
     watch,
     handleSubmit,
     reset,
-  } = useForm<TypeProduct>({
+  } = useForm<inputProductType>({
     defaultValues: {
       name: "",
       description: "",
@@ -53,11 +54,11 @@ const AddProductPage = () => {
     if (dataEdit) {
       setValue("name", dataEdit.name);
       setValue("description", dataEdit.description);
-      setValue("price", dataEdit.price);
+      setValue("price", dataEdit.price.toString());
       setValue("image", dataEdit.image);
       setValue("category", dataEdit.category);
-      setValue("collectionName", dataEdit.collectionName);
-      setValue("attribute", dataEdit.attribute);
+      setValue("collectionName", dataEdit.collectionName.name);
+      setValue("attribute", dataEdit.attribute || "");
       if (dataEdit.stockAtribut) {
         const toAtribute =
           dataEdit.stockAtribut.map((item: TypeStock) => item.value) || [];
@@ -70,7 +71,7 @@ const AddProductPage = () => {
     }
   }, [dataEdit, id, router, setValue]);
 
-  const onSubmit = async (data: TypeProduct) => {
+  const onSubmit = async (data: inputProductType) => {
     setLoading(true);
 
     try {

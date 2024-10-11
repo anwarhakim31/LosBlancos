@@ -12,16 +12,27 @@ import {
   UseFormRegister,
   UseFormSetValue,
 } from "react-hook-form";
-import { TypeProduct } from "@/services/type.module";
+import { TypeStock } from "@/services/type.module";
 import { X } from "lucide-react";
 
-interface propsType {
-  setValue: UseFormSetValue<TypeProduct>;
-  register: UseFormRegister<TypeProduct>;
-  errors: FieldErrors<TypeProduct>;
-  getValues: UseFormGetValues<TypeProduct>;
+interface formType {
+  name: string;
+  description: string;
+  price: string;
+  image: string[];
   category: string[];
-  control: ControllerProps<TypeProduct>["control"];
+  stock: TypeStock[];
+  collectionName: string;
+  attribute: string;
+}
+
+interface propsType {
+  setValue: UseFormSetValue<formType>;
+  register: UseFormRegister<formType>;
+  errors: FieldErrors<formType>;
+  getValues: UseFormGetValues<formType>;
+  category: string[];
+  control: ControllerProps<formType>["control"];
 }
 
 const DetailProduct = ({
