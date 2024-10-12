@@ -91,7 +91,7 @@ const ModalAddAttribute = ({ onClose, callback }: PropsType) => {
         onClick={(e) => e.stopPropagation()}
       >
         <HeaderModal
-          title="Tambah Kategori"
+          title="Tambah Atribut"
           onClose={loading ? () => {} : onClose}
         />
         <form onSubmit={handleSubmit}>

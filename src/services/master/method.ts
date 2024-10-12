@@ -19,4 +19,11 @@ export const masterService = {
   getGaleri: () => instance.get("/master/galeri"),
   editGaleri: (data: { image: string; id: string }) =>
     instance.post("/master/galeri", data),
+  getBanner: () => instance.get("/master/banner"),
+  editBanner: (data: { image: string }) =>
+    instance.post("/master/banner", data),
+  toogleBanner: (checked: boolean) =>
+    instance.put("/master/banner", {
+      display: checked,
+    }),
 };

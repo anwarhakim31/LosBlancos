@@ -6,8 +6,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import CarousalView from "@/components/views/admin/mater-data/Caraousel";
 import MarqueeView from "@/components/views/admin/mater-data/Marquee";
 import GaleriView from "@/components/views/admin/mater-data/Galeri";
+import BannerView from "@/components/views/admin/mater-data/Banner";
 
-const tabs = ["carousel", "marquee", "galeri"];
+const tabs = ["carousel", "marquee", "galeri", "banner"];
 
 const DesainPage = () => {
   const { replace } = useRouter();
@@ -26,7 +27,7 @@ const DesainPage = () => {
     <Fragment>
       <HeaderPage
         title="Halaman Desain"
-        description="Kelola desain toko beruntuk logo, Merek"
+        description="Kelola desain toko yang digunakan pada halaman beranda"
       />
       <div className={styles.tabs}>
         {tabs.map((tab) => (
@@ -48,6 +49,7 @@ const DesainPage = () => {
       {selectedTab === "carousel" && <CarousalView />}
       {selectedTab === "marquee" && <MarqueeView />}
       {selectedTab === "galeri" && <GaleriView />}
+      {selectedTab === "banner" && <BannerView />}
     </Fragment>
   );
 };

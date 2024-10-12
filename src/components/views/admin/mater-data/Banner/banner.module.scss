@@ -1,0 +1,115 @@
+.container {
+  background: $white;
+  border-radius: 0.25rem;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  @include flex-center();
+  flex-direction: column;
+
+  .header {
+    @include flex(space-between, center, null);
+    width: 100%;
+    color: $white;
+    background: $primary;
+
+    &__box {
+      padding: 0.75rem 2rem;
+      @include container2();
+      @include flex(space-between, center, null);
+    }
+
+    &__title {
+      @include flex(center, center, null);
+      gap: 0.5rem;
+
+      h5 {
+        all: unset;
+        font-size: 0.8125rem;
+        font-weight: 600;
+      }
+
+      svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        color: $white;
+      }
+    }
+
+    &__btn {
+      @include flex(center, center, null);
+      gap: 0.5rem;
+      background: $white;
+      color: $primary;
+      font-size: 0.875rem;
+      padding: 0.25rem 1rem;
+      border-radius: 0.25rem;
+    }
+  }
+
+  .content {
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+    @include container2();
+    display: grid;
+
+    gap: 1rem;
+
+    &__box {
+      border: 1px solid $gray-300;
+      border-radius: 0.4rem;
+      aspect-ratio: 4 / 1;
+      overflow: hidden;
+
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+
+      position: relative;
+
+      button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 0.25rem 0.5rem;
+        border-left: 1px solid $gray-300;
+        border-bottom: 1px solid $gray-300;
+        @include flex-center();
+        border-bottom-left-radius: 0.4rem;
+        background: $gray-100;
+        transition: all 0.3s ease-in-out;
+
+        svg {
+          color: $gray-500;
+        }
+
+        &:hover {
+          background: rgb(234, 255, 234);
+
+          svg {
+            color: $success;
+          }
+        }
+      }
+    }
+  }
+}
+
+.skeleton {
+  aspect-ratio: 4 / 1;
+  border: 1px solid $gray-300;
+  border-radius: 0.4rem;
+  overflow: hidden;
+  @include flex(center, center, null);
+  position: relative;
+  background: $neutral;
+
+  @include shimmer();
+}
+
+.info {
+  margin-top: 0.5rem;
+  width: 200px;
+}
