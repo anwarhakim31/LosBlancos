@@ -7,6 +7,7 @@ import { ServerURL } from "@/utils/contant";
 import ShowProductView from "@/components/views/home/ShowProduct";
 import TestimoniView from "@/components/views/home/Testimoni";
 import GaleriView from "@/components/views/home/Galeri";
+import HomeBannerView from "@/components/views/home/HomeBanner";
 
 const Page = async () => {
   const [
@@ -15,6 +16,7 @@ const Page = async () => {
     dataNewProduct,
     dataBestSellProduct,
     dataGaleri,
+    dataBanner,
   ] = await Promise.all([
     fetch(ServerURL + "/master/carousel", { next: { revalidate: 10 } }).then(
       (res) => res.json()
@@ -32,6 +34,9 @@ const Page = async () => {
     fetch(ServerURL + "/master/galeri", { next: { revalidate: 10 } }).then(
       (res) => res.json()
     ),
+    fetch(ServerURL + "/master/banner", { next: { revalidate: 10 } }).then(
+      (res) => res.json()
+    ),
   ]);
 
   return (
@@ -45,6 +50,9 @@ const Page = async () => {
           header={"Produk Terbaru"}
           data={dataNewProduct.products}
         />
+        {dataBanner.banner.display && (
+          <HomeBannerView image={dataBanner.banner.image} />
+        )}
         <ShowProductView
           header={"Produk Terlaris"}
           data={dataBestSellProduct.products}
