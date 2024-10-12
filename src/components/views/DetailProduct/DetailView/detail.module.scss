@@ -1,6 +1,168 @@
 .container {
-  margin-top: 9rem;
+  padding-top: 8rem;
+  @include container();
+  margin-bottom: 20rem;
 }
 
-.breadcrumb {
+.wrapper {
+  display: grid;
+
+  gap: 1rem;
+
+  @include media(lg) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  &__images {
+    width: 100%;
+    overflow: hidden;
+    gap: 0.5rem;
+    display: flex;
+    position: relative;
+
+    &__dots {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      z-index: 1;
+
+      @include media(lg) {
+        display: none;
+      }
+
+      &__dot {
+        @include flex-center();
+        background: $gray-300;
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+        aspect-ratio: 1/1;
+      }
+
+      &__select {
+        background: $primary;
+      }
+    }
+  }
+
+  &__info {
+    width: 100%;
+    height: 500px;
+    // background: blue;
+  }
+}
+
+.image {
+  user-select: none;
+  position: relative;
+  width: 100%;
+  max-height: 900px;
+  background: $gray-100;
+  overflow-x: auto;
+  display: flex;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &__dekstop {
+    display: none;
+
+    @include media(lg) {
+      display: block;
+    }
+  }
+
+  &__mobile {
+    display: block;
+
+    @include media(lg) {
+      display: none;
+    }
+  }
+
+  @include media(lg) {
+    width: 80%;
+  }
+
+  img {
+    flex: 0 0 100%;
+    height: auto;
+    object-fit: cover;
+    object-position: center;
+    scroll-snap-align: start;
+
+    @include media(lg) {
+      height: 100%;
+    }
+  }
+
+  &__carousel {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+
+    gap: 0.5rem;
+    display: none;
+    @include media(lg) {
+      display: flex;
+    }
+
+    button {
+      @include flex-center();
+      background: $gray-200;
+      border-radius: 50%;
+      width: 2rem;
+      height: 2rem;
+
+      &:hover {
+        background: $gray-300;
+      }
+    }
+  }
+}
+
+.overlay {
+  width: 20%;
+  display: none;
+  gap: 0.5rem;
+
+  @include media(lg) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__image {
+    overflow: hidden;
+    background: $gray-100;
+    width: 80px;
+    height: 80px;
+    border: 1px solid $gray-300;
+    border-radius: 0.25rem;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+
+  &__select {
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: rgba(0, 0, 0, 0.2);
+    }
+  }
 }

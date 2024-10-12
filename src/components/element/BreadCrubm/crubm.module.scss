@@ -1,0 +1,30 @@
+.breadcrubm {
+  display: flex;
+  align-items: center;
+  margin-bottom: 3rem;
+  background: $primary;
+  border-radius: 0.25rem;
+  width: max-content;
+  padding: 0.25rem 1rem;
+
+  li {
+    display: flex;
+    align-items: center;
+    color: $white;
+
+    a {
+      text-transform: capitalize;
+      @include flex-center();
+      font-size: 0.875rem;
+      font-weight: 400;
+
+      svg {
+        stroke-width: 2;
+      }
+    }
+
+    svg {
+      stroke-width: 1;
+    }
+  }
+}

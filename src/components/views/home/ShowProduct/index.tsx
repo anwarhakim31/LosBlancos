@@ -18,24 +18,26 @@ interface PropsType {
 }
 
 const ShowProductView: FC<PropsType> = ({ header, data }) => {
+  console.log(data.length);
+
   return (
     <div className={styles.container}>
       <h1 className={lora.className}>{header}</h1>
       <div className={styles.scroller}>
-        {data.length > 0 &&
+        {data &&
           data.map((item) => {
-            const collection = item.collectionName.slug;
+            const collection = item.collectionName.name.replace(" ", "-");
             const id = item._id;
 
             return (
               <Link
-                href={`/product/${collection}/${id}`}
+                href={`/produk/${collection}/${id}`}
                 key={item._id}
                 className={styles.scroller__card}
               >
                 <div className={styles.scroller__card__image}>
                   <Image
-                    src="/sample1.webp"
+                    src={item.image[0]}
                     alt="image"
                     width={1000}
                     height={1000}
