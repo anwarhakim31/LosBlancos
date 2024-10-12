@@ -1,5 +1,5 @@
 import Footer from "@/components/layouts/Footer";
-import DetailProductView from "@/components/views/DetailProduct/DetailView";
+import DetailProductView from "@/components/views/DetailProduct/DetailViewMain";
 import { ServerURL } from "@/utils/contant";
 import React from "react";
 
@@ -14,6 +14,8 @@ const DetailProduct = async ({ params }: { params: { id: string } }) => {
   const { id } = params;
 
   const data = await getProduct(id);
+
+  console.log(data);
 
   return (
     <main>

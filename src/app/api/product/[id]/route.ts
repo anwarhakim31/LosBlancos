@@ -21,10 +21,15 @@ export async function GET(
       return ResponseError(404, "Produk tidak ditemukan");
     }
 
+    const stock = await Stock.find({ productId: id });
+
     return NextResponse.json({
       success: true,
       message: "Berhasil mendapatkan produk",
-      product,
+      product: {
+        ...product._doc,
+        stock: stock,
+      },
     });
   } catch (error) {
     return ResponseError(500, "Internal Server Error");

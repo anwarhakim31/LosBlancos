@@ -1,58 +1,36 @@
-.container {
-  padding-top: 8rem;
-  @include container();
-  margin-bottom: 20rem;
-}
+.images {
+  width: 100%;
+  overflow: hidden;
+  gap: 0.5rem;
+  display: flex;
+  position: relative;
 
-.wrapper {
-  display: grid;
-
-  gap: 1rem;
-
-  @include media(lg) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  &__images {
-    width: 100%;
-    overflow: hidden;
-    gap: 0.5rem;
+  &__dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
-    position: relative;
+    gap: 0.5rem;
+    align-items: center;
+    z-index: 1;
 
-    &__dots {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-      z-index: 1;
-
-      @include media(lg) {
-        display: none;
-      }
-
-      &__dot {
-        @include flex-center();
-        background: $gray-300;
-        border-radius: 50%;
-        width: 10px;
-        height: 10px;
-        aspect-ratio: 1/1;
-      }
-
-      &__select {
-        background: $primary;
-      }
+    @include media(lg) {
+      display: none;
     }
-  }
 
-  &__info {
-    width: 100%;
-    height: 500px;
-    // background: blue;
+    &__dot {
+      @include flex-center();
+      background: $gray-300;
+      border-radius: 50%;
+      width: 10px;
+      height: 10px;
+      aspect-ratio: 1/1;
+    }
+
+    &__select {
+      background: $primary;
+    }
   }
 }
 
@@ -121,8 +99,8 @@
       width: 2rem;
       height: 2rem;
 
-      &:hover {
-        background: $gray-300;
+      svg {
+        color: $gray-700;
       }
     }
   }

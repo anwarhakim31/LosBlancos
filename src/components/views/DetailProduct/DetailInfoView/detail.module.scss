@@ -1,0 +1,276 @@
+.info {
+  width: 100%;
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: space-between;
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 500;
+      text-transform: capitalize;
+
+      @include media(lg) {
+        font-size: 1.75rem;
+      }
+    }
+
+    button {
+      margin-bottom: auto;
+      margin-top: 0.5rem;
+      @include flex-center();
+      svg {
+        width: 1.25rem;
+        height: 1.25rem;
+        stroke-width: 1.5;
+      }
+
+      @include media(lg) {
+        svg {
+          width: 1.5rem;
+          height: 1.5rem;
+        }
+      }
+    }
+  }
+
+  &__wrapper {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+    align-items: center;
+  }
+
+  &__rating {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+      fill: $secondary;
+      color: $secondary;
+    }
+
+    p {
+      font-size: 0.875rem;
+      color: $gray-700;
+    }
+  }
+  &__penilaian {
+    font-size: 0.875rem;
+    color: $gray-700;
+  }
+  &__terbeli {
+    font-size: 0.875rem;
+    color: $gray-700;
+  }
+
+  &__price {
+    margin-top: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: $gray-700;
+  }
+
+  &__category {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid $gray-200;
+    padding-bottom: 2rem;
+
+    &__badge {
+      user-select: none;
+      pointer-events: none;
+      border-radius: 1rem;
+      padding: 0.25rem 1rem;
+      background: rgb(237, 237, 255);
+      span {
+        display: block;
+        font-weight: 500;
+        font-size: 0.75rem;
+        color: $primary;
+      }
+    }
+  }
+
+  &__atribut {
+    margin-top: 1rem;
+
+    &__name {
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: $gray-700;
+      text-transform: capitalize;
+    }
+
+    &__content {
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+
+      button {
+        padding: 0.25rem 1rem;
+        border: 1px solid $gray-200;
+        min-width: 1.75rem;
+        min-height: 1.25rem;
+        @include flex-center();
+        border-radius: 0.25rem;
+        transition: all 0.3s ease-in-out;
+        font-size: 0.875rem;
+        text-transform: capitalize;
+        position: relative;
+        overflow: hidden;
+
+        &.value {
+          color: $primary;
+          border: 1px solid $primary;
+        }
+
+        &:hover {
+          border: 1px solid $primary;
+          color: $primary;
+        }
+
+        &:disabled {
+          background: $gray-200;
+          cursor: not-allowed;
+        }
+
+        .check {
+          width: 2rem;
+          height: 2rem;
+          background: $primary;
+          position: absolute;
+          bottom: -1rem;
+          right: -1rem;
+          @include flex-center();
+          transform: rotate(45deg);
+
+          svg {
+            transform: rotate(-50deg);
+            color: white;
+            width: 1rem;
+            height: 1rem;
+            margin-bottom: 0rem;
+            margin-right: 1.25rem;
+          }
+        }
+      }
+    }
+
+    &__total {
+      margin-top: 0.5rem;
+      font-size: 0.8125rem;
+      font-weight: 400;
+      color: $gray-700;
+      text-transform: capitalize;
+    }
+  }
+
+  &__kuantitas {
+    margin-top: 1rem;
+
+    &__name {
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: $gray-700;
+      text-transform: capitalize;
+    }
+
+    &__content {
+      margin-top: 1rem;
+      border-radius: 0.25rem;
+      border: 1px solid $gray-200;
+      width: 200px;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .btn {
+        width: 25%;
+        height: 100%;
+
+        @include flex-center();
+        border-radius: 0.25rem;
+        transition: all 0.3s ease-in-out;
+        font-size: 0.875rem;
+        text-transform: capitalize;
+        position: relative;
+        overflow: hidden;
+        margin: auto;
+
+        svg {
+          color: $gray-700;
+          width: 1rem;
+          height: 1rem;
+        }
+      }
+
+      .value {
+        @include flex-center();
+        padding: 0.25rem 0.25rem;
+        width: 100px;
+        border-inline: 1px solid $gray-200;
+      }
+    }
+  }
+
+  &__btn {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+
+    button {
+      border: 1px solid $primary;
+      padding: 0.25rem 1rem;
+      border-radius: 2rem;
+
+      height: 2rem;
+      width: 200px;
+
+      @include flex-center();
+      font-size: 0.875rem;
+      text-transform: capitalize;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .cart {
+      background: rgb(233, 233, 255);
+      gap: 0.5rem;
+      color: $primary;
+
+      span {
+        font-size: 0.875rem;
+      }
+
+      &:hover {
+        background: $white;
+      }
+    }
+
+    .buy {
+      background: $primary;
+      gap: 0.5rem;
+      color: $white;
+
+      span {
+        font-size: 0.875rem;
+      }
+
+      &:hover {
+        background: $primary-hover;
+      }
+    }
+  }
+}

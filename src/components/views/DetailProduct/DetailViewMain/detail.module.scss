@@ -1,0 +1,61 @@
+.container {
+  padding-block: 8rem;
+  @include container();
+}
+
+.wrapper {
+  display: grid;
+
+  gap: 1rem;
+
+  @include media(lg) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.footer {
+  margin-top: 4rem;
+
+  &__navigation {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-bottom: 1px solid $gray-300;
+
+    button {
+      @include flex-center();
+      padding: 1rem 0.25rem;
+      color: $gray-700;
+      font-size: 0.875rem;
+      font-weight: 400;
+      text-transform: capitalize;
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+
+      &:hover {
+        color: $primary;
+      }
+
+      &.active {
+        border-bottom: 2px solid $primary;
+      }
+    }
+  }
+
+  &__description {
+    padding: 3rem 2rem;
+    background: $gray-50;
+
+    h3 {
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 0.875rem;
+      line-height: 2;
+    }
+  }
+}
