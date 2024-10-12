@@ -11,6 +11,8 @@
     gap: 1rem;
 
     &__wishlist {
+      position: relative;
+
       @include media(md) {
         color: $white;
       }
@@ -19,11 +21,29 @@
     }
 
     &__cart {
+      position: relative;
+
       @include media(md) {
         color: $white;
       }
 
       @include flex(center, center, null);
+    }
+
+    &__dot {
+      border: 1px solid white;
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 0.8125rem;
+      height: 0.8125rem;
+      border-radius: 50%;
+      background-color: $danger;
+      @include flex(center, center, null);
+    }
+
+    &__count {
+      font-size: 0.75rem;
     }
 
     &__profile {
@@ -91,9 +111,4 @@
       background: $primary-hover;
     }
   }
-}
-
-.direct {
-  @include flex(center, center, null);
-  gap: 0.5rem;
 }

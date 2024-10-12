@@ -7,6 +7,35 @@ import { Collection } from "mongoose";
 
 import { NextRequest, NextResponse } from "next/server";
 
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  await connectDB();
+  try {
+    const { id } = params;
+
+    const product = await Product.findById(id);
+
+    if (!product) {
+      return ResponseError(404, "Produk tidak ditemukan");
+    }
+
+    const stock = await Stock.find({ productId: id });
+
+    return NextResponse.json({
+      success: true,
+      message: "Berhasil mendapatkan produk",
+      product: {
+        ...product._doc,
+        stock: stock,
+      },
+    });
+  } catch (error) {
+    return ResponseError(500, "Internal Server Error");
+  }
+}
+
 export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string } }

@@ -39,6 +39,10 @@
 
     transition: max-height 0.2s ease-in-out;
 
+    @include media(md) {
+      display: none;
+    }
+
     &__wrapper {
       display: flex;
       flex-direction: column;

@@ -12,15 +12,9 @@ const HorizontalSlider = ({ data }: { data: string[] }) => {
       {Array.from({ length: 2 }).map((_, index) => (
         <div key={index} className={styles.container__wrapper}>
           {[...data, ...data, ...data].map((item, index) => (
-            <Image
-              key={index}
-              src={item}
-              alt="logo"
-              height={250}
-              width={250}
-              priority
-              className={styles.logo}
-            />
+            <div key={index} className={styles.logo}>
+              <Image src={item} alt="logo" height={250} width={250} priority />
+            </div>
           ))}
         </div>
       ))}

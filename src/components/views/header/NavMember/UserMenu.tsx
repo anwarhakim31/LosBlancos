@@ -6,7 +6,10 @@ import Cart from "@/assets/cart.svg";
 import Image from "next/image";
 import { Heart } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { useAppSelector } from "@/store/hook";
 const UserMenu = () => {
+  const wishList = useAppSelector((state) => state.wishlist.wishlist);
+
   const session = useSession();
   const pathname = usePathname();
 
@@ -14,19 +17,23 @@ const UserMenu = () => {
     <div className={styles.wrapper}>
       <div className={styles.wrapper__user}>
         <Link
-          href={"/profile"}
+          href={"/wishlist"}
           className={styles.wrapper__user__wishlist}
           style={{ color: pathname !== "/" ? "black" : "" }}
         >
-          <Heart width={19} height={19} strokeWidth={1.5} />
+          <Heart width={20} height={20} strokeWidth={1.5} />
+          {wishList.length > 0 && (
+            <div className={styles.wrapper__user__dot}></div>
+          )}
         </Link>
 
         <Link
-          href={"/keranjang"}
+          href={"/cart"}
           className={styles.wrapper__user__cart}
           style={{ color: pathname !== "/" ? "black" : "" }}
         >
           <Cart width={20} height={20} strokeWidth={1.75} />
+          <span className={styles.wrapper__user__count}>[0]</span>
         </Link>
 
         <Link
@@ -48,24 +55,6 @@ const UserMenu = () => {
         </Link>
       </div>
     </div>
-    //   <div className={styles.direct}>
-    //     <button
-    //       className={styles.wrapper__button}
-    //       onClick={() => {
-    //         push("/login");
-    //       }}
-    //     >
-    //       Masuk
-    //     </button>
-    //     <button
-    //       className={styles.wrapper__button}
-    //       onClick={() => {
-    //         push("/register");
-    //       }}
-    //     >
-    //       Daftar
-    //     </button>
-    //   </div>
   );
 };
 
