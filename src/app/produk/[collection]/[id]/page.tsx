@@ -1,7 +1,7 @@
 import Footer from "@/components/layouts/Footer";
 import DetailProductView from "@/components/views/DetailProduct/DetailViewMain";
 import { ServerURL } from "@/utils/contant";
-import React from "react";
+import React, { Fragment } from "react";
 
 const getProduct = async (id: string) => {
   const res = await fetch(ServerURL + "/product/" + id, {
@@ -15,13 +15,13 @@ const DetailProduct = async ({ params }: { params: { id: string } }) => {
 
   const data = await getProduct(id);
 
-  console.log(data);
-
   return (
-    <main>
-      <DetailProductView product={data.product} />
+    <Fragment>
+      <main>
+        <DetailProductView product={data.product} />
+      </main>
       <Footer />
-    </main>
+    </Fragment>
   );
 };
 

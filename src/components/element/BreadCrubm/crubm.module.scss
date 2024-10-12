@@ -1,16 +1,14 @@
 .breadcrubm {
   display: flex;
   align-items: center;
-  margin-bottom: 3rem;
-  background: $primary;
+  margin-bottom: 2rem;
+
   border-radius: 0.25rem;
   width: max-content;
-  padding: 0.25rem 1rem;
 
   li {
     display: flex;
     align-items: center;
-    color: $white;
 
     a {
       text-transform: capitalize;
@@ -19,7 +17,7 @@
       font-weight: 400;
 
       svg {
-        stroke-width: 2;
+        stroke-width: 1.25;
       }
     }
 

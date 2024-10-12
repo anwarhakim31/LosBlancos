@@ -39,9 +39,9 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <SessionProviderClient session={session}>
-        <StoreProvider>
-          <body className={openSans.className}>
+      <body className={openSans.className}>
+        <SessionProviderClient session={session}>
+          <StoreProvider>
             <MasterProvider data={master.master}>
               <Header collection={collection.collection} />
               {children}
@@ -57,9 +57,9 @@ export default async function RootLayout({
               />
               <div id="modal-root"></div>
             </MasterProvider>
-          </body>
-        </StoreProvider>
-      </SessionProviderClient>
+          </StoreProvider>
+        </SessionProviderClient>
+      </body>
     </html>
   );
 }

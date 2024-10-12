@@ -17,7 +17,7 @@ const HomeMenu = ({ collection }: { collection: TypeCollection[] }) => {
         Beranda
       </Link>
       <Link
-        href={"/product"}
+        href={"/produk"}
         className={styles.list}
         style={{ color: pathname !== "/" ? "black" : "" }}
       >

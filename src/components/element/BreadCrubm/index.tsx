@@ -8,10 +8,7 @@ import styles from "./crubm.module.scss";
 const BreadCrubm = () => {
   const pathname = usePathname();
 
-  const pathSegments = pathname
-    .split("/")
-    .filter((segment) => segment)
-    .slice(0, -1);
+  const pathSegments = pathname.split("/").filter((segment) => segment);
 
   return (
     <ul role="list" className={styles.breadcrubm}>

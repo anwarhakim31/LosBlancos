@@ -4,16 +4,39 @@ import { Check, Heart, Minus, Plus, Star } from "lucide-react";
 import { formatCurrency } from "@/utils/contant";
 import { useState } from "react";
 import { TypeProduct } from "@/services/type.module";
+import { useAppDispatch, useAppSelector } from "@/store/hook";
+import { addWishList, removeWishList } from "@/store/slices/wishSlice";
 
 const DetailInfoView = ({ product }: { product: TypeProduct }) => {
+  const wishlist = useAppSelector((state) => state.wishlist.wishlist);
+  const dispatch = useAppDispatch();
   const [selectValue, setSelectValue] = useState("");
   const [quantity, setQuantity] = useState(1);
+
+  const handleWishlist = () => {
+    if (wishlist.some((item) => item._id === product._id)) {
+      dispatch(removeWishList(product._id));
+    } else {
+      dispatch(addWishList(product));
+    }
+  };
+
   return (
     <div className={styles.info}>
       <div className={styles.info__title}>
         <h1>{product.name}</h1>
-        <button type="button" aria-label="add to wishlist">
-          <Heart />
+        <button
+          type="button"
+          aria-label="add to wishlist"
+          onClick={handleWishlist}
+        >
+          <Heart
+            className={
+              wishlist.some((item) => item._id === product._id)
+                ? styles.wish
+                : ""
+            }
+          />
         </button>
       </div>
       <div className={styles.info__wrapper}>

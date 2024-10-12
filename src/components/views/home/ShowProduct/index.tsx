@@ -5,6 +5,7 @@ import { formatCurrency } from "@/utils/contant";
 import Link from "next/link";
 import { FC } from "react";
 import { TypeProduct } from "@/services/type.module";
+import { Star } from "lucide-react";
 
 const lora = Lora({
   weight: ["400", "500", "600", "700"],
@@ -18,8 +19,6 @@ interface PropsType {
 }
 
 const ShowProductView: FC<PropsType> = ({ header, data }) => {
-  console.log(data.length);
-
   return (
     <div className={styles.container}>
       <h1 className={lora.className}>{header}</h1>
@@ -42,7 +41,6 @@ const ShowProductView: FC<PropsType> = ({ header, data }) => {
                     width={1000}
                     height={1000}
                     priority
-                    className={styles.scroller__card__image}
                   />
                 </div>
                 <div className={styles.scroller__card__content}>
@@ -58,6 +56,12 @@ const ShowProductView: FC<PropsType> = ({ header, data }) => {
                 <p className={styles.scroller__card__price}>
                   {formatCurrency(Number(item.price))}
                 </p>
+                <div className={styles.scroller__card__rating}>
+                  {Array.from({ length: 5 }).map((_, index) => (
+                    <Star key={index} />
+                  ))}
+                  <p>({Math.round(5.1)})</p>
+                </div>
               </Link>
             );
           })}
