@@ -16,7 +16,7 @@ const Page = async () => {
     fetch(ServerURL + "/master/marquee", { cache: "no-store" }).then((res) =>
       res.json()
     ),
-    fetch(ServerURL + "/product?limit=4", { cache: "no-store" }).then((res) =>
+    fetch(ServerURL + "/product/new", { cache: "no-store" }).then((res) =>
       res.json()
     ),
   ]);

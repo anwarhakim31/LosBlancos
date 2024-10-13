@@ -1,6 +1,7 @@
 import Footer from "@/components/layouts/Footer";
 import DetailProductView from "@/components/views/DetailProduct/DetailViewMain";
 import { ServerURL } from "@/utils/contant";
+
 import React, { Fragment } from "react";
 
 const getProduct = async (id: string) => {

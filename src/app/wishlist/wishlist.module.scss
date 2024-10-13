@@ -18,7 +18,6 @@
     position: relative;
     overflow: hidden;
     border: 1px solid $gray-300;
-    padding: 1rem;
     border-radius: 0.25rem;
 
     @include media(md) {
@@ -37,15 +36,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
-
-      &:hover {
-        background: $gray-200;
-      }
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(2px);
 
       svg {
+        color: $danger;
         width: 1.25rem;
         height: 1.25rem;
-        color: $gray-700;
       }
     }
 
@@ -61,21 +58,22 @@
     gap: 0.5rem;
 
     &__image {
-      border-radius: 0.4rem;
       display: block;
       width: 100%;
-      background: $gray-200;
+
       overflow: hidden;
       max-height: 500px;
+      min-height: 200px;
       @include media(md) {
         max-height: 300px;
       }
 
       img {
         width: 100%;
-        height: 100%;
+        height: auto;
         object-fit: cover;
         object-position: center;
+        background: $gray-200;
         transition: all 0.3s ease;
       }
     }
@@ -83,7 +81,7 @@
     &__content {
       display: flex;
       flex-direction: column;
-
+      padding: 0 0.5rem;
       align-items: flex-start;
 
       &__collection {
@@ -111,12 +109,14 @@
       }
     }
     &__price {
+      padding: 0 0.5rem;
       font-size: 0.875rem;
       font-weight: 600;
       color: $dark;
     }
 
     &__rating {
+      padding: 0 0.5rem 0.5rem;
       display: flex;
       align-items: center;
       gap: 0.2rem;
@@ -132,5 +132,35 @@
         color: $gray-500;
       }
     }
+  }
+}
+
+.empty {
+  grid-column: span 12 / span 12;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 2rem;
+
+  p {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    color: $gray-700;
+  }
+
+  span {
+    font-size: 0.75rem;
+    color: $gray-500;
+  }
+
+  .button {
+    margin-top: 1rem;
+    max-width: 200px;
+
+    @include btn();
+    height: 2rem;
+    font-size: 0.875rem;
   }
 }

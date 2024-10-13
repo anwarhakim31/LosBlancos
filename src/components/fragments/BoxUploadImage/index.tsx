@@ -80,6 +80,8 @@ const BoxUploadWrapper = ({ onChange, value }: PropsType) => {
     }
 
     if (file.size > 2 * 1024 * 1024) {
+      setBoxes((prevBoxes) => prevBoxes.filter((box) => box.id !== id));
+
       return toast.error("Ukuran file terlalu besar");
     }
 

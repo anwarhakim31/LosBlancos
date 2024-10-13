@@ -15,7 +15,7 @@ export async function GET(
   try {
     const { id } = params;
 
-    const product = await Product.findById(id);
+    const product = await Product.findById(id).populate("collectionName");
 
     if (!product) {
       return ResponseError(404, "Produk tidak ditemukan");

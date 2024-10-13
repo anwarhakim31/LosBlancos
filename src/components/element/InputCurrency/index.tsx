@@ -17,7 +17,7 @@ const InputCurrency = ({ id, field }: propsType) => {
   };
 
   useEffect(() => {
-    if (field.value && value === "") {
+    if (field.value !== "" && value === "") {
       console.log(value);
       const number = parseInt(field.value);
       setValue(new Intl.NumberFormat("id-ID").format(number));
