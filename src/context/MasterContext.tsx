@@ -21,7 +21,17 @@ const MasterProvider = ({
   children: ReactNode;
   data: TypeMaster;
 }) => {
-  const [master, setMaster] = React.useState<object>(data);
+  const [master, setMaster] = React.useState<object>(
+    data || {
+      logo: "/default.png",
+      displayLogo: false,
+      name: "",
+      color: "",
+      displayName: false,
+      favicon: "./default.png",
+      description: "",
+    }
+  );
 
   const handleUpdate = (data: TypeMaster) => {
     setMaster((prev) => ({ ...prev, ...data }));

@@ -1,9 +1,10 @@
 import connectDB from "@/lib/db";
+import Collection from "@/lib/models/collection-model";
 import Product from "@/lib/models/product-model";
 import Stock from "@/lib/models/stock-model";
 import { ResponseError } from "@/lib/response-error";
 import { verifyToken } from "@/lib/verify-token";
-import { Collection } from "mongoose";
+
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -87,7 +88,7 @@ export async function POST(req: NextRequest) {
       price,
       image,
       category,
-      collection: collectionDB._id,
+      collectionName: collectionDB._id,
       attribute,
     });
     const result = await product.save();

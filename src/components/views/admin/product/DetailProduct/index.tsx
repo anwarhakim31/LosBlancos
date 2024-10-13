@@ -91,6 +91,7 @@ const DetailProduct = ({
         <Controller
           name="price"
           control={control}
+          rules={{ required: "Harga tidak boleh kosong" }}
           render={({ field }) => <InputCurrency id="price" field={field} />}
         />
       </div>

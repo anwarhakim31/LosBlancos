@@ -1,16 +1,15 @@
 import SessionProviderClient from "./sessionProvider";
 import "./../styles/global.scss";
-import { Open_Sans } from "next/font/google";
+import { Inter } from "next/font/google";
 import { getServerSession } from "next-auth";
 import Header from "@/components/layouts/Header";
 import StoreProvider from "./storeProvider";
 import { Toaster } from "sonner";
 import { ServerURL } from "@/utils/contant";
 import React from "react";
-
 import MasterProvider from "@/context/MasterContext";
 
-const openSans = Open_Sans({
+const inter = Inter({
   weight: ["300", "400", "500", "600", "700", "800"],
   subsets: ["latin"],
   display: "swap",
@@ -39,7 +38,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={openSans.className}>
+      <body className={inter.className}>
         <SessionProviderClient session={session}>
           <StoreProvider>
             <MasterProvider data={master.master}>

@@ -7,11 +7,31 @@ import Image from "next/image";
 import { Heart } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useAppSelector } from "@/store/hook";
-const UserMenu = () => {
-  const wishList = useAppSelector((state) => state.wishlist.wishlist);
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setWishList } from "@/store/slices/wishSlice";
 
+const UserMenu = () => {
+  const dispatch = useDispatch();
+  const wishList = useAppSelector((state) => state.wishlist.wishlist);
+  const product = useAppSelector((state) => state.product.products);
   const session = useSession();
   const pathname = usePathname();
+
+  useEffect(() => {
+    const updateWishList = wishList.filter((list) => {
+      return product.some((product) => product._id === list._id);
+    });
+
+    if (
+      wishList.length > 0 &&
+      product.length > 0 &&
+      wishList.length !== updateWishList.length
+    ) {
+      dispatch(setWishList(updateWishList));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [wishList, product]);
 
   return (
     <div className={styles.wrapper}>

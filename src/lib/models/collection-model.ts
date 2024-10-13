@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import slugify from "slugify";
 
-const collectionSchema = new mongoose.Schema({
+const collectionModel = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -24,7 +24,7 @@ const collectionSchema = new mongoose.Schema({
   },
 });
 
-collectionSchema.pre("save", function (next) {
+collectionModel.pre("save", function (next) {
   if (!this.slug) {
     this.slug = slugify(this.name, {
       lower: true,
@@ -36,5 +36,5 @@ collectionSchema.pre("save", function (next) {
 });
 
 const Collection =
-  mongoose.models.Collection || mongoose.model("Collection", collectionSchema);
+  mongoose.models.Collection || mongoose.model("Collection", collectionModel);
 export default Collection;
