@@ -1,33 +1,67 @@
 .filter {
-  width: 225px;
+  width: 100%;
   padding: 0.75rem;
-
+  height: max-content;
   border: 1px solid $gray-300;
   border-radius: 0.4rem;
-  display: none;
+  background: white;
+
   @include media(md) {
     display: block;
+    position: sticky;
+    top: 0;
+    margin-bottom: 5rem;
+    width: 225px;
   }
 
   .header {
     padding-bottom: 0.75rem;
     border-bottom: 1px solid $gray-300;
     margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .close {
+      width: 1.75rem;
+      height: 1.75rem;
+      background: $gray-200;
+      border-radius: 0.25rem;
+      fill: $primary;
+      cursor: pointer;
+      @include flex-center();
+      transition: all 0.3s ease-in-out;
+      @include media(md) {
+        display: none;
+      }
+
+      &:hover {
+        background: $gray-300;
+      }
+
+      svg {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
   }
 
   h3 {
     font-size: 1rem;
     font-weight: 500;
+    user-select: none;
   }
   h4 {
     font-size: 0.875rem;
     font-weight: 500;
+    margin-bottom: 0.75rem;
+    margin-top: 1.25rem;
+    user-select: none;
   }
 }
 
 .category {
   &__wrapper {
-    margin-block: 0.5rem;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -74,5 +108,14 @@
         margin-left: 0.5rem;
       }
     }
+  }
+}
+
+.search {
+  display: none;
+  margin-top: 0.75rem;
+
+  @include media(md) {
+    display: block;
   }
 }

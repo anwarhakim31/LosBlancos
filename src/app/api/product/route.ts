@@ -11,6 +11,7 @@ type filterQuery = {
   name: { $regex: RegExp };
   category?: { $in: string[] };
   price?: { $gte: number; $lte: number };
+  collectionName?: string;
 };
 
 export async function GET(req: NextRequest) {
@@ -22,6 +23,7 @@ export async function GET(req: NextRequest) {
     const category = searchParams.getAll("category") || [];
     const max = parseInt(searchParams.get("max") || "500000");
     const min = parseInt(searchParams.get("min") || "0");
+    const collection = searchParams.get("collection") || "";
 
     const search = searchParams.get("search")?.toString() || "";
 
@@ -39,6 +41,11 @@ export async function GET(req: NextRequest) {
 
     if (category.length > 0) {
       filterQuery.category = { $in: category };
+    }
+
+    if (collection) {
+      const id = await Collection.findOne({ name: collection }).select("_id");
+      filterQuery.collectionName = id;
     }
 
     const products = await Product.find(filterQuery)

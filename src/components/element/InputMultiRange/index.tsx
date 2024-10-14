@@ -37,9 +37,6 @@ const InputMultiRange = () => {
       newQuery.delete("min");
     } else {
       newQuery.set("min", adjustedValue.toString());
-      if (!maxQuery) {
-        newQuery.set("max", maxValue.toString());
-      }
     }
 
     push(`${pathname}?${newQuery.toString()}`);
@@ -59,9 +56,6 @@ const InputMultiRange = () => {
     if (adjustedValue === max) {
       newQuery.delete("max");
     } else {
-      if (!minQuery) {
-        newQuery.set("min", minValue.toString());
-      }
       newQuery.set("max", adjustedValue.toString());
     }
 

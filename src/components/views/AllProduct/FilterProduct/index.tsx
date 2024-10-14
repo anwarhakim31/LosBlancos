@@ -4,17 +4,23 @@ import styles from "./product.module.scss";
 import { categoryService } from "@/services/category/method";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { TypeCategory } from "@/services/type.module";
+import { TypeCategory, TypeCollection } from "@/services/type.module";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import InputMultiRange from "@/components/element/InputMultiRange";
+import { collectionSevice } from "@/services/collection/method";
+import InputSearch from "@/components/element/InputSearch";
 
 const FilterProductView = () => {
   const pathname = usePathname();
   const router = useRouter();
   const query = useSearchParams();
+  const params = useSearchParams();
+  const search = params.get("search") || "";
 
+  const [searchQuery, setSearchQuery] = useState(search);
   const [category, setCategory] = useState<string[]>([]);
+  const [collection, setCollection] = useState<string>("");
 
   useEffect(() => {
     const categoryParams = query.getAll("category");
@@ -39,10 +45,63 @@ const FilterProductView = () => {
     router.push(`${pathname}?${searchParams.toString()}`);
   };
 
+  const updateCollection = (collection: string) => {
+    const searchParams = new URLSearchParams(query.toString());
+    if (collection) {
+      searchParams.set("collection", collection);
+    } else {
+      searchParams.delete("collection");
+    }
+    router.push(`${pathname}?${searchParams.toString()}`);
+  };
+
   return (
     <aside className={styles.filter}>
       <div className={styles.header}>
         <h3>Filter</h3>
+        <button
+          aria-label="close"
+          title="Tutup"
+          type="button"
+          className={styles.close}
+        >
+          <X />
+        </button>
+      </div>
+      <h4>Pencarian</h4>
+      <div className={styles.search}>
+        <InputSearch
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          id="search"
+          name="search"
+          placeholder="Cari Nama dari Produk"
+        />
+      </div>
+      <div className={styles.category}>
+        <h4>Koleksi</h4>
+        <div className={styles.category__wrapper}>
+          <SelectOptionFetch
+            placeholder="Pilih Koleksi"
+            id="koleksi"
+            name="collection"
+            fetching={() => collectionSevice.getCollection("")}
+            setValue={(value: TypeCollection) => {
+              if (value) {
+                setCollection(value.name);
+                updateCollection(value.name);
+              } else {
+                setCollection("");
+                updateCollection(value);
+              }
+            }}
+            value={collection}
+          />
+        </div>
+      </div>
+      <div className={styles.price}>
+        <h4>Harga</h4>
+        <InputMultiRange />
       </div>
       <div className={styles.category}>
         <h4>Kategori</h4>
@@ -84,10 +143,6 @@ const FilterProductView = () => {
             ))}
           </div>
         </div>
-      </div>
-      <div className={styles.price}>
-        <h4>Harga</h4>
-        <InputMultiRange />
       </div>
     </aside>
   );

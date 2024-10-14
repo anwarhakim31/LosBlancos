@@ -18,5 +18,13 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  min-height: calc(100vh - 300px);
+  // min-height: calc(100vh - 300px);
+}
+
+.filter {
+  display: none;
+
+  @include media(md) {
+    display: block;
+  }
 }
