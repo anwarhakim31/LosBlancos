@@ -14,10 +14,11 @@
       text-transform: capitalize;
       @include flex-center();
       font-size: 0.875rem;
-      font-weight: 400;
-
+      font-weight: 500;
+      color: $gray-600;
       svg {
         stroke-width: 1.25;
+        color: $gray-900;
       }
     }
 

@@ -6,7 +6,7 @@ import { productService } from "@/services/product/method";
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async () => {
-    const res = await productService.getProducts("");
+    const res = await productService.getall();
 
     const data = res.data.products;
 
