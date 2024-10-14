@@ -7,11 +7,13 @@ import { useEffect, useState } from "react";
 import { TypeCategory } from "@/services/type.module";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+import InputMultiRange from "@/components/element/InputMultiRange";
 
 const FilterProductView = () => {
   const pathname = usePathname();
   const router = useRouter();
   const query = useSearchParams();
+
   const [category, setCategory] = useState<string[]>([]);
 
   useEffect(() => {
@@ -85,7 +87,7 @@ const FilterProductView = () => {
       </div>
       <div className={styles.price}>
         <h4>Harga</h4>
-        <input type="range" id="price" name="price" min={0} max={100000} />
+        <InputMultiRange />
       </div>
     </aside>
   );

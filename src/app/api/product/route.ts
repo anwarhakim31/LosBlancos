@@ -10,6 +10,7 @@ import { NextRequest, NextResponse } from "next/server";
 type filterQuery = {
   name: { $regex: RegExp };
   category?: { $in: string[] };
+  price?: { $gte: number; $lte: number };
 };
 
 export async function GET(req: NextRequest) {
@@ -19,6 +20,8 @@ export async function GET(req: NextRequest) {
     const page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "2");
     const category = searchParams.getAll("category") || [];
+    const max = parseInt(searchParams.get("max") || "500000");
+    const min = parseInt(searchParams.get("min") || "0");
 
     const search = searchParams.get("search")?.toString() || "";
 
@@ -29,6 +32,10 @@ export async function GET(req: NextRequest) {
     const filterQuery: filterQuery = {
       name: { $regex: searchRegex },
     };
+
+    if (min && max) {
+      filterQuery.price = { $lte: max, $gte: min };
+    }
 
     if (category.length > 0) {
       filterQuery.category = { $in: category };

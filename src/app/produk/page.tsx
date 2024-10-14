@@ -10,11 +10,15 @@ import FilterProductView from "@/components/views/AllProduct/FilterProduct";
 const fetchData = async (params: URLSearchParams) => {
   const search = params.get("search") || "";
   const category = params.getAll("category") || [];
+  const max = params.get("max");
+  const min = params.get("min");
 
   const paramsQuery = new URLSearchParams();
 
   paramsQuery.set("search", search);
   paramsQuery.set("limit", "12");
+  paramsQuery.set("min", min || "");
+  paramsQuery.set("max", max || "");
 
   category.forEach((item) => {
     paramsQuery.set("category", item);
