@@ -8,12 +8,13 @@ import { formatCurrency } from "@/utils/contant";
 import { useDispatch } from "react-redux";
 import { addWishList, removeWishList } from "@/store/slices/wishSlice";
 import { TypeProduct } from "@/services/type.module";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import Footer from "@/components/layouts/Footer";
 import Link from "next/link";
 const WishListPage = () => {
   const dispatch = useDispatch();
   const wishlist = useAppSelector((state) => state.wishlist.wishlist);
+  const [isNotif, setIsNotif] = useState<string | null>(null);
 
   const handleWishlist = (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -21,11 +22,14 @@ const WishListPage = () => {
   ) => {
     e.stopPropagation();
     e.preventDefault();
-    if (wishlist.some((item) => item._id === product._id)) {
-      dispatch(removeWishList(product._id));
-    } else {
-      dispatch(addWishList(product));
-    }
+    setIsNotif(product._id as string);
+    setTimeout(() => {
+      if (wishlist.some((item) => item._id === product._id)) {
+        dispatch(removeWishList(product._id));
+      } else {
+        dispatch(addWishList(product));
+      }
+    }, 1000);
   };
 
   return (
@@ -63,23 +67,32 @@ const WishListPage = () => {
                       />
                     </div>
                     <div className={styles.card__content}>
-                      <p className={styles.card__content__collection}>
-                        {item.collectionName.name}
-                      </p>
+                      <div>
+                        <p className={styles.card__content__collection}>
+                          {item.collectionName.name}
+                        </p>
 
-                      <h3 className={styles.card__content__title}>
-                        {item.name}
-                      </h3>
+                        <h3 className={styles.card__content__title}>
+                          {item.name}
+                        </h3>
+                      </div>
+                      <div>
+                        <p className={styles.card__content__price}>
+                          {formatCurrency(Number(item.price))}
+                        </p>
+                        <div className={styles.card__content__rating}>
+                          {Array.from({ length: 5 }).map((_, index) => (
+                            <Star key={index} />
+                          ))}
+                          <p>({Math.round(5.1)})</p>
+                        </div>
+                      </div>
                     </div>
-
-                    <p className={styles.card__price}>
-                      {formatCurrency(Number(item.price))}
-                    </p>
-                    <div className={styles.card__rating}>
-                      {Array.from({ length: 5 }).map((_, index) => (
-                        <Star key={index} />
-                      ))}
-                      <p>({Math.round(5.1)})</p>
+                    <div
+                      className={styles.card__notif}
+                      style={{ bottom: isNotif === item._id ? "0" : "-50%" }}
+                    >
+                      <p>Produk dihapus dari daftar</p>
                     </div>
                   </Link>
                 );
@@ -89,8 +102,8 @@ const WishListPage = () => {
                 <Image
                   src={"/empty-wishlist.png"}
                   alt="image"
-                  width={200}
-                  height={200}
+                  width={150}
+                  height={150}
                 />
                 <p>Daftar keinginan anda kosong.</p>
                 <span>

@@ -7,20 +7,32 @@ import { verifyToken } from "@/lib/verify-token";
 
 import { NextRequest, NextResponse } from "next/server";
 
+type filterQuery = {
+  name: { $regex: RegExp };
+  category?: { $in: string[] };
+};
+
 export async function GET(req: NextRequest) {
   await connectDB();
   try {
     const { searchParams } = new URL(req.url);
     const page = parseInt(searchParams.get("page") || "1");
-    const limit = parseInt(searchParams.get("limit") || "8");
+    const limit = parseInt(searchParams.get("limit") || "2");
+    const category = searchParams.getAll("category") || [];
+
     const search = searchParams.get("search")?.toString() || "";
+
     const skip = (page - 1) * limit;
 
     const searchRegex = new RegExp(search.trim(), "i");
 
-    const filterQuery = {
+    const filterQuery: filterQuery = {
       name: { $regex: searchRegex },
     };
+
+    if (category.length > 0) {
+      filterQuery.category = { $in: category };
+    }
 
     const products = await Product.find(filterQuery)
       .sort({ createdAt: -1 })

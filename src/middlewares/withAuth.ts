@@ -6,7 +6,7 @@ import {
   NextResponse,
 } from "next/server";
 
-const row = [8, 16, 24];
+// const row = [8, 16, 24];
 
 const onlyAdmin = ["admin"];
 
@@ -18,9 +18,9 @@ export default function withAuth(
 ) {
   return async (req: NextRequest, ev: NextFetchEvent) => {
     const pathname = req.nextUrl.pathname.split("/")[1];
-    const { searchParams } = new URL(req.url);
-    const page = parseInt(searchParams.get("page") || "1");
-    const limit = parseInt(searchParams.get("limit") || "8");
+    // const { searchParams } = new URL(req.url);
+    // const page = parseInt(searchParams.get("page") as string);
+    // const limit = parseInt(searchParams.get("limit") as string);
 
     const token = await getToken({
       req,
@@ -55,17 +55,17 @@ export default function withAuth(
       }
     }
 
-    if (page < 1) {
-      return NextResponse.redirect(
-        new URL(`${req.nextUrl.pathname}?page=1`, req.url)
-      );
-    }
+    // if (page < 1) {
+    //   return NextResponse.redirect(
+    //     new URL(`${req.nextUrl.pathname}?page=1`, req.url)
+    //   );
+    // }
 
-    if (!row.includes(limit)) {
-      return NextResponse.redirect(
-        new URL(`${req.nextUrl.pathname}?limit=8`, req.url)
-      );
-    }
+    // if (!row.includes(limit)) {
+    //   return NextResponse.redirect(
+    //     new URL(`${req.nextUrl.pathname}?limit=8`, req.url)
+    //   );
+    // }
 
     return middleware(req, ev);
   };

@@ -1,12 +1,56 @@
-"use client";
 import BreadCrubm from "@/components/element/BreadCrubm";
-import React from "react";
+import Footer from "@/components/layouts/Footer";
+import styles from "./product.module.scss";
+import { ServerURL } from "@/utils/contant";
 
-const ProductPage = () => {
+import ProductMainView from "@/components/views/AllProduct/MainProduct";
+
+import FilterProductView from "@/components/views/AllProduct/FilterProduct";
+
+const fetchData = async (params: URLSearchParams) => {
+  const search = params.get("search") || "";
+  const category = params.getAll("category") || [];
+
+  const paramsQuery = new URLSearchParams();
+
+  paramsQuery.set("search", search);
+  paramsQuery.set("limit", "12");
+
+  category.forEach((item) => {
+    paramsQuery.set("category", item);
+  });
+
+  const res = await fetch(
+    ServerURL + "/product?" + paramsQuery.toString() + "",
+    {
+      cache: "no-store",
+    }
+  );
+
+  if (!res.ok) {
+    return console.log("gagal");
+  }
+
+  return res.json();
+};
+
+const ProductPage = async ({ searchParams }: { searchParams: string }) => {
+  const { products } = await fetchData(new URLSearchParams(searchParams));
+
   return (
-    <div style={{ marginTop: "10rem" }}>
-      <BreadCrubm />
-    </div>
+    <main>
+      <section className={styles.container}>
+        <BreadCrubm />
+
+        <div className={styles.wrapper}>
+          <FilterProductView />
+          <div style={{ flex: 1 }}>
+            <ProductMainView products={products} />
+          </div>
+        </div>
+      </section>
+      <Footer />
+    </main>
   );
 };
 

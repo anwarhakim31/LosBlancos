@@ -3,6 +3,7 @@ import instance from "@/utils/axios/instance";
 import { inputProductType } from "@/utils/InputTypes.module";
 
 export const productService = {
+  getall: () => instance.get("/product/all"),
   getProducts: (search: string, page?: number, limit?: number) => {
     return instance.get("/product", { params: { search, limit, page } });
   },

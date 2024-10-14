@@ -1,0 +1,22 @@
+.container {
+  @include container();
+  margin-block: 8rem;
+
+  h1 {
+    text-align: center;
+    font-size: 1.75rem;
+    font-weight: 600;
+
+    @include media(md) {
+      font-size: 2rem;
+    }
+  }
+}
+
+.wrapper {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  min-height: calc(100vh - 300px);
+}
