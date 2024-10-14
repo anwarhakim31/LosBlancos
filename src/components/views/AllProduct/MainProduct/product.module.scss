@@ -1,8 +1,49 @@
+.head {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+
+  @include media(md) {
+    display: none;
+  }
+
+  &__search {
+    flex: 1;
+    margin-bottom: 1rem;
+    @include media(md) {
+      max-width: 300px;
+    }
+  }
+
+  &__button {
+    margin-bottom: 1rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: $primary;
+    transition: all 0.3s ease-in-out;
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+      color: $white;
+    }
+
+    &:hover {
+      background: $primary-hover;
+    }
+  }
+}
+
 .content {
   flex: 1;
   display: grid;
   gap: 1rem;
-  margin-top: 1rem;
 
   grid-template-columns: repeat(3, minmax(0, 1fr));
   @include media(xs) {
@@ -49,6 +90,7 @@
     border-radius: 0.4rem;
     display: block;
     width: 100%;
+    min-height: 200px;
     @include media(md) {
       max-height: 340px;
     }
@@ -147,5 +189,32 @@
   p {
     font-size: 0.875rem;
     font-weight: 500;
+  }
+}
+
+.filter {
+  width: 100%;
+  margin-top: auto;
+}
+
+.pagination {
+  width: 100%;
+  @include flex-center();
+  margin-top: 4rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+
+  button {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: $primary;
+    @include flex-center();
+    svg {
+      width: 1rem;
+      height: 1rem;
+      color: $white;
+    }
   }
 }

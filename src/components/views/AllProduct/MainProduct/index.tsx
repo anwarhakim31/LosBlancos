@@ -1,35 +1,86 @@
 "use client";
 
-import { FC, Fragment, useState } from "react";
+import { FC, Fragment, useEffect, useState } from "react";
 import styles from "./product.module.scss";
 import { formatCurrency } from "@/utils/contant";
 import Link from "next/link";
 import Image from "next/image";
 import { TypeProduct } from "@/services/type.module";
-import { Star } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  SlidersHorizontalIcon,
+  Star,
+} from "lucide-react";
 import InputSearch from "@/components/element/InputSearch";
 import { useSearchParams } from "next/navigation";
+import Modal from "@/components/element/Modal";
+import FilterProductView from "../FilterProduct";
+
+interface paginationType {
+  page: number;
+  limit: number;
+  total: number;
+  total_page: number;
+}
 
 interface propsType {
   products: TypeProduct[];
+  pagination: paginationType;
 }
 
-const ProductMainView: FC<propsType> = ({ products }) => {
+const ProductMainView: FC<propsType> = ({ products, pagination }) => {
   const params = useSearchParams();
   const search = params.get("search") || "";
 
   const [searchQuery, setSearchQuery] = useState(search);
+  const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => {
+    const resize = () => {
+      if (window.innerWidth > 768) {
+        setIsActive(false);
+      }
+    };
+
+    window.addEventListener("resize", resize);
+
+    return () => {
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
+
+  // const visiblePage = [];
+
+  // for (let i = 1; i > pagination?.total_page; i++) {
+  //   visiblePage.push(i);
+  // }
+
+  console.log(pagination);
+
+  // console.log(visiblePage);
 
   return (
     <Fragment>
-      <div style={{ maxWidth: "300px" }}>
-        <InputSearch
-          value={searchQuery}
-          id="search"
-          name="search"
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Cari produk..."
-        />
+      <div className={styles.head}>
+        <div className={styles.head__search}>
+          <InputSearch
+            value={searchQuery}
+            id="search"
+            name="search"
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Cari Nama dari Produk..."
+          />
+        </div>
+        <button
+          title="filter"
+          type="button"
+          className={styles.head__button}
+          aria-label="filter"
+          onClick={() => setIsActive(!isActive)}
+        >
+          <SlidersHorizontalIcon />
+        </button>
       </div>
       <div className={styles.content}>
         {products.length > 0 &&
@@ -86,6 +137,29 @@ const ProductMainView: FC<propsType> = ({ products }) => {
           <p>Barang yang anda cari tidak ditemukan</p>
         </div>
       ) : null}
+      {isActive && (
+        <Modal onClose={() => setIsActive(false)}>
+          <div className={styles.filter}>
+            <FilterProductView />
+          </div>
+        </Modal>
+      )}{" "}
+      <div className={styles.pagination}>
+        <button
+          type="button"
+          aria-label="previous"
+          className={styles.pagination__previous}
+        >
+          <ChevronLeft />
+        </button>
+        <button
+          type="button"
+          aria-label="next"
+          className={styles.pagination__next}
+        >
+          <ChevronRight />
+        </button>
+      </div>
     </Fragment>
   );
 };

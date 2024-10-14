@@ -10,11 +10,17 @@ import FilterProductView from "@/components/views/AllProduct/FilterProduct";
 const fetchData = async (params: URLSearchParams) => {
   const search = params.get("search") || "";
   const category = params.getAll("category") || [];
+  const max = params.get("max");
+  const min = params.get("min");
+  const collection = params.get("collection");
 
   const paramsQuery = new URLSearchParams();
 
   paramsQuery.set("search", search);
   paramsQuery.set("limit", "12");
+  paramsQuery.set("min", min || "");
+  paramsQuery.set("max", max || "");
+  paramsQuery.set("collection", collection || "");
 
   category.forEach((item) => {
     paramsQuery.set("category", item);
@@ -35,7 +41,9 @@ const fetchData = async (params: URLSearchParams) => {
 };
 
 const ProductPage = async ({ searchParams }: { searchParams: string }) => {
-  const { products } = await fetchData(new URLSearchParams(searchParams));
+  const { products, pagination } = await fetchData(
+    new URLSearchParams(searchParams)
+  );
 
   return (
     <main>
@@ -43,9 +51,11 @@ const ProductPage = async ({ searchParams }: { searchParams: string }) => {
         <BreadCrubm />
 
         <div className={styles.wrapper}>
-          <FilterProductView />
+          <div className={styles.filter}>
+            <FilterProductView />
+          </div>
           <div style={{ flex: 1 }}>
-            <ProductMainView products={products} />
+            <ProductMainView products={products} pagination={pagination} />
           </div>
         </div>
       </section>

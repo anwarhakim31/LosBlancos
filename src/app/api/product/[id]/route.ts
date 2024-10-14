@@ -1,9 +1,9 @@
 import connectDB from "@/lib/db";
+import Collection from "@/lib/models/collection-model";
 import Product from "@/lib/models/product-model";
 import Stock from "@/lib/models/stock-model";
 import { ResponseError } from "@/lib/response-error";
 import { verifyToken } from "@/lib/verify-token";
-import { Collection } from "mongoose";
 
 import { NextRequest, NextResponse } from "next/server";
 
@@ -92,7 +92,7 @@ export async function PUT(
       price,
       image,
       category,
-      collection: collectionDB._id,
+      collectionName: collectionDB._id,
       attribute,
     });
 
@@ -117,6 +117,7 @@ export async function PUT(
       message: "Berhasil mengubah produk",
     });
   } catch (error) {
+    console.log(error);
     return ResponseError(500, "Internal Server Error");
   }
 }
