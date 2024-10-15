@@ -12,13 +12,16 @@ type filterQuery = {
   category?: { $in: string[] };
   price?: { $gte: number; $lte: number };
   collectionName?: string;
+  stock?: { $gt: number };
 };
 
 export async function GET(req: NextRequest) {
   await connectDB();
   try {
+    const token = verifyToken(req);
+
     const { searchParams } = new URL(req.url);
-    const page = parseInt(searchParams.get("page") || "1");
+    let page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "2");
     const category = searchParams.getAll("category") || [];
     const max = parseInt(searchParams.get("max") || "500000");
@@ -37,15 +40,24 @@ export async function GET(req: NextRequest) {
 
     if (min && max) {
       filterQuery.price = { $lte: max, $gte: min };
+      page = 1;
     }
 
     if (category.length > 0) {
       filterQuery.category = { $in: category };
+      page = 1;
     }
 
     if (collection) {
       const id = await Collection.findOne({ name: collection }).select("_id");
       filterQuery.collectionName = id;
+      page = 1;
+    }
+
+    if (token && typeof token === "object" && "status" in token) {
+      if (token.status === 401) {
+        filterQuery.stock = { $gt: 0 };
+      }
     }
 
     const products = await Product.find(filterQuery)

@@ -13,7 +13,7 @@ import {
   Star,
 } from "lucide-react";
 import InputSearch from "@/components/element/InputSearch";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Modal from "@/components/element/Modal";
 import FilterProductView from "../FilterProduct";
 
@@ -21,7 +21,7 @@ interface paginationType {
   page: number;
   limit: number;
   total: number;
-  total_page: number;
+  totalPage: number;
 }
 
 interface propsType {
@@ -30,6 +30,8 @@ interface propsType {
 }
 
 const ProductMainView: FC<propsType> = ({ products, pagination }) => {
+  const pathname = usePathname();
+  const router = useRouter();
   const params = useSearchParams();
   const search = params.get("search") || "";
 
@@ -50,15 +52,21 @@ const ProductMainView: FC<propsType> = ({ products, pagination }) => {
     };
   }, []);
 
-  // const visiblePage = [];
+  const { page, totalPage } = pagination;
 
-  // for (let i = 1; i > pagination?.total_page; i++) {
-  //   visiblePage.push(i);
-  // }
+  const pageNumber = [];
 
-  console.log(pagination);
+  for (let i = 1; i <= totalPage; i++) {
+    pageNumber.push(i);
+  }
 
-  // console.log(visiblePage);
+  const startPage =
+    page === totalPage ? Math.max(1, page - 2) : Math.max(1, page - 1);
+
+  const endPage =
+    page === 1 ? Math.min(totalPage, page + 2) : Math.min(totalPage, page + 1);
+
+  const invisiblePage = pageNumber.slice(startPage - 1, endPage);
 
   return (
     <Fragment>
@@ -82,61 +90,67 @@ const ProductMainView: FC<propsType> = ({ products, pagination }) => {
           <SlidersHorizontalIcon />
         </button>
       </div>
-      <div className={styles.content}>
-        {products.length > 0 &&
-          products.map((item: TypeProduct) => {
-            const id = item._id;
-            const collection = item.collectionName.name;
+      <div style={{ minHeight: "calc(100vh - 50px)", position: "relative" }}>
+        <div className={styles.content}>
+          {products.length > 0 &&
+            products.map((item: TypeProduct) => {
+              const id = item._id;
+              const collection = item.collectionName.name.replace(/\s/g, "-");
 
-            return (
-              <Link
-                href={`/produk/${collection}/${id}`}
-                key={item._id}
-                className={styles.card}
-              >
-                <div className={styles.card__image}>
-                  <Image
-                    src={item.image[0]}
-                    alt="image"
-                    width={1000}
-                    height={1000}
-                    priority
-                  />
-                </div>
-                <div className={styles.card__content}>
-                  <div className={styles.card__content__head}>
-                    <p className={styles.card__content__collection}>
-                      {item.collectionName.name}
-                    </p>
-
-                    <h3 className={styles.card__content__title}>{item.name}</h3>
+              return (
+                <Link
+                  href={`/produk/${collection}/${id}`}
+                  key={item._id}
+                  className={styles.card}
+                >
+                  <div className={styles.card__image}>
+                    <Image
+                      src={item.image[0]}
+                      alt="image"
+                      width={1000}
+                      height={1000}
+                      priority
+                    />
                   </div>
+                  <div className={styles.card__content}>
+                    <div className={styles.card__content__head}>
+                      <p className={styles.card__content__collection}>
+                        {item.collectionName.name}
+                      </p>
 
-                  <p className={styles.card__content__price}>
-                    {formatCurrency(Number(item.price))}
-                  </p>
-                  <div className={styles.card__content__rating}>
-                    {Array.from({ length: 5 }).map((_, index) => (
-                      <Star key={index} />
-                    ))}
-                    <p>({Math.round(5.1)})</p>
+                      <h3 className={styles.card__content__title}>
+                        {item.name}
+                      </h3>
+                    </div>
+
+                    <div>
+                      <p className={styles.card__content__price}>
+                        {formatCurrency(Number(item.price))}
+                      </p>
+                      <div className={styles.card__content__rating}>
+                        {Array.from({ length: 5 }).map((_, index) => (
+                          <Star key={index} />
+                        ))}
+                        <p>({Math.round(5.1)})</p>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            );
-          })}
-      </div>
-      {products.length === 0 && search ? (
-        <div className={styles.noResult}>
-          <Image
-            src={"/no-results.png"}
-            alt="not result"
-            width={150}
-            height={150}
-          />
-          <p>Barang yang anda cari tidak ditemukan</p>
+                </Link>
+              );
+            })}
         </div>
-      ) : null}
+        {products.length === 0 ? (
+          <div className={styles.noResult}>
+            <Image
+              src={"/no-results.png"}
+              alt="not result"
+              width={150}
+              height={150}
+            />
+            <p>Produk tidak ditemukan</p>
+          </div>
+        ) : null}
+      </div>
       {isActive && (
         <Modal onClose={() => setIsActive(false)}>
           <div className={styles.filter}>
@@ -144,18 +158,54 @@ const ProductMainView: FC<propsType> = ({ products, pagination }) => {
           </div>
         </Modal>
       )}{" "}
-      <div className={styles.pagination}>
+      <div
+        className={styles.pagination}
+        style={{ display: products.length > 0 ? "flex" : "none" }}
+      >
         <button
           type="button"
           aria-label="previous"
           className={styles.pagination__previous}
+          disabled={page === 1}
+          onClick={() => {
+            const query = new URLSearchParams(params);
+
+            query.set("page", String(page - 1));
+
+            router.push(`${pathname}?${query.toString()}`);
+          }}
         >
           <ChevronLeft />
         </button>
+        {invisiblePage.map((item) => (
+          <button
+            type="button"
+            aria-label={`page ${item}`}
+            className={styles.pagination__page}
+            key={item}
+            onClick={() => {
+              const query = new URLSearchParams(params);
+
+              query.set("page", String(item));
+
+              router.push(`${pathname}?${query.toString()}`);
+            }}
+          >
+            {item}
+          </button>
+        ))}
         <button
           type="button"
           aria-label="next"
           className={styles.pagination__next}
+          disabled={page === totalPage}
+          onClick={() => {
+            const query = new URLSearchParams(params);
+
+            query.set("page", String(page + 1));
+
+            router.push(`${pathname}?${query.toString()}`);
+          }}
         >
           <ChevronRight />
         </button>

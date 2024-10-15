@@ -25,7 +25,7 @@ const ShowProductView: FC<PropsType> = ({ header, data }) => {
       <div className={styles.scroller}>
         {data &&
           data.map((item) => {
-            const collection = item.collectionName.name.replace(" ", "-");
+            const collection = item.collectionName.name.replace(/\s/g, "-");
             const id = item._id;
 
             return (
@@ -38,8 +38,8 @@ const ShowProductView: FC<PropsType> = ({ header, data }) => {
                   <Image
                     src={item.image[0]}
                     alt="image"
-                    width={1000}
-                    height={1000}
+                    width={500}
+                    height={500}
                     priority
                   />
                 </div>

@@ -13,6 +13,7 @@ const fetchData = async (params: URLSearchParams) => {
   const max = params.get("max");
   const min = params.get("min");
   const collection = params.get("collection");
+  const page = params.get("page") || "1";
 
   const paramsQuery = new URLSearchParams();
 
@@ -21,6 +22,7 @@ const fetchData = async (params: URLSearchParams) => {
   paramsQuery.set("min", min || "");
   paramsQuery.set("max", max || "");
   paramsQuery.set("collection", collection || "");
+  paramsQuery.set("page", page);
 
   category.forEach((item) => {
     paramsQuery.set("category", item);

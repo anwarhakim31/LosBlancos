@@ -3,33 +3,27 @@ import BreadCrubm from "@/components/element/BreadCrubm";
 import styles from "./wishlist.module.scss";
 import Image from "next/image";
 import { Star, X } from "lucide-react";
-import { useAppSelector } from "@/store/hook";
+import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { formatCurrency } from "@/utils/contant";
-import { useDispatch } from "react-redux";
-import { addWishList, removeWishList } from "@/store/slices/wishSlice";
-import { TypeProduct } from "@/services/type.module";
-import { Fragment, useState } from "react";
+
+import { Fragment } from "react";
 import Footer from "@/components/layouts/Footer";
 import Link from "next/link";
+import { removeWishlist } from "@/store/slices/wishSlice";
 const WishListPage = () => {
-  const dispatch = useDispatch();
-  const wishlist = useAppSelector((state) => state.wishlist.wishlist);
-  const [isNotif, setIsNotif] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
+  const { wishlist, loading } = useAppSelector((state) => state.wishlist);
 
   const handleWishlist = (
     e: React.MouseEvent<HTMLButtonElement>,
-    product: TypeProduct
+    id: string
   ) => {
     e.stopPropagation();
     e.preventDefault();
-    setIsNotif(product._id as string);
-    setTimeout(() => {
-      if (wishlist.some((item) => item._id === product._id)) {
-        dispatch(removeWishList(product._id));
-      } else {
-        dispatch(addWishList(product));
-      }
-    }, 1000);
+
+    if (id) {
+      dispatch(removeWishlist({ id }));
+    }
   };
 
   return (
@@ -39,10 +33,19 @@ const WishListPage = () => {
           <BreadCrubm />
           <h1>Daftar Keinginan</h1>
           <div className={styles.content}>
-            {wishlist.length > 0 ? (
+            {loading && wishlist.length === 0 && (
+              <div className={styles.card_loader}>
+                <div className={styles.loading}></div>
+              </div>
+            )}
+            {!loading &&
+              wishlist.length > 0 &&
               wishlist.map((item) => {
-                const collection = item.collectionName.name.replace(" ", "-");
-                const id = item._id;
+                const collection = item.product.collectionName.name.replace(
+                  /\s/g,
+                  "-"
+                );
+                const id = item.product._id;
                 return (
                   <Link
                     href={`/produk/${collection}/${id}`}
@@ -53,13 +56,15 @@ const WishListPage = () => {
                       type="button"
                       aria-label="remove from wishlist"
                       className={styles.remove}
-                      onClick={(e) => handleWishlist(e, item)}
+                      onClick={(e) =>
+                        handleWishlist(e, item.product._id as string)
+                      }
                     >
                       <X />
                     </button>
                     <div className={styles.card__image}>
                       <Image
-                        src={item.image[0]}
+                        src={item.product.image[0]}
                         alt="image"
                         width={1000}
                         height={1000}
@@ -67,18 +72,18 @@ const WishListPage = () => {
                       />
                     </div>
                     <div className={styles.card__content}>
-                      <div>
+                      <div className={styles.card__content__head}>
                         <p className={styles.card__content__collection}>
-                          {item.collectionName.name}
+                          {item.product.collectionName.name}
                         </p>
 
                         <h3 className={styles.card__content__title}>
-                          {item.name}
+                          {item.product.name}
                         </h3>
                       </div>
                       <div>
                         <p className={styles.card__content__price}>
-                          {formatCurrency(Number(item.price))}
+                          {formatCurrency(Number(item.product.price))}
                         </p>
                         <div className={styles.card__content__rating}>
                           {Array.from({ length: 5 }).map((_, index) => (
@@ -88,16 +93,10 @@ const WishListPage = () => {
                         </div>
                       </div>
                     </div>
-                    <div
-                      className={styles.card__notif}
-                      style={{ bottom: isNotif === item._id ? "0" : "-50%" }}
-                    >
-                      <p>Produk dihapus dari daftar</p>
-                    </div>
                   </Link>
                 );
-              })
-            ) : (
+              })}
+            {!loading && wishlist.length === 0 && (
               <div className={styles.empty}>
                 <Image
                   src={"/empty-wishlist.png"}

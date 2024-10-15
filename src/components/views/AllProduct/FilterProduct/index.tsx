@@ -28,12 +28,19 @@ const FilterProductView = () => {
     setCategory(categoryParams);
   }, [query]);
 
+  useEffect(() => {
+    const collectionParams = query.get("collection");
+
+    setCollection(collectionParams as string);
+  }, [query]);
+
   const updateCategory = (category: string[]) => {
     const searchParams = new URLSearchParams(query.toString());
 
     if (category.length > 0) {
       category.forEach((item, index) => {
         if (index === 0) {
+          searchParams.set("page", "1");
           searchParams.set("category", item);
         } else {
           searchParams.append("category", item);
@@ -48,6 +55,7 @@ const FilterProductView = () => {
   const updateCollection = (collection: string) => {
     const searchParams = new URLSearchParams(query.toString());
     if (collection) {
+      searchParams.set("page", "1");
       searchParams.set("collection", collection);
     } else {
       searchParams.delete("collection");

@@ -81,3 +81,9 @@ export type TypeStock = {
   value: string;
   stock: number;
 };
+
+export type TypeWishlist = {
+  _id?: string;
+  user: string;
+  product: TypeProduct;
+};

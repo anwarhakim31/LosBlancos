@@ -35,7 +35,7 @@ const DetailImageView = ({ product }: { product: TypeProduct }) => {
   return (
     <div className={styles.images}>
       <ul className={styles.overlay}>
-        {product.image.map((item, i) => (
+        {product?.image.map((item, i) => (
           <li
             role="list"
             className={`${styles.overlay__image} ${
@@ -57,7 +57,7 @@ const DetailImageView = ({ product }: { product: TypeProduct }) => {
       </ul>
       <div className={styles.image} ref={imageRef}>
         <Image
-          src={product.image[selected]}
+          src={product?.image[selected]}
           alt="image"
           width={1000}
           height={1000}
@@ -66,7 +66,7 @@ const DetailImageView = ({ product }: { product: TypeProduct }) => {
           className={styles.image__dekstop}
         />
 
-        {product.image.map((item, i) => (
+        {product?.image.map((item, i) => (
           <Image
             key={i}
             src={item}
@@ -85,7 +85,7 @@ const DetailImageView = ({ product }: { product: TypeProduct }) => {
             data-testid="left"
             onClick={() =>
               setSelected((prev) =>
-                prev <= 0 ? product.image.length - 1 : prev - 1
+                prev <= 0 ? product?.image?.length - 1 : prev - 1
               )
             }
           >
@@ -96,7 +96,7 @@ const DetailImageView = ({ product }: { product: TypeProduct }) => {
             data-testid="right"
             onClick={() =>
               setSelected((prev) =>
-                prev >= product.image.length - 1 ? 0 : prev + 1
+                prev >= product?.image?.length - 1 ? 0 : prev + 1
               )
             }
           >
@@ -105,7 +105,7 @@ const DetailImageView = ({ product }: { product: TypeProduct }) => {
         </div>
       </div>
       <div className={styles.images__dots}>
-        {product.image.map((_, i) => (
+        {product?.image?.map((_, i) => (
           <div
             key={i}
             className={`${styles.images__dots__dot} ${

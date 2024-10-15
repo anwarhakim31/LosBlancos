@@ -5,8 +5,7 @@ import styles from "./header.module.scss";
 import { usePathname } from "next/navigation";
 import NavbarView from "@/components/views/header/NavMember";
 import { TypeCollection } from "@/services/type.module";
-import { useAppDispatch } from "@/store/hook";
-import { fetchProducts } from "@/store/slices/productSlice";
+
 export const authRender = [
   "/register",
   "/login",
@@ -20,14 +19,9 @@ interface propsType {
 
 const Header: FC<propsType> = ({ collection }) => {
   const pathname = usePathname();
-  const dispatch = useAppDispatch();
 
   const [isActive, setIsActive] = useState(false);
   const [isNonActive, setIsNonActive] = useState(false);
-
-  useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
 
   useEffect(() => {
     let lastScrollY = window.scrollY;

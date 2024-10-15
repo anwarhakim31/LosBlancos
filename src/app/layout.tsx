@@ -48,6 +48,7 @@ export default async function RootLayout({
                 position="top-center"
                 richColors
                 toastOptions={{
+                  duration: 1000,
                   style: {
                     background: "white",
                     border: "1px solid #f5f5f5",

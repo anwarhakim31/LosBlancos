@@ -34,8 +34,8 @@ const DetailProductView = ({ product }: { product: TypeProduct }) => {
           ))}
         </div>
         <div className={styles.footer__description}>
-          <h3>{product.name}</h3>
-          <p>{product.description}</p>
+          <h3>{product?.name}</h3>
+          <p>{product?.description}</p>
         </div>
       </div>
     </section>

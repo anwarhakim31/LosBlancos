@@ -27,6 +27,10 @@
         stroke-width: 1.5;
       }
 
+      &:disabled {
+        cursor: pointer !important;
+      }
+
       @include media(lg) {
         svg {
           width: 1.5rem;

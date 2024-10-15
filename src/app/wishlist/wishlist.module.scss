@@ -9,16 +9,48 @@
 }
 
 .content {
+  flex: 1;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
-  gap: 1.5rem;
+  gap: 1rem;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  @include media(xs) {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  @include media(sm) {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  @include media(md) {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  @include media(lg) {
+    gap: 3rem;
+  }
 
   .card {
-    scroll-snap-align: start;
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
     border: 1px solid $gray-300;
     border-radius: 0.4rem;
+
+    grid-column: span 2 / span 2;
+
+    @include media(xs) {
+      grid-column: span 3 / span 3;
+    }
+
+    @include media(sm) {
+      grid-column: span 4 / span 4;
+    }
+
+    @include media(md) {
+      grid-column: span 3 / span 3;
+    }
 
     @include media(md) {
       max-width: 250px;
@@ -39,6 +71,10 @@
       background: rgba(255, 255, 255, 0.5);
       backdrop-filter: blur(2px);
 
+      &:hover {
+        background: rgb(255, 228, 228);
+      }
+
       svg {
         color: $danger;
         width: 1.25rem;
@@ -52,38 +88,40 @@
       }
     }
 
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
     &__image {
       display: block;
       width: 100%;
+      min-height: 200px;
       background: $gray-200;
+      aspect-ratio: 1/1;
       overflow: hidden;
-      max-height: 500px;
-      min-height: 180px;
-      @include media(md) {
-        max-height: 300px;
-      }
+      border-bottom: 1px solid $gray-300;
 
       img {
         width: 100%;
-        height: auto;
+        height: 100%;
         object-fit: cover;
         object-position: center;
-
         transition: all 0.3s ease;
       }
     }
 
     &__content {
-      border-top: 1px solid $gray-300;
-      display: flex;
-      flex-direction: column;
       padding: 0.5rem;
-      align-items: flex-start;
-      gap: 0.5rem;
+      display: flex;
+      height: fit-content;
+      flex-direction: column;
+      justify-content: space-between;
+      flex: 1;
+
+      &__head {
+        margin-bottom: auto;
+
+        margin-bottom: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
 
       &__collection {
         font-size: 0.75rem;
@@ -98,9 +136,8 @@
       }
 
       &__title {
-        margin-top: 0.25rem;
-        font-size: 1rem;
-        font-weight: 700;
+        font-size: 0.875rem;
+        font-weight: 600;
         color: $dark;
         margin-bottom: auto;
         overflow: hidden;
@@ -114,13 +151,13 @@
         font-size: 0.875rem;
         font-weight: 600;
         color: $dark;
+        margin-bottom: 0.25rem;
       }
 
       &__rating {
         display: flex;
         align-items: center;
         gap: 0.2rem;
-        margin-top: 0.25rem;
         svg {
           width: 0.75rem;
           height: 0.75rem;
@@ -134,26 +171,11 @@
         }
       }
     }
-
-    &__notif {
-      width: 100%;
-
-      background: $dark;
-      padding: 0.5rem;
-      position: absolute;
-
-      @include flex-center();
-      transition: all 0.3s ease-in;
-
-      p {
-        color: $white;
-        font-size: 0.8125rem;
-      }
-    }
   }
 }
 
 .empty {
+  min-height: calc(100vh - 200px);
   grid-column: span 12 / span 12;
   display: flex;
   align-items: center;
@@ -180,5 +202,36 @@
     @include btn();
     height: 1.75rem;
     font-size: 0.75rem !important;
+  }
+}
+
+.card_loader {
+  min-height: calc(100vh - 200px);
+  grid-column: span 12 / span 12;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  .loading {
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+
+    background: white;
+    border: 0.25rem solid $primary;
+    border-top: 0.25rem solid transparent;
+
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
   }
 }
