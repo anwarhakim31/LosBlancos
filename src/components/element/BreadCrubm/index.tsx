@@ -11,6 +11,10 @@ const BreadCrubm = () => {
 
   const pathSegments = pathname.split("/").filter((segment) => segment);
 
+  if (pathSegments.length === 3) {
+    pathSegments.splice(2, 3);
+  }
+
   return (
     <ul role="list" className={styles.breadcrubm}>
       <li>

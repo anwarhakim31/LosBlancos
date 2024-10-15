@@ -16,7 +16,7 @@ const InputMultiRange = () => {
   const inputRightRef = useRef<HTMLInputElement>(null);
   const rangeRef = useRef<HTMLInputElement>(null);
 
-  const [minValue, setMinValue] = useState<number>(10000);
+  const [minValue, setMinValue] = useState<number>(0);
   const [maxValue, setMaxValue] = useState(500000);
   const min = 0;
   const max = 500000;
@@ -36,6 +36,7 @@ const InputMultiRange = () => {
     if (adjustedValue === min) {
       newQuery.delete("min");
     } else {
+      newQuery.set("page", "1");
       newQuery.set("min", adjustedValue.toString());
     }
 
@@ -56,6 +57,7 @@ const InputMultiRange = () => {
     if (adjustedValue === max) {
       newQuery.delete("max");
     } else {
+      newQuery.set("page", "1");
       newQuery.set("max", adjustedValue.toString());
     }
 
@@ -67,21 +69,19 @@ const InputMultiRange = () => {
   };
 
   useEffect(() => {
-    if (maxQuery && minQuery) {
-      const minFromQuery = parseInt(minQuery);
-      const maxFromQuery = parseInt(maxQuery);
+    const minFromQuery = parseInt(minQuery?.toString() || min.toString());
+    const maxFromQuery = parseInt(maxQuery?.toString() || max.toString());
 
-      setMinValue(minFromQuery);
-      setMaxValue(maxFromQuery);
+    setMinValue(minFromQuery);
+    setMaxValue(maxFromQuery);
 
-      const leftPercent = ((minFromQuery - min) / (max - min)) * 100;
-      thumbLeftRef.current!.style.left = `${leftPercent}%`;
-      rangeRef.current!.style.left = `${leftPercent}%`;
+    const leftPercent = ((minFromQuery - min) / (max - min)) * 100;
+    thumbLeftRef.current!.style.left = `${leftPercent}%`;
+    rangeRef.current!.style.left = `${leftPercent}%`;
 
-      const rightPercent = ((maxFromQuery - min) / (max - min)) * 100;
-      thumbRightRef.current!.style.right = `${100 - rightPercent}%`;
-      rangeRef.current!.style.right = `${100 - rightPercent}%`;
-    }
+    const rightPercent = ((maxFromQuery - min) / (max - min)) * 100;
+    thumbRightRef.current!.style.right = `${100 - rightPercent}%`;
+    rangeRef.current!.style.right = `${100 - rightPercent}%`;
   }, [maxQuery, minQuery]);
 
   return (

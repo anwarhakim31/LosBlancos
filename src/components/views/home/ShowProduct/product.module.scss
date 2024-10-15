@@ -19,7 +19,7 @@
     margin-block: 3rem 0;
     display: flex;
 
-    gap: 1.5rem;
+    gap: 1rem;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
@@ -38,7 +38,7 @@
 
     &__card {
       scroll-snap-align: start;
-      flex: 0 0 225px;
+      flex: 0 0 230px;
       overflow: hidden;
       padding: 1rem;
 
@@ -58,7 +58,7 @@
         border-radius: 0.4rem;
         display: block;
         width: 100%;
-        height: 225px;
+        aspect-ratio: 1 / 1.1;
         background: $gray-200;
         overflow: hidden;
 

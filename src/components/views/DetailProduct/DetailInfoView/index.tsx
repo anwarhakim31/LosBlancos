@@ -5,34 +5,57 @@ import { formatCurrency } from "@/utils/contant";
 import { useState } from "react";
 import { TypeProduct } from "@/services/type.module";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
-import { addWishList, removeWishList } from "@/store/slices/wishSlice";
+
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { postWishlist, removeWishlist } from "@/store/slices/wishSlice";
 
 const DetailInfoView = ({ product }: { product: TypeProduct }) => {
-  const wishlist = useAppSelector((state) => state.wishlist.wishlist);
+  const session = useSession();
+  const router = useRouter();
+  const { wishlist, loading } = useAppSelector((state) => state.wishlist);
   const dispatch = useAppDispatch();
   const [selectValue, setSelectValue] = useState("");
   const [quantity, setQuantity] = useState(1);
 
   const handleWishlist = () => {
-    if (wishlist.some((item) => item._id === product._id)) {
-      dispatch(removeWishList(product._id));
+    if (session.status === "unauthenticated") {
+      router.push("/login");
+      return;
+    }
+
+    console.log(wishlist.some((item) => item.product._id === product._id));
+
+    if (wishlist.some((item) => item.product._id === product._id)) {
+      dispatch(
+        removeWishlist({
+          id: product._id as string,
+        })
+      );
     } else {
-      dispatch(addWishList(product));
+      dispatch(
+        postWishlist({
+          user: session?.data?.user?.id as string,
+          product: product._id as string,
+        })
+      );
     }
   };
 
   return (
     <div className={styles.info}>
       <div className={styles.info__title}>
-        <h1>{product.name}</h1>
+        <h1>{product?.name}</h1>
         <button
           type="button"
           aria-label="add to wishlist"
           onClick={handleWishlist}
+          disabled={loading}
         >
           <Heart
             className={
-              wishlist.some((item) => item._id === product._id)
+              wishlist.length > 0 &&
+              wishlist.some((item) => item?.product._id === product?._id)
                 ? styles.wish
                 : ""
             }
@@ -51,20 +74,20 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
         <p className={styles.info__terbeli}>2 Terjual</p>
       </div>
       <h3 className={styles.info__price}>
-        {formatCurrency(Number(product.price))}
+        {formatCurrency(Number(product?.price))}
       </h3>
       <div className={styles.info__category}>
-        {product.category.map((item, index) => (
+        {product?.category.map((item, index) => (
           <div className={styles.info__category__badge} key={index}>
             <span>{item}</span>
           </div>
         ))}
       </div>
       <div className={styles.info__atribut}>
-        <h3 className={styles.info__atribut__name}>{product.attribute}</h3>
+        <h3 className={styles.info__atribut__name}>{product?.attribute}</h3>
 
         <div className={styles.info__atribut__content}>
-          {product.stock.length > 0 &&
+          {product?.stock.length > 0 &&
             product?.stock?.map((item, index) => (
               <button
                 type="button"
@@ -90,7 +113,7 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
         <p className={styles.info__atribut__total}>
           {selectValue
             ? product?.stock?.find((item) => item.value === selectValue)?.stock
-            : product.stock.reduce((acc, item) => acc + item.stock, 0)}{" "}
+            : product?.stock.reduce((acc, item) => acc + item.stock, 0)}{" "}
           Barang Tersedia
         </p>
       </div>

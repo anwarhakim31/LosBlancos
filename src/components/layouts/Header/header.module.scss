@@ -45,6 +45,9 @@
 
   button {
     color: $gray-800;
+    a {
+      color: $white !important;
+    }
   }
 
   p {
@@ -66,7 +69,11 @@
   }
 
   button {
-    color: $gray-800;
+    color: $white !important;
+
+    a {
+      color: $white !important;
+    }
   }
 
   p {

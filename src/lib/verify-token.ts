@@ -11,6 +11,7 @@ export const verifyToken = (req: NextRequest) => {
       "Sesi login telah habis. Jika ingin melanjutkan silahkan login kembali."
     );
   }
+  console.log({ token });
 
   const verify = jwt.verify(token, process.env.NEXTAUTH_SECRET || "");
 

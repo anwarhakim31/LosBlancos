@@ -6,6 +6,20 @@
     margin-left: 0;
   }
 
+  &__auth {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    button {
+      padding: 0.25rem 0.75rem;
+      background-color: $primary;
+      color: $white !important;
+      border-radius: 3rem;
+      font-size: 0.75rem;
+    }
+  }
+
   &__user {
     @include flex(center, center, null);
     gap: 1rem;
