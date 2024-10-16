@@ -107,7 +107,33 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
+      message: "Data berhasil diambil",
       cart: cart,
+    });
+  } catch (error) {
+    return ResponseError(500, "Internal Server Error");
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const { userId, productId } = await req.json();
+
+    const cart = await Cart.findOne({ userId });
+
+    if (!cart) {
+      return ResponseError(404, "Keranjang tidak ditemukan");
+    }
+
+    cart.items = cart.items.filter(
+      (item: CartItem) => item.product.toString() !== productId
+    );
+
+    await cart.save();
+
+    return NextResponse.json({
+      success: true,
+      message: "Produk di hapus dari keranjang",
     });
   } catch (error) {
     console.log(error);

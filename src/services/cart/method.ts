@@ -11,5 +11,6 @@ export interface cartType {
 export const cartService = {
   getCart: (id: string) => instance.get("/cart?userId=" + id),
   postCart: (data: cartType) => instance.post("/cart", data),
-  deleteCart: (id: string) => instance.delete("/cart/" + id),
+  deleteCart: (userId: string, productId: string) =>
+    instance.delete("/cart", { data: { userId, productId } }),
 };

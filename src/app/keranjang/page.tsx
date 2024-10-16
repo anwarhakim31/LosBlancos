@@ -6,18 +6,23 @@ import React, { Fragment } from "react";
 import BreadCrubm from "@/components/element/BreadCrubm";
 import styles from "./cart.module.scss";
 import Image from "next/image";
-import { Trash2 } from "lucide-react";
+import { ArrowRight, Trash2 } from "lucide-react";
 import QuantityAction from "@/components/element/Quantity";
 
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { formatCurrency } from "@/utils/contant";
 
-import { minusQuantity, plusQuantity } from "@/store/slices/cartSlice";
+import {
+  deleteCart,
+  minusQuantity,
+  plusQuantity,
+} from "@/store/slices/cartSlice";
 import { itemCartType } from "@/services/type.module";
+import { useSession } from "next-auth/react";
 
 const CartPage = () => {
   const dispatch = useAppDispatch();
-
+  const session = useSession();
   const { cart } = useAppSelector((state) => state.cart);
 
   const handleMaxQuantity = (item: itemCartType) => {
@@ -71,6 +76,14 @@ const CartPage = () => {
 
                     <div className={styles.list__action}>
                       <button
+                        onClick={() => {
+                          dispatch(
+                            deleteCart({
+                              userId: session?.data?.user?.id as string,
+                              productId: item.product._id as string,
+                            })
+                          );
+                        }}
                         type="button"
                         className={styles.list__action__delete}
                       >
@@ -85,7 +98,43 @@ const CartPage = () => {
                   </div>
                 ))}
             </div>
-            <div className={styles.totalWrapper}></div>
+            <div className={styles.summeryWrapper}>
+              <h3>Rincian Pesanan</h3>
+              <div className={styles.summeryWrapper__wrapper}>
+                <div className={`${styles.summeryWrapper__summery}`}>
+                  <p>Subtotal</p>
+                  <span>{formatCurrency(cart?.total)}</span>
+                </div>
+                <div className={`${styles.summeryWrapper__summery}`}>
+                  <p>Diskon</p>
+                  <span>{0}</span>
+                </div>
+              </div>
+              <div className={`${styles.summeryWrapper__summery}`}>
+                <span>Total</span>
+                <span>{formatCurrency(cart?.total)}</span>
+              </div>
+
+              <div className={styles.summeryWrapper__discount}>
+                <input
+                  type="text"
+                  id="discount"
+                  name="discount"
+                  placeholder="Masukkan Kode Diskon"
+                />
+                <button type="button" aria-label="checkout">
+                  Terapkan
+                </button>
+              </div>
+
+              <button
+                type="button"
+                aria-label="checkout"
+                className={styles.checkout}
+              >
+                Checkout <ArrowRight width={16} height={16} />
+              </button>
+            </div>
           </div>
         </section>
       </main>
