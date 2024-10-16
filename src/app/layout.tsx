@@ -8,6 +8,7 @@ import { Toaster } from "sonner";
 import { ServerURL } from "@/utils/contant";
 import React from "react";
 import MasterProvider from "@/context/MasterContext";
+import { CheckIcon } from "lucide-react";
 
 const inter = Inter({
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -53,6 +54,12 @@ export default async function RootLayout({
                     background: "white",
                     border: "1px solid #f5f5f5",
                   },
+                  classNames: {
+                    info: "danger-info",
+                  },
+                }}
+                icons={{
+                  info: <CheckIcon />,
                 }}
               />
               <div id="modal-root"></div>

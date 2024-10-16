@@ -1,6 +1,7 @@
 import { cartService, cartType } from "@/services/cart/method";
 import { itemCartType } from "@/services/type.module";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { toast } from "sonner";
 
 export const getCart = createAsyncThunk(
   "cart/getCart",
@@ -28,6 +29,24 @@ export const postCart = createAsyncThunk(
 
     if (res.status === 200) {
       dispatch(getCart({ id: userId }));
+      toast.success(res.data.message);
+    }
+
+    return res.data.cart;
+  }
+);
+
+export const deleteCart = createAsyncThunk(
+  "cart/deleteCart",
+  async (
+    { userId, productId }: { userId: string; productId: string },
+    { dispatch }
+  ) => {
+    const res = await cartService.deleteCart(userId, productId);
+
+    if (res.status === 200) {
+      dispatch(getCart({ id: userId }));
+      toast.info(res.data.message);
     }
 
     return res.data.cart;
@@ -111,6 +130,13 @@ const cartSlice = createSlice({
     builder.addCase(postCart.pending, (state) => {
       state.loading = true;
       state.error = null;
+    });
+    builder.addCase(deleteCart.fulfilled, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(deleteCart.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || "Failed to fetch cartList";
     });
   },
 });

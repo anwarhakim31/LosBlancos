@@ -11,7 +11,6 @@ import { useRouter } from "next/navigation";
 import { postWishlist, removeWishlist } from "@/store/slices/wishSlice";
 import { postCart } from "@/store/slices/cartSlice";
 import QuantityAction from "@/components/element/Quantity";
-import { toast } from "sonner";
 
 const DetailInfoView = ({ product }: { product: TypeProduct }) => {
   const session = useSession();
@@ -19,7 +18,7 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
   const { wishlist, loading: loadingWishlist } = useAppSelector(
     (state) => state.wishlist
   );
-  const { loading: loadingCart, error } = useAppSelector((state) => state.cart);
+  const { loading: loadingCart } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
 
   const [selectValue, setSelectValue] = useState("");
@@ -67,10 +66,6 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
         atributeValue: selectValue as string,
       })
     );
-
-    if (!error) {
-      toast.success(`${product.name} ditambahkan ke keranjang`);
-    }
   };
 
   useEffect(() => {
