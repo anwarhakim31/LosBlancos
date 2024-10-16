@@ -1,7 +1,7 @@
 import instance from "@/utils/axios/instance";
 
 export const wishlistService = {
-  getWishlist: async () => instance.get("/wishlist"),
+  getWishlist: async (id: string) => instance.get("/wishlist?user=" + id + ""),
   addWishlist: (user: string, product: string) =>
     instance.post("/wishlist", {
       user,

@@ -108,22 +108,21 @@
 
   &__content {
     margin-top: 0.5rem;
-
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
     &__head {
-      margin-bottom: auto;
-      flex: 1 1 0%;
       margin-bottom: 0.5rem;
       display: flex;
       flex-direction: column;
+      align-items: flex-start;
     }
 
     &__collection {
       font-size: 0.75rem;
-      font-weight: 500;
+      font-weight: 400;
       color: $gray-500;
       overflow: hidden;
       text-transform: capitalize;
@@ -134,7 +133,7 @@
     }
 
     &__title {
-      font-size: 0.875rem;
+      font-size: 1rem;
       font-weight: 600;
       color: $dark;
       margin-bottom: auto;

@@ -1,0 +1,39 @@
+.wrapper {
+  margin-top: 1rem;
+  border-radius: 2rem;
+  border: 1px solid $gray-200;
+  width: 125px;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .btn {
+    width: 25%;
+    height: 100%;
+
+    @include flex-center();
+    border-radius: 0.25rem;
+    transition: all 0.3s ease-in-out;
+    font-size: 0.875rem;
+    text-transform: capitalize;
+    position: relative;
+    overflow: hidden;
+    margin: auto;
+
+    svg {
+      color: $gray-700;
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  .value {
+    font-size: 0.875rem;
+    @include flex-center();
+    height: 100%;
+    width: 50px;
+    background: rgb(233, 233, 255);
+    border-inline: 1px solid $gray-200;
+  }
+}

@@ -34,6 +34,7 @@ export default function withAuth(
 
         return NextResponse.redirect(url);
       }
+
       if (token) {
         if (authPage.includes(pathname)) {
           return NextResponse.redirect(new URL("/", req.url));
@@ -70,7 +71,3 @@ export default function withAuth(
     return middleware(req, ev);
   };
 }
-
-export const config = {
-  matcher: ["/", "/login"],
-};

@@ -125,7 +125,7 @@
 
       &__collection {
         font-size: 0.75rem;
-        font-weight: 500;
+        font-weight: 400;
         color: $gray-500;
         overflow: hidden;
         text-transform: capitalize;
@@ -136,7 +136,7 @@
       }
 
       &__title {
-        font-size: 0.875rem;
+        font-size: 1rem;
         font-weight: 600;
         color: $dark;
         margin-bottom: auto;
@@ -175,7 +175,7 @@
 }
 
 .empty {
-  min-height: calc(100vh - 200px);
+  min-height: calc(100vh - 300px);
   grid-column: span 12 / span 12;
   display: flex;
   align-items: center;
@@ -206,7 +206,7 @@
 }
 
 .card_loader {
-  min-height: calc(100vh - 200px);
+  min-height: calc(100vh - 300px);
   grid-column: span 12 / span 12;
   display: flex;
   align-items: center;

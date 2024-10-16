@@ -13,6 +13,7 @@ const HomeMenu = ({ collection }: { collection: TypeCollection[] }) => {
         href={"/"}
         className={`${styles.list} `}
         style={{ color: pathname !== "/" ? "black" : "" }}
+        scroll={false}
       >
         Beranda
       </Link>
@@ -20,6 +21,7 @@ const HomeMenu = ({ collection }: { collection: TypeCollection[] }) => {
         href={"/produk"}
         className={styles.list}
         style={{ color: pathname !== "/" ? "black" : "" }}
+        scroll={false}
       >
         produk
       </Link>
@@ -29,6 +31,7 @@ const HomeMenu = ({ collection }: { collection: TypeCollection[] }) => {
           className={styles.list}
           key={item._id}
           style={{ color: pathname !== "/" ? "black" : "" }}
+          scroll={false}
         >
           {item.name}
         </Link>
@@ -37,6 +40,7 @@ const HomeMenu = ({ collection }: { collection: TypeCollection[] }) => {
         href={"/product"}
         className={styles.list}
         style={{ color: pathname !== "/" ? "black" : "" }}
+        scroll={false}
       >
         Tentang
       </Link>
@@ -44,6 +48,7 @@ const HomeMenu = ({ collection }: { collection: TypeCollection[] }) => {
         href={"/product"}
         className={styles.list}
         style={{ color: pathname !== "/" ? "black" : "" }}
+        scroll={false}
       >
         Kontak
       </Link>

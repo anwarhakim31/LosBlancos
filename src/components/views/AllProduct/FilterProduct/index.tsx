@@ -49,7 +49,7 @@ const FilterProductView = () => {
     } else {
       searchParams.delete("category");
     }
-    router.push(`${pathname}?${searchParams.toString()}`);
+    router.push(`${pathname}?${searchParams.toString()}`, { scroll: false });
   };
 
   const updateCollection = (collection: string) => {
@@ -60,7 +60,7 @@ const FilterProductView = () => {
     } else {
       searchParams.delete("collection");
     }
-    router.push(`${pathname}?${searchParams.toString()}`);
+    router.push(`${pathname}?${searchParams.toString()}`, { scroll: false });
   };
 
   return (

@@ -10,7 +10,9 @@ import { Fragment } from "react";
 import Footer from "@/components/layouts/Footer";
 import Link from "next/link";
 import { removeWishlist } from "@/store/slices/wishSlice";
+import { useSession } from "next-auth/react";
 const WishListPage = () => {
+  const session = useSession();
   const dispatch = useAppDispatch();
   const { wishlist, loading } = useAppSelector((state) => state.wishlist);
 
@@ -22,7 +24,9 @@ const WishListPage = () => {
     e.preventDefault();
 
     if (id) {
-      dispatch(removeWishlist({ id }));
+      dispatch(
+        removeWishlist({ id, userId: session?.data?.user?.id as string })
+      );
     }
   };
 

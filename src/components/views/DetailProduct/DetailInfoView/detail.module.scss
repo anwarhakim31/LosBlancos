@@ -126,7 +126,7 @@
 
       button {
         padding: 0.25rem 1rem;
-        border: 1px solid $gray-200;
+
         min-width: 1.75rem;
         min-height: 1.25rem;
         @include flex-center();
@@ -192,44 +192,6 @@
       color: $gray-700;
       text-transform: capitalize;
     }
-
-    &__content {
-      margin-top: 1rem;
-      border-radius: 0.25rem;
-      border: 1px solid $gray-200;
-      width: 200px;
-      height: 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      .btn {
-        width: 25%;
-        height: 100%;
-
-        @include flex-center();
-        border-radius: 0.25rem;
-        transition: all 0.3s ease-in-out;
-        font-size: 0.875rem;
-        text-transform: capitalize;
-        position: relative;
-        overflow: hidden;
-        margin: auto;
-
-        svg {
-          color: $gray-700;
-          width: 1rem;
-          height: 1rem;
-        }
-      }
-
-      .value {
-        @include flex-center();
-        padding: 0.25rem 0.25rem;
-        width: 100px;
-        border-inline: 1px solid $gray-200;
-      }
-    }
   }
 
   &__btn {
@@ -280,5 +242,35 @@
         background: $primary-hover;
       }
     }
+  }
+}
+
+.alert {
+  border: 1px solid $danger;
+  animation: vibrate 0.3s linear;
+}
+
+.default {
+  border: 1px solid $gray-200;
+}
+
+@keyframes vibrate {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
   }
 }

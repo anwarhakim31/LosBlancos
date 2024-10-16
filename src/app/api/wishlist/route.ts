@@ -33,10 +33,12 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   await connectDB();
   try {
-    const wishlist = await Wishlist.find({}).populate({
+    const id = new URL(req.url).searchParams.get("user") as string;
+
+    const wishlist = await Wishlist.find({ user: id }).populate({
       path: "product",
       populate: {
         path: "collectionName",
