@@ -40,7 +40,7 @@ const InputMultiRange = () => {
       newQuery.set("min", adjustedValue.toString());
     }
 
-    push(`${pathname}?${newQuery.toString()}`);
+    push(`${pathname}?${newQuery.toString()}`, { scroll: false });
 
     const percent = ((adjustedValue - min) / (max - min)) * 100;
     thumbLeftRef.current!.style.left = `${percent}%`;
@@ -61,7 +61,7 @@ const InputMultiRange = () => {
       newQuery.set("max", adjustedValue.toString());
     }
 
-    push(`${pathname}?${newQuery.toString()}`);
+    push(`${pathname}?${newQuery.toString()}`, { scroll: false });
 
     const percent = ((adjustedValue - min) / (max - min)) * 100;
     thumbRightRef.current!.style.right = `${100 - percent}%`;

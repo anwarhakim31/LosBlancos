@@ -126,7 +126,7 @@
 
       button {
         padding: 0.25rem 1rem;
-        border: 1px solid $gray-200;
+
         min-width: 1.75rem;
         min-height: 1.25rem;
         @include flex-center();
@@ -280,5 +280,35 @@
         background: $primary-hover;
       }
     }
+  }
+}
+
+.alert {
+  border: 1px solid $danger;
+  animation: vibrate 0.3s linear;
+}
+
+.default {
+  border: 1px solid $gray-200;
+}
+
+@keyframes vibrate {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
   }
 }

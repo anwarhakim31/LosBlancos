@@ -1,13 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-
 import { whitelistReducer } from "./slices/wishSlice";
 import actionReducer from "./slices/actionSlice";
+import cartReducer from "./slices/cartSlice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       wishlist: whitelistReducer,
       action: actionReducer,
+      cart: cartReducer,
     },
   });
 };

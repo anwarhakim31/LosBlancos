@@ -7,8 +7,8 @@ import { toast } from "sonner";
 
 export const getWishlist = createAsyncThunk(
   "wishlist/getWishlist",
-  async () => {
-    const res = await wishlistService.getWishlist();
+  async ({ id }: { id: string }) => {
+    const res = await wishlistService.getWishlist(id);
 
     return res.data.wishlist;
   }
@@ -22,7 +22,7 @@ export const postWishlist = createAsyncThunk(
   ) => {
     const res = await wishlistService.addWishlist(user, product);
     if (res.status === 200) {
-      dispatch(getWishlist());
+      dispatch(getWishlist({ id: user }));
       toast.success(res.data.message);
     }
 
@@ -32,10 +32,10 @@ export const postWishlist = createAsyncThunk(
 
 export const removeWishlist = createAsyncThunk(
   "wishlist/removeWishlist",
-  async ({ id }: { id: string }, { dispatch }) => {
+  async ({ id, userId }: { id: string; userId: string }, { dispatch }) => {
     const res = await wishlistService.removeWishlist(id);
     if (res.status === 200) {
-      dispatch(getWishlist());
+      dispatch(getWishlist({ id: userId }));
       toast.success(res.data.message);
     }
 

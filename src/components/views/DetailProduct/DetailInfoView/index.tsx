@@ -9,13 +9,19 @@ import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { postWishlist, removeWishlist } from "@/store/slices/wishSlice";
+import { postCart } from "@/store/slices/cartSlice";
 
 const DetailInfoView = ({ product }: { product: TypeProduct }) => {
   const session = useSession();
   const router = useRouter();
-  const { wishlist, loading } = useAppSelector((state) => state.wishlist);
+  const { wishlist, loading: loadingWishlist } = useAppSelector(
+    (state) => state.wishlist
+  );
+  const { loading: loadingCart } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
+
   const [selectValue, setSelectValue] = useState("");
+  const [alert, setAlert] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
   const handleWishlist = () => {
@@ -24,12 +30,11 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
       return;
     }
 
-    console.log(wishlist.some((item) => item.product._id === product._id));
-
     if (wishlist.some((item) => item.product._id === product._id)) {
       dispatch(
         removeWishlist({
           id: product._id as string,
+          userId: session?.data?.user?.id as string,
         })
       );
     } else {
@@ -42,6 +47,27 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
     }
   };
 
+  const handleAddToCart = () => {
+    if (session.status === "unauthenticated") {
+      router.push("/login");
+      return;
+    }
+    if (selectValue === "") {
+      return setAlert(true);
+    }
+
+    dispatch(
+      postCart({
+        userId: session.data?.user?.id as string,
+        productId: product._id as string,
+        quantity: quantity,
+        atribute: product.attribute as string,
+        atributeValue: selectValue as string,
+        price: product.price as number,
+      })
+    );
+  };
+
   return (
     <div className={styles.info}>
       <div className={styles.info__title}>
@@ -50,7 +76,7 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
           type="button"
           aria-label="add to wishlist"
           onClick={handleWishlist}
-          disabled={loading}
+          disabled={loadingWishlist}
         >
           <Heart
             className={
@@ -93,13 +119,20 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
                 type="button"
                 aria-label={`attribute ${item.value}`}
                 key={index}
-                onClick={() =>
+                onClick={() => {
+                  setAlert(false);
                   selectValue === item.value
                     ? setSelectValue("")
-                    : setSelectValue(item.value)
+                    : setSelectValue(item.value);
+                }}
+                disabled={item.stock === 0 || loadingCart}
+                className={
+                  selectValue === item.value
+                    ? styles.value
+                    : alert
+                    ? styles.alert
+                    : styles.default
                 }
-                disabled={item.stock === 0}
-                className={selectValue === item.value ? styles.value : ""}
               >
                 {item.value}
                 {selectValue === item.value && (
@@ -141,10 +174,15 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
         </div>
       </div>
       <div className={styles.info__btn}>
-        <button className={styles.cart}>
+        <button
+          type="button"
+          aria-label="add to cart"
+          className={styles.cart}
+          onClick={handleAddToCart}
+        >
           <Cart /> <span>Masukkan Keranjang</span>
         </button>
-        <button className={styles.buy}>
+        <button className={styles.buy} type="button" aria-label="buy now">
           <span>Beli Sekarang</span>
         </button>
       </div>

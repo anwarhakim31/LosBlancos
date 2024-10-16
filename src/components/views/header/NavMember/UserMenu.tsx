@@ -10,24 +10,28 @@ import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { useEffect } from "react";
 
 import { getWishlist } from "@/store/slices/wishSlice";
+import { getCart } from "@/store/slices/cartSlice";
 
 const UserMenu = () => {
   const dispatch = useAppDispatch();
   const { wishlist } = useAppSelector((state) => state.wishlist);
-  // const product = useAppSelector((state) => state.product.products);
+  const { cart } = useAppSelector((state) => state.cart);
   const session = useSession();
   const pathname = usePathname();
 
   useEffect(() => {
-    dispatch(getWishlist());
-  }, [dispatch]);
+    if (session.data?.user?.id) {
+      dispatch(getWishlist({ id: session.data?.user?.id as string }));
+      dispatch(getCart({ id: session.data?.user?.id as string }));
+    }
+  }, [dispatch, session.data?.user?.id]);
 
   return (
     <div className={styles.wrapper}>
       {session.status === "authenticated" ? (
         <div className={styles.wrapper__user}>
           <Link
-            href={"/wishlist"}
+            href={"/keinginan"}
             className={styles.wrapper__user__wishlist}
             style={{ color: pathname !== "/" ? "black" : "" }}
           >
@@ -38,12 +42,14 @@ const UserMenu = () => {
           </Link>
 
           <Link
-            href={"/cart"}
+            href={"/keranjang"}
             className={styles.wrapper__user__cart}
             style={{ color: pathname !== "/" ? "black" : "" }}
           >
             <Cart width={20} height={20} strokeWidth={1.75} />
-            <span className={styles.wrapper__user__count}>[0]</span>
+            <span className={styles.wrapper__user__count}>
+              [{cart.items.reduce((total, item) => total + item.quantity, 0)}]
+            </span>
           </Link>
 
           <Link
