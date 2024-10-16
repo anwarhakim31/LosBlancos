@@ -6,10 +6,10 @@ export interface cartType {
   quantity: number;
   atribute: string;
   atributeValue: string;
-  price: number;
 }
 
 export const cartService = {
   getCart: (id: string) => instance.get("/cart?userId=" + id),
   postCart: (data: cartType) => instance.post("/cart", data),
+  deleteCart: (id: string) => instance.delete("/cart/" + id),
 };

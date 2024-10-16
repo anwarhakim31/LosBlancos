@@ -1,5 +1,6 @@
 import Cart from "@/lib/models/cart-model";
 import Product from "@/lib/models/product-model";
+import Stock from "@/lib/models/stock-model";
 import { ResponseError } from "@/lib/response-error";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -11,7 +12,7 @@ interface CartItem {
 
 export async function POST(req: NextRequest) {
   try {
-    const { userId, productId, quantity, atribute, atributeValue, price } =
+    const { userId, productId, quantity, atribute, atributeValue } =
       await req.json();
 
     if (!userId || !productId || !quantity || !atribute || !atributeValue) {
@@ -37,15 +38,29 @@ export async function POST(req: NextRequest) {
         item.atributeValue === atributeValue
     );
 
+    const stockDB = await Stock.findOne({
+      productId,
+      attribute: atribute,
+      value: atributeValue,
+    });
+
+    if (!stockDB) {
+      return ResponseError(404, "Stok tidak ditemukan");
+    }
+
+    if (quantity > productDB.stock) {
+      return ResponseError(400, "Stok tidak mencukupi");
+    }
+
     if (itemIndex !== -1) {
       cartDB.items[itemIndex].quantity += quantity;
     } else {
       cartDB.items.push({
         product: productId,
-        quantity,
+        quantity: quantity <= 1 ? 1 : quantity,
         atribute,
         atributeValue,
-        price,
+        price: productDB.price,
       });
     }
 
@@ -53,10 +68,9 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: "Produk ditambahkan ke keranjang",
+      message: `${productDB.name} ditambahkan ke keranjang`,
     });
   } catch (error) {
-    console.log(error);
     return ResponseError(500, "Internal Server Error");
   }
 }
@@ -65,13 +79,38 @@ export async function GET(req: NextRequest) {
   try {
     const userId = new URL(req.url).searchParams.get("userId");
 
-    const cart = await Cart.findOne({ userId }).populate("items.product");
+    const cart = await Cart.findOne({ userId }).populate({
+      path: "items.product",
+      populate: {
+        path: "collectionName",
+      },
+    });
+
+    if (cart) {
+      for (const item of cart.items) {
+        const stockDB = await Stock.findOne({
+          productId: item.product._id,
+          attribute: item.atribute,
+        });
+
+        if (stockDB) {
+          item.product.stock = stockDB.stock;
+        }
+
+        if (item.quantity > stockDB?.stock) {
+          item.quantity = stockDB?.stock;
+
+          await cart.save();
+        }
+      }
+    }
 
     return NextResponse.json({
       success: true,
       cart: cart,
     });
   } catch (error) {
+    console.log(error);
     return ResponseError(500, "Internal Server Error");
   }
 }

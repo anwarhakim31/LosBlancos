@@ -90,7 +90,7 @@ export type TypeWishlist = {
 
 export type itemCartType = {
   _id?: string;
-  productId: TypeProduct[];
+  product: TypeProduct;
   quantity: number;
   price: number;
   atribute: string;

@@ -1,8 +1,8 @@
 import styles from "./detail.module.scss";
 import Cart from "@/assets/cart.svg";
-import { Check, Heart, Minus, Plus, Star } from "lucide-react";
+import { Check, Heart, Star } from "lucide-react";
 import { formatCurrency } from "@/utils/contant";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TypeProduct } from "@/services/type.module";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 
@@ -10,6 +10,8 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { postWishlist, removeWishlist } from "@/store/slices/wishSlice";
 import { postCart } from "@/store/slices/cartSlice";
+import QuantityAction from "@/components/element/Quantity";
+import { toast } from "sonner";
 
 const DetailInfoView = ({ product }: { product: TypeProduct }) => {
   const session = useSession();
@@ -17,7 +19,7 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
   const { wishlist, loading: loadingWishlist } = useAppSelector(
     (state) => state.wishlist
   );
-  const { loading: loadingCart } = useAppSelector((state) => state.cart);
+  const { loading: loadingCart, error } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
 
   const [selectValue, setSelectValue] = useState("");
@@ -63,10 +65,28 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
         quantity: quantity,
         atribute: product.attribute as string,
         atributeValue: selectValue as string,
-        price: product.price as number,
       })
     );
+
+    if (!error) {
+      toast.success(`${product.name} ditambahkan ke keranjang`);
+    }
   };
+
+  useEffect(() => {
+    const selectStock = product?.stock?.find(
+      (item) => item.value === selectValue
+    );
+
+    if (selectStock) {
+      if (quantity > selectStock.stock) {
+        setQuantity(
+          product.stock.find((item) => item.value === selectValue)
+            ?.stock as number
+        );
+      }
+    }
+  }, [selectValue, quantity]);
 
   return (
     <div className={styles.info}>
@@ -153,25 +173,21 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
       <div className={styles.info__kuantitas}>
         <h3 className={styles.info__kuantitas__name}>Kuantitas</h3>
 
-        <div className={styles.info__kuantitas__content}>
-          <button
-            type="button"
-            aria-label="minus"
-            className={styles.btn}
-            onClick={() => setQuantity((prev) => (prev === 1 ? 1 : prev - 1))}
-          >
-            <Minus />
-          </button>
-          <p className={styles.value}>{quantity}</p>
-          <button
-            type="button"
-            aria-label="plus"
-            className={styles.btn}
-            onClick={() => setQuantity(quantity + 1)}
-          >
-            <Plus />
-          </button>
-        </div>
+        <QuantityAction
+          quantity={quantity}
+          handleMinQuantity={() =>
+            quantity === 1 ? setQuantity(1) : setQuantity(quantity - 1)
+          }
+          handleMaxQuantity={() =>
+            quantity ===
+            product?.stock.find((item) => item.value === selectValue)?.stock
+              ? setQuantity(
+                  product?.stock.find((item) => item.value === selectValue)
+                    ?.stock as number
+                )
+              : setQuantity(quantity + 1)
+          }
+        />
       </div>
       <div className={styles.info__btn}>
         <button

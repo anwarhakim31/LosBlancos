@@ -48,7 +48,11 @@ const UserMenu = () => {
           >
             <Cart width={20} height={20} strokeWidth={1.75} />
             <span className={styles.wrapper__user__count}>
-              [{cart.items.reduce((total, item) => total + item.quantity, 0)}]
+              [
+              {cart?.items?.length > 0
+                ? cart.items.reduce((total, item) => total + item.quantity, 0)
+                : 0}
+              ]
             </span>
           </Link>
 

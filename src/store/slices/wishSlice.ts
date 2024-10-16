@@ -23,7 +23,7 @@ export const postWishlist = createAsyncThunk(
     const res = await wishlistService.addWishlist(user, product);
     if (res.status === 200) {
       dispatch(getWishlist({ id: user }));
-      toast.success(res.data.message);
+      toast.info(res.data.message);
     }
 
     return res.data;
@@ -36,7 +36,7 @@ export const removeWishlist = createAsyncThunk(
     const res = await wishlistService.removeWishlist(id);
     if (res.status === 200) {
       dispatch(getWishlist({ id: userId }));
-      toast.success(res.data.message);
+      toast.info(res.data.message);
     }
 
     return res.data;

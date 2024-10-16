@@ -13,7 +13,7 @@ export const getCart = createAsyncThunk(
 export const postCart = createAsyncThunk(
   "cart/postCart",
   async (
-    { userId, productId, quantity, atribute, atributeValue, price }: cartType,
+    { userId, productId, quantity, atribute, atributeValue }: cartType,
     { dispatch }
   ) => {
     const data = {
@@ -22,7 +22,6 @@ export const postCart = createAsyncThunk(
       quantity,
       atribute,
       atributeValue,
-      price,
     };
 
     const res = await cartService.postCart(data);
@@ -56,7 +55,40 @@ const initialState: stateType = {
 const cartSlice = createSlice({
   name: "cart",
   initialState,
-  reducers: {},
+  reducers: {
+    plusQuantity: (state, action) => {
+      const index = state.cart.items.findIndex(
+        (item) => item._id === action.payload
+      );
+
+      if (index !== -1) {
+        state.cart.items[index].quantity += 1;
+        if (typeof state.cart.items[index].product.price === "number") {
+          state.cart.items[index].price +=
+            state.cart.items[index].product.price;
+        }
+      }
+
+      state.cart.total ===
+        state.cart.items.reduce((total, item) => total + item.price, 0);
+    },
+    minusQuantity: (state, action) => {
+      const index = state.cart.items.findIndex(
+        (item) => item._id === action.payload
+      );
+
+      if (index !== -1) {
+        state.cart.items[index].quantity -= 1;
+        if (typeof state.cart.items[index].product.price === "number") {
+          state.cart.items[index].price -=
+            state.cart.items[index].product.price;
+        }
+      }
+
+      state.cart.total ===
+        state.cart.items.reduce((total, item) => total + item.price, 0);
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(postCart.fulfilled, (state) => {
       state.loading = false;
@@ -82,5 +114,7 @@ const cartSlice = createSlice({
     });
   },
 });
+
+export const { plusQuantity, minusQuantity } = cartSlice.actions;
 
 export default cartSlice.reducer;

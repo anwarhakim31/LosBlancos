@@ -192,44 +192,6 @@
       color: $gray-700;
       text-transform: capitalize;
     }
-
-    &__content {
-      margin-top: 1rem;
-      border-radius: 0.25rem;
-      border: 1px solid $gray-200;
-      width: 200px;
-      height: 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      .btn {
-        width: 25%;
-        height: 100%;
-
-        @include flex-center();
-        border-radius: 0.25rem;
-        transition: all 0.3s ease-in-out;
-        font-size: 0.875rem;
-        text-transform: capitalize;
-        position: relative;
-        overflow: hidden;
-        margin: auto;
-
-        svg {
-          color: $gray-700;
-          width: 1rem;
-          height: 1rem;
-        }
-      }
-
-      .value {
-        @include flex-center();
-        padding: 0.25rem 0.25rem;
-        width: 100px;
-        border-inline: 1px solid $gray-200;
-      }
-    }
   }
 
   &__btn {
