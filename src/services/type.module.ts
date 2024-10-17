@@ -103,3 +103,14 @@ export type cartType = {
   items: string[];
   total: number;
 };
+
+export type TypeTransaction = {
+  _id?: string;
+  userId: string;
+  items: itemCartType[];
+  totalAmount: number;
+  address: string;
+  statusPayment: string;
+  statusTransaction: string;
+  createdAt?: string;
+};

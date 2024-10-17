@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { formatCurrency } from "@/utils/contant";
 
 import {
+  clearCart,
   deleteCart,
   minusQuantity,
   plusQuantity,
@@ -20,13 +21,19 @@ import {
 import { itemCartType } from "@/services/type.module";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { ResponseError } from "@/utils/axios/response-error";
+import { transactionService } from "@/services/transaction/method";
+import { useRouter } from "next/navigation";
 
 const CartPage = () => {
+  const router = useRouter();
   const listRef = useRef<HTMLDivElement>(null);
   const summeryRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
   const session = useSession();
   const { cart, loading } = useAppSelector((state) => state.cart);
+
+  console.log(cart);
 
   const handleMaxQuantity = (item: itemCartType) => {
     if (
@@ -40,6 +47,32 @@ const CartPage = () => {
   const handleMinQuantity = (item: itemCartType) => {
     if (item.quantity > 1) {
       dispatch(minusQuantity(item._id as string));
+    }
+  };
+
+  const handleCheckout = async () => {
+    if (session.status !== "authenticated") {
+      router.push("/login");
+      return;
+    }
+
+    if (cart?.items?.length === 0) {
+      return;
+    }
+
+    try {
+      const res = await transactionService.create(
+        session.data?.user?.id as string,
+        cart?.items as itemCartType[],
+        cart?.total as number
+      );
+
+      if (res.status == 200) {
+        router.push("/checkout/" + res.data.id);
+        dispatch(clearCart());
+      }
+    } catch (error) {
+      ResponseError(error);
     }
   };
 
@@ -201,6 +234,7 @@ const CartPage = () => {
                 type="button"
                 aria-label="checkout"
                 className={styles.checkout}
+                onClick={handleCheckout}
               >
                 Checkout <ArrowRight width={16} height={16} />
               </button>
