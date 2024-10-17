@@ -1,7 +1,7 @@
 .container {
   @include container();
   margin-block: 8rem;
-
+  min-height: calc(100vh - 100px);
   h1 {
     font-weight: 500;
     margin-bottom: 2rem;
@@ -27,6 +27,7 @@
     padding: 1rem;
     height: 500px;
     overflow-y: auto;
+    transition: visibility 0.3s, opacity 0.3s, transform 0.3s ease-in;
 
     &::-webkit-scrollbar {
       width: 0.25rem;
@@ -37,24 +38,38 @@
     }
 
     .list {
-      height: 150px;
       padding-bottom: 1rem;
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.5rem;
       border-bottom: 1px solid $gray-300;
+      flex-wrap: wrap;
 
+      @include media(sm) {
+        gap: 1rem;
+      }
+
+      @include media(sm) {
+        height: 150px;
+        flex-wrap: nowrap;
+      }
       &:not(:last-child) {
         margin-bottom: 1rem;
       }
 
       &__image {
-        width: 125px;
-        height: 125px;
+        width: 100px;
+        height: 100px;
         border-radius: 0.4rem;
         overflow: hidden;
         background: $gray-100;
         border: 1px solid $gray-300;
+        display: block;
+
+        @include media(sm) {
+          width: 125px;
+          height: 125px;
+        }
 
         img {
           width: 100%;
@@ -71,7 +86,14 @@
         height: 100%;
         flex-direction: column;
         padding: 0.25rem 0;
-        flex: 1;
+
+        @include media(xs) {
+          min-width: 175px;
+        }
+
+        @include media(sm) {
+          min-width: none;
+        }
 
         &__top {
           margin-bottom: 0.5rem;
@@ -113,12 +135,16 @@
 
       &__action {
         display: flex;
-        flex-direction: column;
-        align-items: flex-end;
+        margin-left: auto;
         justify-content: space-between;
         padding: 0.25rem 0;
         gap: 0.5rem;
-        height: 100%;
+
+        @include media(sm) {
+          align-items: flex-end;
+          height: 100%;
+          flex-direction: column;
+        }
 
         &__delete {
           cursor: pointer;
@@ -128,6 +154,10 @@
           height: 1.75rem;
           @include flex-center();
           transition: all 0.3s ease-in-out;
+          margin-top: 1rem;
+          @include media(md) {
+            margin-top: 0;
+          }
 
           &:hover {
             background: $danger;
@@ -154,6 +184,7 @@
     height: max-content;
     border-radius: 0.4rem;
     padding: 1rem;
+    transition: visibility 0.3s, opacity 0.3s, transform 0.5s ease-in;
 
     &__wrapper {
       border-bottom: 1px solid $gray-300;
@@ -230,5 +261,76 @@
         background: $primary-hover;
       }
     }
+  }
+}
+
+.card_loader {
+  grid-column: span 12 / span 12;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 5rem;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+
+  .loading {
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+
+    background: white;
+    border: 0.25rem solid $primary;
+    border-top: 0.25rem solid transparent;
+
+    animation: spin 1s linear infinite;
+  }
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.empty {
+  margin-top: 5rem;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  min-height: calc(100vh - 300px);
+  grid-column: span 12 / span 12;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  p {
+    font-size: 0.875rem;
+    color: $gray-700;
+    text-align: center;
+  }
+
+  span {
+    font-size: 0.75rem;
+    color: $gray-500;
+  }
+
+  .button {
+    margin-top: 1rem;
+    max-width: 150px;
+
+    @include btn();
+    height: 1.75rem;
+    font-size: 0.75rem !important;
   }
 }

@@ -13,10 +13,13 @@ export const getCart = createAsyncThunk(
 
 export const postCart = createAsyncThunk(
   "cart/postCart",
-  async (
-    { userId, productId, quantity, atribute, atributeValue }: cartType,
-    { dispatch }
-  ) => {
+  async ({
+    userId,
+    productId,
+    quantity,
+    atribute,
+    atributeValue,
+  }: cartType) => {
     const data = {
       userId,
       productId,
@@ -28,7 +31,6 @@ export const postCart = createAsyncThunk(
     const res = await cartService.postCart(data);
 
     if (res.status === 200) {
-      dispatch(getCart({ id: userId }));
       toast.success(res.data.message);
     }
 
@@ -38,15 +40,11 @@ export const postCart = createAsyncThunk(
 
 export const deleteCart = createAsyncThunk(
   "cart/deleteCart",
-  async (
-    { userId, productId }: { userId: string; productId: string },
-    { dispatch }
-  ) => {
-    const res = await cartService.deleteCart(userId, productId);
+  async ({ userId, itemId }: { userId: string; itemId: string }) => {
+    const res = await cartService.deleteCart(userId, itemId);
 
     if (res.status === 200) {
-      dispatch(getCart({ id: userId }));
-      toast.info(res.data.message);
+      toast.success(res.data.message);
     }
 
     return res.data.cart;
@@ -107,10 +105,22 @@ const cartSlice = createSlice({
       state.cart.total ===
         state.cart.items.reduce((total, item) => total + item.price, 0);
     },
+    removeCart: (state, action) => {
+      const index = state.cart.items.findIndex(
+        (item) => item._id === action.payload.id
+      );
+
+      if (index !== -1) {
+        state.cart.items.splice(index, 1);
+      }
+    },
   },
   extraReducers: (builder) => {
-    builder.addCase(postCart.fulfilled, (state) => {
+    builder.addCase(postCart.fulfilled, (state, action) => {
       state.loading = false;
+
+      state.cart.items = action.payload?.items;
+      state.cart.total = action.payload?.total;
     });
     builder.addCase(postCart.rejected, (state, action) => {
       state.loading = false;
@@ -131,8 +141,10 @@ const cartSlice = createSlice({
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(deleteCart.fulfilled, (state) => {
+    builder.addCase(deleteCart.fulfilled, (state, action) => {
       state.loading = false;
+      state.cart.items = action.payload?.items;
+      state.cart.total = action.payload?.total;
     });
     builder.addCase(deleteCart.rejected, (state, action) => {
       state.loading = false;
@@ -141,6 +153,6 @@ const cartSlice = createSlice({
   },
 });
 
-export const { plusQuantity, minusQuantity } = cartSlice.actions;
+export const { plusQuantity, minusQuantity, removeCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

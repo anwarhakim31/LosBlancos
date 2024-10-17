@@ -6,7 +6,7 @@ import { Star, X } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { formatCurrency } from "@/utils/contant";
 
-import { Fragment } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import Footer from "@/components/layouts/Footer";
 import Link from "next/link";
 import { removeWishlist } from "@/store/slices/wishSlice";
@@ -15,6 +15,8 @@ const WishListPage = () => {
   const session = useSession();
   const dispatch = useAppDispatch();
   const { wishlist, loading } = useAppSelector((state) => state.wishlist);
+  const [visible, setVisible] = useState(false);
+  const isFirstRender = useRef(true);
 
   const handleWishlist = (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -25,10 +27,30 @@ const WishListPage = () => {
 
     if (id) {
       dispatch(
-        removeWishlist({ id, userId: session?.data?.user?.id as string })
+        removeWishlist({
+          productId: id,
+          userId: session?.data?.user?.id as string,
+        })
       );
     }
   };
+
+  useEffect(() => {
+    if (loading && isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    if (!loading) {
+      const timeout = setTimeout(() => {
+        setVisible(true);
+      }, 100);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [loading]);
+
+  console.log(isFirstRender.current);
 
   return (
     <Fragment>
@@ -40,11 +62,12 @@ const WishListPage = () => {
             {loading && wishlist.length === 0 && (
               <div className={styles.card_loader}>
                 <div className={styles.loading}></div>
+                <small style={{ marginTop: "0.5rem" }}>Loading</small>
               </div>
             )}
-            {!loading &&
-              wishlist.length > 0 &&
-              wishlist.map((item) => {
+
+            {wishlist.length > 0 &&
+              wishlist.map((item, i) => {
                 const collection = item.product.collectionName.name.replace(
                   /\s/g,
                   "-"
@@ -53,7 +76,14 @@ const WishListPage = () => {
                 return (
                   <Link
                     href={`/produk/${collection}/${id}`}
-                    className={styles.card}
+                    className={`${styles.card} ${
+                      visible ? styles.is_visible : styles.is_pending
+                    }`}
+                    style={{
+                      transition: isFirstRender.current
+                        ? "none"
+                        : `all  ${i * 0.3}s ease`,
+                    }}
                     key={item._id}
                   >
                     <button
@@ -112,8 +142,8 @@ const WishListPage = () => {
                 <span>
                   Tap simbol hati pada produk untuk menambahkan keinginan .
                 </span>
-                <Link className={styles.button} href={"/"}>
-                  Belanja Sekarang
+                <Link className={styles.button} href={"/produk"}>
+                  Lanjut Belanja
                 </Link>
               </div>
             )}

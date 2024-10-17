@@ -59,7 +59,7 @@
   }
 
   @include media(lg) {
-    gap: 1rem;
+    gap: 2rem;
     grid-template-columns: repeat(12, minmax(0, 1fr));
   }
 }
@@ -72,7 +72,7 @@
   }
 
   @include media(lg) {
-    grid-column: span 3 / span 3;
+    grid-column: span 4 / span 4;
   }
 
   overflow: hidden;
@@ -93,7 +93,7 @@
     width: 100%;
     min-height: 200px;
     background: $gray-200;
-    aspect-ratio: 1/1.1;
+    aspect-ratio: 1/1;
     overflow: hidden;
     border: 1px solid $gray-300;
 

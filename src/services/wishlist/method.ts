@@ -7,5 +7,6 @@ export const wishlistService = {
       user,
       product,
     }),
-  removeWishlist: (id: string) => instance.delete("/wishlist", { data: id }),
+  removeWishlist: (productId: string, userId: string) =>
+    instance.delete("/wishlist", { data: { productId, userId } }),
 };

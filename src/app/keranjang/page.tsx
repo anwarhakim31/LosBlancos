@@ -1,7 +1,7 @@
 "use client";
 
 import Footer from "@/components/layouts/Footer";
-import React, { Fragment } from "react";
+import React, { Fragment, useRef } from "react";
 
 import BreadCrubm from "@/components/element/BreadCrubm";
 import styles from "./cart.module.scss";
@@ -19,11 +19,14 @@ import {
 } from "@/store/slices/cartSlice";
 import { itemCartType } from "@/services/type.module";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 const CartPage = () => {
+  const listRef = useRef<HTMLDivElement>(null);
+  const summeryRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
   const session = useSession();
-  const { cart } = useAppSelector((state) => state.cart);
+  const { cart, loading } = useAppSelector((state) => state.cart);
 
   const handleMaxQuantity = (item: itemCartType) => {
     if (
@@ -47,18 +50,65 @@ const CartPage = () => {
           <BreadCrubm />
           <h1>Keranjang</h1>
           <div className={styles.content}>
-            <div className={styles.listWrapper}>
+            <div
+              className={styles.card_loader}
+              style={{
+                opacity: loading ? 1 : 0,
+                visibility: loading ? "visible" : "hidden",
+              }}
+            >
+              <div className={styles.loading}></div>
+              <small style={{ marginTop: "0.5rem" }}>Loading</small>
+            </div>
+            {!loading && cart?.items?.length === 0 && (
+              <div className={styles.empty}>
+                <Image
+                  src="/empty-cart.png"
+                  alt="image"
+                  width={200}
+                  height={200}
+                  priority
+                />
+                <p>Keranjangan anda masih kosong.</p>
+                <span>silahkan pilih produk terlebih dahulu</span>
+                <Link
+                  href={"/produk"}
+                  className={styles.button}
+                  aria-label="shop now"
+                >
+                  Lanjut Belanja
+                </Link>
+              </div>
+            )}
+
+            <div
+              className={styles.listWrapper}
+              ref={listRef}
+              style={{
+                opacity: loading || cart?.items?.length === 0 ? 0 : 1,
+                transform: loading ? "translateY(50px)" : "translateY(0px)",
+                visibility:
+                  loading || cart?.items?.length === 0 ? "hidden" : "visible",
+              }}
+            >
               {cart?.items?.length > 0 &&
                 cart.items.map((item) => (
                   <div className={styles.list} key={item._id}>
-                    <div className={styles.list__image}>
+                    <Link
+                      href={`/produk/${item.product.collectionName.name.replace(
+                        /\s/g,
+                        "-"
+                      )}/${item.product._id}`}
+                      className={styles.list__image}
+                    >
                       <Image
                         src={item.product.image[0] || "/default.png"}
                         alt="image"
-                        width={120}
-                        height={120}
+                        width={500}
+                        height={500}
+                        priority
                       />
-                    </div>
+                    </Link>
 
                     <div className={styles.list__info}>
                       <div className={styles.list__info__top}>
@@ -80,12 +130,23 @@ const CartPage = () => {
                           dispatch(
                             deleteCart({
                               userId: session?.data?.user?.id as string,
-                              productId: item.product._id as string,
+                              itemId: item._id as string,
                             })
                           );
+
+                          if (
+                            listRef.current &&
+                            summeryRef.current &&
+                            cart.items.length === 1
+                          ) {
+                            listRef.current.style.transition = "none";
+
+                            summeryRef.current.style.transition = "none";
+                          }
                         }}
                         type="button"
                         className={styles.list__action__delete}
+                        title="Hapus produk dari keranjang"
                       >
                         <Trash2 width={24} height={24} />
                       </button>
@@ -98,7 +159,16 @@ const CartPage = () => {
                   </div>
                 ))}
             </div>
-            <div className={styles.summeryWrapper}>
+            <div
+              className={styles.summeryWrapper}
+              ref={summeryRef}
+              style={{
+                opacity: loading || cart?.items?.length === 0 ? 0 : 1,
+                transform: loading ? "translateY(50px)" : "translateY(0px)",
+                visibility:
+                  loading || cart?.items?.length === 0 ? "hidden" : "visible",
+              }}
+            >
               <h3>Rincian Pesanan</h3>
               <div className={styles.summeryWrapper__wrapper}>
                 <div className={`${styles.summeryWrapper__summery}`}>

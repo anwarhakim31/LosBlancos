@@ -18,7 +18,7 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
   const { wishlist, loading: loadingWishlist } = useAppSelector(
     (state) => state.wishlist
   );
-  const { loading: loadingCart } = useAppSelector((state) => state.cart);
+
   const dispatch = useAppDispatch();
 
   const [selectValue, setSelectValue] = useState("");
@@ -34,7 +34,7 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
     if (wishlist.some((item) => item.product._id === product._id)) {
       dispatch(
         removeWishlist({
-          id: product._id as string,
+          productId: product._id as string,
           userId: session?.data?.user?.id as string,
         })
       );
@@ -81,7 +81,7 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
         );
       }
     }
-  }, [selectValue, quantity]);
+  }, [selectValue, quantity, setQuantity, product]);
 
   return (
     <div className={styles.info}>
@@ -140,7 +140,7 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
                     ? setSelectValue("")
                     : setSelectValue(item.value);
                 }}
-                disabled={item.stock === 0 || loadingCart}
+                disabled={item.stock === 0}
                 className={
                   selectValue === item.value
                     ? styles.value
@@ -173,15 +173,20 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
           handleMinQuantity={() =>
             quantity === 1 ? setQuantity(1) : setQuantity(quantity - 1)
           }
-          handleMaxQuantity={() =>
-            quantity ===
-            product?.stock.find((item) => item.value === selectValue)?.stock
-              ? setQuantity(
-                  product?.stock.find((item) => item.value === selectValue)
-                    ?.stock as number
-                )
-              : setQuantity(quantity + 1)
-          }
+          handleMaxQuantity={() => {
+            if (
+              quantity <
+              product?.stock.reduce((acc, item) => acc + item.stock, 0)
+            ) {
+              quantity ===
+              product?.stock.find((item) => item.value === selectValue)?.stock
+                ? setQuantity(
+                    product?.stock.find((item) => item.value === selectValue)
+                      ?.stock as number
+                  )
+                : setQuantity(quantity + 1);
+            }
+          }}
         />
       </div>
       <div className={styles.info__btn}>
