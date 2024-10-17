@@ -20,10 +20,7 @@
 
   @include media(sm) {
     grid-template-columns: repeat(12, minmax(0, 1fr));
-  }
-
-  @include media(md) {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 2rem;
   }
 
   @include media(lg) {
@@ -40,15 +37,29 @@
 
     grid-column: span 2 / span 2;
 
+    &.is_pending {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+
+    &.is_visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     @include media(xs) {
       grid-column: span 3 / span 3;
     }
 
     @include media(sm) {
-      grid-column: span 4 / span 4;
+      grid-column: span 6 / span 6;
     }
 
     @include media(md) {
+      grid-column: span 4 / span 4;
+    }
+
+    @include media(lg) {
       grid-column: span 3 / span 3;
     }
 
@@ -182,7 +193,6 @@
   justify-content: center;
   flex-direction: column;
   gap: 0.5rem;
-  margin-block: 2rem;
 
   p {
     margin-top: 1rem;

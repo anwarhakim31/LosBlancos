@@ -2,9 +2,11 @@ import Cart from "@/lib/models/cart-model";
 import Product from "@/lib/models/product-model";
 import Stock from "@/lib/models/stock-model";
 import { ResponseError } from "@/lib/response-error";
+
 import { NextRequest, NextResponse } from "next/server";
 
 interface CartItem {
+  _id: string;
   atribute: string;
   atributeValue: string;
   product: string;
@@ -66,9 +68,19 @@ export async function POST(req: NextRequest) {
 
     await cartDB.save();
 
+    const added = await Cart.findOne({ userId }).populate({
+      path: "items.product",
+      populate: {
+        path: "collectionName",
+      },
+    });
+
     return NextResponse.json({
       success: true,
-      message: `${productDB.name} ditambahkan ke keranjang`,
+      message: `${
+        productDB.name
+      } ${atribute.toLowerCase()} ${atributeValue} ditambahkan ke keranjang`,
+      cart: added,
     });
   } catch (error) {
     return ResponseError(500, "Internal Server Error");
@@ -117,7 +129,11 @@ export async function GET(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    const { userId, productId } = await req.json();
+    const { userId, itemId } = await req.json();
+
+    if (!userId || !itemId) {
+      return ResponseError(400, "Data tidak boleh kosong");
+    }
 
     const cart = await Cart.findOne({ userId });
 
@@ -126,14 +142,22 @@ export async function DELETE(req: NextRequest) {
     }
 
     cart.items = cart.items.filter(
-      (item: CartItem) => item.product.toString() !== productId
+      (item: CartItem) => item._id.toString() !== itemId
     );
 
     await cart.save();
 
+    const updateCart = await Cart.findOne({ userId }).populate({
+      path: "items.product",
+      populate: {
+        path: "collectionName",
+      },
+    });
+
     return NextResponse.json({
       success: true,
-      message: "Produk di hapus dari keranjang",
+      message: "Berhasil menghapus dari keranjang",
+      cart: updateCart,
     });
   } catch (error) {
     console.log(error);

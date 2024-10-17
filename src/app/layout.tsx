@@ -1,6 +1,6 @@
 import SessionProviderClient from "./sessionProvider";
 import "./../styles/global.scss";
-import { Inter } from "next/font/google";
+import { Inter_Tight } from "next/font/google";
 import { getServerSession } from "next-auth";
 import Header from "@/components/layouts/Header";
 import StoreProvider from "./storeProvider";
@@ -10,7 +10,7 @@ import React from "react";
 import MasterProvider from "@/context/MasterContext";
 import { CheckIcon } from "lucide-react";
 
-const inter = Inter({
+const inter = Inter_Tight({
   weight: ["300", "400", "500", "600", "700", "800"],
   subsets: ["latin"],
   display: "swap",

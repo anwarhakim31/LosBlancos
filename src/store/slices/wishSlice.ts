@@ -16,30 +16,25 @@ export const getWishlist = createAsyncThunk(
 
 export const postWishlist = createAsyncThunk(
   "wishlist/postWishlist",
-  async (
-    { user, product }: { user: string; product: string },
-    { dispatch }
-  ) => {
+  async ({ user, product }: { user: string; product: string }) => {
     const res = await wishlistService.addWishlist(user, product);
     if (res.status === 200) {
-      dispatch(getWishlist({ id: user }));
-      toast.info(res.data.message);
+      toast.success(res.data.message);
     }
 
-    return res.data;
+    return res.data.wishlist;
   }
 );
 
 export const removeWishlist = createAsyncThunk(
   "wishlist/removeWishlist",
-  async ({ id, userId }: { id: string; userId: string }, { dispatch }) => {
-    const res = await wishlistService.removeWishlist(id);
+  async ({ productId, userId }: { productId: string; userId: string }) => {
+    const res = await wishlistService.removeWishlist(productId, userId);
     if (res.status === 200) {
-      dispatch(getWishlist({ id: userId }));
-      toast.info(res.data.message);
+      toast.success(res.data.message);
     }
 
-    return res.data;
+    return res.data.wishlist;
   }
 );
 
@@ -60,8 +55,9 @@ const wishSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(postWishlist.fulfilled, (state) => {
+    builder.addCase(postWishlist.fulfilled, (state, action) => {
       state.loading = false;
+      state.wishlist = action.payload;
     });
     builder.addCase(postWishlist.rejected, (state, action) => {
       state.loading = false;
@@ -83,7 +79,8 @@ const wishSlice = createSlice({
     builder.addCase(getWishlist.pending, (state) => {
       state.error = null;
     });
-    builder.addCase(removeWishlist.fulfilled, (state) => {
+    builder.addCase(removeWishlist.fulfilled, (state, action) => {
+      state.wishlist = action.payload;
       state.loading = false;
     });
     builder.addCase(removeWishlist.rejected, (state, action) => {

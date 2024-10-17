@@ -23,9 +23,18 @@ export async function POST(req: NextRequest) {
     });
 
     await wishlist.save();
+
+    const added = await Wishlist.find({ user }).populate({
+      path: "product",
+      populate: {
+        path: "collectionName",
+      },
+    });
+
     return NextResponse.json({
       success: true,
       message: "Menambahkan  ke daftar keinginan",
+      wishlist: added,
     });
   } catch (error) {
     console.log(error);
@@ -59,17 +68,28 @@ export async function GET(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   await connectDB();
   try {
-    const id = await req.json();
+    const { userId, productId } = await req.json();
 
-    const isExist = await Wishlist.findOneAndDelete({ product: id });
+    const updated = await Wishlist.findOneAndDelete({
+      product: productId,
+      user: userId,
+    });
 
-    if (!isExist) {
+    if (!updated) {
       return ResponseError(404, "data tidak ditemukan");
     }
+
+    const wishlist = await Wishlist.find({ user: userId }).populate({
+      path: "product",
+      populate: {
+        path: "collectionName",
+      },
+    });
 
     return NextResponse.json({
       success: true,
       message: "Menghapus dari daftar keinginan",
+      wishlist,
     });
   } catch (error) {
     console.log(error);
