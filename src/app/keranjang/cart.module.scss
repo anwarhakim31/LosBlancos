@@ -24,10 +24,10 @@
 
     border: 1px solid $gray-300;
     border-radius: 0.4rem;
-    padding: 1rem;
+    padding: 2rem 1.5rem;
     height: 500px;
     overflow-y: auto;
-    transition: visibility 0.3s, opacity 0.3s, transform 0.3s ease-in;
+    transition: visibility 0.4s, opacity 0.4s, transform 0.4s ease-in;
 
     &::-webkit-scrollbar {
       width: 0.25rem;
@@ -38,7 +38,7 @@
     }
 
     .list {
-      padding-bottom: 1rem;
+      padding-bottom: 2rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -183,8 +183,8 @@
     border: 1px solid $gray-300;
     height: max-content;
     border-radius: 0.4rem;
-    padding: 1rem;
-    transition: visibility 0.3s, opacity 0.3s, transform 0.5s ease-in;
+    padding: 1.5rem;
+    transition: visibility 0.5s, opacity 0.5s, transform 0.5s ease-in;
 
     &__wrapper {
       border-bottom: 1px solid $gray-300;
@@ -236,6 +236,7 @@
         border-radius: 2.5rem;
         background: $primary;
         color: $white;
+
         font-size: 0.875rem;
         transition: all 0.3s ease-in-out;
         text-align: center;

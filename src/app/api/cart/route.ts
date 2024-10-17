@@ -98,6 +98,12 @@ export async function GET(req: NextRequest) {
       },
     });
 
+    if (!cart) {
+      const cart = new Cart({ userId, items: [] });
+
+      await cart.save();
+    }
+
     if (cart) {
       for (const item of cart.items) {
         const stockDB = await Stock.findOne({
