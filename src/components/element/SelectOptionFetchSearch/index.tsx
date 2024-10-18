@@ -10,6 +10,7 @@ interface propsType {
   name: string;
   field: any;
   fetching: () => Promise<any>;
+  label: string;
 }
 
 const SelectOptionFetchSearch = ({
@@ -18,6 +19,7 @@ const SelectOptionFetchSearch = ({
   name,
   field,
   fetching,
+  label,
 }: propsType) => {
   const compRef = useRef<HTMLDivElement>(null);
   const [data, setData] = useState([]);
@@ -43,14 +45,17 @@ const SelectOptionFetchSearch = ({
     };
 
     getData();
-  }, [fetching, name]);
+  }, [name, fetching]);
 
   useEffect(() => {
     let clone = [...data];
-    if (search) {
+    if (clone.length > 0 && search) {
       clone = clone.filter((item: any) => {
         return item[name].toLowerCase().includes(search.toLowerCase());
       });
+    }
+    if (clone.length === 0) {
+      setSelect("");
     }
 
     return setDataSearch(clone);
@@ -58,14 +63,16 @@ const SelectOptionFetchSearch = ({
 
   const handleSelect = (value: any) => {
     setSelect(value[name] || "");
-    field?.onChange(value[name]);
+    field?.onChange(value || { id: "" });
     setOpen(false);
+    setSearch("");
   };
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (compRef.current && !compRef.current.contains(e.target as Node)) {
         setOpen(false);
+        setSearch("");
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -97,7 +104,7 @@ const SelectOptionFetchSearch = ({
             type="text"
             name="search"
             id="search"
-            placeholder={`Cari ${id}`}
+            placeholder={`Cari ${label}`}
             autoComplete="off"
             onChange={(e) => setSearch(e.target.value)}
           />

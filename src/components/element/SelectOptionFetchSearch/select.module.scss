@@ -10,6 +10,7 @@
     height: 2.25rem;
     font-size: 0.75rem;
     cursor: pointer;
+    text-transform: capitalize;
 
     &:focus {
       outline: $primary 1px solid;
@@ -75,6 +76,7 @@
     }
 
     span {
+      text-transform: capitalize;
       font-size: 0.75rem;
       display: block;
       width: 100%;

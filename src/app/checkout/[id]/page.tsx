@@ -31,9 +31,7 @@ const Checkout = ({ params }: { params: { id: string } }) => {
       getTransaction();
     }
   }, [id]);
-
   console.log(data);
-
   return (
     <Fragment>
       <main>

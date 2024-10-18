@@ -10,3 +10,21 @@ export interface inputProductType {
   collectionName: string;
   attribute: string;
 }
+
+export interface inputAddressType {
+  userId: string;
+  fullname: string;
+  phone: string;
+  province: {
+    id: string;
+    name: string;
+  };
+  city: {
+    id: string;
+    name: string;
+    id_province: string;
+  };
+  subdistrict: string;
+  postalCode: string;
+  address: string;
+}

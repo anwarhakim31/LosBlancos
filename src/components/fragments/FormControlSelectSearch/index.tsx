@@ -11,6 +11,7 @@ interface InputForm {
   error?: any;
   fetching: () => Promise<any>;
   field: any;
+  label: string;
 }
 
 const FormControlSelectSearch = ({
@@ -19,13 +20,14 @@ const FormControlSelectSearch = ({
   placeholder,
   fetching,
   error,
+  label,
   field,
 }: InputForm) => {
   return (
     <Fragment>
       <div className={styles["select-group"]}>
         <label htmlFor={id} className={styles["select-group__label"]}>
-          {name}
+          {label}
         </label>
         <SelectOptionFetchSearch
           id={id}
@@ -33,6 +35,7 @@ const FormControlSelectSearch = ({
           placeholder={placeholder}
           fetching={fetching}
           field={field}
+          label={label}
         />
       </div>
 

@@ -1,0 +1,93 @@
+.container {
+  border: 1px solid $gray-300;
+  border-radius: 0.4rem;
+  background: $white;
+
+  width: 100%;
+  margin-top: auto;
+
+  @include media(sm) {
+    margin-top: 0;
+
+    max-width: 500px;
+  }
+}
+
+.form {
+  padding-block: 1rem;
+  overflow-y: scroll;
+  max-height: 80vh;
+  overflow-y: auto;
+  @include media(sm) {
+    height: auto;
+  }
+
+  .wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    width: 100%;
+    & > * {
+      padding: 0 1rem;
+    }
+    @include media(sm) {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  &__footer {
+    padding-block: 1rem;
+    @include flex(flex-end, center, null);
+    gap: 1rem;
+    border-top: 1px solid $gray-300;
+
+    div:first-child {
+      width: 100px;
+
+      button {
+        background: $gray-100;
+        color: $gray-700;
+        &:hover {
+          background: $primary-hover;
+          color: $white;
+        }
+      }
+    }
+  }
+}
+
+.input_group {
+  position: relative;
+  padding: 0 1rem;
+  label {
+    font-size: 0.75rem;
+    text-transform: capitalize;
+    display: block;
+    width: fit-content;
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+  }
+}
+
+.error_message {
+  height: 1.25rem;
+
+  font-size: 0.75rem;
+  color: $danger;
+  display: block;
+}
+
+.area {
+  width: 100%;
+  resize: none;
+  border-radius: 0.4rem;
+  padding: 0.5rem;
+  border: 1px solid $gray-300;
+
+  &:focus {
+    border: 1px solid $primary;
+    outline: 1px solid $primary;
+  }
+}

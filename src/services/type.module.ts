@@ -114,3 +114,20 @@ export type TypeTransaction = {
   statusTransaction: string;
   createdAt?: string;
 };
+
+export type TypeShippingAddress = {
+  fullname: string;
+  phone: string;
+  province: {
+    id: string;
+    name: string;
+  };
+  city: {
+    id: string;
+    name: string;
+    id_province: string;
+  };
+  subdistrict: string;
+  postalCode: string;
+  address: string;
+};
