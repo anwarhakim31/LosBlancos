@@ -8,13 +8,16 @@ import { useSession } from "next-auth/react";
 import { TypeShippingAddress } from "@/services/type.module";
 import ModalAddAddress from "./ModalAddAddress";
 import ModalChangeAddress from "./ModalChangeAddress";
+import { useAppDispatch, useAppSelector } from "@/store/hook";
+import { setShippingAddress } from "@/store/slices/chechkoutSlice";
 
 const ShippingView = () => {
   const session = useSession();
-  const [address, setAddress] = useState([]);
-  const [selected, setSelected] = useState<TypeShippingAddress | null>(null);
+  const [address, setAddress] = useState<TypeShippingAddress[]>([]);
+  const dispatch = useAppDispatch();
   const [isAdd, setIsAdd] = useState(false);
   const [isChange, setIsChange] = useState(false);
+  const { address: selected } = useAppSelector((state) => state.check);
 
   useEffect(() => {
     const getAddress = async () => {
@@ -23,7 +26,7 @@ const ShippingView = () => {
 
         if (res.status === 200) {
           setAddress(res.data.address);
-          setSelected(res.data.address[0]);
+          dispatch(setShippingAddress(res.data.address[0]));
         }
       } catch (error) {
         ResponseError(error);
@@ -33,7 +36,7 @@ const ShippingView = () => {
     if (session?.data?.user?.id) {
       getAddress();
     }
-  }, [session?.data?.user?.id]);
+  }, [session?.data?.user?.id, dispatch]);
 
   return (
     <div className={styles.wrapper}>
@@ -84,12 +87,18 @@ const ShippingView = () => {
       >
         <ArrowRightLeft />
       </button>
-      {isAdd && <ModalAddAddress onClose={() => setIsAdd(false)} />}
+      {isAdd && (
+        <ModalAddAddress
+          onClose={() => setIsAdd(false)}
+          setAddress={setAddress}
+        />
+      )}
       {isChange && (
         <ModalChangeAddress
+          selected={selected as TypeShippingAddress}
           onClose={() => setIsChange(false)}
           address={address as TypeShippingAddress[]}
-          setSelected={setSelected}
+          setAddress={setAddress}
         />
       )}
     </div>

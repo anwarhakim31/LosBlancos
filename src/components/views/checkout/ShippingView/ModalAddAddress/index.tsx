@@ -1,5 +1,11 @@
 import Modal from "@/components/element/Modal";
-import React, { FC, useEffect, useState } from "react";
+import React, {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import styles from "./modal.module.scss";
 import HeaderModal from "@/components/element/HeaderModal";
 
@@ -13,9 +19,11 @@ import { ResponseError } from "@/utils/axios/response-error";
 import { useSession } from "next-auth/react";
 import { addressService } from "@/services/address/methods";
 import { toast } from "sonner";
+import { TypeShippingAddress } from "@/services/type.module";
 
 interface PropsType {
   onClose: () => void;
+  setAddress: Dispatch<SetStateAction<TypeShippingAddress[]>>;
 }
 
 interface InputShippingType {
@@ -32,7 +40,7 @@ interface InputShippingType {
   address: string;
 }
 
-const ModalAddAddress: FC<PropsType> = ({ onClose }) => {
+const ModalAddAddress: FC<PropsType> = ({ onClose, setAddress }) => {
   const session = useSession();
   const [loading, setLoading] = useState(false);
   const {
@@ -80,6 +88,7 @@ const ModalAddAddress: FC<PropsType> = ({ onClose }) => {
         if (res.status === 201) {
           onClose();
           toast.success(res.data.message);
+          setAddress(res.data.address);
         }
       } catch (error) {
         ResponseError(error);

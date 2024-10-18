@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { whitelistReducer } from "./slices/wishSlice";
 import actionReducer from "./slices/actionSlice";
 import cartReducer from "./slices/cartSlice";
+import checkReducer from "./slices/chechkoutSlice";
 
 export const makeStore = () => {
   return configureStore({
@@ -9,6 +10,7 @@ export const makeStore = () => {
       wishlist: whitelistReducer,
       action: actionReducer,
       cart: cartReducer,
+      check: checkReducer,
     },
   });
 };

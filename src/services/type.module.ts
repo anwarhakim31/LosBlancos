@@ -116,6 +116,7 @@ export type TypeTransaction = {
 };
 
 export type TypeShippingAddress = {
+  _id?: string;
   fullname: string;
   phone: string;
   province: {

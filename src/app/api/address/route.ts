@@ -3,9 +3,14 @@ import { ResponseError } from "@/lib/response-error";
 import { NextRequest, NextResponse } from "next/server";
 
 import ShippingAddress from "@/lib/models/adress-model";
+import { verifyTokenMember } from "@/lib/verify-token";
 
 export async function POST(req: NextRequest) {
   try {
+    const verify = verifyTokenMember(req);
+
+    console.log(verify);
+
     const {
       userId,
       fullname,
@@ -16,6 +21,12 @@ export async function POST(req: NextRequest) {
       subdistrict,
       postalCode,
     } = await req.json();
+
+    const data = await ShippingAddress.find({ userId });
+
+    if (data.length >= 3) {
+      return ResponseError(400, "Maksimal 3 alamat pengiriman");
+    }
 
     if (
       !userId ||
@@ -43,10 +54,13 @@ export async function POST(req: NextRequest) {
 
     await newAddress.save();
 
+    const getAdress = await ShippingAddress.find({ userId });
+
     return NextResponse.json(
       {
         success: true,
         message: "Alamat pengiriman telah ditambahkan",
+        address: getAdress,
       },
       {
         status: 201,
@@ -74,40 +88,29 @@ export async function GET(req: NextRequest) {
   }
 }
 
-// export async function DELETE(req: NextRequest) {
-//   try {
-//     const { userId, itemId } = await req.json();
+export async function DELETE(req: NextRequest) {
+  try {
+    const verify = verifyTokenMember(req);
+    console.log(verify);
+    const params = new URL(req.url);
+    const addressId = params.searchParams.get("addressId");
+    const userId = params.searchParams.get("userId");
 
-//     if (!userId || !itemId) {
-//       return ResponseError(400, "Data tidak boleh kosong");
-//     }
+    if (!addressId || !userId) {
+      return ResponseError(400, "Data tidak boleh kosong");
+    }
 
-//     const cart = await Cart.findOne({ userId });
+    await ShippingAddress.deleteOne({ _id: addressId });
 
-//     if (!cart) {
-//       return ResponseError(404, "Keranjang tidak ditemukan");
-//     }
+    const address = await ShippingAddress.find({ userId: userId });
 
-//     cart.items = cart.items.filter(
-//       (item: CartItem) => item._id.toString() !== itemId
-//     );
-
-//     await cart.save();
-
-//     const updateCart = await Cart.findOne({ userId }).populate({
-//       path: "items.product",
-//       populate: {
-//         path: "collectionName",
-//       },
-//     });
-
-//     return NextResponse.json({
-//       success: true,
-//       message: "Berhasil menghapus dari keranjang",
-//       cart: updateCart,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     return ResponseError(500, "Internal Server Error");
-//   }
-// }
+    return NextResponse.json({
+      success: true,
+      message: "Berhasil menghapus dari keranjang",
+      address,
+    });
+  } catch (error) {
+    console.log(error);
+    return ResponseError(500, "Internal Server Error");
+  }
+}

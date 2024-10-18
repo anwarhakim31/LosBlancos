@@ -2,6 +2,7 @@
 import styles from "./checkout.module.scss";
 import BreadCrubm from "@/components/element/BreadCrubm";
 import Footer from "@/components/layouts/Footer";
+import CourierView from "@/components/views/checkout/CourierView";
 import ShippingView from "@/components/views/checkout/ShippingView";
 
 import { transactionService } from "@/services/transaction/method";
@@ -31,7 +32,9 @@ const Checkout = ({ params }: { params: { id: string } }) => {
       getTransaction();
     }
   }, [id]);
+
   console.log(data);
+
   return (
     <Fragment>
       <main>
@@ -41,6 +44,7 @@ const Checkout = ({ params }: { params: { id: string } }) => {
           <div className={styles.content}>
             <div className={styles.left}>
               <ShippingView />
+              <CourierView />
             </div>
             <div className={styles.right}></div>
           </div>
