@@ -41,14 +41,17 @@ const ModalChangeOngkir: FC<PropsType> = ({ onClose }) => {
                 }}
               >
                 <div>
-                  <h4>{item.name}</h4>
+                  <h4>{item.courier}</h4>
                   <p>{item.service.split("Pos")}</p>
                   <span>
-                    Estimasi Tiba {item.estimated.split("hari")} -{" "}
-                    {Number(item.estimated.split("hari")[0]) + 1} hari
+                    Estimasi tiba{" "}
+                    {item?.cost[0].etd.startsWith("0")
+                      ? "ini"
+                      : item.cost[0].etd.split("HARI")}{" "}
+                    hari
                   </span>
                 </div>
-                <h3>{formatCurrency(Number(item.price))}</h3>
+                <h3>{formatCurrency(item.cost[0].value as number)}</h3>
               </div>
             ))}
         </div>

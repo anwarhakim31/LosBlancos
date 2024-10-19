@@ -31,10 +31,9 @@ const ShippingView = () => {
           dispatch(setShippingAddress(res.data.address[0]));
           dispatch(
             getOngkir({
-              origin: "KOTA DEPOK",
-              destination: res.data.address[0].city.name,
-              weight: "0.1",
-              volume: "30x1x1",
+              desCity: res.data.address[0].city.name,
+              desProvince: res.data.address[0].province.name,
+              weight: "100",
             })
           );
         }

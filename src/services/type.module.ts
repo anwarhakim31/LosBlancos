@@ -134,8 +134,14 @@ export type TypeShippingAddress = {
 };
 
 export type TypeOngkir = {
-  name: string;
   service: string;
-  estimated: string;
-  price: string;
+  description: string;
+  courier: string;
+  cost: [
+    {
+      value: number;
+      etd: string;
+      note: string;
+    }
+  ];
 };

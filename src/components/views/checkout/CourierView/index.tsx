@@ -30,18 +30,21 @@ const CourierView = () => {
           </span>
         )}
         <div className={styles.courier}>
-          <h4>{costs?.name}</h4>
+          <h4>{costs?.courier}</h4>
           <p>{costs?.service.split("Pos")}</p>
         </div>
         <h4 className={styles.cost}>
-          {formatCurrency(Number((costs?.price as string) || "0"))}
+          {formatCurrency((costs?.cost[0].value as number) || 0)}
         </h4>
       </div>
       <div className={styles.footer}>
         <Image src="/truck.png" alt="courier" width={30} height={18} />
         <p>
-          Estimasi Tiba {splitEstimated((costs?.estimated as string) || "0")} -{" "}
-          {Number(splitEstimated((costs?.estimated as string) || "0")) + 1} hari
+          Estimasi tiba{" "}
+          {costs?.cost[0].etd.startsWith("0")
+            ? "ini"
+            : costs?.cost[0].etd.split("HARI")}{" "}
+          hari
         </p>
       </div>
       <button
