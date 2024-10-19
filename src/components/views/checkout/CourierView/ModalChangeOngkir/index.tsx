@@ -1,28 +1,45 @@
+import HeaderModal from "@/components/element/HeaderModal";
 import Modal from "@/components/element/Modal";
-// import styles from "./modal.module.scss";
-// import HeaderModal from "@/components/element/HeaderModal";
+import { useAppDispatch, useAppSelector } from "@/store/hook";
+import styles from "./modal.module.scss";
 
-// import { formatCurrency } from "@/utils/contant";
+import { formatCurrency } from "@/utils/contant";
 import { FC } from "react";
-// import { useAppSelector } from "@/store/hook";
+import { setOngkir } from "@/store/slices/chechkoutSlice";
 
 interface PropsType {
   onClose: () => void;
 }
 
 const ModalChangeOngkir: FC<PropsType> = ({ onClose }) => {
-  // const { costs } = useAppSelector((state) => state.ongkir);
+  const dispatch = useAppDispatch();
+  const { costs } = useAppSelector((state) => state.ongkir);
+  const { costs: ongkir } = useAppSelector((state) => state.check);
 
   return (
     <Modal onClose={onClose}>
-      <div></div>
-      {/* <div onClick={(e) => e.stopPropagation()} className={styles.container}>
+      <div onClick={(e) => e.stopPropagation()} className={styles.container}>
         <HeaderModal onClose={onClose} title={"Ganti Jenis Pengiriman"} />
 
         <div className={styles.wrapper}>
           {costs.length > 0 &&
             costs.map((item, index) => (
-              <div key={index} className={styles.list}>
+              <div
+                key={index}
+                className={styles.list}
+                tabIndex={0}
+                onClick={() =>
+                  item.service !== ongkir?.service &&
+                  dispatch(setOngkir(item)) &&
+                  onClose()
+                }
+                style={{
+                  background:
+                    item.service === ongkir?.service
+                      ? "rgb(244, 244, 250)"
+                      : "white",
+                }}
+              >
                 <div>
                   <h4>{item.name}</h4>
                   <p>{item.service.split("Pos")}</p>
@@ -35,7 +52,7 @@ const ModalChangeOngkir: FC<PropsType> = ({ onClose }) => {
               </div>
             ))}
         </div>
-      </div> */}
+      </div>
     </Modal>
   );
 };

@@ -10,6 +10,7 @@ import ModalAddAddress from "./ModalAddAddress";
 import ModalChangeAddress from "./ModalChangeAddress";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { setShippingAddress } from "@/store/slices/chechkoutSlice";
+import { getOngkir } from "@/store/slices/ongkirSlice";
 
 const ShippingView = () => {
   const session = useSession();
@@ -17,6 +18,7 @@ const ShippingView = () => {
   const dispatch = useAppDispatch();
   const [isAdd, setIsAdd] = useState(false);
   const [isChange, setIsChange] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { address: selected } = useAppSelector((state) => state.check);
 
   useEffect(() => {
@@ -27,9 +29,19 @@ const ShippingView = () => {
         if (res.status === 200) {
           setAddress(res.data.address);
           dispatch(setShippingAddress(res.data.address[0]));
+          dispatch(
+            getOngkir({
+              origin: "KOTA DEPOK",
+              destination: res.data.address[0].city.name,
+              weight: "0.1",
+              volume: "30x1x1",
+            })
+          );
         }
       } catch (error) {
         ResponseError(error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -41,7 +53,7 @@ const ShippingView = () => {
   return (
     <div className={styles.wrapper}>
       <h3>Alamat Pengiriman</h3>
-      {address.length === 0 && (
+      {address.length === 0 && !loading && (
         <span>
           <AlertCircle width={18} height={18} /> Alamat Pengiriman anda masih
           kosong
