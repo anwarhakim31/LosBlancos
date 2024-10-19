@@ -1,7 +1,7 @@
 .wrapper {
   margin-top: 2rem;
   min-height: 140px;
-
+  cursor: pointer;
   border-radius: 0.4rem;
 
   flex-direction: column;
@@ -44,6 +44,7 @@
     h4 {
       font-weight: 600;
       font-size: 0.875rem;
+      text-transform: capitalize;
     }
     p {
       margin-top: 0.2rem;
@@ -59,7 +60,34 @@
   }
 
   .footer {
-    padding: 1rem;
+    padding: 0.5rem 1rem;
     border-top: 1px solid $gray-300;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+
+    p {
+      font-size: 0.75rem;
+      color: $gray-700;
+      font-weight: 500;
+      color: $primary;
+    }
+  }
+}
+.switch {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 1rem;
+  height: 1rem;
+  border: none;
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  &:hover {
+    border: none;
+    color: $primary;
   }
 }

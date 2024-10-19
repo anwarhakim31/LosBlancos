@@ -3,6 +3,7 @@ import { whitelistReducer } from "./slices/wishSlice";
 import actionReducer from "./slices/actionSlice";
 import cartReducer from "./slices/cartSlice";
 import checkReducer from "./slices/chechkoutSlice";
+import ongkirReduce from "./slices/ongkirSlice";
 
 export const makeStore = () => {
   return configureStore({
@@ -11,6 +12,7 @@ export const makeStore = () => {
       action: actionReducer,
       cart: cartReducer,
       check: checkReducer,
+      ongkir: ongkirReduce,
     },
   });
 };

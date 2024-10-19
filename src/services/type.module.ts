@@ -132,3 +132,16 @@ export type TypeShippingAddress = {
   postalCode: string;
   address: string;
 };
+
+export type TypeOngkir = {
+  service: string;
+  description: string;
+  courier: string;
+  cost: [
+    {
+      value: number;
+      etd: string;
+      note: string;
+    }
+  ];
+};
