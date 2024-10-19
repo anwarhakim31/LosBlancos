@@ -2,9 +2,16 @@ import mongoose from "mongoose";
 
 const shippingAddress = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  fullName: { type: String, required: true },
-  province: { type: String, required: true },
-  city: { type: String, required: true },
+  fullname: { type: String, required: true },
+  province: {
+    id: { type: String, required: true },
+    name: { type: String, required: true },
+  },
+  city: {
+    id: { type: String, required: true },
+    name: { type: String, required: true },
+    id_province: { type: String, required: true },
+  },
   subdistrict: { type: String, required: true },
   postalCode: { type: String, required: true },
   phone: { type: String, required: true },

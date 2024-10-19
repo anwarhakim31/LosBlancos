@@ -59,6 +59,7 @@ export async function POST(req: NextRequest) {
     });
   } catch (error) {
     console.log(error);
+
     return ResponseError(500, "Internal Server Error");
   }
 }
@@ -84,6 +85,7 @@ export async function GET(req: NextRequest) {
       transaction,
     });
   } catch (error) {
+    console.log(error);
     return ResponseError(500, "Internal Server Error");
   }
 }

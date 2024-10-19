@@ -25,7 +25,7 @@ const transactionItemModel = new mongoose.Schema({
   },
 });
 
-const transactionModel = new mongoose.Schema({
+const transactionSchema = new mongoose.Schema({
   invoice: {
     type: String,
     required: true,
@@ -64,7 +64,7 @@ const transactionModel = new mongoose.Schema({
   },
 });
 
-transactionModel.pre("save", function (next) {
+transactionSchema.pre("save", function (next) {
   this.totalAmount = this.items.reduce((acc, item) => {
     return acc + item.price * item.quantity;
   }, 0);
@@ -74,6 +74,6 @@ transactionModel.pre("save", function (next) {
 
 const Transaction =
   mongoose.models.Transaction ||
-  mongoose.model("Transaction", transactionModel);
+  mongoose.model("Transaction", transactionSchema);
 
 export default Transaction;
