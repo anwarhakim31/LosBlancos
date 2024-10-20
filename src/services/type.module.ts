@@ -107,8 +107,17 @@ export type cartType = {
 export type TypeTransaction = {
   _id?: string;
   userId: string;
-  items: itemCartType[];
-  totalAmount: number;
+  items: {
+    _id?: string;
+    productId: TypeProduct;
+    quantity: number;
+    price: number;
+    atribute: string;
+    atributeValue: string;
+  }[];
+  subtotal: number;
+  shippingCost: number;
+  totalPayment: number;
   address: string;
   statusPayment: string;
   statusTransaction: string;
