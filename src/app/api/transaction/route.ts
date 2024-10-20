@@ -4,9 +4,12 @@ import { v4 as uuid } from "uuid";
 import { NextRequest, NextResponse } from "next/server";
 import Transaction from "@/lib/models/transaction-model";
 import Cart from "@/lib/models/cart-model";
+import { verifyTokenMember } from "@/lib/verify-token";
+import { itemCartType } from "@/services/type.module";
 
 export async function POST(req: NextRequest) {
   try {
+    verifyTokenMember(req);
     const { items, total, userId } = await req.json();
 
     if (!userId || !total || !items) {
@@ -39,11 +42,21 @@ export async function POST(req: NextRequest) {
 
     const invoice = `${previx}-${Segment}`;
 
+    const newitem = items.map((item: itemCartType) => ({
+      productId: item.product,
+      atribute: item.atribute,
+      atributeValue: item.atributeValue,
+      quantity: item.quantity,
+      price: item.price,
+    }));
+
     const transaction = new Transaction({
       invoice,
       userId,
-      items,
-      totalAmount: total,
+      items: newitem,
+      subTotal: total,
+      shippingCost: 0,
+      totalPayment: total,
       paymnetStatus: "pending",
       transactionStatus: "pending",
     });
@@ -66,10 +79,18 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
-    const transactionId = new URL(req.url).searchParams.get("id");
+    verifyTokenMember(req);
 
-    const transaction = await Transaction.findById(transactionId).populate({
-      path: "items.product",
+    const { searchParams } = new URL(req.url);
+
+    const transactionId = searchParams.get("transactionId");
+    const userId = searchParams.get("userId");
+
+    const transaction = await Transaction.findOne({
+      _id: transactionId,
+      userId,
+    }).populate({
+      path: "items.productId",
       populate: {
         path: "collectionName",
       },

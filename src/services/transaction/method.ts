@@ -4,5 +4,8 @@ import { itemCartType } from "../type.module";
 export const transactionService = {
   create: (userId: string, items: itemCartType[], total: number) =>
     instance.post("/transaction", { userId, items, total }),
-  get: (id: string) => instance.get("/transaction?id=" + id),
+  get: (transactionId: string, userId: string) =>
+    instance.get(
+      "/transaction?transactionId=" + transactionId + "&userId=" + userId
+    ),
 };

@@ -10,7 +10,7 @@ import { addressService } from "@/services/address/methods";
 import { ResponseError } from "@/utils/axios/response-error";
 import { Trash2 } from "lucide-react";
 import { useAppDispatch } from "@/store/hook";
-import { setShippingAddress } from "@/store/slices/chechkoutSlice";
+import { setOngkir, setShippingAddress } from "@/store/slices/chechkoutSlice";
 
 interface PropsType {
   onClose: () => void;
@@ -46,6 +46,13 @@ const ModalChangeAddress: FC<PropsType> = ({
         setAddress(res.data.address);
         toast.success("Berhasil menghapus alamat pengiriman");
         dispatch(setShippingAddress(res?.data?.address[0]));
+        dispatch(
+          setOngkir({
+            desCity: res.data.address[0].city.name,
+            desProvince: res.data.address[0].province.name,
+            weight: "100",
+          })
+        );
         onClose();
       }
     } catch (error) {

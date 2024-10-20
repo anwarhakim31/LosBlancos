@@ -92,8 +92,6 @@ export async function GET(req: NextRequest) {
     const data1 = await resJNE.json();
     const data2 = await resPOS.json();
 
-    console.log(data2.rajaongkir.results[0].costs);
-
     const jne = data1.rajaongkir.results[0].costs
       .filter((item: { service: string }) => item.service !== "JTR")
       .map((item: { service: string; cost: { value: string } }) => ({

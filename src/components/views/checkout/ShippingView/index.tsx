@@ -28,14 +28,16 @@ const ShippingView = () => {
 
         if (res.status === 200) {
           setAddress(res.data.address);
-          dispatch(setShippingAddress(res.data.address[0]));
-          dispatch(
-            getOngkir({
-              desCity: res.data.address[0].city.name,
-              desProvince: res.data.address[0].province.name,
-              weight: "100",
-            })
-          );
+          if (res.data.address.length > 0) {
+            dispatch(setShippingAddress(res.data.address[0]));
+            dispatch(
+              getOngkir({
+                desCity: res.data.address[0].city.name,
+                desProvince: res.data.address[0].province.name,
+                weight: "100",
+              })
+            );
+          }
         }
       } catch (error) {
         ResponseError(error);

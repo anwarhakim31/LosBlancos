@@ -69,7 +69,10 @@ const CartPage = () => {
 
       if (res.status == 200) {
         router.push("/checkout/" + res.data.id);
-        dispatch(clearCart());
+
+        setTimeout(() => {
+          dispatch(clearCart());
+        }, 1000);
       }
     } catch (error) {
       ResponseError(error);

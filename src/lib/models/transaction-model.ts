@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const transactionItemModel = new mongoose.Schema({
-  product: {
+  productId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Product",
     required: true,
@@ -36,7 +36,17 @@ const transactionSchema = new mongoose.Schema({
     required: true,
   },
   items: [transactionItemModel],
-  totalAmount: {
+  subtotal: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
+  shippingCost: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
+  totalPayment: {
     type: Number,
     required: true,
     default: 0,
@@ -65,9 +75,11 @@ const transactionSchema = new mongoose.Schema({
 });
 
 transactionSchema.pre("save", function (next) {
-  this.totalAmount = this.items.reduce((acc, item) => {
+  this.subtotal = this.items.reduce((acc, item) => {
     return acc + item.price * item.quantity;
   }, 0);
+
+  this.totalPayment = this.subtotal + this.shippingCost;
 
   next();
 });
