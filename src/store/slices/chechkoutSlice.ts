@@ -25,6 +25,12 @@ interface TypeState {
   address: TypeShippingAddress | null;
   costs: TypeOngkir | null;
   transaction: TypeTransaction | null;
+  errorSubmit: {
+    address: boolean;
+    payment: boolean;
+    ongkir: boolean;
+  };
+  payment: string;
   loading: boolean;
   error: string | null;
 }
@@ -33,6 +39,12 @@ const initialState: TypeState = {
   address: null,
   costs: null,
   transaction: null,
+  errorSubmit: {
+    address: false,
+    payment: false,
+    ongkir: false,
+  },
+  payment: "",
   loading: true,
   error: null,
 };
@@ -43,6 +55,7 @@ const checkoutSlice = createSlice({
   reducers: {
     setShippingAddress: (state, action) => {
       state.address = action.payload;
+      state.errorSubmit.address = false;
     },
     removeShippingAddress: (state) => {
       state.address = null;
@@ -53,7 +66,16 @@ const checkoutSlice = createSlice({
         state.transaction.shippingCost = action.payload.cost[0].value;
         state.transaction.totalPayment =
           action.payload.cost[0].value + state.transaction.subtotal + 1000;
+
+        state.errorSubmit.ongkir = false;
       }
+    },
+    setPayment: (state, action) => {
+      state.payment = action.payload;
+      state.errorSubmit.payment = false;
+    },
+    setError: (state, action) => {
+      state.errorSubmit = { ...state.errorSubmit, ...action.payload };
     },
   },
   extraReducers: (builder) => {
@@ -72,7 +94,12 @@ const checkoutSlice = createSlice({
   },
 });
 
-export const { setShippingAddress, removeShippingAddress, setOngkir } =
-  checkoutSlice.actions;
+export const {
+  setShippingAddress,
+  removeShippingAddress,
+  setOngkir,
+  setPayment,
+  setError,
+} = checkoutSlice.actions;
 
 export default checkoutSlice.reducer;

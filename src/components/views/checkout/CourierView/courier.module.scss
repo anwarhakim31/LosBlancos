@@ -15,7 +15,7 @@
 
   &.noselect {
     border: 1px solid $gray-300;
-    background: $gray-300;
+    background: $white;
   }
 
   h3 {
@@ -90,4 +90,12 @@
     border: none;
     color: $primary;
   }
+}
+.skeleton {
+  width: 100%;
+  border: 1px solid $gray-300;
+  border-radius: 0.25rem;
+  background: $neutral;
+
+  @include shimmer();
 }

@@ -5,7 +5,7 @@ export async function GET() {
   try {
     const res = await fetch(
       "https://api.binderbyte.com/wilayah/provinsi?api_key=" +
-        process.env.NEXT_PUBLIC_BINDERBYTE_KEY,
+        process.env.BINDERBYTE_KEY,
       {
         method: "GET",
         headers: {

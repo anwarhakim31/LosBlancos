@@ -10,7 +10,8 @@ import { addressService } from "@/services/address/methods";
 import { ResponseError } from "@/utils/axios/response-error";
 import { Trash2 } from "lucide-react";
 import { useAppDispatch } from "@/store/hook";
-import { setOngkir, setShippingAddress } from "@/store/slices/chechkoutSlice";
+import { setShippingAddress } from "@/store/slices/chechkoutSlice";
+import { getOngkir } from "@/store/slices/ongkirSlice";
 
 interface PropsType {
   onClose: () => void;
@@ -29,13 +30,26 @@ const ModalChangeAddress: FC<PropsType> = ({
   const dispatch = useAppDispatch();
   const handleChange = (value: TypeShippingAddress) => {
     if (value) {
-      dispatch(setShippingAddress(value));
       toast.success("Berhasil mengganti alamat pengiriman");
+      dispatch(
+        getOngkir({
+          desProvince: value.province.name,
+          desCity: value.city.name,
+          weight: "100",
+        })
+      );
+      dispatch(setShippingAddress(value));
       onClose();
     }
   };
 
-  const handleRemove = async (addressId: string) => {
+  const handleRemove = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+    addressId: string
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     try {
       const res = await addressService.delete(
         addressId,
@@ -46,13 +60,17 @@ const ModalChangeAddress: FC<PropsType> = ({
         setAddress(res.data.address);
         toast.success("Berhasil menghapus alamat pengiriman");
         dispatch(setShippingAddress(res?.data?.address[0]));
+
+        console.log(res?.data?.address[0]);
+
         dispatch(
-          setOngkir({
-            desCity: res.data.address[0].city.name,
+          getOngkir({
             desProvince: res.data.address[0].province.name,
+            desCity: res.data.address[0].city.name,
             weight: "100",
           })
         );
+
         onClose();
       }
     } catch (error) {
@@ -93,9 +111,9 @@ const ModalChangeAddress: FC<PropsType> = ({
                 </div>
                 <button
                   type="button"
-                  aria-label="Ubah alamat"
-                  title="Ubah detail alamat pengiriman"
-                  onClick={() => handleRemove(item._id as string)}
+                  aria-label="hapus alamat"
+                  title="hapus alamat pengiriman"
+                  onClick={(e) => handleRemove(e, item._id as string)}
                 >
                   <Trash2 />
                 </button>

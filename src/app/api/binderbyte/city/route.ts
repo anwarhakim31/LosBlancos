@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
     if (provinceId) {
       const res = await fetch(
         "https://api.binderbyte.com/wilayah/kabupaten?api_key=" +
-          process.env.NEXT_PUBLIC_BINDERBYTE_KEY +
+          process.env.BINDERBYTE_KEY +
           "&id_provinsi=" +
           provinceId,
         {

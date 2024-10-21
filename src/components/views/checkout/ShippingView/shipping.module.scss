@@ -93,3 +93,12 @@
   display: flex;
   align-items: flex-end;
 }
+.skeleton {
+  height: 10px;
+
+  border-radius: 0.25rem;
+  width: 100%;
+  background: $neutral;
+
+  @include shimmer();
+}

@@ -20,6 +20,9 @@ import { useSession } from "next-auth/react";
 import { addressService } from "@/services/address/methods";
 import { toast } from "sonner";
 import { TypeShippingAddress } from "@/services/type.module";
+import { setShippingAddress } from "@/store/slices/chechkoutSlice";
+import { getOngkir } from "@/store/slices/ongkirSlice";
+import { useAppDispatch } from "@/store/hook";
 
 interface PropsType {
   onClose: () => void;
@@ -42,6 +45,7 @@ interface InputShippingType {
 
 const ModalAddAddress: FC<PropsType> = ({ onClose, setAddress }) => {
   const session = useSession();
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
   const {
     control,
@@ -88,6 +92,14 @@ const ModalAddAddress: FC<PropsType> = ({ onClose, setAddress }) => {
         if (res.status === 201) {
           onClose();
           toast.success(res.data.message);
+          dispatch(setShippingAddress(res.data.address[0]));
+          dispatch(
+            getOngkir({
+              desCity: res.data.address[0].city.name,
+              desProvince: res.data.address[0].province.name,
+              weight: "100",
+            })
+          );
           setAddress(res.data.address);
         }
       } catch (error) {
@@ -97,7 +109,10 @@ const ModalAddAddress: FC<PropsType> = ({ onClose, setAddress }) => {
       }
     }
   };
-  console.log(province);
+
+  useEffect(() => {
+    setValue("city", null);
+  }, [province]);
 
   useEffect(() => {
     if (session.status === "authenticated" && session?.data?.user?.name) {

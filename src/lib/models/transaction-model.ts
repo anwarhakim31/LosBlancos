@@ -51,15 +51,27 @@ const transactionSchema = new mongoose.Schema({
     required: true,
     default: 0,
   },
+  paymentId: {
+    type: String,
+  },
+  paymentName: {
+    type: String,
+  },
   paymentMethod: {
     type: String,
-    enum: ["credit_card", "bank_transfer", "paypal", "cash_on_delivery"],
+    enum: ["e-wallet", "bank_transfer", "over the counter"],
   },
   paymentStatus: {
     type: String,
     required: true,
-    enum: ["pending", "paid", "failed", "cancelled"],
+    enum: ["pending", "paid", "failed", "cancelled", "expired"],
     default: "pending",
+  },
+  paymentCreated: {
+    type: Date,
+  },
+  paymentExpired: {
+    type: Date,
   },
   transactionStatus: {
     type: String,
