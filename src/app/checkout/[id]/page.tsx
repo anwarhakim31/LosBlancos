@@ -3,23 +3,35 @@ import styles from "./checkout.module.scss";
 import BreadCrubm from "@/components/element/BreadCrubm";
 import Footer from "@/components/layouts/Footer";
 import CourierView from "@/components/views/checkout/CourierView";
+import PaymentView from "@/components/views/checkout/PaymentView";
 import ShippingView from "@/components/views/checkout/ShippingView";
+import { transactionService } from "@/services/transaction/method";
 
 import { useAppDispatch, useAppSelector } from "@/store/hook";
-import { getCheckout } from "@/store/slices/chechkoutSlice";
+import { getCheckout, setError } from "@/store/slices/chechkoutSlice";
 
 import { formatCurrency } from "@/utils/contant";
 import { ArrowRight } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import React, { Fragment, useEffect } from "react";
 
+export interface TypeErrorCheckout {
+  address: string;
+  payment: string;
+  ongkir: string;
+}
+
 const Checkout = ({ params }: { params: { id: string } }) => {
   const session = useSession();
+
   const { id } = params;
+  const { replace } = useRouter();
   const dispatch = useAppDispatch();
-  const { transaction } = useAppSelector((state) => state.check);
+  const { transaction, payment, address, costs, loading, errorSubmit } =
+    useAppSelector((state) => state.check);
 
   useEffect(() => {
     if (session.data?.user?.id) {
@@ -32,6 +44,35 @@ const Checkout = ({ params }: { params: { id: string } }) => {
     }
   }, [session.data?.user?.id, dispatch, id]);
 
+  const handlePayment = async () => {
+    if (!payment) {
+      dispatch(setError({ payment: true }));
+    }
+
+    if (!address) {
+      dispatch(setError({ address: true }));
+    }
+
+    if (!costs) {
+      dispatch(setError({ ongkir: true }));
+    }
+
+    if (payment && address && costs) {
+      const res = await transactionService.payment(
+        costs.cost[0].value,
+        payment,
+        id
+      );
+
+      if (res.status === 200) {
+        console.log(res.data);
+        replace(`/pembayaran/${res.data.transaction.payment_id}`);
+      }
+    }
+  };
+
+  console.log(payment);
+
   return (
     <Fragment>
       <main>
@@ -41,31 +82,32 @@ const Checkout = ({ params }: { params: { id: string } }) => {
           <div className={styles.content}>
             <div className={styles.left}>
               <ShippingView />
+
               <div className={styles.detailOrderMobile}>
                 <h3>Detail Pesanan</h3>
 
                 {transaction?.items.map((item) => (
                   <div
                     className={styles.detailOrderMobile__list}
-                    key={item.productId._id}
+                    key={item?.productId?._id}
                   >
                     <div className={styles.detailOrderMobile__list__image}>
                       <Image
-                        src={item.productId.image[0]}
-                        alt={item.productId.name}
+                        src={item?.productId?.image[0]}
+                        alt={item?.productId?.name}
                         width={100}
                         height={100}
                       />
                     </div>
                     <div className={styles.detailOrderMobile__list__content}>
                       <div>
-                        <h3>{item.productId.name}</h3>
+                        <h3>{item?.productId?.name}</h3>
                         <p>
-                          {item.atribute} : {item.atributeValue}
+                          {item.atribute} : {item?.atributeValue}
                         </p>
                       </div>
                       <span>
-                        {formatCurrency(Number(item.productId.price))} x{" "}
+                        {formatCurrency(Number(item?.productId?.price))} x{" "}
                         {item.quantity}
                       </span>
                     </div>
@@ -73,38 +115,69 @@ const Checkout = ({ params }: { params: { id: string } }) => {
                 ))}
               </div>
               <CourierView />
+              <PaymentView />
             </div>
             <div className={styles.right}>
               <div className={styles.detailOrder}>
                 <h3>Detail Pesanan</h3>
 
-                {transaction?.items.map((item) => (
-                  <div
-                    className={styles.detailOrder__list}
-                    key={item.productId._id}
-                  >
-                    <div className={styles.detailOrder__list__image}>
-                      <Image
-                        src={item.productId.image[0]}
-                        alt={item.productId.name}
-                        width={100}
-                        height={100}
-                      />
-                    </div>
-                    <div className={styles.detailOrder__list__content}>
-                      <div>
-                        <h3>{item.productId.name}</h3>
-                        <p>
-                          {item.atribute} : {item.atributeValue}
-                        </p>
-                      </div>
-                      <span>
-                        {formatCurrency(Number(item.productId.price))} x{" "}
-                        {item.quantity}
-                      </span>
+                {loading && (
+                  <div className={styles.skeleton_wrapper}>
+                    <div className={`${styles.skeleton_image}`}></div>
+                    <div style={{ height: "100%" }}>
+                      <div
+                        className={`${styles.skeleton}`}
+                        style={{ width: "150px", height: "0.875rem" }}
+                      ></div>
+                      <div
+                        className={`${styles.skeleton}`}
+                        style={{
+                          width: "100px",
+                          height: "0.875rem",
+                          marginTop: "0.5rem",
+                        }}
+                      ></div>
+                      <div
+                        className={`${styles.skeleton}`}
+                        style={{
+                          width: "100px",
+                          height: "0.875rem",
+                          marginTop: "30px",
+                        }}
+                      ></div>
                     </div>
                   </div>
-                ))}
+                )}
+
+                {!loading &&
+                  transaction?.items.map((item) => (
+                    <div
+                      className={styles.detailOrder__list}
+                      key={item?.productId?._id}
+                    >
+                      <div className={styles.detailOrder__list__image}>
+                        <Image
+                          src={item?.productId?.image[0]}
+                          alt={item?.productId?.name}
+                          width={100}
+                          height={100}
+                        />
+                      </div>
+
+                      <div className={styles.detailOrder__list__content}>
+                        <div>
+                          <h3>{item?.productId?.name}</h3>
+                          <p>
+                            {item.atribute} : {item.atributeValue}
+                          </p>
+                        </div>
+                        <span>
+                          {formatCurrency(Number(item?.productId?.price))} x{" "}
+                          {item.quantity}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
               </div>
               <div className={styles.summeryWrapper}>
                 <h3>Rincian Pesanan</h3>
@@ -131,7 +204,7 @@ const Checkout = ({ params }: { params: { id: string } }) => {
                 <div className={`${styles.summeryWrapper__summery}`}>
                   <span>Total</span>
                   <span>
-                    {formatCurrency(transaction?.totalPayment as number)}
+                    {formatCurrency((transaction?.totalPayment as number) || 0)}
                   </span>
                 </div>
 
@@ -139,7 +212,13 @@ const Checkout = ({ params }: { params: { id: string } }) => {
                   type="button"
                   aria-label="checkout"
                   className={styles.checkout}
-                  // onClick={handleCheckout}
+                  onClick={handlePayment}
+                  disabled={
+                    loading ||
+                    errorSubmit.payment ||
+                    errorSubmit.ongkir ||
+                    errorSubmit.address
+                  }
                 >
                   Lanjutkan Pembayaran <ArrowRight width={16} height={16} />
                 </button>

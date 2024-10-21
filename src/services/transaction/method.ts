@@ -8,4 +8,10 @@ export const transactionService = {
     instance.get(
       "/transaction?transactionId=" + transactionId + "&userId=" + userId
     ),
+  payment: (shippingCost: number, bank: string, transaction_id: string) =>
+    instance.post("transaction/payment", {
+      shippingCost,
+      bank,
+      transaction_id,
+    }),
 };

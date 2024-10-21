@@ -29,9 +29,7 @@ export async function GET(req: NextRequest) {
     const desCity = params.get("desCity") || "";
     const weight = params.get("weight");
 
-    const key = process.env.NEXT_PUBLIC_RAJAONGKIR_KEY as string;
-
-    console.log(desProvince, desCity, weight);
+    const key = process.env.RAJAONGKIR_KEY as string;
 
     const resProvinsi = await fetch(
       "https://api.rajaongkir.com/starter/city?key=" + key

@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
       }
     }
     const previx = "INV";
-    const Segment = uuid().split("-")[0];
+    const Segment = uuid().split("-")[0].toLocaleUpperCase();
 
     const invoice = `${previx}-${Segment}`;
 

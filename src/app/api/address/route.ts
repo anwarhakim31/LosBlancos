@@ -7,9 +7,7 @@ import { verifyTokenMember } from "@/lib/verify-token";
 
 export async function POST(req: NextRequest) {
   try {
-    const verify = verifyTokenMember(req);
-
-    console.log(verify);
+    verifyTokenMember(req);
 
     const {
       userId,
@@ -54,7 +52,9 @@ export async function POST(req: NextRequest) {
 
     await newAddress.save();
 
-    const getAdress = await ShippingAddress.find({ userId });
+    const getAdress = await ShippingAddress.find({ userId }).sort({
+      createdAt: -1,
+    });
 
     return NextResponse.json(
       {
@@ -76,7 +76,9 @@ export async function GET(req: NextRequest) {
   try {
     const userId = new URL(req.url).searchParams.get("userId");
 
-    const address = await ShippingAddress.find({ userId: userId });
+    const address = await ShippingAddress.find({ userId: userId }).sort({
+      createdAt: -1,
+    });
 
     return NextResponse.json({
       success: true,
@@ -90,8 +92,8 @@ export async function GET(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    const verify = verifyTokenMember(req);
-    console.log(verify);
+    verifyTokenMember(req);
+
     const params = new URL(req.url);
     const addressId = params.searchParams.get("addressId");
     const userId = params.searchParams.get("userId");
@@ -102,7 +104,9 @@ export async function DELETE(req: NextRequest) {
 
     await ShippingAddress.deleteOne({ _id: addressId });
 
-    const address = await ShippingAddress.find({ userId: userId });
+    const address = await ShippingAddress.find({ userId: userId }).sort({
+      createdAt: -1,
+    });
 
     return NextResponse.json({
       success: true,

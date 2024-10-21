@@ -36,6 +36,7 @@
       display: none;
       border: 1px solid $gray-300;
       border-bottom: none;
+      border-radius: 0.4rem 0.4rem 0 0;
       grid-column: span 2 / span 2;
       padding: 1rem;
       @include media(md) {
@@ -234,4 +235,28 @@
       }
     }
   }
+}
+
+.skeleton_wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid $gray-300;
+}
+
+.skeleton_image {
+  width: 80px;
+  height: 80px;
+  background: $neutral;
+  border-radius: 0.25rem;
+  @include shimmer();
+}
+
+.skeleton {
+  width: 100%;
+  background: $neutral;
+  border-radius: 0.25rem;
+  @include shimmer();
 }

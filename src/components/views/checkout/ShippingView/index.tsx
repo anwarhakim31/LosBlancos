@@ -19,7 +19,9 @@ const ShippingView = () => {
   const [isAdd, setIsAdd] = useState(false);
   const [isChange, setIsChange] = useState(false);
   const [loading, setLoading] = useState(true);
-  const { address: selected } = useAppSelector((state) => state.check);
+  const { address: selected, errorSubmit } = useAppSelector(
+    (state) => state.check
+  );
 
   useEffect(() => {
     const getAddress = async () => {
@@ -52,30 +54,66 @@ const ShippingView = () => {
   }, [session?.data?.user?.id, dispatch]);
 
   return (
-    <div className={styles.wrapper}>
-      <h3>Alamat Pengiriman</h3>
+    <div
+      className={styles.wrapper}
+      style={{ border: errorSubmit.address ? "1px solid red" : "" }}
+    >
+      <h3 style={{ color: errorSubmit.address ? "red" : "" }}>
+        Alamat Pengiriman
+      </h3>
+
       {address.length === 0 && !loading && (
         <span>
           <AlertCircle width={18} height={18} /> Alamat Pengiriman anda masih
           kosong
         </span>
       )}
-      {selected && (
-        <div className={styles.list}>
-          <div className={styles.list__contact}>
-            <h4>{selected?.fullname}</h4> <small>|</small>
-            <p className={styles.list__contact__phone}>{selected?.phone}</p>
-          </div>
-          <p className={styles.list__detail}>{selected?.address}</p>
-          <div className={styles.list__address}>
-            <p>{selected.subdistrict},</p>
-            <p>{selected.city.name},</p>
-            <p>{selected.province.name},</p>
-            <p>ID</p>
-            <p>{selected.postalCode}</p>
-          </div>
-        </div>
-      )}
+
+      <div className={styles.list}>
+        {loading && (
+          <>
+            <div
+              className={styles.skeleton}
+              style={{ maxWidth: "200px", height: "0.875rem" }}
+            ></div>
+            <div
+              className={styles.skeleton}
+              style={{
+                maxWidth: "250px",
+                height: "0.875rem",
+                marginTop: "0.5rem",
+              }}
+            ></div>
+            <div
+              className={styles.skeleton}
+              style={{
+                maxWidth: "250px",
+                height: "0.875rem",
+                marginTop: "0.5rem",
+              }}
+            ></div>
+          </>
+        )}
+        {selected && (
+          <>
+            <div className={styles.list__contact}>
+              <h4 className={loading ? styles.skeleton : ""}>
+                {selected?.fullname}
+              </h4>{" "}
+              <small>|</small>
+              <p className={styles.list__contact__phone}>{selected?.phone}</p>
+            </div>
+            <p className={styles.list__detail}>{selected?.address}</p>
+            <div className={styles.list__address}>
+              <p>{selected?.subdistrict},</p>
+              <p>{selected?.city.name},</p>
+              <p>{selected?.province.name},</p>
+              <p>ID</p>
+              <p>{selected.postalCode}</p>
+            </div>
+          </>
+        )}
+      </div>
 
       <div className={styles.footer}>
         <button

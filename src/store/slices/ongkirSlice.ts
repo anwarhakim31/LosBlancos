@@ -40,18 +40,28 @@ const initialState: stateType = {
 const ongkirSlice = createSlice({
   name: "ongkir",
   initialState,
-  reducers: {},
+  reducers: {
+    setLoading: (state, action) => {
+      state.loading = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getOngkir.fulfilled, (state, action) => {
       state.loading = false;
       state.costs = action.payload;
       console.log(action.payload);
     });
-    builder.addCase(getOngkir.rejected, (state, action) => {
+    builder.addCase(getOngkir.rejected, (state) => {
       state.loading = false;
-      state.error = action.error.message || "Failed to fetch cartList";
+      state.error = "Pengiriman untuk alamat ini tidak tersedia";
+    });
+
+    builder.addCase(getOngkir.pending, (state) => {
+      state.loading = true;
+      state.error = null;
     });
   },
 });
 
+export const { setLoading } = ongkirSlice.actions;
 export default ongkirSlice.reducer;

@@ -1,7 +1,7 @@
 "use client";
 
 import Footer from "@/components/layouts/Footer";
-import React, { Fragment, useRef } from "react";
+import React, { Fragment, useRef, useState } from "react";
 
 import BreadCrubm from "@/components/element/BreadCrubm";
 import styles from "./cart.module.scss";
@@ -32,8 +32,7 @@ const CartPage = () => {
   const dispatch = useAppDispatch();
   const session = useSession();
   const { cart, loading } = useAppSelector((state) => state.cart);
-
-  console.log(cart);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleMaxQuantity = (item: itemCartType) => {
     if (
@@ -59,7 +58,7 @@ const CartPage = () => {
     if (cart?.items?.length === 0) {
       return;
     }
-
+    setIsLoading(true);
     try {
       const res = await transactionService.create(
         session.data?.user?.id as string,
@@ -70,12 +69,18 @@ const CartPage = () => {
       if (res.status == 200) {
         router.push("/checkout/" + res.data.id);
 
-        setTimeout(() => {
+        const timout = setTimeout(() => {
           dispatch(clearCart());
         }, 1000);
+
+        return () => {
+          clearTimeout(timout);
+        };
       }
     } catch (error) {
       ResponseError(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -240,6 +245,7 @@ const CartPage = () => {
                 aria-label="checkout"
                 className={styles.checkout}
                 onClick={handleCheckout}
+                disabled={isLoading || cart?.items?.length === 0 || loading}
               >
                 Checkout <ArrowRight width={16} height={16} />
               </button>

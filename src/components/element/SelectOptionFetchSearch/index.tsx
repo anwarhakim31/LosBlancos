@@ -81,6 +81,10 @@ const SelectOptionFetchSearch = ({
     };
   }, [open]);
 
+  useEffect(() => {
+    setSelect(field?.value?.[name] || "");
+  }, [field, name]);
+
   return (
     <div ref={compRef} className={styles.container}>
       <input
