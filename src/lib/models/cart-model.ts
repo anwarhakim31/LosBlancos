@@ -9,7 +9,7 @@ const cartItemModel = new mongoose.Schema({
   quantity: {
     type: Number,
     required: true,
-    min: 1,
+    min: 0,
   },
   price: {
     type: Number,
@@ -41,7 +41,7 @@ const cartModel = new mongoose.Schema({
 
 cartModel.pre("save", function (next) {
   this.total = this.items.reduce((acc, item) => {
-    return acc + item.price * item.quantity;
+    return acc + item.price;
   }, 0);
 
   next();

@@ -51,7 +51,7 @@ const transactionSchema = new mongoose.Schema({
     required: true,
     default: 0,
   },
-  paymentId: {
+  paymentCode: {
     type: String,
   },
   paymentName: {
@@ -64,7 +64,7 @@ const transactionSchema = new mongoose.Schema({
   paymentStatus: {
     type: String,
     required: true,
-    enum: ["pending", "paid", "failed", "cancelled", "expired"],
+    enum: ["pending", "settlement", "deny", "cancel", "expire"],
     default: "pending",
   },
   paymentCreated: {
@@ -88,7 +88,7 @@ const transactionSchema = new mongoose.Schema({
 
 transactionSchema.pre("save", function (next) {
   this.subtotal = this.items.reduce((acc, item) => {
-    return acc + item.price * item.quantity;
+    return acc + item.price;
   }, 0);
 
   this.totalPayment = this.subtotal + this.shippingCost;

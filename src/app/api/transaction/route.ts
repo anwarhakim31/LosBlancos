@@ -10,7 +10,7 @@ import { itemCartType } from "@/services/type.module";
 export async function POST(req: NextRequest) {
   try {
     verifyTokenMember(req);
-    const { items, total, userId } = await req.json();
+    const { items, total, userId, cartId } = await req.json();
 
     if (!userId || !total || !items) {
       return ResponseError(400, "Data tidak boleh kosong");
@@ -63,7 +63,9 @@ export async function POST(req: NextRequest) {
 
     await transaction.save();
 
-    await Cart.findOneAndDelete({ userId });
+    if (cartId) {
+      await Cart.findOneAndDelete({ userId });
+    }
 
     return NextResponse.json({
       success: true,
@@ -71,8 +73,6 @@ export async function POST(req: NextRequest) {
       id: transaction._id,
     });
   } catch (error) {
-    console.log(error);
-
     return ResponseError(500, "Internal Server Error");
   }
 }
@@ -110,41 +110,3 @@ export async function GET(req: NextRequest) {
     return ResponseError(500, "Internal Server Error");
   }
 }
-
-// export async function DELETE(req: NextRequest) {
-//   try {
-//     const { userId, itemId } = await req.json();
-
-//     if (!userId || !itemId) {
-//       return ResponseError(400, "Data tidak boleh kosong");
-//     }
-
-//     const cart = await Cart.findOne({ userId });
-
-//     if (!cart) {
-//       return ResponseError(404, "Keranjang tidak ditemukan");
-//     }
-
-//     cart.items = cart.items.filter(
-//       (item: CartItem) => item._id.toString() !== itemId
-//     );
-
-//     await cart.save();
-
-//     const updateCart = await Cart.findOne({ userId }).populate({
-//       path: "items.product",
-//       populate: {
-//         path: "collectionName",
-//       },
-//     });
-
-//     return NextResponse.json({
-//       success: true,
-//       message: "Berhasil menghapus dari keranjang",
-//       cart: updateCart,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     return ResponseError(500, "Internal Server Error");
-//   }
-// }

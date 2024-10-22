@@ -112,7 +112,7 @@ const ModalAddAddress: FC<PropsType> = ({ onClose, setAddress }) => {
 
   useEffect(() => {
     setValue("city", null);
-  }, [province]);
+  }, [province, setValue]);
 
   useEffect(() => {
     if (session.status === "authenticated" && session?.data?.user?.name) {

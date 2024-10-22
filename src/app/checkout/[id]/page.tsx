@@ -9,6 +9,7 @@ import { transactionService } from "@/services/transaction/method";
 
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { getCheckout, setError } from "@/store/slices/chechkoutSlice";
+import { ResponseError } from "@/utils/axios/response-error";
 
 import { formatCurrency } from "@/utils/contant";
 import { ArrowRight } from "lucide-react";
@@ -58,20 +59,21 @@ const Checkout = ({ params }: { params: { id: string } }) => {
     }
 
     if (payment && address && costs) {
-      const res = await transactionService.payment(
-        costs.cost[0].value,
-        payment,
-        id
-      );
+      try {
+        const res = await transactionService.payment(
+          costs.cost[0].value,
+          payment,
+          id
+        );
 
-      if (res.status === 200) {
-        console.log(res.data);
-        replace(`/pembayaran/${res.data.transaction.payment_id}`);
+        if (res.status === 200) {
+          replace(`/pembayaran/${res.data.transaction._id}`);
+        }
+      } catch (error) {
+        ResponseError(error);
       }
     }
   };
-
-  console.log(payment);
 
   return (
     <Fragment>
@@ -114,6 +116,7 @@ const Checkout = ({ params }: { params: { id: string } }) => {
                   </div>
                 ))}
               </div>
+
               <CourierView />
               <PaymentView />
             </div>
@@ -179,6 +182,7 @@ const Checkout = ({ params }: { params: { id: string } }) => {
                     </div>
                   ))}
               </div>
+
               <div className={styles.summeryWrapper}>
                 <h3>Rincian Pesanan</h3>
                 <div className={styles.summeryWrapper__wrapper}>

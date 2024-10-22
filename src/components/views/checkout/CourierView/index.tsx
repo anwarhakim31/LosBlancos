@@ -32,7 +32,15 @@ const CourierView = () => {
       className={`${styles.wrapper} ${
         address && costs && !loading ? styles.select : styles.noselect
       }`}
-      onClick={() => (loading || errOngkir ? null : setIsChange(true))}
+      onClick={() =>
+        loading
+          ? null
+          : errOngkir
+          ? null
+          : loadingOngkir
+          ? null
+          : setIsChange(!isChange)
+      }
       style={{
         border: errorSubmit.ongkir ? "1px solid red" : "",
         cursor: !errOngkir ? "pointer" : " not-allowed",
@@ -42,7 +50,7 @@ const CourierView = () => {
         Jasa Pengiriman
       </h3>
       <div className={styles.container}>
-        {!address && !loading && (
+        {!address && !loading && !loadingOngkir && (
           <span>
             <AlertCircle width={18} height={18} /> Alamat Pengiriman anda masih
             kosong

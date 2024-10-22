@@ -3,7 +3,7 @@ import Cart from "@/assets/cart.svg";
 import { Check, Heart, Star } from "lucide-react";
 import { formatCurrency } from "@/utils/contant";
 import { useEffect, useState } from "react";
-import { TypeProduct } from "@/services/type.module";
+import { itemCartType, TypeProduct } from "@/services/type.module";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 
 import { useSession } from "next-auth/react";
@@ -11,6 +11,8 @@ import { useRouter } from "next/navigation";
 import { postWishlist, removeWishlist } from "@/store/slices/wishSlice";
 import { postCart } from "@/store/slices/cartSlice";
 import QuantityAction from "@/components/element/Quantity";
+import { ResponseError } from "@/utils/axios/response-error";
+import { transactionService } from "@/services/transaction/method";
 
 const DetailInfoView = ({ product }: { product: TypeProduct }) => {
   const session = useSession();
@@ -18,7 +20,9 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
   const { wishlist, loading: loadingWishlist } = useAppSelector(
     (state) => state.wishlist
   );
+  const { loading: loadingCart } = useAppSelector((state) => state.cart);
 
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
 
   const [selectValue, setSelectValue] = useState("");
@@ -66,6 +70,44 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
         atributeValue: selectValue as string,
       })
     );
+  };
+  const handleCheckout = async () => {
+    if (session.status === "unauthenticated") {
+      router.push("/login");
+      return;
+    }
+    if (selectValue === "") {
+      return setAlert(true);
+    }
+
+    setIsLoading(false);
+
+    const items = [] as itemCartType[];
+    const total = Number(quantity) * (product.price as number);
+
+    items.push({
+      product: product,
+      quantity: quantity,
+      price: (product.price as number) * quantity,
+      atribute: product.attribute as string,
+      atributeValue: selectValue as string,
+    });
+
+    try {
+      const res = await transactionService.create(
+        session.data?.user?.id as string,
+        items,
+        total
+      );
+
+      if (res.status == 200) {
+        router.push("/checkout/" + res.data.id);
+      }
+    } catch (error) {
+      ResponseError(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -195,10 +237,17 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
           aria-label="add to cart"
           className={styles.cart}
           onClick={handleAddToCart}
+          disabled={loadingCart || isLoading}
         >
           <Cart /> <span>Masukkan Keranjang</span>
         </button>
-        <button className={styles.buy} type="button" aria-label="buy now">
+        <button
+          className={styles.buy}
+          type="button"
+          aria-label="buy now"
+          disabled={loadingCart || isLoading}
+          onClick={handleCheckout}
+        >
           <span>Beli Sekarang</span>
         </button>
       </div>
