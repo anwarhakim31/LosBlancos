@@ -2,6 +2,7 @@ import Stock from "@/lib/models/stock-model";
 import Transaction from "@/lib/models/transaction-model";
 import { ResponseError } from "@/lib/response-error";
 import { verifyTokenMember } from "@/lib/verify-token";
+import { formatDateToMidtrans } from "@/utils/contant";
 import { NextRequest, NextResponse } from "next/server";
 
 const MIDTRANS_BASE_URL = process.env.MIDTRANS_BASE_URL;
@@ -89,9 +90,14 @@ export async function POST(req: NextRequest) {
               bank: bank,
             },
             customer_details: customerDetails,
+            custom_expiry: {
+              order_time: formatDateToMidtrans(),
+              expiry_duration: 5,
+              unit: "minute",
+            },
           };
 
-    const res = await fetch(MIDTRANS_BASE_URL as string, {
+    const res = await fetch((MIDTRANS_BASE_URL as string) + "/charge", {
       method: "POST",
       headers: {
         Accept: "application/json",

@@ -19,11 +19,11 @@
 }
 
 .active {
-  transform: translateY(0);
+  scale: 1;
   opacity: 1;
 }
 
 .default {
-  transform: translateY(-100%);
+  scale: 0.9;
   opacity: 0;
 }

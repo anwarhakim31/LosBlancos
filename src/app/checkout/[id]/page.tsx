@@ -87,44 +87,7 @@ const Checkout = ({ params }: { params: { id: string } }) => {
 
               <div className={styles.detailOrderMobile}>
                 <h3>Detail Pesanan</h3>
-
-                {transaction?.items.map((item) => (
-                  <div
-                    className={styles.detailOrderMobile__list}
-                    key={item?.productId?._id}
-                  >
-                    <div className={styles.detailOrderMobile__list__image}>
-                      <Image
-                        src={item?.productId?.image[0]}
-                        alt={item?.productId?.name}
-                        width={100}
-                        height={100}
-                      />
-                    </div>
-                    <div className={styles.detailOrderMobile__list__content}>
-                      <div>
-                        <h3>{item?.productId?.name}</h3>
-                        <p>
-                          {item.atribute} : {item?.atributeValue}
-                        </p>
-                      </div>
-                      <span>
-                        {formatCurrency(Number(item?.productId?.price))} x{" "}
-                        {item.quantity}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <CourierView />
-              <PaymentView />
-            </div>
-            <div className={styles.right}>
-              <div className={styles.detailOrder}>
-                <h3>Detail Pesanan</h3>
-
-                {loading && (
+                {loading ? (
                   <div className={styles.skeleton_wrapper}>
                     <div className={`${styles.skeleton_image}`}></div>
                     <div style={{ height: "100%" }}>
@@ -150,9 +113,71 @@ const Checkout = ({ params }: { params: { id: string } }) => {
                       ></div>
                     </div>
                   </div>
+                ) : (
+                  transaction?.items.map((item) => (
+                    <div
+                      className={styles.detailOrderMobile__list}
+                      key={item?.productId?._id}
+                    >
+                      <div className={styles.detailOrderMobile__list__image}>
+                        <Image
+                          src={item?.productId?.image[0]}
+                          alt={item?.productId?.name}
+                          width={100}
+                          height={100}
+                        />
+                      </div>
+                      <div className={styles.detailOrderMobile__list__content}>
+                        <div>
+                          <h3>{item?.productId?.name}</h3>
+                          <p>
+                            {item.atribute} : {item?.atributeValue}
+                          </p>
+                        </div>
+                        <span>
+                          {formatCurrency(Number(item?.productId?.price))} x{" "}
+                          {item.quantity}
+                        </span>
+                      </div>
+                    </div>
+                  ))
                 )}
+              </div>
 
-                {!loading &&
+              <CourierView />
+              <PaymentView />
+            </div>
+            <div className={styles.right}>
+              <div className={styles.detailOrder}>
+                <h3>Detail Pesanan</h3>
+
+                {loading ? (
+                  <div className={styles.skeleton_wrapper}>
+                    <div className={`${styles.skeleton_image}`}></div>
+                    <div style={{ height: "100%" }}>
+                      <div
+                        className={`${styles.skeleton}`}
+                        style={{ width: "150px", height: "0.875rem" }}
+                      ></div>
+                      <div
+                        className={`${styles.skeleton}`}
+                        style={{
+                          width: "100px",
+                          height: "0.875rem",
+                          marginTop: "0.5rem",
+                        }}
+                      ></div>
+                      <div
+                        className={`${styles.skeleton}`}
+                        style={{
+                          width: "100px",
+                          height: "0.875rem",
+                          marginTop: "30px",
+                        }}
+                      ></div>
+                    </div>
+                  </div>
+                ) : (
                   transaction?.items.map((item) => (
                     <div
                       className={styles.detailOrder__list}
@@ -180,7 +205,8 @@ const Checkout = ({ params }: { params: { id: string } }) => {
                         </span>
                       </div>
                     </div>
-                  ))}
+                  ))
+                )}
               </div>
 
               <div className={styles.summeryWrapper}>
