@@ -1,7 +1,7 @@
 import SessionProviderClient from "./sessionProvider";
 import "./../styles/global.scss";
 import { Inter_Tight } from "next/font/google";
-import { getServerSession } from "next-auth";
+
 import Header from "@/components/layouts/Header";
 import StoreProvider from "./storeProvider";
 import { Toaster } from "sonner";
@@ -9,6 +9,9 @@ import { ServerURL } from "@/utils/contant";
 import React from "react";
 import MasterProvider from "@/context/MasterContext";
 import { CheckIcon } from "lucide-react";
+
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 const inter = Inter_Tight({
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -33,7 +36,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   const master = await getMaster();
   const collection = await getCollection();
 
