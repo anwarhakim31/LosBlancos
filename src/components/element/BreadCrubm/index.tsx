@@ -22,6 +22,7 @@ const BreadCrubm = () => {
     pathSegments.splice(1, 2);
   }
 
+  const def = ["checkout", "pembayaran"];
   return (
     <ul role="list" className={styles.breadcrubm}>
       <li>
@@ -32,9 +33,14 @@ const BreadCrubm = () => {
       </li>
       {pathSegments.map((segment, index) => {
         const pathToSegment = `/${pathSegments.slice(0, index + 1).join("/")}`;
+
         return (
           <li key={pathToSegment}>
-            <Link href={pathToSegment}>{segment.replace(/-/g, " ")}</Link>
+            {def.includes(segment) ? (
+              <span>{segment.replace(/-/g, " ")}</span> // Nonaktifkan navigasi
+            ) : (
+              <Link href={pathToSegment}>{segment.replace(/-/g, " ")}</Link>
+            )}
             {index !== pathSegments.length - 1 && (
               <ChevronRight width={16} height={16} />
             )}

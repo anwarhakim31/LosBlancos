@@ -63,6 +63,7 @@ export default async function RootLayout({
                 }}
               />
               <div id="modal-root"></div>
+              <div id="portal-notif-root"></div>
             </MasterProvider>
           </StoreProvider>
         </SessionProviderClient>

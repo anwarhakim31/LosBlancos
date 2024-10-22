@@ -121,6 +121,9 @@ const cartSlice = createSlice({
       if (action.payload) {
         state.cart.items = action.payload?.items;
         state.cart.total = action.payload?.total;
+      } else {
+        state.cart.items = [];
+        state.cart.total = 0;
       }
     });
     builder.addCase(postCart.rejected, (state, action) => {
@@ -128,8 +131,10 @@ const cartSlice = createSlice({
       state.error = action.error.message || "Failed to fetch cartList";
     });
     builder.addCase(getCart.fulfilled, (state, action) => {
-      state.cart.items = action.payload?.items;
-      state.cart.total = action.payload?.total;
+      if (action.payload) {
+        state.cart.items = action.payload?.items;
+        state.cart.total = action.payload?.total;
+      }
 
       state.loading = false;
     });
@@ -144,8 +149,10 @@ const cartSlice = createSlice({
     });
     builder.addCase(deleteCart.fulfilled, (state, action) => {
       state.loading = false;
-      state.cart.items = action.payload?.items;
-      state.cart.total = action.payload?.total;
+      if (action.payload) {
+        state.cart.items = action.payload?.items;
+        state.cart.total = action.payload?.total;
+      }
     });
     builder.addCase(deleteCart.rejected, (state, action) => {
       state.loading = false;

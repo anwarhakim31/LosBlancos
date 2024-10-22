@@ -9,6 +9,20 @@ const getAuthHeader = () => {
     "base64"
   )}`;
 };
+function formatDateToMidtrans() {
+  const now = new Date();
+
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  const hours = String(now.getHours()).padStart(2, "0");
+  const minutes = String(now.getMinutes()).padStart(2, "0");
+  const seconds = String(now.getSeconds()).padStart(2, "0");
+
+  const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds} +0700`;
+
+  return formattedDate;
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -44,9 +58,14 @@ export async function POST(req: NextRequest) {
               bank: bank,
             },
             customer_details: customerDetails,
+            custom_expiry: {
+              order_time: formatDateToMidtrans(),
+              expiry_duration: 60,
+              unit: "minute",
+            },
           };
 
-    const res = await fetch(MIDTRANS_BASE_URL as string, {
+    const res = await fetch((MIDTRANS_BASE_URL as string) + "/charge", {
       method: "POST",
       headers: {
         Accept: "application/json",
