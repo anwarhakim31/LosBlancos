@@ -44,14 +44,7 @@ const DetailImageView = ({ product }: { product: TypeProduct }) => {
             key={i}
             onMouseEnter={() => setSelected(i)}
           >
-            <Image
-              src={item}
-              alt="image"
-              width={100}
-              height={100}
-              priority
-              draggable={false}
-            />
+            <Image src={item} alt="image" width={100} height={100} priority />
           </li>
         ))}
       </ul>

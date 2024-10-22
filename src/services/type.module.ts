@@ -106,6 +106,7 @@ export type cartType = {
 
 export type TypeTransaction = {
   _id?: string;
+  invoice: string;
   userId: string;
   items: {
     _id?: string;
@@ -115,6 +116,11 @@ export type TypeTransaction = {
     atribute: string;
     atributeValue: string;
   }[];
+  paymentCode?: string;
+  paymentName?: string;
+  paymentCreated?: Date;
+  paymentExpired?: Date;
+  paymentStatus?: string;
   subtotal: number;
   shippingCost: number;
   totalPayment: number;

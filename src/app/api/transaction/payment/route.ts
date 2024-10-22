@@ -1,3 +1,4 @@
+import Stock from "@/lib/models/stock-model";
 import Transaction from "@/lib/models/transaction-model";
 import { ResponseError } from "@/lib/response-error";
 import { verifyTokenMember } from "@/lib/verify-token";
@@ -108,14 +109,34 @@ export async function POST(req: NextRequest) {
         shippingCost: shippingCost,
         totalPayment: grossAmount,
         payment_method: payment_method(bank),
-        paymentCode: data.va_numbers[0].va_numbers,
-        paymenName: data.va_numbers[0].bank,
+        paymentCode: data.va_numbers[0].va_number,
+        paymentName: bank,
         paymentId: data.transaction_id,
         paymentCreated: data.transaction_time,
         paymentExpired: data.expiry_time,
       },
       { new: true }
-    ).select("payment_id _id");
+    ).select("_id ");
+
+    transaction.items.forEach(
+      async (item: {
+        productId: string;
+        quantity: number;
+        atribute: string;
+        atributeValue: string;
+      }) => {
+        console.log(item);
+        await Stock.findOneAndUpdate(
+          {
+            productId: item.productId,
+            attribute: item.atribute,
+            value: item.atributeValue,
+          },
+          { $inc: { stock: -item.quantity } },
+          { new: true }
+        );
+      }
+    );
 
     return NextResponse.json({
       status: "success",

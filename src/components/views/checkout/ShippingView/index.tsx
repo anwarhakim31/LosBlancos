@@ -48,10 +48,10 @@ const ShippingView = () => {
       }
     };
 
-    if (session?.data?.user?.id) {
+    if (session?.data?.user?.id && address.length === 0) {
       getAddress();
     }
-  }, [session?.data?.user?.id, dispatch]);
+  }, [session?.data?.user?.id, dispatch, address.length]);
 
   return (
     <div
@@ -94,7 +94,7 @@ const ShippingView = () => {
             ></div>
           </>
         )}
-        {selected && (
+        {selected && !loading && (
           <>
             <div className={styles.list__contact}>
               <h4 className={loading ? styles.skeleton : ""}>

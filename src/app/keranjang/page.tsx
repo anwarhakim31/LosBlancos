@@ -1,7 +1,7 @@
 "use client";
 
 import Footer from "@/components/layouts/Footer";
-import React, { Fragment, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 
 import BreadCrubm from "@/components/element/BreadCrubm";
 import styles from "./cart.module.scss";
@@ -34,6 +34,10 @@ const CartPage = () => {
   const { cart, loading } = useAppSelector((state) => state.cart);
   const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    router.prefetch("/checkout/1");
+  }, [router]);
+
   const handleMaxQuantity = (item: itemCartType) => {
     if (
       typeof item.product.stock === "number" &&
@@ -59,28 +63,27 @@ const CartPage = () => {
       return;
     }
     setIsLoading(true);
-    try {
-      const res = await transactionService.create(
-        session.data?.user?.id as string,
-        cart?.items as itemCartType[],
-        cart?.total as number
-      );
+    if (cart?.items?.length > 0) {
+      const cartId = "yes";
 
-      if (res.status == 200) {
-        router.push("/checkout/" + res.data.id);
+      try {
+        const res = await transactionService.create(
+          session.data?.user?.id as string,
+          cart?.items as itemCartType[],
+          cart?.total as number,
+          cartId
+        );
 
-        const timout = setTimeout(() => {
+        if (res.status == 200) {
+          router.push("/checkout/" + res.data.id);
+
           dispatch(clearCart());
-        }, 1000);
-
-        return () => {
-          clearTimeout(timout);
-        };
+        }
+      } catch (error) {
+        ResponseError(error);
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      ResponseError(error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
