@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
       return ResponseError(404, "Metode pembayaran tidak tersedia");
     }
 
-    const transaction = await Transaction.findOne({
+    const transaction = await Transaction.findById({
       _id: transaction_id,
     });
 
@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
             customer_details: customerDetails,
             custom_expiry: {
               order_time: formatDateToMidtrans(),
-              expiry_duration: 60,
+              expiry_duration: 120,
               unit: "minute",
             },
           }
@@ -97,7 +97,7 @@ export async function POST(req: NextRequest) {
             customer_details: customerDetails,
             custom_expiry: {
               order_time: formatDateToMidtrans(),
-              expiry_duration: 60,
+              expiry_duration: 120,
               unit: "minute",
             },
           };
@@ -112,22 +112,19 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify(payload),
     });
     const data = await res.json();
+
     if (!res.ok) {
       return NextResponse.json(
         {
           success: false,
           message: "Gagal melakukan pembayaran",
           data: data,
-          res: res,
+          res: payload,
         },
         {
           status: 500,
         }
       );
-    }
-
-    if (data.status_code !== 201) {
-      return ResponseError(500, data.message);
     }
 
     const updatedTransaction = await Transaction.findOneAndUpdate(
@@ -197,6 +194,7 @@ export async function POST(req: NextRequest) {
       transaction: updatedTransaction,
     });
   } catch (error) {
-    return ResponseError(500, error as string);
+    console.log(error);
+    return ResponseError(500, (error as Error).message);
   }
 }
