@@ -33,11 +33,8 @@ export async function POST(req: NextRequest) {
         },
         {
           $unset: {
-            paymentMethod: 1,
-            paymentName: 1,
-            paymentCode: 1,
-            paymentCreated: 1,
-            paymentExpired: 1,
+            paymentStatus: "dibatalkan",
+            transactionStatus: "dibatalkan",
           },
         }
       ).select("_id items");
@@ -59,7 +56,7 @@ export async function POST(req: NextRequest) {
 
       return NextResponse.json({
         status: "success",
-        transaction: transaction?._id,
+        message: "Transaksi berhasil dibatalkan",
       });
     } else {
       return ResponseError(400, data.status_message);

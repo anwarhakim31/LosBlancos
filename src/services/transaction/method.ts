@@ -18,4 +18,10 @@ export const transactionService = {
       bank,
       transaction_id,
     }),
+  changePayment: (order_id: string) =>
+    instance.post("transaction/change-payment", { order_id }),
+  cancelPayment: (order_id: string) =>
+    instance.post("transaction/cancel-payment", { order_id }),
+  cekStatus: (order_id: string) =>
+    instance.get(`transaction/status?order_id=${order_id}`),
 };

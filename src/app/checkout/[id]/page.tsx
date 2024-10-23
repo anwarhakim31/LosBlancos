@@ -17,7 +17,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 
 export interface TypeErrorCheckout {
   address: string;
@@ -27,7 +27,7 @@ export interface TypeErrorCheckout {
 
 const Checkout = ({ params }: { params: { id: string } }) => {
   const session = useSession();
-
+  const [isLoading, setIsLoading] = useState(false);
   const { id } = params;
   const { replace } = useRouter();
   const dispatch = useAppDispatch();
@@ -59,6 +59,7 @@ const Checkout = ({ params }: { params: { id: string } }) => {
     }
 
     if (payment && address && costs) {
+      setIsLoading(true);
       try {
         const res = await transactionService.payment(
           costs.cost[0].value,
@@ -71,6 +72,8 @@ const Checkout = ({ params }: { params: { id: string } }) => {
         }
       } catch (error) {
         ResponseError(error);
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -247,7 +250,8 @@ const Checkout = ({ params }: { params: { id: string } }) => {
                     loading ||
                     errorSubmit.payment ||
                     errorSubmit.ongkir ||
-                    errorSubmit.address
+                    errorSubmit.address ||
+                    isLoading
                   }
                 >
                   Lanjutkan Pembayaran <ArrowRight width={16} height={16} />

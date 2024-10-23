@@ -18,11 +18,11 @@ export async function POST(req: NextRequest) {
 
     for (const item of items) {
       const stockDB = await Stock.findOne({
-        productId: item.product,
+        productId: item.product._id,
         attribute: item.atribute,
         value: item.atributeValue,
       }).populate("productId");
-
+      console.log(stockDB);
       if (!stockDB) {
         return ResponseError(
           404,
@@ -37,6 +37,7 @@ export async function POST(req: NextRequest) {
         );
       }
     }
+
     const previx = "INV";
     const Segment = uuid().split("-")[0].toLocaleUpperCase();
 
@@ -57,8 +58,8 @@ export async function POST(req: NextRequest) {
       subTotal: total,
       shippingCost: 0,
       totalPayment: total,
-      paymnetStatus: "pending",
-      transactionStatus: "pending",
+      paymnetStatus: "tertunda",
+      transactionStatus: "tertunda",
     });
 
     await transaction.save();
@@ -73,6 +74,7 @@ export async function POST(req: NextRequest) {
       id: transaction._id,
     });
   } catch (error) {
+    console.log(error);
     return ResponseError(500, "Internal Server Error");
   }
 }

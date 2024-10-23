@@ -22,14 +22,15 @@ export async function POST(req: NextRequest) {
     }
 
     if (transaction_status === "settlement") {
-      transaction.paymentStatus = "settlement";
-    } else if (
-      transaction_status === "cancel" ||
-      transaction_status === "expire"
-    ) {
-      transaction.paymentStatus = "cancel";
+      transaction.paymentStatus = "dibayar";
+    } else if (transaction_status === "expire") {
+      transaction.paymentStatus = "kadaluawarsa";
     } else if (transaction_status === "pending") {
-      transaction.paymentStatus = "pending";
+      transaction.paymentStatus = "tertunda";
+    } else if (transaction_status === "deny") {
+      transaction.paymentStatus = "ditolak";
+    } else if (transaction_status === "cancel") {
+      transaction.paymentStatus = "dibatalkan";
     }
 
     await transaction.save();

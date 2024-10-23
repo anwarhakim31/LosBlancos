@@ -8,7 +8,7 @@ import { transactionService } from "@/services/transaction/method";
 import { useState } from "react";
 import { toast } from "sonner";
 
-const ModalChangePayment = ({
+const ModalCancelPayment = ({
   onClose,
   invoice,
 }: {
@@ -22,16 +22,12 @@ const ModalChangePayment = ({
   const handleChangePayment = async () => {
     setLoading(true);
     try {
-      const res = await transactionService.changePayment(invoice);
+      const res = await transactionService.cancelPayment(invoice);
 
       if (res.status === 200) {
-        toast.success("Mohon tunggu, anda akan diarahkan ke checkout", {
-          onAutoClose: () => {
-            replace("/checkout/" + res.data.transaction);
-            onClose();
-          },
-          duration: 3000,
-        });
+        toast.success("Transaksi berhasil dibatalkan, mohon tunggu");
+        onClose();
+        replace("/");
       }
     } catch (error) {
       ResponseError(error);
@@ -45,14 +41,14 @@ const ModalChangePayment = ({
       <div className={styles.container} onClick={(e) => e.stopPropagation()}>
         <HeaderModal
           onClose={loading ? () => {} : onClose}
-          title="Ganti Metode Pembayaran"
+          title="Batalkan Transaksi"
         />
         <div className={styles.content}>
           <AlertCircle />
 
           <p>
-            Apakah anda yakin ingin mengganti metode pembayaran? <br />
-            Jika anda menyetujui ini, maka akan diarahkan kembali ke checkout.
+            Apakah anda yakin ingin membatalkan transaksi? <br />
+            Jika anda menyetujui ini, transaksi ini tidak dapat dikembalikan.
           </p>
         </div>
         <div className={styles.footer}>
@@ -80,4 +76,4 @@ const ModalChangePayment = ({
   );
 };
 
-export default ModalChangePayment;
+export default ModalCancelPayment;
