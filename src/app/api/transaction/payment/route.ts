@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
             customer_details: customerDetails,
             custom_expiry: {
               order_time: formatDateToMidtrans(),
-              expiry_duration: 30,
+              expiry_duration: 60,
               unit: "minute",
             },
           }
@@ -97,7 +97,7 @@ export async function POST(req: NextRequest) {
             customer_details: customerDetails,
             custom_expiry: {
               order_time: formatDateToMidtrans(),
-              expiry_duration: 30,
+              expiry_duration: 60,
               unit: "minute",
             },
           };
