@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { setShippingAddress } from "@/store/slices/chechkoutSlice";
 import { getOngkir } from "@/store/slices/ongkirSlice";
 
-const ShippingView = () => {
+const ShippingView = ({ isLoading }: { isLoading: boolean }) => {
   const session = useSession();
   const [address, setAddress] = useState<TypeShippingAddress[]>([]);
   const dispatch = useAppDispatch();
@@ -56,7 +56,10 @@ const ShippingView = () => {
   return (
     <div
       className={styles.wrapper}
-      style={{ border: errorSubmit.address ? "1px solid red" : "" }}
+      style={{
+        border: errorSubmit.address ? "1px solid red" : "",
+        pointerEvents: isLoading ? "none" : "auto",
+      }}
     >
       <h3 style={{ color: errorSubmit.address ? "red" : "" }}>
         Alamat Pengiriman

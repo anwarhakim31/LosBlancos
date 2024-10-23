@@ -28,6 +28,7 @@ export async function GET(req: NextRequest) {
 
     if (timeRemaining < 0) {
       if (transaction.paymentStatus === "tertunda") {
+        console.log(true);
         for (const item of transaction.items) {
           await Stock.findOneAndUpdate(
             {

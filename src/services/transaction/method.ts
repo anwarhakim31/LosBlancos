@@ -24,4 +24,8 @@ export const transactionService = {
     instance.post("transaction/cancel-payment", { order_id }),
   cekStatus: (order_id: string) =>
     instance.get(`transaction/status?order_id=${order_id}`),
+  cekStock: (order_id: string) =>
+    instance.get(`transaction/cek-stock?order_id=${order_id}`),
+  rebuy: (order_id: string) =>
+    instance.post("transaction/rebuy?order_id=" + order_id),
 };

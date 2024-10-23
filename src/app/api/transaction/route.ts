@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
         attribute: item.atribute,
         value: item.atributeValue,
       }).populate("productId");
-      console.log(stockDB);
+
       if (!stockDB) {
         return ResponseError(
           404,

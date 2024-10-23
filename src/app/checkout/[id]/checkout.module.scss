@@ -1,7 +1,7 @@
 .container {
   @include container();
   margin-block: 8rem;
-  min-height: calc(100vh - 100px);
+
   h1 {
     font-weight: 500;
     margin-bottom: 2rem;
