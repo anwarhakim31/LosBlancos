@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
           invoice: order_id,
         },
         {
-          $unset: {
+          $set: {
             paymentStatus: "dibatalkan",
             transactionStatus: "dibatalkan",
           },

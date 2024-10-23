@@ -15,6 +15,8 @@ const getTransaction = async (id: string) => {
   return data;
 };
 
+const failed = ["kadaluwarsa", "ditolak", "dibatalkan"];
+
 export default function withValidation(middleware: NextMiddleware) {
   return async (req: NextRequest, ev: NextFetchEvent) => {
     const pathname = req.nextUrl.pathname;
@@ -63,11 +65,7 @@ export default function withValidation(middleware: NextMiddleware) {
       }
 
       if (!status) {
-        if (
-          (data && data.transaction.paymentStatus === "kadaluwarsa") ||
-          data.transaction.paymentStatus === "ditolak" ||
-          data.transaction.paymentStatus === "dibatalkan"
-        ) {
+        if (failed.includes(data.transaction.paymentStatus)) {
           return NextResponse.redirect(
             new URL(`/pembayaran/${id}?status=gagal`, req.url)
           );
@@ -75,6 +73,26 @@ export default function withValidation(middleware: NextMiddleware) {
         if (data && data.transaction.paymentStatus === "dibayar") {
           return NextResponse.redirect(
             new URL(`/pembayaran/${id}?status=sukses`, req.url)
+          );
+        }
+      }
+
+      if (status) {
+        if (
+          data.transaction.paymentStatus === "dibayar" &&
+          status !== "sukses"
+        ) {
+          return NextResponse.redirect(
+            new URL(`/pembayaran/${id}?status=sukses`, req.url)
+          );
+        }
+
+        if (
+          failed.includes(data.transaction.paymentStatus) &&
+          status === "sukses"
+        ) {
+          return NextResponse.redirect(
+            new URL(`/pembayaran/${id}?status=gagal`, req.url)
           );
         }
       }

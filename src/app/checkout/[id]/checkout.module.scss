@@ -19,7 +19,7 @@
     width: 100%;
   }
 
-  @include media(md) {
+  @include media(lg) {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 1rem;
@@ -39,7 +39,7 @@
       border-radius: 0.4rem 0.4rem 0 0;
       grid-column: span 2 / span 2;
       padding: 1rem;
-      @include media(md) {
+      @include media(lg) {
         display: block;
       }
 
@@ -99,7 +99,7 @@
       transition: visibility 0.5s, opacity 0.5s, transform 0.5s ease-in;
       grid-column: span 2 / span 2;
 
-      @include media(md) {
+      @include media(lg) {
         margin-top: 0;
 
         border-radius: 0 0 0.4rem 0.4rem;
@@ -186,7 +186,7 @@
   margin-top: 2rem;
 
   padding: 1rem;
-  @include media(md) {
+  @include media(lg) {
     display: none;
   }
 

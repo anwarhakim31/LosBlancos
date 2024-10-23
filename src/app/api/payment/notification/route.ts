@@ -7,7 +7,6 @@ export async function POST(req: NextRequest) {
     await connectDB();
 
     const body = await req.json();
-
     const { transaction_status, order_id } = body;
 
     const transaction = await Transaction.findOne({ invoice: order_id });
@@ -19,22 +18,33 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (transaction_status === "settlement") {
-      transaction.paymentStatus = "dibayar";
-    } else if (transaction_status === "expire") {
-      transaction.paymentStatus = "kadaluawarsa";
-    } else if (transaction_status === "pending") {
+    if (
+      transaction.paymentStatus === "tertunda" &&
+      transaction_status === "cancel"
+    ) {
       transaction.paymentStatus = "tertunda";
-    } else if (transaction_status === "deny") {
-      transaction.paymentStatus = "ditolak";
-    } else if (transaction_status === "cancel") {
-      transaction.paymentStatus = "dibatalkan";
+      await transaction.save();
+      return NextResponse.json(
+        { message: "Status transaksi berhasil diperbarui" },
+        { status: 200 }
+      );
     }
 
+    const statusMap = {
+      settlement: "dibayar",
+      expire: "kadaluawarsa",
+      pending: "tertunda",
+      deny: "ditolak",
+      cancel: "dibatalkan",
+    };
+
+    transaction.paymentStatus =
+      statusMap[transaction_status as keyof typeof statusMap] ||
+      transaction.paymentStatus;
     await transaction.save();
 
     return NextResponse.json(
-      { message: "Status transaksi berhasil diperbarui", data: body },
+      { message: "Status transaksi berhasil diperbarui  " },
       { status: 200 }
     );
   } catch (error) {

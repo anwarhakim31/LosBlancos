@@ -89,10 +89,7 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
               setCountdown(newTimeRemaining);
             } else {
               setCountdown(0);
-              if (res.data.transaction) {
-                // replace(`/pembayaran/${id}?status=gagal`);
-                // setData({ ...transactionData, paymentStatus: "kadaluwarsa" });
-              }
+
               clearInterval(interval);
             }
           }, 1000);
@@ -130,6 +127,7 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
         ResponseError(error);
       }
     };
+
     if (!loading && data?.invoice && !status) {
       const interval = setInterval(() => {
         getStatus();
@@ -151,6 +149,15 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
       ResponseError(error);
     }
   };
+
+  useEffect(() => {
+    if (countdown === 0 && status) {
+      replace(`/pembayaran/${id}?status=gagal`);
+      setData(
+        (prev) => ({ ...prev, paymentStatus: "kadaluwarsa" } as TypeTransaction)
+      );
+    }
+  }, [countdown, replace, id, status]);
 
   return (
     <Fragment>
