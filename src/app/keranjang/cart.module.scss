@@ -10,13 +10,12 @@
 
 .content {
   flex: 1;
-  display: grid;
-  gap: 1rem;
+
   position: relative;
 
-  grid-template-columns: repeat(1, minmax(0, 1fr));
-
   @include media(md) {
+    display: grid;
+    gap: 1rem;
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 
@@ -186,6 +185,10 @@
     border-radius: 0.4rem;
     padding: 1.5rem;
     transition: visibility 0.5s, opacity 0.5s, transform 0.5s ease-in;
+    margin-top: 2rem;
+    @include media(md) {
+      margin-top: 0;
+    }
 
     &__wrapper {
       border-bottom: 1px solid $gray-300;

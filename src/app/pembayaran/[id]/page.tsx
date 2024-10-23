@@ -17,6 +17,8 @@ import {
 import Image from "next/image";
 import BreadCrubm from "@/components/element/BreadCrubm";
 import ModalChangePayment from "@/components/views/payment/ModalChangePayment";
+import ModalCancelPayment from "@/components/views/payment/ModalCancelPayment";
+import { useRouter } from "next/navigation";
 
 const payment = [
   {
@@ -52,6 +54,8 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
   const [data, setData] = useState<TypeTransaction | null>(null);
   const [countdown, setCountdown] = useState<number | null>(null);
   const [isChange, setIsChange] = useState(false);
+  const [isCancel, setIsCancel] = useState(false);
+  const { replace } = useRouter();
 
   useEffect(() => {
     async function getData() {
@@ -101,6 +105,27 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
     }
   }, [id, session.data?.user?.id]);
 
+  useEffect(() => {
+    const getStatus = async () => {
+      try {
+        const res = await transactionService.cekStatus(data?.invoice as string);
+
+        if (res.status === 200 && res.data.data.paymentStatus === "dibayar") {
+          replace("/pembayaran/sukses");
+        }
+      } catch (error) {
+        ResponseError(error);
+      }
+    };
+    if (!loading && data?.invoice) {
+      const interval = setInterval(() => {
+        getStatus();
+      }, 5000);
+
+      return () => clearInterval(interval);
+    }
+  }, [loading, data?.invoice, replace]);
+
   return (
     <Fragment>
       <main>
@@ -110,7 +135,10 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
           <div className={styles.content}>
             <div className={styles.left}>
               <div className={styles.detail}>
-                <div className={styles.virtual_account}>
+                <div
+                  className={styles.virtual_account}
+                  style={{ pointerEvents: countdown === 0 ? "none" : "auto" }}
+                >
                   <h3>Nomor Virtual Account</h3>
                   <div className={styles.number}>
                     {loading ? (
@@ -124,6 +152,9 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
                     <button
                       type="button"
                       className={styles.copy}
+                      disabled={
+                        loading || !data?.paymentCode || countdown === 0
+                      }
                       onClick={() =>
                         navigator.clipboard
                           .writeText(data?.paymentCode as string)
@@ -215,12 +246,19 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
                       </div>
                     )}
                   </div>
+
                   <button
                     className={styles.button}
                     type="button"
+                    disabled={loading}
                     aria-label="Ganti pembayaran"
+                    onClick={() => setIsChange(true)}
                   >
-                    Ganti Pembayaran
+                    {loading
+                      ? "loading"
+                      : countdown === 0
+                      ? "Beli Lagi"
+                      : "Ganti Pembayaran"}
                   </button>
                 </div>
               </div>
@@ -294,12 +332,28 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
                   <li>Jika perlu bantuan, chat ke WA Admin</li>
                 </ol>
               </div>
+              <button
+                className={styles.button}
+                type="button"
+                disabled={loading}
+                aria-label="Batalkan"
+                style={{ marginTop: "2rem", marginLeft: "auto" }}
+                onClick={() => setIsCancel(true)}
+              >
+                {loading ? "loading" : countdown === 0 ? "Kembali" : "Batalkan"}
+              </button>
             </div>
           </div>
         </section>
         {isChange && (
           <ModalChangePayment
             onClose={() => setIsChange(false)}
+            invoice={data?.invoice as string}
+          />
+        )}
+        {isCancel && (
+          <ModalCancelPayment
+            onClose={() => setIsCancel(false)}
             invoice={data?.invoice as string}
           />
         )}

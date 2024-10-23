@@ -5,9 +5,7 @@ import { ServerURL } from "@/utils/contant";
 import React, { Fragment } from "react";
 
 const getProduct = async (id: string) => {
-  const res = await fetch(ServerURL + "/product/" + id, {
-    next: { revalidate: 10 },
-  });
+  const res = await fetch(ServerURL + "/product/" + id, { cache: "no-store" });
   return await res.json();
 };
 

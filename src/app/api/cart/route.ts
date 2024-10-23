@@ -98,8 +98,6 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    console.log(added);
-
     return NextResponse.json({
       success: true,
       message: `${

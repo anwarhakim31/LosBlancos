@@ -64,8 +64,8 @@ const transactionSchema = new mongoose.Schema({
   paymentStatus: {
     type: String,
     required: true,
-    enum: ["pending", "settlement", "deny", "cancel", "expire"],
-    default: "pending",
+    enum: ["tertunda", "dibayar", "ditolak", "dibatalkan", "kadaluwarsa"],
+    default: "tertunda",
   },
   paymentCreated: {
     type: Date,
@@ -76,8 +76,8 @@ const transactionSchema = new mongoose.Schema({
   transactionStatus: {
     type: String,
     required: true,
-    enum: ["pending", "processed", "shipped", "delivered", "cancelled"],
-    default: "pending",
+    enum: ["tertunda", "diproses", "dikirim", "terkirim", "dibatalkan"],
+    default: "tertunda",
   },
   transactionDate: {
     type: Date,

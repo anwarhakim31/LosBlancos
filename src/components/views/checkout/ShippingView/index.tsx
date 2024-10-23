@@ -48,10 +48,10 @@ const ShippingView = () => {
       }
     };
 
-    if (session?.data?.user?.id && address.length === 0) {
+    if (session?.data?.user?.id) {
       getAddress();
     }
-  }, [session?.data?.user?.id, dispatch, address.length]);
+  }, [session?.data?.user?.id, dispatch]);
 
   return (
     <div
@@ -119,6 +119,7 @@ const ShippingView = () => {
         <button
           type="button"
           aria-label="tambah alamat"
+          disabled={loading}
           onClick={() => setIsAdd(true)}
           style={{
             display: address.length > 2 ? "none" : "block",

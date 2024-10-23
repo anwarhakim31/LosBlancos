@@ -49,11 +49,11 @@ export async function POST(req: NextRequest) {
       return ResponseError(404, "Transaksi tidak ditemukan");
     }
 
-    if (transaction.paymentStatus === "paid") {
+    if (transaction.paymentStatus === "dibayar") {
       return ResponseError(404, "Transaksi sudah lunas");
     }
 
-    if (transaction.transactionStatus !== "pending") {
+    if (transaction.transactionStatus !== "tertunda") {
       return ResponseError(404, "Transaksi sedang diproses");
     }
 
@@ -79,6 +79,11 @@ export async function POST(req: NextRequest) {
               bill_info2: "Online purchase",
             },
             customer_details: customerDetails,
+            custom_expiry: {
+              order_time: formatDateToMidtrans(),
+              expiry_duration: 5,
+              unit: "minute",
+            },
           }
         : {
             payment_type: "bank_transfer",
@@ -92,7 +97,7 @@ export async function POST(req: NextRequest) {
             customer_details: customerDetails,
             custom_expiry: {
               order_time: formatDateToMidtrans(),
-              expiry_duration: 5,
+              expiry_duration: 30,
               unit: "minute",
             },
           };
@@ -115,14 +120,39 @@ export async function POST(req: NextRequest) {
         shippingCost: shippingCost,
         totalPayment: grossAmount,
         payment_method: payment_method(bank),
-        paymentCode: data.va_numbers[0].va_number,
+        paymentCode:
+          bank === "mandiri bill"
+            ? `${data.biller_code} ${data.bill_key}`
+            : data?.va_numbers[0].va_number,
         paymentName: bank,
         paymentId: data.transaction_id,
         paymentCreated: data.transaction_time,
         paymentExpired: data.expiry_time,
       },
       { new: true }
-    ).select("_id ");
+    ).select("_id items");
+
+    for (const item of updatedTransaction.items) {
+      const stockDB = await Stock.findOne({
+        productId: item.productId,
+        attribute: item.atribute,
+        value: item.atributeValue,
+      }).populate("productId");
+
+      if (stockDB.stock <= 0) {
+        return ResponseError(
+          404,
+          `Gagal. ${item.productId?.name} ${item.atribute} ${item.atributeValue}, stock sudah habis`
+        );
+      }
+
+      if (item.quantity > stockDB.stock) {
+        return ResponseError(
+          400,
+          `Gagal.${item.productId?.name} ${item.atribute} ${item.atributeValue}, stock tersisa kurang dari ${item.quantity}`
+        );
+      }
+    }
 
     transaction.items.forEach(
       async (item: {
@@ -131,7 +161,6 @@ export async function POST(req: NextRequest) {
         atribute: string;
         atributeValue: string;
       }) => {
-        console.log(item);
         await Stock.findOneAndUpdate(
           {
             productId: item.productId,

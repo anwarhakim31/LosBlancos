@@ -6,6 +6,7 @@ import { formatCurrency } from "@/utils/contant";
 import Image from "next/image";
 import ModalChangeOngkir from "./ModalChangeOngkir";
 import { setLoading } from "@/store/slices/ongkirSlice";
+import { removeShippingAddress } from "@/store/slices/chechkoutSlice";
 
 export function splitEstimated(est: string) {
   return est?.split("hari")[0];
@@ -21,11 +22,16 @@ const CourierView = () => {
   );
   const [isChange, setIsChange] = useState(false);
 
+  // useEffect(() => {
+  //   if (!address && !loading) {
+  //     dispatch(setLoading(false));
+  //   }
+  // }, [address, loading, dispatch]);
+
   useEffect(() => {
-    if (!address && !loading) {
-      dispatch(setLoading(false));
-    }
-  }, [address, loading, dispatch]);
+    dispatch(setLoading(true));
+    dispatch(removeShippingAddress());
+  }, [dispatch]);
 
   return (
     <div
@@ -50,7 +56,7 @@ const CourierView = () => {
         Jasa Pengiriman
       </h3>
       <div className={styles.container}>
-        {!address && !loading && !loadingOngkir && (
+        {!address && !loadingOngkir && !loading && (
           <span>
             <AlertCircle width={18} height={18} /> Alamat Pengiriman anda masih
             kosong
