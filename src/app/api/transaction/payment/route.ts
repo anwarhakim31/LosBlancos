@@ -113,7 +113,14 @@ export async function POST(req: NextRequest) {
     });
 
     if (!res.ok) {
-      return ResponseError(500, "Gagal memproses pembayaran");
+      return ResponseError(
+        500,
+        "Gagal memproses pembayaran" +
+          res.statusText +
+          MIDTRANS_BASE_URL +
+          MIDTRANS_SERVER_KEY +
+          res
+      );
     }
 
     const data = await res.json();
