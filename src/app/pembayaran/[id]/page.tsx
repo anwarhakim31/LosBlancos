@@ -63,10 +63,7 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     async function getData() {
       try {
-        const res = await transactionService.get(
-          id,
-          session.data?.user?.id as string
-        );
+        const res = await transactionService.get(id);
 
         if (res.status === 200) {
           const transactionData = res.data.transaction;

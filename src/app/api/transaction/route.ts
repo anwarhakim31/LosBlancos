@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
 
       if (!stockDB) {
         return ResponseError(
-          404,
+          400,
           `Gagal. ${item.product.name} ${item.atribute} ${item.atributeValue}, stock sudah habis`
         );
       }
@@ -86,11 +86,9 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
 
     const transactionId = searchParams.get("transactionId");
-    const userId = searchParams.get("userId");
 
     const transaction = await Transaction.findOne({
       _id: transactionId,
-      userId,
     }).populate({
       path: "items.productId",
       populate: {

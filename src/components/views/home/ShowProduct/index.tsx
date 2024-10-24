@@ -33,6 +33,7 @@ const ShowProductView: FC<PropsType> = ({ header, data }) => {
                 href={`/produk/${collection}/${id}`}
                 key={item._id}
                 className={styles.scroller__card}
+                prefetch
               >
                 <div className={styles.scroller__card__image}>
                   <Image

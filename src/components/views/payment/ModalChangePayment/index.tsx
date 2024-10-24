@@ -25,13 +25,9 @@ const ModalChangePayment = ({
       const res = await transactionService.changePayment(invoice);
 
       if (res.status === 200) {
-        toast.success("Mohon tunggu, anda akan diarahkan ke checkout", {
-          onAutoClose: () => {
-            replace("/checkout/" + res.data.transaction);
-            onClose();
-          },
-          duration: 3000,
-        });
+        toast.success("Mohon tunggu, anda akan diarahkan ke checkout");
+        replace("/checkout/" + res.data.transaction);
+        onClose();
       }
     } catch (error) {
       ResponseError(error);

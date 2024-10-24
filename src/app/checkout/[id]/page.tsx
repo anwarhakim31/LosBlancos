@@ -39,7 +39,6 @@ const Checkout = ({ params }: { params: { id: string } }) => {
       dispatch(
         getCheckout({
           transactionId: id,
-          userId: session.data?.user?.id as string,
         })
       );
     }
@@ -69,6 +68,10 @@ const Checkout = ({ params }: { params: { id: string } }) => {
 
         if (res.status === 200) {
           replace(`/pembayaran/${res.data.transaction._id}`);
+        }
+
+        if (res.status === 400) {
+          replace("/cart");
         }
       } catch (error) {
         ResponseError(error);

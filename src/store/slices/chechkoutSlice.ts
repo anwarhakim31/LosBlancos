@@ -8,14 +8,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const getCheckout = createAsyncThunk(
   "transaction/getTransaction",
-  async ({
-    transactionId,
-    userId,
-  }: {
-    transactionId: string;
-    userId: string;
-  }) => {
-    const res = await transactionService.get(transactionId, userId);
+  async ({ transactionId }: { transactionId: string }) => {
+    const res = await transactionService.get(transactionId);
 
     return res.data.transaction;
   }

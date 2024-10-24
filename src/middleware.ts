@@ -1,10 +1,16 @@
 import withAuth from "./middlewares/withAuth";
 import { NextResponse } from "next/server";
+import withValidation from "./middlewares/withValidation";
 
 function mainMiddleware() {
-  const res = NextResponse.next();
-
-  return res;
+  return NextResponse.next();
 }
 
-export default withAuth(mainMiddleware, ["admin", "login", "keinginan"]);
+export const middleware = withAuth(withValidation(mainMiddleware), [
+  "admin",
+  "login",
+  "keinginan",
+  "keranjang",
+  "profile",
+  "checkout",
+]);

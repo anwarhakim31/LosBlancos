@@ -60,8 +60,6 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    console.log(token);
-
     const products = await Product.find(filterQuery)
       .sort({ createdAt: -1 })
       .skip(skip)
