@@ -12,7 +12,7 @@ const payment = [
   { name: "mandiri bill", img: "/payment/mandiri.png" },
 ];
 
-const PaymentView = () => {
+const PaymentView = ({ isLoading }: { isLoading: boolean }) => {
   const dispatch = useAppDispatch();
   const {
     payment: selected,
@@ -23,7 +23,10 @@ const PaymentView = () => {
   return (
     <div
       className={`${styles.wrapper}`}
-      style={{ border: errorSubmit.payment ? "1px solid red" : "" }}
+      style={{
+        border: errorSubmit.payment ? "1px solid red" : "",
+        pointerEvents: isLoading ? "none" : "auto",
+      }}
     >
       <h3 style={{ color: errorSubmit.payment ? "red" : "" }}>
         Metode Pembayaran

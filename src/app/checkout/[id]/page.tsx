@@ -39,7 +39,6 @@ const Checkout = ({ params }: { params: { id: string } }) => {
       dispatch(
         getCheckout({
           transactionId: id,
-          userId: session.data?.user?.id as string,
         })
       );
     }
@@ -70,6 +69,10 @@ const Checkout = ({ params }: { params: { id: string } }) => {
         if (res.status === 200) {
           replace(`/pembayaran/${res.data.transaction._id}`);
         }
+
+        if (res.status === 400) {
+          replace("/cart");
+        }
       } catch (error) {
         ResponseError(error);
       } finally {
@@ -86,7 +89,7 @@ const Checkout = ({ params }: { params: { id: string } }) => {
           <h1>Checkout</h1>
           <div className={styles.content}>
             <div className={styles.left}>
-              <ShippingView />
+              <ShippingView isLoading={isLoading} />
 
               <div className={styles.detailOrderMobile}>
                 <h3>Detail Pesanan</h3>
@@ -147,8 +150,8 @@ const Checkout = ({ params }: { params: { id: string } }) => {
                 )}
               </div>
 
-              <CourierView />
-              <PaymentView />
+              <CourierView isLoading={isLoading} />
+              <PaymentView isLoading={isLoading} />
             </div>
             <div className={styles.right}>
               <div className={styles.detailOrder}>

@@ -13,8 +13,8 @@ const ProfilPage = () => {
       <button
         style={{ marginTop: "10rem" }}
         onClick={() => {
-          signOut({ callbackUrl: "/" });
-          push("/");
+          signOut({ callbackUrl: "/login" });
+          push("/login");
         }}
       >
         Keluar

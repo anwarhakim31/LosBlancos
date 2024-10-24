@@ -6,26 +6,25 @@ import { useRouter } from "next/navigation";
 import { ResponseError } from "@/utils/axios/response-error";
 import { transactionService } from "@/services/transaction/method";
 import { useState } from "react";
-import { toast } from "sonner";
 
-const ModalChangePayment = ({
+const ModalRebuy = ({
   onClose,
   invoice,
+  diffrent,
 }: {
   onClose: () => void;
   invoice: string;
+  diffrent: boolean;
 }) => {
   const [loading, setLoading] = useState(false);
 
   const { replace } = useRouter();
 
-  const handleChangePayment = async () => {
+  const handleRebuy = async () => {
     setLoading(true);
     try {
-      const res = await transactionService.changePayment(invoice);
-
+      const res = await transactionService.rebuy(invoice);
       if (res.status === 200) {
-        toast.success("Mohon tunggu, anda akan diarahkan ke checkout");
         replace("/checkout/" + res.data.transaction);
         onClose();
       }
@@ -47,8 +46,9 @@ const ModalChangePayment = ({
           <AlertCircle />
 
           <p>
-            Apakah anda yakin ingin mengganti metode pembayaran? <br />
-            Jika anda menyetujui ini, maka akan diarahkan kembali ke checkout.
+            {diffrent
+              ? "Terdapat perbedaan stock pada pembelian ini, stok akan disesuaikan secara otomatis. Apakah anda yakin ingin melanjutkan?"
+              : "Produk yang di beli akan sama dengan transaksi ini, apakah anda yakin ingin melanjutkan?"}
           </p>
         </div>
         <div className={styles.footer}>
@@ -62,7 +62,7 @@ const ModalChangePayment = ({
             Tidak
           </button>
           <button
-            onClick={handleChangePayment}
+            onClick={handleRebuy}
             type="button"
             aria-label="tutup"
             className={styles.btn}
@@ -76,4 +76,4 @@ const ModalChangePayment = ({
   );
 };
 
-export default ModalChangePayment;
+export default ModalRebuy;

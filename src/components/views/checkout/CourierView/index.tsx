@@ -12,7 +12,7 @@ export function splitEstimated(est: string) {
   return est?.split("hari")[0];
 }
 
-const CourierView = () => {
+const CourierView = ({ isLoading }: { isLoading: boolean }) => {
   const dispatch = useAppDispatch();
   const { address, costs, loading, errorSubmit } = useAppSelector(
     (state) => state.check
@@ -50,6 +50,7 @@ const CourierView = () => {
       style={{
         border: errorSubmit.ongkir ? "1px solid red" : "",
         cursor: !errOngkir ? "pointer" : " not-allowed",
+        pointerEvents: isLoading ? "none" : "auto",
       }}
     >
       <h3 style={{ color: errorSubmit.ongkir ? "red" : "" }}>

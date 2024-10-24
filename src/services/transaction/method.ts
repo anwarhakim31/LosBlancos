@@ -8,10 +8,8 @@ export const transactionService = {
     total: number,
     cartId?: string
   ) => instance.post("/transaction", { userId, items, total, cartId }),
-  get: (transactionId: string, userId: string) =>
-    instance.get(
-      "/transaction?transactionId=" + transactionId + "&userId=" + userId
-    ),
+  get: (transactionId: string) =>
+    instance.get("/transaction?transactionId=" + transactionId),
   payment: (shippingCost: number, bank: string, transaction_id: string) =>
     instance.post("transaction/payment", {
       shippingCost,
@@ -24,4 +22,8 @@ export const transactionService = {
     instance.post("transaction/cancel-payment", { order_id }),
   cekStatus: (order_id: string) =>
     instance.get(`transaction/status?order_id=${order_id}`),
+  cekStock: (order_id: string) =>
+    instance.get(`transaction/cek-stock?order_id=${order_id}`),
+  rebuy: (order_id: string) =>
+    instance.post("transaction/rebuy?order_id=" + order_id),
 };

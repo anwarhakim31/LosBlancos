@@ -19,6 +19,7 @@ import BreadCrubm from "@/components/element/BreadCrubm";
 import ModalChangePayment from "@/components/views/payment/ModalChangePayment";
 import ModalCancelPayment from "@/components/views/payment/ModalCancelPayment";
 import { useRouter } from "next/navigation";
+import ModalRebuy from "@/components/views/payment/ModalRebuy";
 
 const payment = [
   {
@@ -55,15 +56,14 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
   const [countdown, setCountdown] = useState<number | null>(null);
   const [isChange, setIsChange] = useState(false);
   const [isCancel, setIsCancel] = useState(false);
+  const [isRebuy, setIsRebuy] = useState(false);
+  const [diffrent, setDiffrent] = useState(false);
   const { replace } = useRouter();
 
   useEffect(() => {
     async function getData() {
       try {
-        const res = await transactionService.get(
-          id,
-          session.data?.user?.id as string
-        );
+        const res = await transactionService.get(id);
 
         if (res.status === 200) {
           const transactionData = res.data.transaction;
@@ -125,6 +125,19 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
       return () => clearInterval(interval);
     }
   }, [loading, data?.invoice, replace]);
+
+  const handleRebuy = async () => {
+    try {
+      const res = await transactionService.cekStock(data?.invoice as string);
+
+      if (res.status === 200) {
+        setIsRebuy(true);
+        setDiffrent(res.data.diffrent);
+      }
+    } catch (error) {
+      ResponseError(error);
+    }
+  };
 
   return (
     <Fragment>
@@ -252,7 +265,9 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
                     type="button"
                     disabled={loading}
                     aria-label="Ganti pembayaran"
-                    onClick={() => setIsChange(true)}
+                    onClick={() =>
+                      countdown === 0 ? handleRebuy() : setIsChange(true)
+                    }
                   >
                     {loading
                       ? "loading"
@@ -355,6 +370,13 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
           <ModalCancelPayment
             onClose={() => setIsCancel(false)}
             invoice={data?.invoice as string}
+          />
+        )}
+        {isRebuy && (
+          <ModalRebuy
+            onClose={() => setIsRebuy(false)}
+            invoice={data?.invoice as string}
+            diffrent={diffrent}
           />
         )}
       </main>

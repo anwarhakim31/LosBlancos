@@ -1,0 +1,51 @@
+.container {
+  width: 100%;
+  max-width: 450px;
+
+  background: $white;
+  border-radius: 0.4rem;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+
+  svg {
+    width: 3.5rem;
+    height: 3.5rem;
+    color: $white;
+    fill: $secondary;
+  }
+
+  p {
+    font-size: 0.875rem;
+  }
+}
+
+.footer {
+  padding: 1rem;
+  border-top: 1px solid $gray-300;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+
+  button {
+    @include btn();
+    width: 100px;
+    background: $primary;
+    height: 1.5rem;
+    font-size: 0.75rem;
+    color: $white;
+    transition: all 0.3s ease-in-out;
+    border-radius: 0.4rem;
+    @include flex-center();
+
+    &:hover {
+      background: $primary-hover;
+    }
+  }
+}
