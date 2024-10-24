@@ -19,11 +19,11 @@ const UserMenu = () => {
   const session = useSession();
   const pathname = usePathname();
 
+  console.log(session);
+
   useEffect(() => {
-    if (session.data?.user?.id) {
-      dispatch(getWishlist({ id: session.data?.user?.id as string }));
-      dispatch(getCart({ id: session.data?.user?.id as string }));
-    }
+    dispatch(getWishlist({ id: session.data?.user?.id as string }));
+    dispatch(getCart({ id: session.data?.user?.id as string }));
   }, [dispatch, session.data?.user?.id]);
 
   return (

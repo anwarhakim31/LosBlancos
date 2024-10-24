@@ -1,7 +1,7 @@
 "use client";
 
 import Footer from "@/components/layouts/Footer";
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, { Fragment, useRef, useState } from "react";
 
 import BreadCrubm from "@/components/element/BreadCrubm";
 import styles from "./cart.module.scss";
@@ -33,10 +33,6 @@ const CartPage = () => {
   const session = useSession();
   const { cart, loading } = useAppSelector((state) => state.cart);
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    router.prefetch("/checkout/1");
-  }, [router]);
 
   const handleMaxQuantity = (item: itemCartType) => {
     if (

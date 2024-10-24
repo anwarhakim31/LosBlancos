@@ -33,12 +33,12 @@ export async function POST(req: NextRequest) {
 
     const { shippingCost, bank, transaction_id } = json;
 
-    if (bank && !Bank_Available.includes(bank)) {
-      return ResponseError(404, "Metode pembayaran tidak tersedia");
+    if (!shippingCost || !bank || !transaction_id) {
+      return ResponseError(404, "Missing required fields");
     }
 
-    if (!transaction_id || !shippingCost || !bank) {
-      return ResponseError(404, "Missing required fields");
+    if (bank && !Bank_Available.includes(bank)) {
+      return ResponseError(404, "Metode pembayaran tidak tersedia");
     }
 
     const transaction = await Transaction.findOne({
@@ -114,6 +114,10 @@ export async function POST(req: NextRequest) {
 
     const data = await res.json();
 
+    if (data.status_code !== 201) {
+      return ResponseError(500, data.message);
+    }
+
     const updatedTransaction = await Transaction.findOneAndUpdate(
       { _id: transaction_id },
       {
@@ -181,7 +185,6 @@ export async function POST(req: NextRequest) {
       transaction: updatedTransaction,
     });
   } catch (error) {
-    console.log(error);
-    return ResponseError(500, "Internal server error");
+    return ResponseError(500, (error as Error).message);
   }
 }
