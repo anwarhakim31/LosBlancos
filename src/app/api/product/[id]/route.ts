@@ -4,6 +4,7 @@ import Product from "@/lib/models/product-model";
 import Stock from "@/lib/models/stock-model";
 import { ResponseError } from "@/lib/response-error";
 import { verifyToken } from "@/lib/verify-token";
+import { TypeStock } from "@/services/type.module";
 
 import { NextRequest, NextResponse } from "next/server";
 
@@ -15,21 +16,16 @@ export async function GET(
   try {
     const { id } = params;
 
-    const product = await Product.findById(id).populate("collectionName");
+    const product = await Product.findById(id).populate("collectionName stock");
 
     if (!product) {
       return ResponseError(404, "Produk tidak ditemukan");
     }
 
-    const stock = await Stock.find({ productId: id });
-
     return NextResponse.json({
       success: true,
       message: "Berhasil mendapatkan produk",
-      product: {
-        ...product._doc,
-        stock: stock,
-      },
+      product,
     });
   } catch (error) {
     return ResponseError(500, "Internal Server Error");
@@ -94,6 +90,7 @@ export async function PUT(
       category,
       collectionName: collectionDB._id,
       attribute,
+      stock: [],
     });
 
     if (!product) {
@@ -102,15 +99,20 @@ export async function PUT(
 
     await Stock.deleteMany({ productId: id });
 
-    let totalStock = 0;
-
-    for (const item of stock) {
-      totalStock += item.stock;
+    const stockPromises = stock.map(async (item: TypeStock) => {
       const { attribute, value, stock } = item;
-      await Stock.create({ productId: id, attribute, value, stock });
-    }
+      const stockDB = await Stock.create({
+        productId: id,
+        attribute,
+        value,
+        stock,
+      });
+      return stockDB._id;
+    });
 
-    await Product.findByIdAndUpdate(id, { stock: totalStock });
+    const stockIds = await Promise.all(stockPromises);
+
+    await product.updateOne({ $set: { stock: stockIds } });
 
     return NextResponse.json({
       success: true,

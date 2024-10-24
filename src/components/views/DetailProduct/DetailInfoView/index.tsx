@@ -5,7 +5,6 @@ import { formatCurrency } from "@/utils/contant";
 import { useEffect, useState } from "react";
 import { itemCartType, TypeProduct } from "@/services/type.module";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
-
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { postWishlist, removeWishlist } from "@/store/slices/wishSlice";
@@ -20,7 +19,6 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
   const { wishlist, loading: loadingWishlist } = useAppSelector(
     (state) => state.wishlist
   );
-  const { loading: loadingCart } = useAppSelector((state) => state.cart);
 
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
@@ -237,7 +235,7 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
           aria-label="add to cart"
           className={styles.cart}
           onClick={handleAddToCart}
-          disabled={loadingCart || isLoading}
+          disabled={isLoading}
         >
           <Cart /> <span>Masukkan Keranjang</span>
         </button>
@@ -245,7 +243,7 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
           className={styles.buy}
           type="button"
           aria-label="buy now"
-          disabled={loadingCart || isLoading}
+          disabled={isLoading}
           onClick={handleCheckout}
         >
           <span>Beli Sekarang</span>

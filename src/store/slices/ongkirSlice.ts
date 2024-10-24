@@ -56,7 +56,7 @@ const ongkirSlice = createSlice({
     });
 
     builder.addCase(getOngkir.pending, (state) => {
-      state.loading = false;
+      state.loading = true;
       state.error = null;
     });
   },

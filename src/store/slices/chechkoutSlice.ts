@@ -31,18 +31,7 @@ interface TypeState {
 
 const initialState: TypeState = {
   address: null,
-  costs: {
-    cost: [
-      {
-        etd: "1-2 Hari",
-        note: "Pengiriman Normal",
-        value: 5000,
-      },
-    ],
-    service: "JNE",
-    courier: "JNE",
-    description: "Pengiriman Normal",
-  },
+  costs: null,
   transaction: null,
   errorSubmit: {
     address: false,

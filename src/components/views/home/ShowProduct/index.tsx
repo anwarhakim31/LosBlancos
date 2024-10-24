@@ -67,7 +67,7 @@ const ShowProductView: FC<PropsType> = ({ header, data }) => {
             );
           })}
       </div>
-      <Link href={"/product"} className={styles.showall}>
+      <Link href={"/produk"} className={styles.showall}>
         <span>Lihat Semua</span>
       </Link>
     </div>
