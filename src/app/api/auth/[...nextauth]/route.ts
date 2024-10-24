@@ -37,6 +37,10 @@ declare module "next-auth" {
 const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
+    maxAge: 24 * 60 * 60,
+  },
+  jwt: {
+    maxAge: 24 * 60 * 60,
   },
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
@@ -66,7 +70,7 @@ const authOptions: NextAuthOptions = {
           if (!isMatch) {
             return null;
           }
-          console.log({ user: user });
+
           return user;
         } catch (error) {
           console.error("Error during authentication:", error);
@@ -86,22 +90,20 @@ const authOptions: NextAuthOptions = {
         token.email = user.email;
         token.image = user.image;
         token.name = user.fullname;
-        token.role = user.role;
-        token.id = user._id;
+        token.role = user.role || token.role;
+        token.id = user._id || token.id;
       }
 
       if (account?.provider === "google" && user) {
         const salt = await bcrypt.genSalt();
         const hashPassword = await bcrypt.hash(user.name || "", salt);
-
+        await dbConnect();
         const data = {
           fullname: user.name,
           email: user.email,
           password: hashPassword,
           image: user.image || "",
         };
-
-        await dbConnect();
 
         const userDB = await User.findOne({ email: data.email });
 
@@ -116,14 +118,14 @@ const authOptions: NextAuthOptions = {
           token.role = newUser.role || "customer";
           token.image = newUser.image || data.image;
           token.picture = newUser.image || data.image;
-          token.id = newUser._id;
+          token.id = newUser._id || token.id;
         } else {
           token.email = data.email;
           token.name = userDB.fullname || data.fullname;
           token.role = userDB.role || "customer";
           token.image = userDB.image || data.image;
           token.picture = userDB.image || data.image;
-          token.id = userDB._id;
+          token.id = userDB._id || token.id;
         }
       }
 

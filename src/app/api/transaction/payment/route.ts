@@ -112,6 +112,10 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify(payload),
     });
 
+    if (!res.ok) {
+      return ResponseError(500, "Gagal memproses pembayaran");
+    }
+
     const data = await res.json();
 
     if (data.status_code !== 201) {
@@ -185,6 +189,6 @@ export async function POST(req: NextRequest) {
       transaction: updatedTransaction,
     });
   } catch (error) {
-    return ResponseError(500, (error as Error).message);
+    return ResponseError(500, error as string);
   }
 }
