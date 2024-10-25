@@ -2,6 +2,7 @@ import Stock from "@/lib/models/stock-model";
 import Transaction from "@/lib/models/transaction-model";
 import { ResponseError } from "@/lib/response-error";
 import { verifyTokenMember } from "@/lib/verify-token";
+import { TypeShippingAddress } from "@/services/type.module";
 import { formatDateToMidtrans } from "@/utils/contant";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -25,15 +26,28 @@ function payment_method(bank: string) {
   }
 }
 
+function address(shippingAdress: TypeShippingAddress) {
+  return {
+    fullname: shippingAdress.fullname,
+    phone: shippingAdress.phone,
+    address: shippingAdress.address,
+    city: shippingAdress.city.name,
+    province: shippingAdress.province.name,
+    postal_code: shippingAdress.postalCode,
+    subdistrict: shippingAdress.subdistrict,
+    postalCode: shippingAdress.postalCode,
+  };
+}
+
 export async function POST(req: NextRequest) {
   try {
     verifyTokenMember(req);
 
     const json = await req.json();
 
-    const { shippingCost, bank, transaction_id } = json;
+    const { shipping, bank, transaction_id, shippingAddress } = json;
 
-    if (!shippingCost || !bank || !transaction_id) {
+    if (!shipping || !bank || !transaction_id || !shippingAddress) {
       return ResponseError(404, "Missing required fields");
     }
 
@@ -57,11 +71,13 @@ export async function POST(req: NextRequest) {
       return ResponseError(404, "Transaksi sedang diproses");
     }
 
-    const grossAmount = transaction.subtotal + shippingCost + 1000;
+    const grossAmount = transaction.subtotal + shipping.cost[0].value + 1000;
+    const shippingName = `${shipping.courier} - ${shipping.service}`;
+
     const orderId = transaction.invoice;
     const customerDetails = {
-      first_name: "hakim",
-      last_name: "hakim",
+      first_name: shippingAddress.fullname,
+      last_name: "-",
       email: "XrNpR@example.com",
       phone: "081234567890",
     };
@@ -81,7 +97,7 @@ export async function POST(req: NextRequest) {
             customer_details: customerDetails,
             custom_expiry: {
               order_time: formatDateToMidtrans(),
-              expiry_duration: 60,
+              expiry_duration: 1,
               unit: "minute",
             },
           }
@@ -97,7 +113,7 @@ export async function POST(req: NextRequest) {
             customer_details: customerDetails,
             custom_expiry: {
               order_time: formatDateToMidtrans(),
-              expiry_duration: 60,
+              expiry_duration: 1,
               unit: "minute",
             },
           };
@@ -130,9 +146,12 @@ export async function POST(req: NextRequest) {
     const updatedTransaction = await Transaction.findOneAndUpdate(
       { _id: transaction_id },
       {
-        shippingCost: shippingCost,
+        shippingAddress: address(shippingAddress),
+        shippingCost: shipping.cost[0].value,
+        shippingName: shippingName,
         totalPayment: grossAmount,
         payment_method: payment_method(bank),
+        paymentStatus: "tertunda",
         paymentCode:
           bank === "mandiri bill"
             ? `${data.biller_code} ${data.bill_key}`

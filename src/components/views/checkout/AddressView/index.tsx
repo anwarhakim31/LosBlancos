@@ -10,9 +10,9 @@ import ModalAddAddress from "./ModalAddAddress";
 import ModalChangeAddress from "./ModalChangeAddress";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { setShippingAddress } from "@/store/slices/chechkoutSlice";
-import { getOngkir } from "@/store/slices/ongkirSlice";
+// import { getOngkir } from "@/store/slices/ongkirSlice";
 
-const ShippingView = ({ isLoading }: { isLoading: boolean }) => {
+const AddressView = ({ isLoading }: { isLoading: boolean }) => {
   const session = useSession();
   const [address, setAddress] = useState<TypeShippingAddress[]>([]);
   const dispatch = useAppDispatch();
@@ -32,13 +32,13 @@ const ShippingView = ({ isLoading }: { isLoading: boolean }) => {
           setAddress(res.data.address);
           if (res.data.address.length > 0) {
             dispatch(setShippingAddress(res.data.address[0]));
-            dispatch(
-              getOngkir({
-                desCity: res.data.address[0].city.name,
-                desProvince: res.data.address[0].province.name,
-                weight: "100",
-              })
-            );
+            // dispatch(
+            //   getOngkir({
+            //     desCity: res.data.address[0].city.name,
+            //     desProvince: res.data.address[0].province.name,
+            //     weight: "100",
+            //   })
+            // );
           }
         }
       } catch (error) {
@@ -160,4 +160,4 @@ const ShippingView = ({ isLoading }: { isLoading: boolean }) => {
   );
 };
 
-export default ShippingView;
+export default AddressView;

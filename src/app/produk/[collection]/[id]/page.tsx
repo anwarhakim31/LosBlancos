@@ -6,7 +6,7 @@ import React, { Fragment } from "react";
 
 const getProduct = async (id: string) => {
   const res = await fetch(ServerURL + "/product/" + id, { cache: "no-store" });
-  return await res.json();
+  return res.json();
 };
 
 const DetailProduct = async ({ params }: { params: { id: string } }) => {

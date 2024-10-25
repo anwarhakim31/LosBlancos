@@ -31,7 +31,18 @@ interface TypeState {
 
 const initialState: TypeState = {
   address: null,
-  costs: null,
+  costs: {
+    cost: [
+      {
+        etd: "1-2 Hari",
+        note: "Pengiriman Normal",
+        value: 5000,
+      },
+    ],
+    service: "JNE",
+    courier: "JNE",
+    description: "Pengiriman Normal",
+  },
   transaction: null,
   errorSubmit: {
     address: false,
@@ -71,6 +82,17 @@ const checkoutSlice = createSlice({
     setError: (state, action) => {
       state.errorSubmit = { ...state.errorSubmit, ...action.payload };
     },
+    resetCheckout: (state) => {
+      state.address = null;
+      state.costs = null;
+      state.transaction = null;
+      state.errorSubmit = {
+        address: false,
+        payment: false,
+        ongkir: false,
+      };
+      state.payment = "";
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getCheckout.fulfilled, (state, action) => {
@@ -96,6 +118,7 @@ export const {
   setOngkir,
   setPayment,
   setError,
+  resetCheckout,
 } = checkoutSlice.actions;
 
 export default checkoutSlice.reducer;

@@ -49,7 +49,6 @@ const ongkirSlice = createSlice({
     builder.addCase(getOngkir.fulfilled, (state, action) => {
       state.loading = false;
       state.costs = action.payload;
-      console.log(action.payload);
     });
     builder.addCase(getOngkir.rejected, (state) => {
       state.loading = false;
@@ -57,7 +56,7 @@ const ongkirSlice = createSlice({
     });
 
     builder.addCase(getOngkir.pending, (state) => {
-      state.loading = true;
+      state.loading = false;
       state.error = null;
     });
   },

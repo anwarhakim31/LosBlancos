@@ -26,6 +26,8 @@ export async function POST(req: NextRequest) {
     });
     const data = await res.json();
 
+    console.log(data);
+
     if (data.status_code === "200") {
       const transaction = await Transaction.findOneAndUpdate(
         {
@@ -38,9 +40,16 @@ export async function POST(req: NextRequest) {
             paymentCode: 1,
             paymentCreated: 1,
             paymentExpired: 1,
+            shippingCost: 1,
+            shippingName: 1,
+            totalPayment: 1,
+          },
+          $set: {
+            paymentStatus: "tertunda",
           },
         }
-      ).select("_id items");
+      ).select("_id items paymentStatus");
+      console.log(transaction);
 
       for (const item of transaction.items) {
         await Stock.findOneAndUpdate(

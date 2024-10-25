@@ -22,12 +22,6 @@ const CourierView = ({ isLoading }: { isLoading: boolean }) => {
   );
   const [isChange, setIsChange] = useState(false);
 
-  // useEffect(() => {
-  //   if (!address && !loading) {
-  //     dispatch(setLoading(false));
-  //   }
-  // }, [address, loading, dispatch]);
-
   useEffect(() => {
     dispatch(setLoading(true));
     dispatch(removeShippingAddress());

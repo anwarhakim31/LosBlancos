@@ -25,6 +25,30 @@ const transactionItemModel = new mongoose.Schema({
   },
 });
 
+const shippingAdress = {
+  fullname: {
+    type: String,
+  },
+  phone: {
+    type: String,
+  },
+  province: {
+    type: String,
+  },
+  city: {
+    type: String,
+  },
+  subdistrict: {
+    type: String,
+  },
+  postalCode: {
+    type: String,
+  },
+  address: {
+    type: String,
+  },
+};
+
 const transactionSchema = new mongoose.Schema({
   invoice: {
     type: String,
@@ -36,15 +60,23 @@ const transactionSchema = new mongoose.Schema({
     required: true,
   },
   items: [transactionItemModel],
+  diskon: {
+    type: String,
+    required: false,
+  },
   subtotal: {
     type: Number,
     required: true,
     default: 0,
   },
+  shippingAdress: shippingAdress,
   shippingCost: {
     type: Number,
     required: true,
     default: 0,
+  },
+  shippingName: {
+    type: String,
   },
   totalPayment: {
     type: Number,

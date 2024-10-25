@@ -30,6 +30,8 @@ export async function POST(req: NextRequest) {
         );
       }
 
+      console.log(stockDB);
+
       if (item.quantity > stockDB.stock) {
         return ResponseError(
           400,
@@ -86,6 +88,10 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
 
     const transactionId = searchParams.get("transactionId");
+
+    if (transactionId && transactionId.length !== 24) {
+      return ResponseError(404, "Transaksi tidak ditemukan dengan ID tersebut");
+    }
 
     const transaction = await Transaction.findOne({
       _id: transactionId,

@@ -4,11 +4,14 @@ import BreadCrubm from "@/components/element/BreadCrubm";
 import Footer from "@/components/layouts/Footer";
 import CourierView from "@/components/views/checkout/CourierView";
 import PaymentView from "@/components/views/checkout/PaymentView";
-import ShippingView from "@/components/views/checkout/ShippingView";
 import { transactionService } from "@/services/transaction/method";
 
 import { useAppDispatch, useAppSelector } from "@/store/hook";
-import { getCheckout, setError } from "@/store/slices/chechkoutSlice";
+import {
+  getCheckout,
+  resetCheckout,
+  setError,
+} from "@/store/slices/chechkoutSlice";
 import { ResponseError } from "@/utils/axios/response-error";
 
 import { formatCurrency } from "@/utils/contant";
@@ -18,6 +21,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import React, { Fragment, useEffect, useState } from "react";
+import AddressView from "@/components/views/checkout/AddressView";
 
 export interface TypeErrorCheckout {
   address: string;
@@ -61,13 +65,15 @@ const Checkout = ({ params }: { params: { id: string } }) => {
       setIsLoading(true);
       try {
         const res = await transactionService.payment(
-          costs.cost[0].value,
+          costs,
           payment,
-          id
+          id,
+          address
         );
 
         if (res.status === 200) {
           replace(`/pembayaran/${res.data.transaction._id}`);
+          dispatch(resetCheckout());
         }
 
         if (res.status === 400) {
@@ -89,7 +95,7 @@ const Checkout = ({ params }: { params: { id: string } }) => {
           <h1>Checkout</h1>
           <div className={styles.content}>
             <div className={styles.left}>
-              <ShippingView isLoading={isLoading} />
+              <AddressView isLoading={isLoading} />
 
               <div className={styles.detailOrderMobile}>
                 <h3>Detail Pesanan</h3>
@@ -252,7 +258,7 @@ const Checkout = ({ params }: { params: { id: string } }) => {
                   disabled={
                     loading ||
                     errorSubmit.payment ||
-                    errorSubmit.ongkir ||
+                    // errorSubmit.ongkir ||
                     errorSubmit.address ||
                     isLoading
                   }

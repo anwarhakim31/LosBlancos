@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { ResponseError } from "@/utils/axios/response-error";
 import { transactionService } from "@/services/transaction/method";
 import { useState } from "react";
-import { toast } from "sonner";
 
 const ModalChangePayment = ({
   onClose,
@@ -25,7 +24,6 @@ const ModalChangePayment = ({
       const res = await transactionService.changePayment(invoice);
 
       if (res.status === 200) {
-        toast.success("Mohon tunggu, anda akan diarahkan ke checkout");
         replace("/checkout/" + res.data.transaction);
         onClose();
       }

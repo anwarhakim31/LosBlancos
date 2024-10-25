@@ -1,5 +1,5 @@
 import instance from "@/utils/axios/instance";
-import { itemCartType } from "../type.module";
+import { itemCartType, TypeOngkir, TypeShippingAddress } from "../type.module";
 
 export const transactionService = {
   create: (
@@ -10,11 +10,17 @@ export const transactionService = {
   ) => instance.post("/transaction", { userId, items, total, cartId }),
   get: (transactionId: string) =>
     instance.get("/transaction?transactionId=" + transactionId),
-  payment: (shippingCost: number, bank: string, transaction_id: string) =>
+  payment: (
+    shipping: TypeOngkir,
+    bank: string,
+    transaction_id: string,
+    shippingAddress: TypeShippingAddress
+  ) =>
     instance.post("transaction/payment", {
-      shippingCost,
+      shipping,
       bank,
       transaction_id,
+      shippingAddress,
     }),
   changePayment: (order_id: string) =>
     instance.post("transaction/change-payment", { order_id }),

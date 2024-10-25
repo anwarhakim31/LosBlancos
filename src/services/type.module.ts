@@ -116,12 +116,22 @@ export type TypeTransaction = {
     atribute: string;
     atributeValue: string;
   }[];
+  shippingAdress?: {
+    fullname: string;
+    phone: string;
+    province: string;
+    city: string;
+    subdistrict: string;
+    postalCode: string;
+    address: string;
+  };
   paymentCode?: string;
   paymentName?: string;
   paymentCreated?: Date;
   paymentExpired?: Date;
   paymentStatus?: string;
   subtotal: number;
+  shippingName: string;
   shippingCost: number;
   totalPayment: number;
   address: string;

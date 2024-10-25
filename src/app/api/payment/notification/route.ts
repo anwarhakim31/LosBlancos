@@ -10,8 +10,6 @@ export async function POST(req: NextRequest) {
 
     const { transaction_status, order_id } = body;
 
-    console.log(transaction_status, order_id, body);
-
     const transaction = await Transaction.findOne({ invoice: order_id });
 
     if (!transaction) {

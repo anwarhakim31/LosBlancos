@@ -1,0 +1,222 @@
+.container {
+  background: $background;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+}
+
+.content {
+  margin-block: 8rem;
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  padding: 1rem;
+
+  .rounded {
+    width: 150px;
+    height: 150px;
+
+    border-radius: 50%;
+    @include flex-center();
+
+    &.success {
+      background: rgb(227, 227, 255);
+    }
+
+    &.failed {
+      background: rgb(255, 227, 227);
+    }
+
+    .rounded2 {
+      width: 80px;
+      height: 80px;
+      @include flex-center();
+
+      border-radius: 50%;
+      &.success {
+        background: rgb(164, 164, 255);
+      }
+
+      &.failed {
+        background: rgb(255, 146, 146);
+      }
+
+      .icon {
+        width: 50px;
+        height: 50px;
+        @include flex-center();
+
+        border-radius: 50%;
+
+        &.success {
+          background: $primary;
+        }
+
+        &.failed {
+          background: $danger;
+        }
+
+        svg {
+          width: 32px;
+          height: 32px;
+          color: $white;
+        }
+      }
+    }
+  }
+
+  .status {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: $gray-800;
+    margin-top: 0.5rem;
+    text-transform: capitalize;
+  }
+
+  .desc {
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: $gray-800;
+    margin-top: 0.25rem;
+    text-align: center;
+  }
+
+  .transaction {
+    padding: 1.5rem;
+    margin-top: 2rem;
+    background: $white;
+    border-radius: 0.4rem;
+    border: 1px solid $gray-300;
+
+    width: 100%;
+
+    &__order {
+      border-bottom: 1px solid $gray-300;
+      padding-bottom: 1rem;
+
+      &__item {
+        display: flex;
+        gap: 1rem;
+
+        &__image {
+          width: 80px;
+          height: 80px;
+          border: 1px solid $gray-300;
+          border-radius: 0.25rem;
+          overflow: hidden;
+          img {
+            object-fit: cover;
+            object-position: center;
+            width: 100%;
+            height: 100%;
+          }
+        }
+
+        &__detail {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          padding: 0.25rem;
+
+          h3 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: $gray-800;
+          }
+          p {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: $gray-500;
+            text-transform: capitalize;
+          }
+
+          &__price {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            span {
+              font-size: 0.875rem;
+              color: $gray-800;
+              font-weight: 400;
+            }
+          }
+        }
+      }
+    }
+    &__info {
+      margin-top: 2rem;
+      &__wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        p {
+          font-size: 0.875rem;
+          font-weight: 400;
+          color: $gray-500;
+        }
+
+        span {
+          font-size: 0.875rem;
+          font-weight: 500;
+          color: $gray-800;
+        }
+      }
+    }
+  }
+}
+
+.btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: $primary;
+  border-radius: 50%;
+
+  margin-top: 2rem;
+  @include flex-center();
+  svg {
+    color: $white;
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
+.loaderWrapper {
+  width: 100%;
+  min-height: 100vh;
+  background: $white;
+  margin-top: 2rem;
+
+  @include flex-center();
+
+  .loader {
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+
+    background: white;
+    border: 0.25rem solid $primary;
+    border-top: 0.25rem solid transparent;
+
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

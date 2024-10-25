@@ -13,16 +13,20 @@ const instance = axios.create({
   headers: header,
   timeout: 60 * 1000,
 });
-
+let cachedAccessToken: string | null = null;
 instance.interceptors.request.use(
   async (config) => {
     if (config.data instanceof FormData) {
       config.headers["Content-Type"] = "multipart/form-data";
     }
 
-    const session = await getSession();
-    if (session?.user?.accessToken) {
-      config.headers["Authorization"] = `Bearer ${session.user.accessToken}`;
+    if (!cachedAccessToken) {
+      const session = await getSession();
+      cachedAccessToken = session?.user?.accessToken || null;
+    }
+
+    if (cachedAccessToken) {
+      config.headers["Authorization"] = `Bearer ${cachedAccessToken}`;
     }
     return config;
   },
