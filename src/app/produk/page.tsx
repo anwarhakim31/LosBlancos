@@ -36,10 +36,12 @@ const fetchData = async (params: URLSearchParams) => {
   );
 
   if (!res.ok) {
-    return console.log("gagal");
+    return { products: [], pagination: {} };
   }
 
-  return res.json();
+  const data = await res.json();
+
+  return data;
 };
 
 const ProductPage = async ({ searchParams }: { searchParams: string }) => {

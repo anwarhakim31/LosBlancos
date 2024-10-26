@@ -8,6 +8,7 @@ export interface TypeUser {
   phone?: number | string;
   gender?: string;
   createdAt?: string;
+  image?: string;
 }
 
 export interface TypeCollection {
@@ -201,7 +202,9 @@ export interface TypeReview {
   transactionId: string;
   itemId: string;
   product: TypeProduct | string;
-  user: TypeUser | string;
+  user: TypeUser;
   comment: string;
   rating: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

@@ -2,7 +2,7 @@
 import { usePathname, useSearchParams } from "next/navigation";
 import styles from "./order.module.scss";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProfileMainLayout from "@/components/layouts/ProfileMainLayout";
 
 import PendingView from "@/components/views/profile/PendingView";
@@ -15,9 +15,17 @@ const stat = ["tertunda", "diproses", "dikirim", "selesai", "dibatalkan"];
 
 const OrderPage = () => {
   const status = useSearchParams().get("status");
-  const [active, setActive] = useState(status || "tertunda");
+  const [active, setActive] = useState(
+    !stat.includes(status as string) ? "tertunda" : status || "tertunda"
+  );
   const pathname = usePathname();
   const router = useRouter();
+
+  useEffect(() => {
+    if (status && !stat.includes(status as string)) {
+      router.push(`${pathname}?status=tertunda`, { scroll: false });
+    }
+  }, [status, router, pathname]);
 
   return (
     <ProfileMainLayout>

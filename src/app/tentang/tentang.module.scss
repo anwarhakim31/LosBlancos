@@ -98,11 +98,13 @@
     @include container();
     padding: 0;
     display: flex;
-    align-items: center;
+
     flex-direction: column;
     gap: 2rem;
 
     @include media(md) {
+      align-items: center;
+
       gap: 0;
       flex-direction: row;
     }
@@ -162,7 +164,11 @@
 
     .text {
       flex: 1;
-      padding: 1rem;
+
+      @include media(md) {
+        padding: 1rem;
+      }
+
       h2 {
         font-size: 2rem;
         font-weight: 600;
@@ -170,8 +176,10 @@
       }
 
       p {
-        color: $gray-500;
-        font-size: 0.875rem;
+        white-space: pre-line;
+        width: 100%;
+        color: #6b7280;
+        font-size: 1rem;
         line-height: 1.5rem;
       }
 

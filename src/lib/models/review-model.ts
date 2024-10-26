@@ -30,6 +30,10 @@ const reviewSchema = new mongoose.Schema(
       min: 1,
       max: 5,
     },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
   {
     timestamps: true,
