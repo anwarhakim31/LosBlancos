@@ -12,13 +12,18 @@ type filterQuery = {
   category?: { $in: string[] };
   price?: { $gte: number; $lte: number };
   collectionName?: string;
-  stock?: { $gt: number };
 };
 
 export async function GET(req: NextRequest) {
   await connectDB();
   try {
     const token = verifyToken(req);
+
+    let status = 200;
+    console.log(token);
+    if (token && typeof token === "object" && "status" in token) {
+      status = token.status;
+    }
 
     const { searchParams } = new URL(req.url);
     let page = parseInt(searchParams.get("page") || "1");
@@ -54,44 +59,98 @@ export async function GET(req: NextRequest) {
       page = 1;
     }
 
-    if (token && typeof token === "object" && "status" in token) {
-      if (token.status === 401) {
-        filterQuery.stock = { $gt: 0 };
-      }
-    }
+    const products = await Product.aggregate([
+      {
+        $match: filterQuery,
+      },
+      {
+        $lookup: {
+          from: "stocks",
+          localField: "stock",
+          foreignField: "_id",
+          as: "stock",
+        },
+      },
+      {
+        $lookup: {
+          from: "collections",
+          localField: "collectionName",
+          foreignField: "_id",
+          as: "collectionName",
+        },
+      },
+      {
+        $unwind: {
+          path: "$collectionName",
+        },
+      },
+      {
+        $addFields: {
+          totalStock: { $sum: "$stock.stock" },
+        },
+      },
+      {
+        $match: {
+          ...(token && status === 401 ? { totalStock: { $gt: 0 } } : {}),
+        },
+      },
+      {
+        $sort: { createdAt: -1 },
+      },
+      {
+        $skip: skip,
+      },
+      {
+        $limit: limit,
+      },
+    ]);
 
-    const products = await Product.find(filterQuery)
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit)
-      .populate("collectionName")
-      .exec();
+    const total = await Product.aggregate([
+      { $match: filterQuery },
+      {
+        $lookup: {
+          from: "stocks",
+          localField: "stock",
+          foreignField: "_id",
+          as: "stock",
+        },
+      },
 
-    const total = await Product.countDocuments(filterQuery);
+      {
+        $addFields: {
+          totalStock: { $sum: "$stock.stock" },
+        },
+      },
+      {
+        $match: {
+          ...(token && status === 401 ? { totalStock: { $gt: 0 } } : {}),
+        },
+      },
+      { $count: "count" },
+    ]);
 
-    const stockAtribut = await Stock.find({
-      productId: { $in: products.map((p) => p._id) },
-    });
+    const totalPage = total.length > 0 ? Math.ceil(total[0].count / limit) : 0;
 
-    const updatedProducts = products.map((product) => {
-      const stock = stockAtribut.filter(
-        (s) => s.productId.toString() === product._id.toString()
-      );
+    console.log(status);
 
-      return {
-        ...product.toObject(),
-        stockAtribut: stock,
-      };
-    });
+    // const products =
+    //   (await Product.find(filterQuery)
+    //     .sort({ createdAt: -1 })
+    //     .skip(skip)
+    //     .limit(limit)
+    //     .populate("collectionName stock")
+    //     .exec()) || [];
+
+    // const total = await Product.countDocuments(filterQuery);
 
     return NextResponse.json({
       success: true,
-      products: updatedProducts,
+      products,
       pagination: {
         page,
         limit,
-        total,
-        totalPage: Math.ceil(total / limit),
+        total: total.length > 0 ? total[0].count : 0,
+        totalPage,
       },
     });
   } catch (error) {
@@ -131,8 +190,6 @@ export async function POST(req: NextRequest) {
     });
     const result = await product.save();
 
-    let totalStock = 0;
-
     for (const item of stock) {
       const { attribute, value, stock } = item;
 
@@ -144,13 +201,12 @@ export async function POST(req: NextRequest) {
       });
       await newStock.save();
 
-      totalStock += stock;
+      await Product.findByIdAndUpdate(result._id, {
+        $push: {
+          stock: newStock._id,
+        },
+      });
     }
-
-    await Product.findOneAndUpdate(
-      { _id: result._id },
-      { $set: { stock: totalStock } }
-    );
 
     return NextResponse.json(
       {

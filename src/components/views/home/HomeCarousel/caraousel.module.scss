@@ -43,12 +43,15 @@
   &__dots {
     position: absolute;
     bottom: 1rem;
-    left: 50%;
-    transform: translateX(-50%);
     display: flex;
     gap: 0.5rem;
     align-items: center;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 4;
+    @include media(md) {
+      display: none;
+    }
 
     &__dot {
       border-radius: 50%;

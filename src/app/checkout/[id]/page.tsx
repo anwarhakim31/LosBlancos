@@ -258,7 +258,7 @@ const Checkout = ({ params }: { params: { id: string } }) => {
                   disabled={
                     loading ||
                     errorSubmit.payment ||
-                    // errorSubmit.ongkir ||
+                    errorSubmit.ongkir ||
                     errorSubmit.address ||
                     isLoading
                   }

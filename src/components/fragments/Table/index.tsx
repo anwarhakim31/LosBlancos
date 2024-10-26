@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChevronLeft, ChevronRight, Edit, Trash, Trash2 } from "lucide-react";
 import style from "./table.module.scss";
-import { TypeUser } from "@/services/type.module";
+import { TypeStock, TypeUser } from "@/services/type.module";
 import { Fragment, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import SelectRow from "@/components/element/SelectRow";
@@ -65,7 +65,14 @@ const TdComponent = (item: any, body: string) => {
         </td>
       );
     case "stock":
-      return <td style={{ textAlign: "center" }}>{item[body]}</td>;
+      return (
+        <td style={{ textAlign: "center" }}>
+          {item.stock.reduce(
+            (total: number, item: TypeStock) => total + (item.stock || 0),
+            0
+          )}
+        </td>
+      );
     case "imageProduct":
       return (
         <td className={`${style.table__imageProduct} `}>

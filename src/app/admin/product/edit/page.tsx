@@ -59,13 +59,16 @@ const AddProductPage = () => {
       setValue("category", dataEdit.category);
       setValue("collectionName", dataEdit.collectionName.name);
       setValue("attribute", dataEdit.attribute || "");
-      if (dataEdit.stockAtribut) {
+      if (dataEdit.stock) {
         const toAtribute =
-          dataEdit.stockAtribut.map((item: TypeStock) => item.value) || [];
+          dataEdit.stock.map((item: TypeStock) => item.value) || [];
+
+        console.log(toAtribute);
+        console.log(dataEdit.attribute);
 
         setAtribut({ name: dataEdit.attribute, value: toAtribute });
       }
-      setValue("stock", dataEdit.stockAtribut || []);
+      setValue("stock", dataEdit.stock || []);
     } else {
       router.push("/admin/product");
     }

@@ -121,10 +121,12 @@ const AddProductPage = () => {
                     setValue={(value) => {
                       if (value.value) {
                         onChange(value.name);
-                        return setAtribut(value);
+                        setValue("stock", []);
+                        setAtribut(value);
                       } else {
                         onChange("");
-                        return setAtribut(value);
+                        setValue("stock", []);
+                        setAtribut(value);
                       }
                     }}
                   />
