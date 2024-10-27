@@ -56,9 +56,8 @@ const ProductPage = async ({ searchParams }: { searchParams: string }) => {
           <div className={styles.filter}>
             <FilterProductView />
           </div>
-          <div style={{ flex: 1 }}>
-            <ProductMainView products={products} pagination={pagination} />
-          </div>
+
+          <ProductMainView products={products} pagination={pagination} />
         </div>
       </section>
       <Footer />

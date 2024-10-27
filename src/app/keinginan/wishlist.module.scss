@@ -4,7 +4,7 @@
 
   h1 {
     font-weight: 500;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
   }
 }
 
@@ -12,8 +12,8 @@
   flex: 1;
   display: grid;
   gap: 1rem;
-
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  min-height: calc(50vh - 5px);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   @include media(xs) {
     grid-template-columns: repeat(6, minmax(0, 1fr));
   }
@@ -35,7 +35,7 @@
     border: 1px solid $gray-300;
     border-radius: 0.4rem;
 
-    grid-column: span 2 / span 2;
+    grid-column: span 4 / span 4;
 
     &.is_pending {
       opacity: 0;
@@ -120,7 +120,7 @@
     &__content {
       padding: 0.5rem;
       display: flex;
-      height: fit-content;
+
       flex-direction: column;
       justify-content: space-between;
       flex: 1;
@@ -147,7 +147,7 @@
       }
 
       &__title {
-        font-size: 1rem;
+        font-size: 0.875rem;
         font-weight: 600;
         color: $dark;
         margin-bottom: auto;
@@ -156,6 +156,10 @@
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
+
+        @include media(sm) {
+          font-size: 1rem;
+        }
       }
 
       &__price {
@@ -186,7 +190,6 @@
 }
 
 .empty {
-  min-height: calc(100vh - 300px);
   grid-column: span 12 / span 12;
   display: flex;
   align-items: center;
@@ -216,8 +219,8 @@
 }
 
 .card_loader {
-  min-height: calc(100vh - 300px);
   grid-column: span 12 / span 12;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;

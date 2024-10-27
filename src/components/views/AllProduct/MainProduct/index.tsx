@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, Fragment, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./product.module.scss";
 import { formatCurrency } from "@/utils/contant";
 import Link from "next/link";
@@ -69,7 +69,7 @@ const ProductMainView: FC<propsType> = ({ products, pagination }) => {
   const invisiblePage = pageNumber.slice(startPage - 1, endPage);
 
   return (
-    <Fragment>
+    <div style={{ flex: "1", minHeight: "calc(50vh-100px)" }}>
       <div className={styles.head}>
         <div className={styles.head__search}>
           <InputSearch
@@ -90,74 +90,70 @@ const ProductMainView: FC<propsType> = ({ products, pagination }) => {
           <SlidersHorizontalIcon />
         </button>
       </div>
-      <div style={{ minHeight: "calc(100vh - 50px)", position: "relative" }}>
-        <div className={styles.content}>
-          {products.length > 0 &&
-            products.map((item: TypeProduct) => {
-              const id = item._id;
-              const collection = item.collectionName.name.replace(/\s/g, "-");
+      <div className={styles.content}>
+        {products.length > 0 &&
+          products.map((item: TypeProduct) => {
+            const id = item._id;
+            const collection = item.collectionName.name.replace(/\s/g, "-");
 
-              return (
-                <Link
-                  href={`/produk/${collection}/${id}`}
-                  key={item._id}
-                  className={styles.card}
-                >
-                  <div className={styles.card__image}>
-                    <Image
-                      src={item.image[0]}
-                      alt="image"
-                      width={1000}
-                      height={1000}
-                      priority
-                    />
+            return (
+              <Link
+                href={`/produk/${collection}/${id}`}
+                key={item._id}
+                className={styles.card}
+              >
+                <div className={styles.card__image}>
+                  <Image
+                    src={item.image[0]}
+                    alt="image"
+                    width={1000}
+                    height={1000}
+                    priority
+                  />
+                </div>
+                <div className={styles.card__content}>
+                  <div className={styles.card__content__head}>
+                    <p className={styles.card__content__collection}>
+                      {item.collectionName.name}
+                    </p>
+
+                    <h3 className={styles.card__content__title}>{item.name}</h3>
                   </div>
-                  <div className={styles.card__content}>
-                    <div className={styles.card__content__head}>
-                      <p className={styles.card__content__collection}>
-                        {item.collectionName.name}
-                      </p>
 
-                      <h3 className={styles.card__content__title}>
-                        {item.name}
-                      </h3>
-                    </div>
-
-                    <div>
-                      <p className={styles.card__content__price}>
-                        {formatCurrency(Number(item.price))}
-                      </p>
-                      <div className={styles.card__content__rating}>
-                        {Array.from({ length: 5 }).map((_, index) => (
-                          <Star key={index} />
-                        ))}
-                        <p>({Math.round(5.1)})</p>
-                      </div>
+                  <div>
+                    <p className={styles.card__content__price}>
+                      {formatCurrency(Number(item.price))}
+                    </p>
+                    <div className={styles.card__content__rating}>
+                      {Array.from({ length: 5 }).map((_, index) => (
+                        <Star key={index} />
+                      ))}
+                      <p>({Math.round(5.1)})</p>
                     </div>
                   </div>
-                </Link>
-              );
-            })}
-        </div>
-        {products.length === 0 ? (
-          <div className={styles.noResult}>
-            <Image
-              src={"/no-results.png"}
-              alt="not result"
-              width={150}
-              height={150}
-            />
-            <p>Produk tidak ditemukan</p>
-          </div>
-        ) : null}
+                </div>
+              </Link>
+            );
+          })}
       </div>
+      {products.length === 0 ? (
+        <div className={styles.noResult}>
+          <Image
+            src={"/no-results.png"}
+            alt="not result"
+            width={150}
+            height={150}
+          />
+          <p>Produk tidak ditemukan</p>
+        </div>
+      ) : null}
       {isActive && (
         <Modal onClose={() => setIsActive(false)}>
           <div className={styles.filter}>
             <FilterProductView />
           </div>
         </Modal>
-      )}{" "}
+      )}
       <div
         className={styles.pagination}
         style={{ display: products.length > 0 ? "flex" : "none" }}
@@ -210,7 +206,7 @@ const ProductMainView: FC<propsType> = ({ products, pagination }) => {
           <ChevronRight />
         </button>
       </div>
-    </Fragment>
+    </div>
   );
 };
 

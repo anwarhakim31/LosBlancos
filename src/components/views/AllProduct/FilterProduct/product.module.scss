@@ -111,11 +111,19 @@
   }
 }
 
+.search__title {
+  display: none;
+
+  @include media(lg) {
+    display: block;
+  }
+}
+
 .search {
   display: none;
   margin-top: 0.75rem;
 
-  @include media(md) {
+  @include media(lg) {
     display: block;
   }
 }

@@ -76,7 +76,7 @@ const FilterProductView = () => {
           <X />
         </button>
       </div>
-      <h4>Pencarian</h4>
+      <h4 className={styles.search__title}>Pencarian</h4>
       <div className={styles.search}>
         <InputSearch
           value={searchQuery}
