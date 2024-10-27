@@ -11,7 +11,9 @@ export const getCheckout = createAsyncThunk(
   async ({ transactionId }: { transactionId: string }) => {
     const res = await transactionService.get(transactionId);
 
-    return res.data.transaction;
+    const data = res.data.transaction;
+
+    return data;
   }
 );
 

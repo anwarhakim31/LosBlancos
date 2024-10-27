@@ -32,15 +32,7 @@ const CourierView = ({ isLoading }: { isLoading: boolean }) => {
       className={`${styles.wrapper} ${
         address && costs && !loading ? styles.select : styles.noselect
       }`}
-      onClick={() =>
-        loading
-          ? null
-          : errOngkir
-          ? null
-          : loadingOngkir
-          ? null
-          : setIsChange(!isChange)
-      }
+      onClick={() => (address ? setIsChange(true) : null)}
       style={{
         border: errorSubmit.ongkir ? "1px solid red" : "",
         cursor: !errOngkir ? "pointer" : " not-allowed",
@@ -51,15 +43,10 @@ const CourierView = ({ isLoading }: { isLoading: boolean }) => {
         Jasa Pengiriman
       </h3>
       <div className={styles.container}>
-        {!address && !loadingOngkir && !loading && (
+        {!loadingOngkir && !costs && (
           <span>
             <AlertCircle width={18} height={18} /> Alamat Pengiriman anda masih
             kosong
-          </span>
-        )}
-        {errOngkir && address && (
-          <span>
-            <AlertCircle width={18} height={18} /> {errOngkir}
           </span>
         )}
 

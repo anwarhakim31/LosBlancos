@@ -11,6 +11,7 @@ import ModalChangeAddress from "./ModalChangeAddress";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { setShippingAddress } from "@/store/slices/chechkoutSlice";
 import { getOngkir } from "@/store/slices/ongkirSlice";
+import { setLoading as setLoadingOngkir } from "@/store/slices/ongkirSlice";
 
 const AddressView = ({ isLoading }: { isLoading: boolean }) => {
   const session = useSession();
@@ -30,6 +31,7 @@ const AddressView = ({ isLoading }: { isLoading: boolean }) => {
 
         if (res.status === 200) {
           setAddress(res.data.address);
+          dispatch(setLoadingOngkir(true));
           if (res.data.address.length > 0) {
             dispatch(setShippingAddress(res.data.address[0]));
             dispatch(
@@ -39,6 +41,8 @@ const AddressView = ({ isLoading }: { isLoading: boolean }) => {
                 weight: "100",
               })
             );
+          } else if (res.data.address.length === 0) {
+            dispatch(setLoadingOngkir(false));
           }
         }
       } catch (error) {

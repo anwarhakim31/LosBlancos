@@ -20,19 +20,20 @@ export const getOngkir = createAsyncThunk(
     const res = await ongkirService.ongkir(desCity, desProvince, weight);
 
     dispatch(setOngkir(res.data.costs[0]));
+    const data = res.data.costs;
 
-    return res.data.costs;
+    return data;
   }
 );
 
 interface stateType {
-  costs: TypeOngkir[];
+  costs: TypeOngkir[] | null;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: stateType = {
-  costs: [],
+  costs: null,
   loading: true,
   error: null,
 };

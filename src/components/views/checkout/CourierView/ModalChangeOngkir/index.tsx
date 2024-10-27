@@ -22,7 +22,8 @@ const ModalChangeOngkir: FC<PropsType> = ({ onClose }) => {
         <HeaderModal onClose={onClose} title={"Ganti Jenis Pengiriman"} />
 
         <div className={styles.wrapper}>
-          {costs.length > 0 &&
+          {costs &&
+            costs.length > 0 &&
             costs.map((item, index) => (
               <div
                 key={index}

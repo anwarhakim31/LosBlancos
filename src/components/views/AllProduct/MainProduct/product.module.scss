@@ -5,7 +5,7 @@
   align-items: center;
   gap: 1rem;
 
-  @include media(md) {
+  @include media(lg) {
     display: none;
   }
 
@@ -55,7 +55,7 @@
   }
 
   @include media(md) {
-    grid-template-columns: repeat(8, minmax(0, 1fr));
+    grid-template-columns: repeat(12, minmax(0, 1fr));
   }
 
   @include media(lg) {
@@ -197,7 +197,7 @@
 .pagination {
   width: 100%;
   @include flex-center();
-  margin-top: 4rem;
+  margin-top: 20rem;
   display: flex;
   gap: 1rem;
   align-items: center;

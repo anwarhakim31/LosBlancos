@@ -18,12 +18,13 @@
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
+  margin-top: 2rem;
 }
 
 .filter {
   display: none;
 
-  @include media(md) {
+  @include media(lg) {
     display: block;
   }
 }
