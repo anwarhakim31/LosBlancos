@@ -113,9 +113,13 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
       try {
         const res = await transactionService.cekStatus(data?.invoice as string);
 
-        if (res.status === 200 && res.data.data.paymentStatus === "dibayar") {
+        if (
+          data &&
+          res.status === 200 &&
+          res.data.data.paymentStatus === "dibayar"
+        ) {
           replace(`/pembayaran/${id}?status=sukses`);
-          setData({ ...res.data.data, paymentStatus: "dibayar" });
+          setData({ ...data, paymentStatus: "dibayar" });
         } else if (
           (res.status === 200 &&
             res.data.data.paymentStatus === "kadaluwarsa") ||
@@ -135,7 +139,7 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
 
       return () => clearInterval(interval);
     }
-  }, [loading, data?.invoice, replace, id, status]);
+  }, [loading, data, replace, id, status]);
 
   const handleRebuy = async () => {
     try {
@@ -151,13 +155,15 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
   };
 
   useEffect(() => {
-    if (countdown === 0 && status) {
+    if (!status && countdown === 0) {
       replace(`/pembayaran/${id}?status=gagal`);
       setData(
         (prev) => ({ ...prev, paymentStatus: "kadaluwarsa" } as TypeTransaction)
       );
     }
-  }, [countdown, replace, id, status]);
+  }, [countdown, replace, id, status, data?.paymentStatus]);
+
+  console.log(data);
 
   return (
     <Fragment>

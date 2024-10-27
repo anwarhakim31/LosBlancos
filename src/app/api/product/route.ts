@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
     const token = verifyToken(req);
 
     let status = 200;
-    console.log(token);
+
     if (token && typeof token === "object" && "status" in token) {
       status = token.status;
     }
@@ -32,6 +32,7 @@ export async function GET(req: NextRequest) {
     const max = parseInt(searchParams.get("max") || "500000");
     const min = parseInt(searchParams.get("min") || "0");
     const collection = searchParams.get("collection") || "";
+    const sold = searchParams.get("sold");
 
     const search = searchParams.get("search")?.toString() || "";
 
@@ -43,7 +44,7 @@ export async function GET(req: NextRequest) {
       name: { $regex: searchRegex },
     };
 
-    if (min && max) {
+    if (min || max) {
       filterQuery.price = { $lte: max, $gte: min };
       page = 1;
     }
@@ -54,9 +55,20 @@ export async function GET(req: NextRequest) {
     }
 
     if (collection) {
-      const id = await Collection.findOne({ name: collection }).select("_id");
-      filterQuery.collectionName = id;
+      const { _id } = await Collection.findOne({ name: collection }).select(
+        "_id"
+      );
+      filterQuery.collectionName = _id;
+
       page = 1;
+    }
+
+    const sort: { [key: string]: -1 | 1 } = {};
+
+    if (sold) {
+      sort.sold = sold === "asc" ? -1 : 1;
+    } else {
+      sort.createdAt = -1;
     }
 
     const products = await Product.aggregate([
@@ -82,6 +94,7 @@ export async function GET(req: NextRequest) {
       {
         $unwind: {
           path: "$collectionName",
+          preserveNullAndEmptyArrays: true,
         },
       },
       {
@@ -95,7 +108,7 @@ export async function GET(req: NextRequest) {
         },
       },
       {
-        $sort: { createdAt: -1 },
+        $sort: sort,
       },
       {
         $skip: skip,
@@ -130,8 +143,6 @@ export async function GET(req: NextRequest) {
     ]);
 
     const totalPage = total.length > 0 ? Math.ceil(total[0].count / limit) : 0;
-
-    console.log(status);
 
     // const products =
     //   (await Product.find(filterQuery)

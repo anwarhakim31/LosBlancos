@@ -9,17 +9,21 @@ import TestimoniView from "@/components/views/home/Testimoni";
 import GaleriView from "@/components/views/home/Galeri";
 
 const Page = async () => {
-  const [dataCarousel, dataMarquee, dataNewProduct] = await Promise.all([
-    fetch(ServerURL + "/master/carousel", { cache: "no-store" }).then((res) =>
-      res.json()
-    ),
-    fetch(ServerURL + "/master/marquee", { cache: "no-store" }).then((res) =>
-      res.json()
-    ),
-    fetch(ServerURL + "/product?limit=4", { cache: "no-store" }).then((res) =>
-      res.json()
-    ),
-  ]);
+  const [dataCarousel, dataMarquee, dataNewProduct, dataBestSellProduct] =
+    await Promise.all([
+      fetch(ServerURL + "/master/carousel", { cache: "no-store" }).then((res) =>
+        res.json()
+      ),
+      fetch(ServerURL + "/master/marquee", { cache: "no-store" }).then((res) =>
+        res.json()
+      ),
+      fetch(ServerURL + "/product?limit=4", { cache: "no-store" }).then((res) =>
+        res.json()
+      ),
+      fetch(ServerURL + "/product?limit=4&sold=asc", {
+        cache: "no-store",
+      }).then((res) => res.json()),
+    ]);
 
   return (
     <Fragment>
@@ -34,7 +38,7 @@ const Page = async () => {
         />
         <ShowProductView
           header={"Produk Terlaris"}
-          data={dataNewProduct.products}
+          data={dataBestSellProduct.products}
         />
         <TestimoniView />
         <GaleriView />

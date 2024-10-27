@@ -69,7 +69,7 @@ const ProductMainView: FC<propsType> = ({ products, pagination }) => {
   const invisiblePage = pageNumber.slice(startPage - 1, endPage);
 
   return (
-    <div style={{ flex: "1", minHeight: "calc(50vh-100px)" }}>
+    <div style={{ flex: "1" }}>
       <div className={styles.head}>
         <div className={styles.head__search}>
           <InputSearch
@@ -135,22 +135,23 @@ const ProductMainView: FC<propsType> = ({ products, pagination }) => {
               </Link>
             );
           })}
+        {products.length === 0 ? (
+          <div className={styles.noResult}>
+            <Image
+              src={"/no-results.png"}
+              alt="not result"
+              width={150}
+              height={150}
+            />
+            <p>Produk tidak ditemukan</p>
+          </div>
+        ) : null}
       </div>
-      {products.length === 0 ? (
-        <div className={styles.noResult}>
-          <Image
-            src={"/no-results.png"}
-            alt="not result"
-            width={150}
-            height={150}
-          />
-          <p>Produk tidak ditemukan</p>
-        </div>
-      ) : null}
+
       {isActive && (
         <Modal onClose={() => setIsActive(false)}>
-          <div className={styles.filter}>
-            <FilterProductView />
+          <div className={styles.filter} onClick={(e) => e.stopPropagation()}>
+            <FilterProductView onClose={() => setIsActive(false)} />
           </div>
         </Modal>
       )}

@@ -33,7 +33,7 @@ const Checkout = ({ params }: { params: { id: string } }) => {
   const session = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const { id } = params;
-  const { replace } = useRouter();
+  const { replace, prefetch } = useRouter();
   const dispatch = useAppDispatch();
   const { transaction, payment, address, costs, loading, errorSubmit } =
     useAppSelector((state) => state.check);
@@ -72,6 +72,8 @@ const Checkout = ({ params }: { params: { id: string } }) => {
         );
 
         if (res.status === 200) {
+          prefetch(`/pembayaran/${res.data.transaction._id}`);
+
           replace(`/pembayaran/${res.data.transaction._id}`);
           dispatch(resetCheckout());
         }

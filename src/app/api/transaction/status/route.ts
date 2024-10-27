@@ -27,22 +27,19 @@ export async function GET(req: NextRequest) {
     const timeRemaining = expired - now;
 
     if (timeRemaining < 0) {
-      if (transaction.paymentStatus === "tertunda") {
-        console.log(true);
-        for (const item of transaction.items) {
-          await Stock.findOneAndUpdate(
-            {
-              productId: item.productId,
-              attribute: item.atribute,
-              value: item.atributeValue,
+      for (const item of transaction.items) {
+        await Stock.findOneAndUpdate(
+          {
+            productId: item.productId,
+            attribute: item.atribute,
+            value: item.atributeValue,
+          },
+          {
+            $inc: {
+              stock: item.quantity,
             },
-            {
-              $inc: {
-                stock: item.quantity,
-              },
-            }
-          );
-        }
+          }
+        );
       }
 
       transaction.paymentStatus = "kadaluwarsa";

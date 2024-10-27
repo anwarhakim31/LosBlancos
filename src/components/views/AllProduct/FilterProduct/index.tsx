@@ -11,7 +11,7 @@ import InputMultiRange from "@/components/element/InputMultiRange";
 import { collectionSevice } from "@/services/collection/method";
 import InputSearch from "@/components/element/InputSearch";
 
-const FilterProductView = () => {
+const FilterProductView = ({ onClose }: { onClose?: () => void }) => {
   const pathname = usePathname();
   const router = useRouter();
   const query = useSearchParams();
@@ -72,6 +72,7 @@ const FilterProductView = () => {
           title="Tutup"
           type="button"
           className={styles.close}
+          onClick={onClose}
         >
           <X />
         </button>

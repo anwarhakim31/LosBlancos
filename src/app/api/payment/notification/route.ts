@@ -1,4 +1,5 @@
 import connectDB from "@/lib/db";
+import Product from "@/lib/models/product-model";
 import Transaction from "@/lib/models/transaction-model";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -10,6 +11,8 @@ export async function POST(req: NextRequest) {
     const { transaction_status, order_id } = body;
 
     const transaction = await Transaction.findOne({ invoice: order_id });
+
+    console.log(body);
 
     if (!transaction) {
       return NextResponse.json(
@@ -32,7 +35,7 @@ export async function POST(req: NextRequest) {
 
     const statusMap = {
       settlement: "dibayar",
-      expire: "kadaluawarsa",
+      expire: "kadaluwarsa",
       pending: "tertunda",
       deny: "ditolak",
       cancel: "dibatalkan",
@@ -41,6 +44,16 @@ export async function POST(req: NextRequest) {
     transaction.paymentStatus =
       statusMap[transaction_status as keyof typeof statusMap] ||
       transaction.paymentStatus;
+
+    if (transaction.paymentStatus === "dibayar") {
+      for (const item of transaction.items) {
+        await Product.findOneAndUpdate(
+          { _id: item.productId },
+          { $inc: { sold: item.quantity } }
+        );
+      }
+    }
+
     await transaction.save();
 
     return NextResponse.json(

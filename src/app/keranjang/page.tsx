@@ -71,6 +71,8 @@ const CartPage = () => {
         );
 
         if (res.status == 200) {
+          router.prefetch(`/checkout/${res.data.id}`);
+
           router.push("/checkout/" + res.data.id);
 
           dispatch(clearCart());

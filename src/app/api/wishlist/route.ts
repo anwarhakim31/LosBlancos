@@ -1,4 +1,5 @@
 import connectDB from "@/lib/db";
+import Stock from "@/lib/models/stock-model";
 import Wishlist from "@/lib/models/wishlist-mode";
 import { ResponseError } from "@/lib/response-error";
 import { NextRequest, NextResponse } from "next/server";
@@ -53,6 +54,18 @@ export async function GET(req: NextRequest) {
         path: "collectionName",
       },
     });
+
+    for (const item of wishlist) {
+      const stockDB = await Stock.find({
+        productId: item.product._id,
+      });
+
+      const totalStock = stockDB.reduce((a, b) => a + b.stock, 0);
+
+      if (totalStock === 0) {
+        await Wishlist.findByIdAndDelete({ _id: item._id });
+      }
+    }
 
     return NextResponse.json({
       success: true,

@@ -23,19 +23,17 @@ export async function POST(req: NextRequest) {
         value: item.atributeValue,
       }).populate("productId");
 
-      if (!stockDB) {
+      if (stockDB?.stock === 0) {
         return ResponseError(
           400,
-          `Gagal. ${item.product.name} ${item.atribute} ${item.atributeValue}, stock sudah habis`
+          `Gagal.${item.product.name} ${item.atribute} ${item.atributeValue}, stock sudah habis`
         );
       }
-
-      console.log(stockDB);
 
       if (item.quantity > stockDB.stock) {
         return ResponseError(
           400,
-          `Gagal.${item.product.name} ${item.atribute} ${item.atributeValue}, stock tersisa kurang dari ${item.quantity}`
+          `Gagal.${item.product.name} ${item.atribute} ${item.atributeValue}, stock yang tersedia tersisa ${stockDB.stock}`
         );
       }
     }

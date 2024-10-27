@@ -3,7 +3,6 @@ import Product from "@/lib/models/product-model";
 import Stock from "@/lib/models/stock-model";
 import { ResponseError } from "@/lib/response-error";
 import { verifyTokenMember } from "@/lib/verify-token";
-import { Delete } from "lucide-react";
 
 import { NextRequest, NextResponse } from "next/server";
 
@@ -134,13 +133,13 @@ export async function GET(req: NextRequest) {
           attribute: item.atribute,
           value: item.atributeValue,
         });
-        console.log(item, stockDB);
+
         if (stockDB) {
           item.product.stock = stockDB.stock;
         }
 
         if (stockDB?.stock === 0) {
-          Delete(item);
+          await cart.items.remove(item._id);
 
           await cart.save();
         }
