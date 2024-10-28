@@ -12,13 +12,13 @@ export const transactionService = {
     instance.get("/transaction?transactionId=" + transactionId),
   payment: (
     shipping: TypeOngkir,
-    bank: string,
+    payment: string,
     transaction_id: string,
     shippingAddress: TypeShippingAddress
   ) =>
     instance.post("transaction/payment", {
       shipping,
-      bank,
+      payment,
       transaction_id,
       shippingAddress,
     }),

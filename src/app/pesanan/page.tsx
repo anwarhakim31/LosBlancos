@@ -7,6 +7,7 @@ import ProfileMainLayout from "@/components/layouts/ProfileMainLayout";
 
 import PendingView from "@/components/views/profile/PendingView";
 import CancelView from "@/components/views/profile/CancelView";
+import ProcessView from "@/components/views/profile/processView";
 
 const stat = ["tertunda", "diproses", "dikirim", "selesai", "dibatalkan"];
 
@@ -43,6 +44,7 @@ const OrderPage = () => {
         <div className={styles.wrapper}>
           {active === "tertunda" && <PendingView />}
           {active === "dibatalkan" && <CancelView />}
+          {active === "diproses" && <ProcessView />}
         </div>
       </div>
     </ProfileMainLayout>

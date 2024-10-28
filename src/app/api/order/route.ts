@@ -19,8 +19,6 @@ export async function GET(req: NextRequest) {
       expired: { $lt: now },
     });
 
-    console.log(userId, statusPayment, statusTransaction);
-
     const filter: {
       userId: string;
       transactionStatus: string;
