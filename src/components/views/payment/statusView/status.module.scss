@@ -125,10 +125,11 @@
           flex-direction: column;
           justify-content: space-between;
           padding: 0.25rem;
+          flex: 1;
 
           h3 {
             font-size: 0.875rem;
-            font-weight: 600;
+            font-weight: 500;
             color: $gray-800;
           }
           p {
@@ -138,15 +139,26 @@
             text-transform: capitalize;
           }
 
-          &__price {
+          &__footer {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            width: 100%;
 
             span {
               font-size: 0.875rem;
               color: $gray-800;
               font-weight: 400;
+            }
+
+            button {
+              font-size: 0.875rem;
+              font-weight: 500;
+              color: $primary;
+              text-transform: capitalize;
+              border: none;
+              background: transparent;
+              cursor: pointer;
             }
           }
         }
@@ -156,8 +168,13 @@
       margin-top: 2rem;
       &__wrapper {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+
+        flex-direction: column;
+        @include media(xs) {
+          align-items: center;
+          justify-content: space-between;
+          flex-direction: row;
+        }
         gap: 1rem;
         margin-bottom: 1rem;
         p {
@@ -198,6 +215,7 @@
   margin-top: 2rem;
 
   @include flex-center();
+  flex-direction: column;
 
   .loader {
     border-radius: 50%;
@@ -209,6 +227,13 @@
     border-top: 0.25rem solid transparent;
 
     animation: spin 1s linear infinite;
+  }
+
+  p {
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: $gray-800;
+    margin-top: 0.5rem;
   }
 }
 

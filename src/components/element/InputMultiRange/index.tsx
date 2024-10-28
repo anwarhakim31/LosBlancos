@@ -35,6 +35,7 @@ const InputMultiRange = () => {
 
     if (adjustedValue === min) {
       newQuery.delete("min");
+      if (newQuery.size === 1) newQuery.delete("page");
     } else {
       newQuery.set("page", "1");
       newQuery.set("min", adjustedValue.toString());
@@ -56,6 +57,7 @@ const InputMultiRange = () => {
 
     if (adjustedValue === max) {
       newQuery.delete("max");
+      if (newQuery.size === 1) newQuery.delete("page");
     } else {
       newQuery.set("page", "1");
       newQuery.set("max", adjustedValue.toString());

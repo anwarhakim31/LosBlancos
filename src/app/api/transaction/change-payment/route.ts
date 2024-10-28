@@ -1,4 +1,3 @@
-import Stock from "@/lib/models/stock-model";
 import Transaction from "@/lib/models/transaction-model";
 import { ResponseError } from "@/lib/response-error";
 
@@ -47,21 +46,6 @@ export async function POST(req: NextRequest) {
           },
         }
       ).select("_id items paymentStatus");
-
-      for (const item of transaction.items) {
-        await Stock.findOneAndUpdate(
-          {
-            productId: item.productId,
-            attribute: item.atribute,
-            value: item.atributeValue,
-          },
-          {
-            $inc: {
-              stock: item.quantity,
-            },
-          }
-        );
-      }
 
       return NextResponse.json({
         status: "success",

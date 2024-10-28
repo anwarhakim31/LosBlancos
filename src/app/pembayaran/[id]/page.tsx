@@ -20,7 +20,7 @@ import ModalChangePayment from "@/components/views/payment/ModalChangePayment";
 import ModalCancelPayment from "@/components/views/payment/ModalCancelPayment";
 import { useRouter, useSearchParams } from "next/navigation";
 import ModalRebuy from "@/components/views/payment/ModalRebuy";
-import StatusView from "@/components/views/payment/status";
+import StatusView from "@/components/views/payment/statusView";
 
 const payment = [
   {
@@ -75,7 +75,10 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
           const now = new Date();
           const timeRemaining = paymentExpiredDate.getTime() - now.getTime();
 
-          if (timeRemaining > 0) {
+          if (
+            timeRemaining > 0 &&
+            transactionData?.paymentStatus === "tertunda"
+          ) {
             setCountdown(timeRemaining);
           } else {
             setCountdown(0);
@@ -85,7 +88,10 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
             const now = new Date();
             const newTimeRemaining =
               paymentExpiredDate.getTime() - now.getTime();
-            if (newTimeRemaining > 0) {
+            if (
+              newTimeRemaining > 0 &&
+              transactionData?.paymentStatus === "tertunda"
+            ) {
               setCountdown(newTimeRemaining);
             } else {
               setCountdown(0);
@@ -155,15 +161,13 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
   };
 
   useEffect(() => {
-    if (!status && countdown === 0) {
+    if (!status && countdown === 0 && data?.paymentStatus === "tertunda") {
       replace(`/pembayaran/${id}?status=gagal`);
       setData(
         (prev) => ({ ...prev, paymentStatus: "kadaluwarsa" } as TypeTransaction)
       );
     }
   }, [countdown, replace, id, status, data?.paymentStatus]);
-
-  console.log(data);
 
   return (
     <Fragment>

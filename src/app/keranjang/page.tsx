@@ -35,10 +35,12 @@ const CartPage = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleMaxQuantity = (item: itemCartType) => {
-    if (
-      typeof item.product.stock === "number" &&
-      item.quantity < item.product.stock
-    ) {
+    const total = item.product.stock.find(
+      (stock) =>
+        stock.attribute === item.atribute && stock.value === item.atributeValue
+    )?.stock;
+
+    if (total && item.quantity < total) {
       dispatch(plusQuantity(item._id as string));
     }
   };

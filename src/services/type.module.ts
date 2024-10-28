@@ -104,18 +104,20 @@ export type cartType = {
   total: number;
 };
 
+export type itemTypeTransaction = {
+  _id?: string;
+  productId: TypeProduct;
+  quantity: number;
+  price: number;
+  atribute: string;
+  atributeValue: string;
+};
+
 export type TypeTransaction = {
   _id?: string;
   invoice: string;
   userId: string;
-  items: {
-    _id?: string;
-    productId: TypeProduct;
-    quantity: number;
-    price: number;
-    atribute: string;
-    atributeValue: string;
-  }[];
+  items: itemTypeTransaction[];
   shippingAdress?: {
     fullname: string;
     phone: string;
@@ -169,4 +171,13 @@ export type TypeOngkir = {
       note: string;
     }
   ];
+};
+
+export type TypeReview = {
+  _id?: string;
+  invoice: string;
+  product: TypeProduct | string;
+  user: TypeUser | string;
+  comment: string;
+  rating: number;
 };

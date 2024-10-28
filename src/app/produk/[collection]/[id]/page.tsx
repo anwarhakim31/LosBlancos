@@ -14,6 +14,8 @@ const DetailProduct = async ({ params }: { params: { id: string } }) => {
 
   const data = await getProduct(id);
 
+  console.log(data.product.stock);
+
   return (
     <Fragment>
       <main>
