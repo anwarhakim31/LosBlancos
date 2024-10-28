@@ -59,9 +59,16 @@ const ShowProductView: FC<PropsType> = ({ header, data }) => {
                 </p>
                 <div className={styles.scroller__card__rating}>
                   {Array.from({ length: 5 }).map((_, index) => (
-                    <Star key={index} />
+                    <Star
+                      key={index}
+                      className={
+                        item.averageRating && item?.averageRating > index
+                          ? styles.active
+                          : ""
+                      }
+                    />
                   ))}
-                  <p>({Math.round(5.1)})</p>
+                  <p>| {item.sold} Terjual </p>
                 </div>
               </Link>
             );

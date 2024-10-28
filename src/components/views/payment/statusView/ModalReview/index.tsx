@@ -10,6 +10,7 @@ import { useSession } from "next-auth/react";
 import { ResponseError } from "@/utils/axios/response-error";
 import { reviewService } from "@/services/review/method";
 import { toast } from "sonner";
+import { usePathname } from "next/navigation";
 
 function titleRating(rating: number) {
   switch (rating) {
@@ -32,9 +33,7 @@ const ModalReview = ({
   onClose,
   data,
   handleAddReview,
-  invoice,
 }: {
-  invoice: string;
   onClose: () => void;
   data: itemTypeTransaction | null;
   handleAddReview: (item: TypeReview) => void;
@@ -44,6 +43,9 @@ const ModalReview = ({
   const [loading, setLoading] = useState(false);
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState<string>("");
+  const pathname = usePathname();
+
+  const id = pathname.split("/")[2];
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -63,7 +65,8 @@ const ModalReview = ({
       setLoading(true);
       try {
         const res = await reviewService.create({
-          invoice,
+          transactionId: id as string,
+          itemId: data?._id as string,
           product: data?.productId?._id as string,
           comment,
           rating,

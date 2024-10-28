@@ -1,7 +1,7 @@
 "use client";
 import Footer from "@/components/layouts/Footer";
 import { transactionService } from "@/services/transaction/method";
-import { TypeTransaction } from "@/services/type.module";
+import { TypeReview, TypeTransaction } from "@/services/type.module";
 import { ResponseError } from "@/utils/axios/response-error";
 import { useSession } from "next-auth/react";
 import React, { Fragment, useEffect, useState } from "react";
@@ -21,6 +21,7 @@ import ModalCancelPayment from "@/components/views/payment/ModalCancelPayment";
 import { useRouter, useSearchParams } from "next/navigation";
 import ModalRebuy from "@/components/views/payment/ModalRebuy";
 import StatusView from "@/components/views/payment/statusView";
+import { reviewService } from "@/services/review/method";
 
 const payment = [
   {
@@ -59,6 +60,7 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
   const [isCancel, setIsCancel] = useState(false);
   const [isRebuy, setIsRebuy] = useState(false);
   const [diffrent, setDiffrent] = useState(false);
+  const [review, setReview] = useState<TypeReview[]>([]);
   const { replace } = useRouter();
   const status = useSearchParams().get("status");
 
@@ -75,10 +77,7 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
           const now = new Date();
           const timeRemaining = paymentExpiredDate.getTime() - now.getTime();
 
-          if (
-            timeRemaining > 0 &&
-            transactionData?.paymentStatus === "tertunda"
-          ) {
+          if (timeRemaining > 0) {
             setCountdown(timeRemaining);
           } else {
             setCountdown(0);
@@ -169,11 +168,28 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
     }
   }, [countdown, replace, id, status, data?.paymentStatus]);
 
+  useEffect(() => {
+    const getReview = async () => {
+      try {
+        const res = await reviewService.get(id as string);
+        if (res.status === 200) {
+          setReview(res.data.review);
+        }
+      } catch (error) {
+        ResponseError(error);
+      }
+    };
+
+    if (id) {
+      getReview();
+    }
+  }, [status, id]);
+
   return (
     <Fragment>
       <main>
         {status ? (
-          <StatusView data={data} />
+          <StatusView data={data} review={review} setReview={setReview} />
         ) : (
           <section className={styles.container}>
             <BreadCrubm />

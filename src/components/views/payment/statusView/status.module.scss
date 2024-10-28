@@ -105,6 +105,7 @@
       &__item {
         display: flex;
         gap: 1rem;
+        margin-bottom: 1rem;
 
         &__image {
           width: 80px;
@@ -144,6 +145,22 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
+
+            .rating {
+              display: flex;
+              align-items: center;
+              position: relative;
+
+              svg {
+                width: 1rem;
+                height: 1rem;
+                stroke-width: 1.5;
+                color: $secondary;
+                &.active {
+                  fill: $secondary;
+                }
+              }
+            }
 
             span {
               font-size: 0.875rem;

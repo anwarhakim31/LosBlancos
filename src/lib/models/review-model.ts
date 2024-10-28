@@ -12,6 +12,14 @@ const reviewSchema = new mongoose.Schema(
       required: true,
       ref: "Product",
     },
+    transactionId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+    },
+    itemId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+    },
     comment: {
       type: String,
       required: true,
