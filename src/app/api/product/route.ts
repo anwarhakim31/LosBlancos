@@ -14,6 +14,9 @@ type filterQuery = {
   collectionName?: string;
 };
 
+function escapeRegex(string: string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
 export async function GET(req: NextRequest) {
   await connectDB();
   try {
@@ -38,7 +41,7 @@ export async function GET(req: NextRequest) {
 
     const skip = (page - 1) * limit;
 
-    const searchRegex = new RegExp(search.trim(), "i");
+    const searchRegex = new RegExp(escapeRegex(search.trim()), "i");
 
     const filterQuery: filterQuery = {
       name: { $regex: searchRegex },

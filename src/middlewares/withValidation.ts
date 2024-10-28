@@ -96,6 +96,15 @@ export default function withValidation(middleware: NextMiddleware) {
           );
         }
       }
+
+      if (
+        status === "sukses" &&
+        data.transaction.paymentStatus === "tertunda"
+      ) {
+        {
+          return NextResponse.redirect(new URL(`/pembayaran/${id}`, req.url));
+        }
+      }
     }
 
     return middleware(req, ev);

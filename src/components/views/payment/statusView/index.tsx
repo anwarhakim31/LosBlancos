@@ -5,8 +5,14 @@ import Image from "next/image";
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { TypeTransaction } from "@/services/type.module";
+import {
+  itemTypeTransaction,
+  TypeReview,
+  TypeTransaction,
+} from "@/services/type.module";
 import { formatCurrency, formateDate } from "@/utils/contant";
+import { useState } from "react";
+import ModalReview from "./ModalReview";
 
 const methodPayment = (method: string) => {
   switch (method) {
@@ -25,12 +31,27 @@ const methodPayment = (method: string) => {
 
 const StatusView = ({ data }: { data: TypeTransaction | null }) => {
   const status = useSearchParams().get("status") as string;
+  const [review, setReview] = useState<TypeReview[]>([]);
+  const [isDataReview, setIsDataReview] = useState<itemTypeTransaction | null>(
+    null
+  );
+
+  const handleAddReview = (item: TypeReview) => {
+    setReview((prev) => [...prev, { ...item }]);
+  };
+
+  const handleClose = () => {
+    setIsDataReview(null);
+  };
+
+  console.log(review);
 
   return (
     <>
       {!data ? (
         <div className={styles.loaderWrapper}>
           <div className={styles.loader}></div>
+          <p>Loading</p>
         </div>
       ) : (
         <section className={styles.container}>
@@ -59,7 +80,7 @@ const StatusView = ({ data }: { data: TypeTransaction | null }) => {
             </h1>
             <p className={styles.desc}>
               Transaksi anda {status === "sukses" ? "berhasil" : "gagal"} di
-              bayar!{" "}
+              bayar! <br />
               {data?.paymentStatus === "dibayar" &&
                 "Kami sedang memproses pesanan anda."}
               {data?.paymentStatus === "kadaluwarsa" &&
@@ -93,12 +114,19 @@ const StatusView = ({ data }: { data: TypeTransaction | null }) => {
                       </div>
                       <div
                         className={
-                          styles.transaction__order__item__detail__price
+                          styles.transaction__order__item__detail__footer
                         }
                       >
                         <span>
                           {item.quantity} x {item.productId.price}
                         </span>
+                        <button
+                          type="button"
+                          aria-label={`ulasan ${item.productId.name}`}
+                          onClick={() => setIsDataReview(item)}
+                        >
+                          buat Ulasan
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -147,6 +175,14 @@ const StatusView = ({ data }: { data: TypeTransaction | null }) => {
             </Link>
           </div>
         </section>
+      )}
+      {isDataReview && (
+        <ModalReview
+          onClose={handleClose}
+          data={isDataReview}
+          invoice={data?.invoice as string}
+          handleAddReview={handleAddReview}
+        />
       )}
     </>
   );

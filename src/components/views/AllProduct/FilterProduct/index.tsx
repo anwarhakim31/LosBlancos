@@ -48,6 +48,7 @@ const FilterProductView = ({ onClose }: { onClose?: () => void }) => {
       });
     } else {
       searchParams.delete("category");
+      if (searchParams.size === 1) searchParams.delete("page");
     }
     router.push(`${pathname}?${searchParams.toString()}`, { scroll: false });
   };
@@ -59,6 +60,7 @@ const FilterProductView = ({ onClose }: { onClose?: () => void }) => {
       searchParams.set("collection", collection);
     } else {
       searchParams.delete("collection");
+      if (searchParams.size === 1) searchParams.delete("page");
     }
     router.push(`${pathname}?${searchParams.toString()}`, { scroll: false });
   };

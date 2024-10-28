@@ -93,9 +93,9 @@ const checkoutSlice = createSlice({
 
       state.loading = false;
     });
-    // builder.addCase(getCheckout.pending, (state) => {
-    //   state.loading = true;
-    // });
+    builder.addCase(getCheckout.pending, (state) => {
+      state.loading = true;
+    });
 
     builder.addCase(getCheckout.rejected, (state, action) => {
       state.error = action.error.message || "Failed to fetch cartList";

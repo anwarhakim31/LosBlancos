@@ -81,21 +81,9 @@ export async function POST(req: NextRequest) {
     const added = await Cart.findOne({ userId }).populate({
       path: "items.product",
       populate: {
-        path: "collectionName",
+        path: "collectionName stock",
       },
     });
-
-    for (const item of added.items) {
-      const stockDB = await Stock.findOne({
-        productId: item.product._id,
-        attribute: item.atribute,
-        value: item.atributeValue,
-      });
-
-      if (stockDB) {
-        item.product.stock = stockDB.stock;
-      }
-    }
 
     return NextResponse.json({
       success: true,
@@ -116,7 +104,7 @@ export async function GET(req: NextRequest) {
     const cart = await Cart.findOne({ userId }).populate({
       path: "items.product",
       populate: {
-        path: "collectionName",
+        path: "stock collectionName",
       },
     });
 
@@ -133,10 +121,6 @@ export async function GET(req: NextRequest) {
           attribute: item.atribute,
           value: item.atributeValue,
         });
-
-        if (stockDB) {
-          item.product.stock = stockDB.stock;
-        }
 
         if (stockDB?.stock === 0) {
           await cart.items.remove(item._id);
