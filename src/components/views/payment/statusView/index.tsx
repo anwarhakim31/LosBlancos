@@ -1,6 +1,6 @@
 "use client";
 import styles from "./status.module.scss";
-import { Check, Home } from "lucide-react";
+import { Check, Home, Star } from "lucide-react";
 import Image from "next/image";
 
 import Link from "next/link";
@@ -11,7 +11,7 @@ import {
   TypeTransaction,
 } from "@/services/type.module";
 import { formatCurrency, formateDate } from "@/utils/contant";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import ModalReview from "./ModalReview";
 
 const methodPayment = (method: string) => {
@@ -29,22 +29,28 @@ const methodPayment = (method: string) => {
   }
 };
 
-const StatusView = ({ data }: { data: TypeTransaction | null }) => {
+const StatusView = ({
+  data,
+  review,
+  setReview,
+}: {
+  data: TypeTransaction | null;
+  review: TypeReview[];
+  setReview: Dispatch<SetStateAction<TypeReview[]>>;
+}) => {
   const status = useSearchParams().get("status") as string;
-  const [review, setReview] = useState<TypeReview[]>([]);
+
   const [isDataReview, setIsDataReview] = useState<itemTypeTransaction | null>(
     null
   );
-
-  const handleAddReview = (item: TypeReview) => {
-    setReview((prev) => [...prev, { ...item }]);
-  };
 
   const handleClose = () => {
     setIsDataReview(null);
   };
 
-  console.log(review);
+  const handleAddReview = (item: TypeReview) => {
+    setReview((prev) => [...prev, { ...item }]);
+  };
 
   return (
     <>
@@ -120,13 +126,38 @@ const StatusView = ({ data }: { data: TypeTransaction | null }) => {
                         <span>
                           {item.quantity} x {item.productId.price}
                         </span>
-                        <button
-                          type="button"
-                          aria-label={`ulasan ${item.productId.name}`}
-                          onClick={() => setIsDataReview(item)}
-                        >
-                          buat Ulasan
-                        </button>
+                        {status === "sukses" && (
+                          <>
+                            {review.some(
+                              (review) => review.itemId.toString() === item._id
+                            ) ? (
+                              <div className={styles.rating}>
+                                {Array(5)
+                                  .fill("")
+                                  .map((_, index) => (
+                                    <Star
+                                      key={index}
+                                      className={
+                                        review.filter(
+                                          (r) => r?.itemId === item._id
+                                        )[0].rating > index
+                                          ? styles.active
+                                          : ""
+                                      }
+                                    />
+                                  ))}
+                              </div>
+                            ) : (
+                              <button
+                                type="button"
+                                aria-label={`ulasan ${item.productId.name}`}
+                                onClick={() => setIsDataReview(item)}
+                              >
+                                buat Ulasan
+                              </button>
+                            )}
+                          </>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -180,7 +211,6 @@ const StatusView = ({ data }: { data: TypeTransaction | null }) => {
         <ModalReview
           onClose={handleClose}
           data={isDataReview}
-          invoice={data?.invoice as string}
           handleAddReview={handleAddReview}
         />
       )}

@@ -64,6 +64,7 @@ export type TypeAttribute = {
 export type TypeProduct = {
   _id?: string;
   name: string;
+  sold?: number;
   description: string;
   price: number | string;
   image: string[];
@@ -73,6 +74,8 @@ export type TypeProduct = {
   createdAt?: string;
   attribute?: string;
   stockAtribut?: TypeStock[];
+  averageRating?: number;
+  totalReview?: number;
 };
 
 export type TypeStock = {
@@ -175,7 +178,8 @@ export type TypeOngkir = {
 
 export type TypeReview = {
   _id?: string;
-  invoice: string;
+  transactionId: string;
+  itemId: string;
   product: TypeProduct | string;
   user: TypeUser | string;
   comment: string;

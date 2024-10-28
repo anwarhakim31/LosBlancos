@@ -13,6 +13,8 @@ export async function POST(req: NextRequest) {
 
     const transaction = await Transaction.findOne({ invoice: body.order_id });
 
+    console.log(body);
+
     if (!transaction) {
       return NextResponse.json(
         { message: "Transaksi tidak ditemukan" },

@@ -91,7 +91,7 @@
 
         &__title {
           font-size: 1rem;
-          font-weight: 700;
+          font-weight: 600;
           color: $dark;
           margin-bottom: auto;
           overflow: hidden;
@@ -103,7 +103,7 @@
       }
       &__price {
         font-size: 0.875rem;
-        font-weight: 600;
+        font-weight: 500;
         color: $dark;
       }
 
@@ -115,7 +115,10 @@
           width: 0.75rem;
           height: 0.75rem;
           color: $secondary;
-          fill: $secondary;
+
+          &.active {
+            fill: $secondary;
+          }
         }
         p {
           font-size: 0.75rem;

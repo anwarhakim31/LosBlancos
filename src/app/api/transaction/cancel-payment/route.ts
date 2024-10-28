@@ -1,3 +1,4 @@
+import Transaction from "@/lib/models/transaction-model";
 import { ResponseError } from "@/lib/response-error";
 
 import { NextRequest, NextResponse } from "next/server";
@@ -25,6 +26,18 @@ export async function POST(req: NextRequest) {
     const data = await res.json();
 
     if (data.status_code === "200") {
+      await Transaction.findOneAndUpdate(
+        {
+          invoice: order_id,
+        },
+        {
+          $set: {
+            paymentStatus: "dibatalkan",
+            transactionStatus: "dibatalkan",
+          },
+        }
+      );
+
       return NextResponse.json({
         status: "success",
         message: "Transaksi berhasil dibatalkan",
