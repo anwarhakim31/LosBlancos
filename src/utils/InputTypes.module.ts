@@ -9,6 +9,7 @@ export interface inputProductType {
   stock: TypeStock[];
   collectionName: string;
   attribute: string;
+  weight?: string;
 }
 
 export interface inputAddressType {

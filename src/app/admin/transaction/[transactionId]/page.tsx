@@ -29,8 +29,6 @@ const TranscationId = async ({
 
   const transaction: TypeTransaction = await getData(transactionId);
 
-  console.log(transaction);
-
   return (
     <section>
       <ButtonBackPage />
@@ -167,6 +165,12 @@ const TranscationId = async ({
             <div className={styles.wrapper}>
               <p>Metode Pengiriman</p>
               <span>: {transaction?.shippingName}</span>
+            </div>
+            <div className={styles.wrapper}>
+              <p>Berat Barang</p>
+              <span>
+                : {transaction?.items.reduce((a, b) => a + b.weight, 0)} gram
+              </span>
             </div>
           </div>
         </div>

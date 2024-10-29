@@ -18,6 +18,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { useAppSelector } from "@/store/hook";
 import { inputProductType } from "@/utils/InputTypes.module";
+import InputWeight from "@/components/element/InputWeight";
 
 const AddProductPage = () => {
   const router = useRouter();
@@ -40,6 +41,7 @@ const AddProductPage = () => {
       stock: [],
       collectionName: "",
       attribute: "",
+      weight: "",
     },
   });
   const dataEdit = useAppSelector((state) => state.action.editProduct);
@@ -66,6 +68,7 @@ const AddProductPage = () => {
         setAtribut({ name: dataEdit?.attribute, value: toAtribute });
       }
       setValue("stock", dataEdit.stock || []);
+      setValue("weight", dataEdit?.weight?.toString());
     } else {
       router.push("/admin/product");
     }
@@ -130,6 +133,18 @@ const AddProductPage = () => {
               />
             </div>
             <small>{errors.collectionName?.message}</small>
+            <div className={styles.wrapper}>
+              <label htmlFor="weight">Berat</label>
+              <Controller
+                name="weight"
+                control={control}
+                rules={{ required: "Berat tidak bolek kosong" }}
+                render={({ field }) => (
+                  <InputWeight id="weight" field={field} />
+                )}
+              />
+            </div>
+            <small>{errors.weight?.message}</small>
             <div className={styles.wrapper}>
               <label htmlFor="attribute">Atribut </label>
               <Controller

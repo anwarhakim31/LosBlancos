@@ -97,7 +97,7 @@ const Checkout = ({ params }: { params: { id: string } }) => {
           <h1>Checkout</h1>
           <div className={styles.content}>
             <div className={styles.left}>
-              <AddressView isLoading={isLoading} />
+              <AddressView isLoading={isLoading} transactionId={id} />
 
               <div className={styles.detailOrderMobile}>
                 <h3>Detail Pesanan</h3>

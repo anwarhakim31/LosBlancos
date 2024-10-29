@@ -42,6 +42,10 @@ const productSchema = new mongoose.Schema(
       ref: "Collection",
       required: true,
     },
+    weight: {
+      type: Number,
+      default: 0,
+    },
     sold: {
       type: Number,
       default: 0,

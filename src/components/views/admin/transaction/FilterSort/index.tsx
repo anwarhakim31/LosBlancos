@@ -33,7 +33,7 @@ const FilterSort = () => {
         aria-label="sort"
         className={style.filter__btn}
         onClick={() => setActive(!active)}
-        title="sprt"
+        title="sort"
       >
         <ArrowUpDown />
       </button>

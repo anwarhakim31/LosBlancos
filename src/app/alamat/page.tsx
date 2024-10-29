@@ -132,6 +132,7 @@ const MyAddressPage = () => {
           <ModalAddAddress
             onClose={() => setIsAdd(false)}
             setAddress={setAddress}
+            transactionId={""}
           />
         )}
         {isDelete && (

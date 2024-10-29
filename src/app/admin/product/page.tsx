@@ -61,6 +61,8 @@ const ProductAdminPage = () => {
     { title: "stock", padding: "1rem 1rem", textAlign: "center" as const },
     { title: "Koleksi", padding: "1rem 1rem" },
     { title: "Atribut", padding: "1rem 1rem" },
+    { title: "rating", padding: "1rem 1rem", textAlign: "center" as const },
+    { title: "Terjual", padding: "1rem 1rem", textAlign: "center" as const },
     { title: "", padding: "1rem 1rem" },
   ];
   return (
@@ -100,6 +102,8 @@ const ProductAdminPage = () => {
           "stock",
           "collectionName",
           "attribute",
+          "averageRating",
+          "sold",
         ]}
         setIsDeleteOne={setIsDeleteOne}
         setIsDeleteMany={setIsDeleteMany}
