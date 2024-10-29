@@ -135,7 +135,9 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
           type="button"
           aria-label="add to wishlist"
           onClick={handleWishlist}
-          disabled={loadingWishlist}
+          disabled={
+            session.status === "unauthenticated" ? false : loadingWishlist
+          }
         >
           <Heart
             className={

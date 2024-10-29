@@ -7,9 +7,6 @@ export type TypeUser = {
   password?: string;
   phone?: number | string;
   jenisKelamin?: string;
-  provinsi?: string;
-  kota?: string;
-  alamat?: string;
   createdAt?: string;
 };
 

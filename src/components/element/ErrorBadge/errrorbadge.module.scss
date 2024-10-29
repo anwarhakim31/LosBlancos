@@ -8,9 +8,9 @@
   @include flex(center, center, null);
 
   &__error {
-    color: $danger;
-    font-size: 0.8rem;
-    display: block;
+    color: $danger !important;
+    font-size: 0.8rem !important;
+    display: block !important;
     text-align: center;
     font-weight: 500;
   }

@@ -24,10 +24,9 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   phone: {
-    type: Number,
-    required: false,
+    type: String,
   },
-  jenisKelamin: {
+  gender: {
     type: String,
     required: false,
   },

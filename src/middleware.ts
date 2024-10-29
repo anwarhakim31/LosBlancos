@@ -11,6 +11,6 @@ export const middleware = withAuth(withValidation(mainMiddleware), [
   "login",
   "keinginan",
   "keranjang",
-  "profile",
+  "profil",
   "checkout",
 ]);
