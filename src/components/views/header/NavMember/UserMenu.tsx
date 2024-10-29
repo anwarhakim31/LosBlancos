@@ -57,14 +57,14 @@ const UserMenu = () => {
           </Link>
 
           <Link
-            href={session.status === "authenticated" ? "/profile" : "/login"}
+            href={session.status === "authenticated" ? "/profil" : "/login"}
             className={styles.wrapper__user__profile}
             style={{ color: pathname !== "/" ? "black" : "" }}
           >
             <Image
               src={
                 session.data?.user?.image
-                  ? session.data?.user?.image
+                  ? session.data?.user?.image.replace("s96-c", "s256-c")
                   : "/profile.png"
               }
               alt="profile"

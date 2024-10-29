@@ -64,6 +64,10 @@ const ProductMainView: FC<propsType> = ({ products, pagination }) => {
 
   const invisiblePage = pageNumber.slice(startPage - 1, endPage);
 
+  const handleClose = () => {
+    setIsActive(false);
+  };
+
   return (
     <div style={{ flex: "1" }}>
       <div className={styles.head}>
@@ -140,9 +144,9 @@ const ProductMainView: FC<propsType> = ({ products, pagination }) => {
       </div>
 
       {isActive && (
-        <Modal onClose={() => setIsActive(false)}>
+        <Modal onClose={handleClose}>
           <div className={styles.filter} onClick={(e) => e.stopPropagation()}>
-            <FilterProductView onClose={() => setIsActive(false)} />
+            <FilterProductView onClose={handleClose} />
           </div>
         </Modal>
       )}

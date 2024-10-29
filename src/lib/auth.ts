@@ -12,6 +12,8 @@ declare module "next-auth" {
     role: string;
     image: string;
     _id: string;
+    phone: string;
+    gender: string;
   }
 
   interface Session {
@@ -22,6 +24,8 @@ declare module "next-auth" {
       role?: string;
       id: string;
       accessToken?: string;
+      gender: string;
+      phone: string;
     };
   }
 
@@ -88,6 +92,8 @@ export const authOptions: NextAuthOptions = {
         token.name = user.fullname;
         token.role = user.role;
         token.id = user._id;
+        token.phone = user.phone;
+        token.gender = user.gender;
       }
 
       if (account?.provider === "google" && user) {
@@ -116,6 +122,9 @@ export const authOptions: NextAuthOptions = {
           token.role = newUser.role || "customer";
           token.image = newUser.image || data.image;
           token.picture = newUser.image || data.image;
+          token.phone = newUser.phone;
+          token.gender = newUser.gender;
+
           token.id = newUser._id;
         } else {
           token.email = data.email;
@@ -123,7 +132,9 @@ export const authOptions: NextAuthOptions = {
           token.role = userDB.role || "customer";
           token.image = userDB.image || data.image;
           token.picture = userDB.image || data.image;
+          token.phone = userDB.phone;
           token.id = userDB._id;
+          token.gender = userDB.gender;
         }
       }
 
@@ -132,6 +143,8 @@ export const authOptions: NextAuthOptions = {
         token.name = session.user?.name;
         token.image = session.user?.image;
         token.email = session.user?.email;
+        token.phone = session.user?.phone;
+        token.gender = session.user?.gender;
       }
 
       return token;
@@ -143,6 +156,8 @@ export const authOptions: NextAuthOptions = {
         session.user.name = (token.name as string) || "";
         session.user.image = (token.image as string) || "";
         session.user.role = (token.role as string) || "customer";
+        session.user.phone = (token.phone as string) || "";
+        session.user.gender = (token.gender as string) || "";
 
         const accsesToken = jwt.sign(token, process.env.NEXTAUTH_SECRET || "", {
           algorithm: "HS256",

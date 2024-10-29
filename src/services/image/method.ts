@@ -11,7 +11,6 @@ export const imageService = {
           const { loaded, total } = progressEvent;
 
           const percentage = Math.floor((loaded * 100) / (total || 1));
-          console.log(percentage);
 
           setProgress(percentage);
         },

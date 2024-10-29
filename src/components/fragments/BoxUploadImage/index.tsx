@@ -76,6 +76,7 @@ const BoxUploadWrapper = ({ onChange, value }: PropsType) => {
 
   const handleUpload = async (file: File, id: string) => {
     if (!ALLOW_IMAGE_TYPE.includes(file.type)) {
+      setBoxes((prevBoxes) => prevBoxes.filter((box) => box.id !== id));
       return toast.error("Format file tidak didukung");
     }
 
