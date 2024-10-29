@@ -5,7 +5,7 @@ import { formatCurrency } from "@/utils/contant";
 import Link from "next/link";
 import { FC } from "react";
 import { TypeProduct } from "@/services/type.module";
-import { Star } from "lucide-react";
+import StarComp from "@/components/element/Star";
 
 const lora = Lora({
   weight: ["400", "500", "600", "700"],
@@ -57,19 +57,8 @@ const ShowProductView: FC<PropsType> = ({ header, data }) => {
                 <p className={styles.scroller__card__price}>
                   {formatCurrency(Number(item.price))}
                 </p>
-                <div className={styles.scroller__card__rating}>
-                  {Array.from({ length: 5 }).map((_, index) => (
-                    <Star
-                      key={index}
-                      className={
-                        item.averageRating && item?.averageRating > index
-                          ? styles.active
-                          : ""
-                      }
-                    />
-                  ))}
-                  <p>| {item.sold} Terjual </p>
-                </div>
+
+                <StarComp item={item} />
               </Link>
             );
           })}

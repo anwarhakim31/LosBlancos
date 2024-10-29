@@ -1,0 +1,20 @@
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+
+  svg {
+    width: 0.75rem;
+    height: 0.75rem;
+    color: $secondary;
+
+    &.active {
+      fill: $secondary;
+    }
+  }
+  p {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: $gray-500;
+  }
+}

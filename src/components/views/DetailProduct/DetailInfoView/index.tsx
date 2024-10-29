@@ -2,7 +2,7 @@ import styles from "./detail.module.scss";
 import Cart from "@/assets/cart.svg";
 import { Check, Heart, Star } from "lucide-react";
 import { formatCurrency } from "@/utils/contant";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { itemCartType, TypeProduct } from "@/services/type.module";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { useSession } from "next-auth/react";
@@ -12,6 +12,8 @@ import { postCart } from "@/store/slices/cartSlice";
 import QuantityAction from "@/components/element/Quantity";
 import { ResponseError } from "@/utils/axios/response-error";
 import { transactionService } from "@/services/transaction/method";
+import halfstar from "@/assets/halfstar.png";
+import Image from "next/image";
 
 const DetailInfoView = ({ product }: { product: TypeProduct }) => {
   const session = useSession();
@@ -108,6 +110,8 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
     }
   };
 
+  console.log(product);
+
   useEffect(() => {
     const selectStock = product?.stock?.find(
       (item) => item.value === selectValue
@@ -145,14 +149,33 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
       </div>
       <div className={styles.info__wrapper}>
         <div className={styles.info__rating}>
-          {Array.from({ length: 5 }).map((_, index) => (
-            <Star key={index} className={styles.info__rating__star} />
-          ))}
-          <p>({Math.round(5.1)})</p>
+          {Array.from({ length: 5 }).map((_, index) => {
+            const fullStar =
+              product?.averageRating && product?.averageRating >= index + 1;
+            const halfStar =
+              product?.averageRating &&
+              product?.averageRating >= index + 0.5 &&
+              product?.averageRating < index + 1;
+
+            return (
+              <Fragment key={index}>
+                {fullStar ? (
+                  <Star className={styles.active} />
+                ) : halfStar ? (
+                  <Image src={halfstar} alt="star" width={15} height={15} />
+                ) : (
+                  <Star />
+                )}
+              </Fragment>
+            );
+          })}
+          <p>({product?.averageRating || 0})</p>
         </div>
 
-        <p className={styles.info__penilaian}>2 Penilaian</p>
-        <p className={styles.info__terbeli}>2 Terjual</p>
+        <p className={styles.info__penilaian}>
+          {product?.reviewCount || 0} Penilai
+        </p>
+        <p className={styles.info__terbeli}>{product?.sold || 0} Terjual</p>
       </div>
       <h3 className={styles.info__price}>
         {formatCurrency(Number(product?.price))}
