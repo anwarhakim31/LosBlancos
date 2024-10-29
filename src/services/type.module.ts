@@ -75,7 +75,7 @@ export type TypeProduct = {
   attribute?: string;
   stockAtribut?: TypeStock[];
   averageRating?: number;
-  totalReview?: number;
+  reviewCount?: number;
 };
 
 export type TypeStock = {

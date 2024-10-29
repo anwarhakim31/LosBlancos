@@ -2,15 +2,15 @@
 import BreadCrubm from "@/components/element/BreadCrubm";
 import styles from "./wishlist.module.scss";
 import Image from "next/image";
-import { Star, X } from "lucide-react";
+import { X } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
-import { formatCurrency } from "@/utils/contant";
 
 import { Fragment, useEffect, useRef, useState } from "react";
 import Footer from "@/components/layouts/Footer";
 import Link from "next/link";
 import { removeWishlist } from "@/store/slices/wishSlice";
 import { useSession } from "next-auth/react";
+import StarComp from "@/components/element/Star";
 const WishListPage = () => {
   const session = useSession();
   const dispatch = useAppDispatch();
@@ -49,8 +49,6 @@ const WishListPage = () => {
       return () => clearTimeout(timeout);
     }
   }, [loading]);
-
-  console.log(isFirstRender.current);
 
   return (
     <Fragment>
@@ -115,17 +113,7 @@ const WishListPage = () => {
                           {item.product.name}
                         </h3>
                       </div>
-                      <div>
-                        <p className={styles.card__content__price}>
-                          {formatCurrency(Number(item.product.price))}
-                        </p>
-                        <div className={styles.card__content__rating}>
-                          {Array.from({ length: 5 }).map((_, index) => (
-                            <Star key={index} />
-                          ))}
-                          <p>({Math.round(5.1)})</p>
-                        </div>
-                      </div>
+                      <StarComp item={item.product} />
                     </div>
                   </Link>
                 );

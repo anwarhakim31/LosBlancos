@@ -6,16 +6,12 @@ import { formatCurrency } from "@/utils/contant";
 import Link from "next/link";
 import Image from "next/image";
 import { TypeProduct } from "@/services/type.module";
-import {
-  ChevronLeft,
-  ChevronRight,
-  SlidersHorizontalIcon,
-  Star,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight, SlidersHorizontalIcon } from "lucide-react";
 import InputSearch from "@/components/element/InputSearch";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Modal from "@/components/element/Modal";
 import FilterProductView from "../FilterProduct";
+import StarComp from "@/components/element/Star";
 
 interface paginationType {
   page: number;
@@ -124,12 +120,7 @@ const ProductMainView: FC<propsType> = ({ products, pagination }) => {
                     <p className={styles.card__content__price}>
                       {formatCurrency(Number(item.price))}
                     </p>
-                    <div className={styles.card__content__rating}>
-                      {Array.from({ length: 5 }).map((_, index) => (
-                        <Star key={index} />
-                      ))}
-                      <p>({Math.round(5.1)})</p>
-                    </div>
+                    <StarComp item={item} />
                   </div>
                 </div>
               </Link>

@@ -1,7 +1,7 @@
-import React from "react";
+import { redirect } from "next/navigation";
 
 const CollectionProductPage = () => {
-  return <div>CollectionProductPage</div>;
+  redirect("/notfound");
 };
 
 export default CollectionProductPage;
