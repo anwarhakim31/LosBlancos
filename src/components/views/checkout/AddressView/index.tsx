@@ -6,7 +6,7 @@ import { ResponseError } from "@/utils/axios/response-error";
 import { addressService } from "@/services/address/methods";
 import { useSession } from "next-auth/react";
 import { TypeShippingAddress } from "@/services/type.module";
-import ModalAddAddress from "./ModalAddAddress";
+import ModalAddAddress from "../../../fragments/ModalAddAddress";
 import ModalChangeAddress from "./ModalChangeAddress";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { setShippingAddress } from "@/store/slices/chechkoutSlice";

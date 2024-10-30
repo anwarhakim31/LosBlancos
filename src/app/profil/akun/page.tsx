@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import styles from "./account.module.scss";
 import { useSession } from "next-auth/react";
@@ -9,9 +10,9 @@ import ButtonSubmit from "@/components/element/ButtonSubmit";
 import { ResponseError } from "@/utils/axios/response-error";
 import { userService } from "@/services/user/method";
 import { toast } from "sonner";
-import ChangePasswordView from "../ChangePassword";
+import ChangePasswordView from "@/components/views/profile/ChangePassword";
 
-const MyAccountView = () => {
+const MyAccountPage = () => {
   const session = useSession();
   const {
     register,
@@ -33,6 +34,7 @@ const MyAccountView = () => {
   const [loading, setLoading] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const imageValue = watch("image");
+  const gender = watch("gender");
 
   const setImageValue = (image: string) => setValue("image", image);
 
@@ -61,6 +63,8 @@ const MyAccountView = () => {
     }
   };
 
+  console.log(session);
+
   return (
     <div className={styles.info}>
       <h3>Akun dan Keamanan</h3>
@@ -82,7 +86,7 @@ const MyAccountView = () => {
         </div>
         <div className={styles.info}>
           <div className={styles.action}>
-            <label htmlFor="profile">Ganti Profile</label>
+            <label htmlFor="profile">Ganti Profil</label>
             <ToggleSwitch
               checked={isEdit}
               handleCheck={() => setIsEdit(!isEdit)}
@@ -127,17 +131,15 @@ const MyAccountView = () => {
             </div>
             <small className={styles.error}>{errors?.fullname?.message}</small>
             <div className={styles.control}>
-              <label htmlFor="fullname">Jenis Kelamin</label>
+              <label htmlFor="gender">Jenis Kelamin</label>
               <select
                 id="gender"
-                className={isEdit ? styles.active : ""}
+                className={`${isEdit ? styles.active : ""} ${
+                  gender ? styles.show : ""
+                }`}
                 disabled={!isEdit}
                 {...register("gender", {
-                  required: "Nama Lengkap harus diisi",
-                  minLength: {
-                    value: 5,
-                    message: "Nama Lengkap minimal 5 karakter",
-                  },
+                  required: "Jenis kelamin harus diisi",
                 })}
               >
                 {loading ? (
@@ -146,10 +148,11 @@ const MyAccountView = () => {
                   <>
                     <option value="">Pilih Jenis Kelamin</option>
                     <option value="laki-laki">Laki-Laki</option>
-                    <option value="perempuan">perempuan</option>
+                    <option value="perempuan">Perempuan</option>
                   </>
                 )}
               </select>
+              {!isEdit && <div className={styles.divider}></div>}
             </div>
             <small className={styles.error}>{errors?.gender?.message}</small>
             <div className={styles.control}>
@@ -195,4 +198,4 @@ const MyAccountView = () => {
   );
 };
 
-export default MyAccountView;
+export default MyAccountPage;

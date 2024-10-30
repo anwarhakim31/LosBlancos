@@ -1,0 +1,119 @@
+.content {
+  h3 {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  p {
+    color: $gray-500;
+    font-size: 0.875rem;
+    font-weight: 400;
+    margin-top: 0.5rem;
+  }
+}
+
+.wrapper {
+  margin-top: 1rem;
+
+  .list {
+    padding: 1.5rem;
+    border-radius: 0.4rem;
+    border: 1px solid $gray-300;
+    border-left: 4px solid $primary;
+    margin-bottom: 2rem;
+    min-height: 100px;
+    position: relative;
+
+    &__contact {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.25rem;
+      flex-direction: column;
+      margin-bottom: 1rem;
+      @include media(sm) {
+        align-items: center;
+        flex-direction: row;
+        margin-bottom: 0;
+      }
+
+      .gap {
+        display: none;
+        @include media(sm) {
+          display: block;
+        }
+      }
+
+      h4 {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: $gray-700;
+      }
+      &__phone {
+        font-size: 0.8125rem;
+        font-weight: 400;
+        color: $gray-700;
+        margin-top: 1px;
+      }
+    }
+    &__detail {
+      font-size: 0.8125rem;
+      margin-top: 0.25rem;
+    }
+
+    &__address {
+      margin-top: 0.25rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      font-size: 0.8125rem;
+      gap: 0.25rem;
+
+      text-transform: capitalize;
+    }
+    button {
+      width: 1.75rem;
+      height: 1.75rem;
+      position: absolute;
+      top: 1.15rem;
+      right: 1.15rem;
+      @include flex-center();
+      border-radius: 50%;
+
+      box-shadow: 0 0.1rem 0.15rem rgba(0, 0, 0, 0.5);
+      transition: all 0.3s ease-in-out;
+      cursor: pointer;
+
+      &:hover {
+        box-shadow: 0 0.1rem 0.15rem $danger;
+      }
+
+      svg {
+        width: 1rem;
+        height: 1rem;
+        color: $danger;
+      }
+    }
+  }
+}
+
+.skeleton_list {
+  margin-top: 1rem;
+  padding: 1.5rem;
+  border-radius: 0.4rem;
+  border: 1px solid $gray-300;
+  border-left: 4px solid $primary;
+  margin-bottom: 2rem;
+  min-height: 100px;
+  position: relative;
+  background-color: $neutral;
+
+  @include shimmer();
+}
+.empty {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3rem;
+}
