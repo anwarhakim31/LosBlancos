@@ -43,6 +43,7 @@ export async function POST(req: NextRequest) {
           },
           $set: {
             paymentStatus: "tertunda",
+            expired: new Date(new Date().getTime() + 1000 * 60 * 60 * 8),
           },
         }
       ).select("_id items paymentStatus");

@@ -1,35 +1,46 @@
 "use client";
 
-import BreadCrubm from "@/components/element/BreadCrubm";
-import { signOut, useSession } from "next-auth/react";
-import styles from "./profile.module.scss";
-
-import React, { Fragment, useState } from "react";
 import Footer from "@/components/layouts/Footer";
-import { useAppSelector } from "@/store/hook";
+import React, { Fragment } from "react";
+
+import styles from "./profile.module.scss";
+import BreadCrubm from "@/components/element/BreadCrubm";
+import { CircleUser, LogOut, Map, ShoppingBag } from "lucide-react";
+
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { CircleUser, LogOut, Map } from "lucide-react";
-import MyAccountView from "@/components/views/profile/AccountView";
+import { useAppSelector } from "@/store/hook";
+import { usePathname, useRouter } from "next/navigation";
 
 const menu = [
   {
     name: "Akun Saya",
     icon: <CircleUser color="blue" />,
+    url: "/akun",
   },
   {
     name: "Alamat Saya",
     icon: <Map color="green" />,
+    url: "/alamat",
+  },
+  {
+    name: "Pesanan Saya",
+    icon: <ShoppingBag color="purple" />,
+    url: "/pesanan",
   },
   {
     name: "keluar",
     icon: <LogOut color="red" />,
+    url: "/keluar",
   },
 ];
 
-const ProfilPage = () => {
+const ProfileMainLayout = ({ children }: { children: React.ReactNode }) => {
+  const router = useRouter();
   const { data } = useSession();
   const { cart } = useAppSelector((state) => state.cart);
-  const [isActive, setIsActive] = useState("Akun Saya");
+
+  const pathname = usePathname();
 
   return (
     <Fragment>
@@ -57,10 +68,10 @@ const ProfilPage = () => {
               {menu.map((item, index) => (
                 <button
                   className={`${styles.menu__list} ${
-                    isActive === item.name ? styles.active : ""
+                    pathname === item.url ? styles.active : ""
                   }`}
                   type="button"
-                  aria-label={"Akun Saya"}
+                  aria-label={item.name}
                   key={index}
                   onClick={() => {
                     if (item.name === "keluar") {
@@ -68,7 +79,9 @@ const ProfilPage = () => {
                         callbackUrl: "/login",
                       });
                     } else {
-                      setIsActive(item.name);
+                      router.push(item.url, {
+                        scroll: false,
+                      });
                     }
                   }}
                 >
@@ -76,9 +89,7 @@ const ProfilPage = () => {
                 </button>
               ))}
             </div>
-            <div className={styles.content}>
-              {isActive === "Akun Saya" && <MyAccountView />}
-            </div>
+            <div className={styles.content}>{children}</div>
           </div>
         </section>
       </main>
@@ -87,4 +98,4 @@ const ProfilPage = () => {
   );
 };
 
-export default ProfilPage;
+export default ProfileMainLayout;

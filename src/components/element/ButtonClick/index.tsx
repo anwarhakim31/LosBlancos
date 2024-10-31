@@ -15,7 +15,7 @@ const ButtonClick: React.FC<ButtonProps> = ({ title, loading, onClick }) => {
       disabled={loading}
       onClick={onClick}
     >
-      {loading ? "Loading" : title}
+      {loading ? <span className={styles.button__loader}></span> : title}
     </button>
   );
 };

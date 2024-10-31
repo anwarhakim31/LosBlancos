@@ -28,13 +28,18 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+
+  @include media(lg) {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
   margin-top: 3rem;
   gap: 1rem;
 }
 
 .photo {
-  grid-column: span 2 / span 2;
+  @include media(lg) {
+    grid-column: span 2 / span 2;
+  }
   display: flex;
   align-items: center;
   margin-top: 1.5rem;
@@ -42,12 +47,15 @@
 }
 
 .info {
-  grid-column: span 3 / span 3;
+  @include media(lg) {
+    grid-column: span 3 / span 3;
+  }
 }
 
 .control {
   display: flex;
   align-items: center;
+  position: relative;
   label {
     display: block;
     width: 160px;
@@ -55,8 +63,23 @@
     font-weight: 500;
   }
 
+  .divider {
+    width: 12px;
+    height: 12px;
+    pointer-events: noe;
+    background: white;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 2px;
+  }
+
   select {
-    color: white;
+    color: $white;
+
+    &.show {
+      color: $gray-1000;
+    }
   }
 
   input,

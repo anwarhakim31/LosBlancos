@@ -35,20 +35,34 @@
   border-radius: 0.4rem;
   border: 1px solid $gray-300;
   margin-top: 2rem;
+  gap: 1rem;
 
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 3rem;
+  @include media(md) {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  @include media(lg) {
+    gap: 2rem;
+  }
 }
 
 .menu {
-  grid-column: span 1 / span 1;
+  padding-right: 2rem;
+  @include media(md) {
+    grid-column: span 2 / span 2;
+    padding-right: 0;
+  }
+
+  @include media(lg) {
+    grid-column: span 1 / span 1;
+  }
 
   &__list {
     padding: 0.75rem 1rem;
     display: flex;
     justify-content: flex-start;
-    width: 80%;
+    width: 100%;
     text-transform: capitalize;
     align-items: center;
     gap: 0.5rem;
@@ -56,6 +70,11 @@
     border-radius: 0.4rem;
     transition: all 0.3s ease-in-out;
     margin-bottom: 1rem;
+    position: relative;
+
+    @include media(md) {
+      width: 80%;
+    }
 
     &.active {
       p {
@@ -88,6 +107,15 @@
 }
 
 .content {
-  grid-column: span 4 / span 4;
+  margin-top: 4rem;
+
+  @include media(md) {
+    margin-top: 0;
+    grid-column: span 3 / span 3;
+  }
+
+  @include media(lg) {
+    grid-column: span 4 / span 4;
+  }
   min-height: 500px;
 }

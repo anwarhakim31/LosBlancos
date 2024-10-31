@@ -60,6 +60,7 @@ export async function POST(req: NextRequest) {
       totalPayment: total,
       paymnetStatus: "tertunda",
       transactionStatus: "tertunda",
+      expired: new Date(new Date().getTime() + 60 * 1000),
     });
 
     await transaction.save();
@@ -101,6 +102,18 @@ export async function GET(req: NextRequest) {
     });
 
     if (!transaction) {
+      return ResponseError(404, "Transaksi tidak ditemukan dengan ID tersebut");
+    }
+    const now = new Date().getTime();
+    const expired = new Date(transaction.expired).getTime();
+    const timeRemaining = expired - now;
+
+    if (
+      transaction.paymentStatus === "tertunda" &&
+      transaction.transactionStatus === "tertunda" &&
+      timeRemaining < 0
+    ) {
+      await Transaction.findByIdAndDelete(transactionId);
       return ResponseError(404, "Transaksi tidak ditemukan dengan ID tersebut");
     }
 
