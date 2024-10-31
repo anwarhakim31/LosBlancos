@@ -1,0 +1,208 @@
+.card {
+  width: 100%;
+  margin-bottom: 2rem;
+  border: 1px solid $gray-300;
+  border-radius: 0.4rem;
+  overflow: hidden;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    background: $gray-100;
+    padding: 1rem;
+    border-bottom: 1px solid $gray-300;
+    justify-content: space-between;
+
+    &__info {
+      display: flex;
+      gap: 1rem;
+      h3 {
+        font-size: 0.875rem;
+        font-weight: 400;
+        color: $gray-900;
+      }
+    }
+    &__status {
+      font-size: 0.875rem !important;
+      font-weight: 400 !important;
+      color: $danger !important;
+      margin-top: 0 !important;
+    }
+  }
+
+  &__body {
+    padding: 1rem;
+    display: flex;
+    margin-bottom: 1rem;
+
+    &__image {
+      width: 85px;
+      height: 85px;
+      border: 1px solid $gray-300;
+      border-radius: 0.4rem;
+      overflow: hidden;
+      img {
+        object-fit: cover;
+        object-position: center;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    &__info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin: 0.5rem 1rem;
+      h3 {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: $gray-700;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        text-overflow: ellipsis;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      span {
+        font-size: 0.75rem;
+        font-weight: 400;
+        color: $gray-500;
+        text-transform: capitalize;
+      }
+
+      h5 {
+        font-size: 0.8125rem;
+        font-weight: 400;
+        color: $gray-500;
+        text-transform: capitalize;
+      }
+    }
+  }
+
+  &__total {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 1rem;
+    gap: 1rem;
+    h3 {
+      font-size: 1rem;
+      font-weight: 400;
+      color: $gray-700;
+      text-transform: capitalize;
+    }
+    h5 {
+      font-size: 1rem;
+      font-weight: 500;
+      color: $gray-700;
+      text-transform: capitalize;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 1rem;
+    border-top: 1px solid $gray-300;
+    margin-top: 1rem;
+    gap: 1rem;
+    @include media(lg) {
+      flex-wrap: nowrap;
+      justify-content: space-between;
+    }
+
+    &__countdown {
+      padding: 0.5rem 1rem;
+      border-radius: 0.4rem;
+
+      p {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem !important;
+        font-weight: 500 !important;
+        color: $gray-700 !important;
+        margin-top: 0;
+
+        span {
+          display: block;
+          width: 75px;
+          text-align: center;
+        }
+      }
+
+      &.code {
+        background: rgb(255, 228, 228);
+
+        span {
+          color: $danger !important;
+        }
+      }
+
+      &.nocode {
+        background: rgb(255, 251, 229);
+        span {
+          color: $secondary !important;
+        }
+      }
+    }
+
+    &__btns {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    &__btn {
+      padding: 0.5rem 1rem;
+      border: 1px solid $gray-300;
+      border-radius: 0.4rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: $gray-700;
+      text-transform: capitalize;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+
+      &:hover {
+        border: 1px solid $primary;
+        color: $primary;
+      }
+    }
+    a {
+      color: $white;
+      background: $primary;
+
+      &:hover {
+        background: $primary-hover;
+        color: $white;
+      }
+    }
+  }
+}
+.empty {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 8rem;
+
+  p {
+    font-size: 0.875rem;
+    color: $gray-700;
+    text-align: center;
+  }
+
+  .button {
+    margin-top: 1rem;
+    max-width: 150px;
+
+    @include btn();
+    height: 1.75rem;
+    font-size: 0.75rem !important;
+  }
+}

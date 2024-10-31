@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
       invoice,
     });
 
-    let diffrent = false;
+    const diffrent: string[] = [];
 
     for (const item of transaction.items) {
       const stockDB = await Stock.findOne({
@@ -23,8 +23,22 @@ export async function GET(req: NextRequest) {
         value: item.atributeValue,
       }).populate("productId");
 
-      if (item.quantity > stockDB.stock) {
-        diffrent = true;
+      if (!stockDB) {
+        diffrent.push(
+          `${stockDB.productId.name} ${item.atribute} ${item.atributeValue} produk sudah tidak ada`
+        );
+      }
+
+      if (stockDB.stock === 0) {
+        diffrent.push(
+          `${stockDB.productId.name} ${item.atribute} ${item.atributeValue} sudah habis`
+        );
+      }
+
+      if (item.quantity > stockDB.stock && stockDB.stock > 0) {
+        diffrent.push(
+          `${stockDB.productId.name} ${item.atribute} ${item.atributeValue} stock yang tersedia tersisa ${stockDB.stock}`
+        );
       }
     }
 

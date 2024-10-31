@@ -4,7 +4,9 @@ import styles from "./order.module.scss";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ProfileMainLayout from "@/components/layouts/ProfileMainLayout";
-import TertundaView from "@/components/views/profile/TertundaView";
+
+import PendingView from "@/components/views/profile/PendingView";
+import CancelView from "@/components/views/profile/CancelView";
 
 const stat = ["tertunda", "diproses", "dikirim", "selesai", "dibatalkan"];
 
@@ -39,7 +41,8 @@ const OrderPage = () => {
           </div>
         </div>
         <div className={styles.wrapper}>
-          {active === "tertunda" && <TertundaView />}
+          {active === "tertunda" && <PendingView />}
+          {active === "dibatalkan" && <CancelView />}
         </div>
       </div>
     </ProfileMainLayout>
