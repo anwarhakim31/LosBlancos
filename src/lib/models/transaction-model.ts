@@ -54,6 +54,10 @@ const transactionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  expired: {
+    type: Date,
+    required: true,
+  },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -89,6 +93,7 @@ const transactionSchema = new mongoose.Schema({
   paymentName: {
     type: String,
   },
+
   paymentMethod: {
     type: String,
     enum: ["e-wallet", "bank_transfer", "over the counter"],
@@ -108,7 +113,7 @@ const transactionSchema = new mongoose.Schema({
   transactionStatus: {
     type: String,
     required: true,
-    enum: ["tertunda", "diproses", "dikirim", "terkirim", "dibatalkan"],
+    enum: ["tertunda", "diproses", "dikirim", "selesai", "dibatalkan"],
     default: "tertunda",
   },
   transactionDate: {

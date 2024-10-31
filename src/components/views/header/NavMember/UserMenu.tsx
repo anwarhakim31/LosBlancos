@@ -57,9 +57,7 @@ const UserMenu = () => {
           </Link>
 
           <Link
-            href={
-              session.status === "authenticated" ? "/profil/akun" : "/login"
-            }
+            href={session.status === "authenticated" ? "/akun" : "/login"}
             className={styles.wrapper__user__profile}
             style={{ color: pathname !== "/" ? "black" : "" }}
           >

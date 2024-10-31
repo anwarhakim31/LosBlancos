@@ -5,7 +5,7 @@ import React, { Fragment } from "react";
 
 import styles from "./profile.module.scss";
 import BreadCrubm from "@/components/element/BreadCrubm";
-import { CircleUser, LogOut, Map } from "lucide-react";
+import { CircleUser, LogOut, Map, ShoppingBag } from "lucide-react";
 
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
@@ -16,21 +16,26 @@ const menu = [
   {
     name: "Akun Saya",
     icon: <CircleUser color="blue" />,
-    url: "/profil/akun",
+    url: "/akun",
   },
   {
     name: "Alamat Saya",
     icon: <Map color="green" />,
-    url: "/profil/alamat",
+    url: "/alamat",
+  },
+  {
+    name: "Pesanan Saya",
+    icon: <ShoppingBag color="purple" />,
+    url: "/pesanan",
   },
   {
     name: "keluar",
     icon: <LogOut color="red" />,
-    url: "/profil/keluar",
+    url: "/keluar",
   },
 ];
 
-const ProfileLayout = ({ children }: { children: React.ReactNode }) => {
+const ProfileMainLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const { data } = useSession();
   const { cart } = useAppSelector((state) => state.cart);
@@ -66,7 +71,7 @@ const ProfileLayout = ({ children }: { children: React.ReactNode }) => {
                     pathname === item.url ? styles.active : ""
                   }`}
                   type="button"
-                  aria-label={"Akun Saya"}
+                  aria-label={item.name}
                   key={index}
                   onClick={() => {
                     if (item.name === "keluar") {
@@ -74,7 +79,9 @@ const ProfileLayout = ({ children }: { children: React.ReactNode }) => {
                         callbackUrl: "/login",
                       });
                     } else {
-                      router.push(item.url);
+                      router.push(item.url, {
+                        scroll: false,
+                      });
                     }
                   }}
                 >
@@ -91,4 +98,4 @@ const ProfileLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default ProfileLayout;
+export default ProfileMainLayout;

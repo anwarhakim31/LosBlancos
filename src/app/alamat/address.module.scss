@@ -105,10 +105,18 @@
   margin-bottom: 2rem;
   min-height: 100px;
   position: relative;
-  background-color: $neutral;
+}
+
+.skeleton {
+  height: 10px;
+
+  border-radius: 0.25rem;
+  width: 100%;
+  background: $neutral;
 
   @include shimmer();
 }
+
 .empty {
   width: 100%;
   display: flex;

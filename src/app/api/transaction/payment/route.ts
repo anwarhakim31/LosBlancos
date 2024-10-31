@@ -97,7 +97,7 @@ export async function POST(req: NextRequest) {
             customer_details: customerDetails,
             custom_expiry: {
               order_time: formatDateToMidtrans(),
-              expiry_duration: 1,
+              expiry_duration: 60,
               unit: "minute",
             },
           }
@@ -113,7 +113,7 @@ export async function POST(req: NextRequest) {
             customer_details: customerDetails,
             custom_expiry: {
               order_time: formatDateToMidtrans(),
-              expiry_duration: 1,
+              expiry_duration: 60,
               unit: "minute",
             },
           };
@@ -146,6 +146,7 @@ export async function POST(req: NextRequest) {
     const updatedTransaction = await Transaction.findOneAndUpdate(
       { _id: transaction_id },
       {
+        expired: data.expiry_time,
         shippingAddress: address(shippingAddress),
         shippingCost: shipping.cost[0].value,
         shippingName: shippingName,

@@ -115,6 +115,7 @@ export type itemTypeTransaction = {
 
 export type TypeTransaction = {
   _id?: string;
+  expired: Date;
   invoice: string;
   userId: string;
   items: itemTypeTransaction[];
@@ -139,7 +140,7 @@ export type TypeTransaction = {
   address: string;
   statusPayment: string;
   statusTransaction: string;
-  createdAt?: string;
+  transactionDate: Date;
 };
 
 export type TypeShippingAddress = {
