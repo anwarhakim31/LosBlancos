@@ -133,6 +133,32 @@ const PaymentView = ({ isLoading }: { isLoading: boolean }) => {
               </button>
             ))}
         </div>
+        <h4>QRIS</h4>
+        <div className={styles.pay}>
+          {loading && <div key={"qris"} className={styles.skeleton}></div>}
+          {!loading && (
+            <button
+              key={"qris"}
+              className={styles.pay__list}
+              title={"qris"}
+              onClick={() => {
+                dispatch(setPayment("qris"));
+                dispatch(setError({ payment: "" }));
+              }}
+              style={{
+                borderColor: selected === "qris" ? "blue" : "",
+              }}
+            >
+              <Image
+                src={"/payment/qris.png"}
+                alt={"qris"}
+                width={100}
+                height={100}
+                priority
+              />
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

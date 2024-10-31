@@ -59,6 +59,21 @@
         }
       }
 
+      .qrcode {
+        margin-bottom: 1.5rem;
+        border-radius: 0.4rem;
+        border: 1px solid $gray-300;
+        width: max-content;
+        margin: auto;
+        overflow: hidden;
+
+        img {
+          width: 200px;
+          height: 200px;
+          object-fit: contain;
+        }
+      }
+
       .virtual_account {
         .number {
           position: relative;
