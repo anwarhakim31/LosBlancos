@@ -3,14 +3,14 @@ import { TypeTransaction } from "@/services/type.module";
 import { ResponseError } from "@/utils/axios/response-error";
 import { useSession } from "next-auth/react";
 import React, { Fragment, useEffect, useState } from "react";
-import styles from "./tertunda.module.scss";
+import styles from "./pending.module.scss";
 import Image from "next/image";
 import { formatCountdown, formatCurrency, formateDate } from "@/utils/contant";
 import Link from "next/link";
 import Loader from "@/components/element/Loader";
 import ModalConfirmChangePayment from "./ModalConfirmChangePayment";
 
-const TertundaView = () => {
+const PendingView = () => {
   const session = useSession();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<TypeTransaction[]>([]);
@@ -18,8 +18,6 @@ const TertundaView = () => {
     { _id: string; expired: number }[]
   >([]);
   const [isChange, setIsChange] = useState<string | null>(null);
-
-  console.log(isChange);
 
   useEffect(() => {
     setLoading(true);
@@ -229,4 +227,4 @@ const TertundaView = () => {
   );
 };
 
-export default TertundaView;
+export default PendingView;

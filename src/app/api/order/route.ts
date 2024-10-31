@@ -19,11 +19,22 @@ export async function GET(req: NextRequest) {
       expired: { $lt: now },
     });
 
-    const transaction = await Transaction.find({
-      userId,
-      transactionStatus: statusTransaction,
-      paymentStatus: statusPayment,
-    })
+    console.log(userId, statusPayment, statusTransaction);
+
+    const filter: {
+      userId: string;
+      transactionStatus: string;
+      paymentStatus?: string;
+    } = {
+      userId: userId as string,
+      transactionStatus: statusTransaction as string,
+    };
+
+    if (statusPayment) {
+      filter.paymentStatus = statusPayment as string;
+    }
+
+    const transaction = await Transaction.find(filter)
       .populate("items.productId")
       .skip(0)
       .limit(8)
