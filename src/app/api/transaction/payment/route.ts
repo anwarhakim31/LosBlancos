@@ -3,7 +3,10 @@ import Stock from "@/lib/models/stock-model";
 import Transaction from "@/lib/models/transaction-model";
 import { ResponseError } from "@/lib/response-error";
 import { verifyTokenMember } from "@/lib/verify-token";
-import { TypeShippingAddress } from "@/services/type.module";
+import {
+  itemTypeTransaction,
+  TypeShippingAddress,
+} from "@/services/type.module";
 import { formatDateToMidtrans } from "@/utils/contant";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -173,6 +176,42 @@ export async function POST(req: NextRequest) {
       return ResponseError(404, "Transaksi sedang diproses");
     }
 
+    const diffrent: string[] = [];
+
+    for (const item of transaction.items) {
+      const stockDB = await Stock.findOne({
+        productId: item.productId,
+        attribute: item.atribute,
+        value: item.atributeValue,
+      }).populate("productId");
+
+      if (!stockDB) {
+        diffrent.push(
+          `${stockDB.productId.name} ${item.atribute} ${item.atributeValue} produk sudah tidak ada`
+        );
+      }
+
+      if (stockDB.stock === 0) {
+        diffrent.push(
+          `${stockDB.productId.name} ${item.atribute} ${item.atributeValue} sudah habis`
+        );
+      }
+
+      if (item.quantity > stockDB.stock && stockDB.stock > 0) {
+        diffrent.push(
+          `${stockDB.productId.name} ${item.atribute} ${item.atributeValue} stock yang tersedia tersisa ${stockDB.stock}`
+        );
+      }
+    }
+
+    if (diffrent.length > 0) {
+      return NextResponse.json({
+        success: true,
+        message: "Berhasil cek stock",
+        diffrent,
+      });
+    }
+
     const grossAmount = transaction.subtotal + shipping.cost[0].value + 1000;
     const shippingName = `${shipping.courier} - ${shipping.service}`;
 
@@ -231,32 +270,158 @@ export async function POST(req: NextRequest) {
       },
       { new: true }
     ).select("_id items");
-    console.log({ updatedTransaction });
 
-    for (const item of updatedTransaction.items) {
+    transaction.items.forEach(
+      async (item: {
+        productId: string;
+        quantity: number;
+        atribute: string;
+        atributeValue: string;
+      }) => {
+        await Stock.findOneAndUpdate(
+          {
+            productId: item.productId,
+            attribute: item.atribute,
+            value: item.atributeValue,
+          },
+          { $inc: { stock: -item.quantity } },
+          { new: true }
+        );
+      }
+    );
+
+    return NextResponse.json({
+      status: "success",
+      transaction: updatedTransaction,
+    });
+  } catch (error) {
+    console.log(error);
+    return ResponseError(500, (error as Error).message);
+  }
+}
+
+export async function PUT(req: NextRequest) {
+  try {
+    verifyTokenMember(req);
+
+    const json = await req.json();
+
+    const { shipping, payment, transaction_id, shippingAddress } = json;
+
+    if (!shipping || !payment || !transaction_id || !shippingAddress) {
+      return ResponseError(404, "Missing required fields");
+    }
+
+    if (
+      payment &&
+      !Bank_Available.includes(payment) &&
+      !Counter_Available.includes(payment)
+    ) {
+      return ResponseError(404, "Metode pembayaran tidak tersedia");
+    }
+
+    const transaction = await Transaction.findById({
+      _id: transaction_id,
+    }).populate("items.productId");
+
+    if (!transaction) {
+      return ResponseError(404, "Transaksi tidak ditemukan");
+    }
+
+    if (transaction.paymentStatus === "dibayar") {
+      return ResponseError(404, "Transaksi sudah lunas");
+    }
+
+    if (transaction.transactionStatus !== "tertunda") {
+      return ResponseError(404, "Transaksi sedang diproses");
+    }
+
+    for (const item of transaction.items) {
       const stockDB = await Stock.findOne({
         productId: item.productId,
         attribute: item.atribute,
         value: item.atributeValue,
       }).populate("productId");
 
-      if (stockDB.stock <= 0) {
-        await Transaction.deleteOne({ _id: transaction._id });
-
-        return ResponseError(
-          404,
-          `Gagal. ${item.productId?.name} ${item.atribute} ${item.atributeValue}, stock sudah habis`
+      if (!stockDB) {
+        transaction.items = transaction.filter(
+          (t: itemTypeTransaction) => t._id !== item._id
         );
       }
 
-      if (item.quantity > stockDB.stock) {
-        await Transaction.deleteOne({ _id: transaction._id });
-        return ResponseError(
-          400,
-          `Gagal.${item.productId?.name} ${item.atribute} ${item.atributeValue}, stock tersisa kurang dari ${item.quantity}`
+      if (stockDB.stock === 0) {
+        transaction.items = transaction.filter(
+          (t: itemTypeTransaction) => t._id !== item._id
         );
+      }
+
+      if (item.quantity > stockDB.stock && stockDB.stock > 0) {
+        item.quantity = stockDB.stock;
+        item.price = item.quantity * item.price;
+        item.weight = item.quantity * item.productId.weight;
       }
     }
+
+    await transaction.save();
+
+    const grossAmount = transaction.subtotal + shipping.cost[0].value + 1000;
+    const shippingName = `${shipping.courier} - ${shipping.service}`;
+
+    const orderId = transaction.invoice;
+    const customerDetails = {
+      first_name: shippingAddress.fullname,
+      last_name: "-",
+      email: "XrNpR@example.com",
+      phone: "081234567890",
+    };
+
+    const res = await fetch((MIDTRANS_BASE_URL as string) + "/charge", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: getAuthHeader(),
+      },
+      body: JSON.stringify(
+        payload(payment, orderId, customerDetails, grossAmount)
+      ),
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Gagal melakukan pembayaran",
+          data: data,
+          res: payload,
+        },
+        {
+          status: 500,
+        }
+      );
+    }
+
+    const updatedTransaction = await Transaction.findOneAndUpdate(
+      { _id: transaction_id },
+      {
+        $set: {
+          expired: data.expiry_time,
+          shippingAddress: address(shippingAddress),
+          shippingCost: shipping.cost[0].value,
+          shippingName: shippingName,
+          totalPayment: grossAmount,
+          paymentMethod: payment_method(payment),
+          paymentStatus: "tertunda",
+          paymentCode: paymentCode(payment, data),
+          paymentName: payment,
+          paymentId: data.transaction_id,
+          paymentCreated: data.transaction_time,
+          paymentExpired: data.expiry_time,
+        },
+      },
+      { new: true }
+    ).select("_id items");
 
     transaction.items.forEach(
       async (item: {

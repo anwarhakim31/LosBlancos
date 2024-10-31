@@ -42,4 +42,16 @@ export const transactionService = {
     instance.delete("/transaction?transactionId=" + id),
   deleteMany: (data: string[]) =>
     instance.delete("/transaction/delete-many", { data }),
+  repayment: (
+    shipping: TypeOngkir,
+    payment: string,
+    transaction_id: string,
+    shippingAddress: TypeShippingAddress
+  ) =>
+    instance.put("/transaction/payment", {
+      shipping,
+      payment,
+      transaction_id,
+      shippingAddress,
+    }),
 };

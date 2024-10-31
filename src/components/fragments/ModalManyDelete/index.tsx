@@ -14,12 +14,14 @@ const ModalManyDelete = ({
   setCheck,
   fetching,
   callback,
+  setIsAllChecked,
 }: {
   onClose: () => void;
   title: string;
   setCheck: React.Dispatch<React.SetStateAction<string[]>>;
   fetching: () => Promise<any>;
   callback: () => Promise<any>;
+  setIsAllChecked: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [loading, setLoading] = useState(false);
 
@@ -33,6 +35,7 @@ const ModalManyDelete = ({
         onClose();
         setCheck([]);
         callback();
+        setIsAllChecked(false);
       }
     } catch (error) {
       ResponseError(error);

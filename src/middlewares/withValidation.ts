@@ -78,6 +78,10 @@ export default function withValidation(middleware: NextMiddleware) {
       }
 
       if (status) {
+        if (status !== "sukses" && status !== "gagal") {
+          return NextResponse.redirect(new URL(`/pembayaran/${id}`, req.url));
+        }
+
         if (
           data.transaction.paymentStatus === "dibayar" &&
           status !== "sukses"
@@ -101,6 +105,12 @@ export default function withValidation(middleware: NextMiddleware) {
         status === "sukses" &&
         data.transaction.paymentStatus === "tertunda"
       ) {
+        {
+          return NextResponse.redirect(new URL(`/pembayaran/${id}`, req.url));
+        }
+      }
+
+      if (status === "gagal" && data.transaction.paymentStatus === "tertunda") {
         {
           return NextResponse.redirect(new URL(`/pembayaran/${id}`, req.url));
         }

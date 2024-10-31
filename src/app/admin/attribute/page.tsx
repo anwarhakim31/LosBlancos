@@ -24,6 +24,7 @@ const AttributePage = () => {
   const [isEditData, setIsEditData] = useState<TypeAttribute | null>(null);
   const [isDeleteOne, setIsDeleteOne] = useState<TypeAttribute | null>(null);
   const [isDeleteMany, setIsDeleteMany] = useState(false);
+  const [isAllChecked, setIsAllChecked] = useState(false);
   const [check, setCheck] = useState<string[]>([]);
   const [pagination, setPagination] = useState({
     page: 1,
@@ -109,6 +110,8 @@ const AttributePage = () => {
         setIsDeleteMany={setIsDeleteMany}
         setIsDeleteOne={setIsDeleteOne}
         tbody={["name", "value"]}
+        setIsAllChecked={setIsAllChecked}
+        isAllChecked={isAllChecked}
       />
 
       {isAddData ? (
@@ -125,6 +128,7 @@ const AttributePage = () => {
           title="Apakah anda yakin ingin menghapus atribut terpilih ?"
           setCheck={setCheck}
           fetching={() => attributeService.deleteMany(check)}
+          setIsAllChecked={setIsAllChecked}
         />
       ) : null}
 

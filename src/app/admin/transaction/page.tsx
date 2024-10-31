@@ -28,7 +28,7 @@ const TransactionPage = () => {
   const [isChange, setIsChange] = useState<TypeTransaction | null>(null);
   const [isDeleteOne, setIsDeleteOne] = useState<TypeTransaction | null>(null);
   const [isDeleteMany, setIsDeleteMany] = useState(false);
-
+  const [isAllChecked, setIsAllChecked] = useState(false);
   const getData = useCallback(async () => {
     const params = new URLSearchParams(useParams.toString());
 
@@ -81,6 +81,8 @@ const TransactionPage = () => {
         setIsChange={setIsChange}
         setIsDeleteOne={setIsDeleteOne}
         setIsDeleteMany={setIsDeleteMany}
+        setIsAllChecked={setIsAllChecked}
+        isAllChecked={isAllChecked}
       />
       {isChange && (
         <ModalEditTransaction
@@ -106,6 +108,7 @@ const TransactionPage = () => {
           setCheck={setCheck}
           fetching={() => transactionService.deleteMany(check)}
           callback={getData}
+          setIsAllChecked={setIsAllChecked}
         />
       )}
     </Fragment>
