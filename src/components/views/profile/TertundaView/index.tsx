@@ -8,7 +8,7 @@ import Image from "next/image";
 import { formatCountdown, formatCurrency, formateDate } from "@/utils/contant";
 import Link from "next/link";
 import Loader from "@/components/element/Loader";
-// import ModalConfirmChangePayment from "./ModalConfirmChangePaymentChangePayment";
+import ModalConfirmChangePayment from "./ModalConfirmChangePayment";
 
 const TertundaView = () => {
   const session = useSession();
@@ -219,12 +219,12 @@ const TertundaView = () => {
           <p>Tidak ada pesanan</p>
         </div>
       )}
-      {/* {isChange && (
+      {isChange && (
         <ModalConfirmChangePayment
           invoice={isChange as string}
           onClose={() => setIsChange(null)}
         />
-      )} */}
+      )}
     </Fragment>
   );
 };
