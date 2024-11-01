@@ -33,7 +33,14 @@ const GaleriView = () => {
               key={index + 1}
               onClick={() => handleOpen(index + 1)}
             >
-              <Image src={item} alt="galeri1" width={1000} height={1000} />
+              <Image
+                src={item}
+                alt=""
+                width={1000}
+                height={1000}
+                quality={100}
+                priority
+              />
             </div>
           ))}
         </div>

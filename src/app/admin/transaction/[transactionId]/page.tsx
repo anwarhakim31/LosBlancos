@@ -1,6 +1,11 @@
 import ButtonBackPage from "@/components/element/ButtonBackPage";
 import styles from "./transaction.module.scss";
-import { formatCurrency, formateDate, ServerURL } from "@/utils/contant";
+import {
+  formatCurrency,
+  formateDate,
+  formatTime,
+  ServerURL,
+} from "@/utils/contant";
 import React from "react";
 import { Check, X } from "lucide-react";
 import { TypeTransaction } from "@/services/type.module";
@@ -67,7 +72,10 @@ const TranscationId = async ({
             </div>
             <div className={styles.wrapper}>
               <p>Transaksi dibuat</p>
-              <span>: {formateDate(transaction.transactionDate)}</span>
+              <span>
+                : {formateDate(transaction.transactionDate)} -{" "}
+                {formatTime(transaction.transactionDate)}
+              </span>
             </div>
             <div className={styles.wrapper}>
               <p>status transaksi</p>
@@ -86,7 +94,10 @@ const TranscationId = async ({
               <span>
                 :{" "}
                 {transaction?.paymentCreated &&
-                  formateDate(transaction?.paymentCreated)}
+                  formateDate(transaction?.paymentCreated)}{" "}
+                -{" "}
+                {transaction?.paymentCreated &&
+                  formatTime(transaction?.paymentCreated)}
               </span>
             </div>
           </div>

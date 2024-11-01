@@ -72,11 +72,11 @@
     &__info {
       display: flex;
       flex-direction: column;
-      gap: 0.25rem;
 
       span {
         font-size: 0.75rem;
         font-weight: 400;
+        text-transform: capitalize;
       }
 
       h4 {
@@ -90,7 +90,9 @@
 
       p {
         font-size: 0.75rem;
+        margin-top: 0.5rem;
         font-weight: 400;
+        color: $gray-500;
         text-transform: capitalize;
       }
     }
