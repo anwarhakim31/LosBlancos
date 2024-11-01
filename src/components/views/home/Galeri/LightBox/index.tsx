@@ -37,7 +37,13 @@ const LightBox: FC<propsType> = ({ onClose, data, isOpen }) => {
               onClick={handleNext}
               style={{ display: isSelected === newIndex ? "block" : "none" }}
             >
-              <Image src={item} alt="galeri1" width={1000} height={1000} />
+              <Image
+                src={item}
+                alt="galeri1"
+                width={1000}
+                height={1000}
+                priority
+              />
               <p>
                 {newIndex} dari {data.length}
               </p>

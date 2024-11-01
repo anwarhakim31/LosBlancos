@@ -15,7 +15,7 @@ interface PropsType {
   callback: () => void;
 }
 
-const ModalEditMarquee = ({ onClose, isEditData, callback }: PropsType) => {
+const ModalEditGaleri = ({ onClose, isEditData, callback }: PropsType) => {
   const [loading, setLoading] = useState(false);
   const { handleSubmit, register, setValue } = useForm({
     defaultValues: {
@@ -27,7 +27,7 @@ const ModalEditMarquee = ({ onClose, isEditData, callback }: PropsType) => {
   const onSubmit = async (data: { image: string; id: string }) => {
     setLoading(true);
     try {
-      const res = await masterService.editMarquee(data);
+      const res = await masterService.editGaleri(data);
 
       if (res.status === 200) {
         toast.success(res.data.message);
@@ -48,7 +48,7 @@ const ModalEditMarquee = ({ onClose, isEditData, callback }: PropsType) => {
         className={style.modal}
         onClick={(e) => e.stopPropagation()}
       >
-        <HeaderModal title="Edit Marquee" onClose={onClose} />
+        <HeaderModal title="Edit Galeri" onClose={onClose} />
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className={style.modal__content}>
             <UploadImage
@@ -70,4 +70,4 @@ const ModalEditMarquee = ({ onClose, isEditData, callback }: PropsType) => {
   );
 };
 
-export default ModalEditMarquee;
+export default ModalEditGaleri;

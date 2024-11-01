@@ -5,6 +5,7 @@ import { Fragment, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import CarousalView from "@/components/views/admin/mater-data/Caraousel";
 import MarqueeView from "@/components/views/admin/mater-data/Marquee";
+import GaleriView from "@/components/views/admin/mater-data/Galeri";
 
 const tabs = ["carousel", "marquee", "galeri"];
 
@@ -46,6 +47,7 @@ const DesainPage = () => {
 
       {selectedTab === "carousel" && <CarousalView />}
       {selectedTab === "marquee" && <MarqueeView />}
+      {selectedTab === "galeri" && <GaleriView />}
     </Fragment>
   );
 };

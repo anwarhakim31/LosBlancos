@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
     verifyToken(req);
     await connectDB();
 
-    const { image, id } = await req.json();
+    const { image, id: index } = await req.json();
 
     const marquee = await Marquee.findOne();
 
@@ -46,11 +46,11 @@ export async function POST(req: NextRequest) {
       return ResponseError(404, "Marquee tidak ditemukan.");
     }
 
-    if (id > marquee.image.length) {
+    if (index > marquee.image.length) {
       return ResponseError(404, "Marquee tidak ditemukan.");
     }
 
-    marquee.image[parseInt(id)] = image;
+    marquee.image[parseInt(index)] = image;
 
     marquee.save();
 

@@ -29,6 +29,12 @@
         font-size: 0.8125rem;
         font-weight: 600;
       }
+
+      svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        color: $white;
+      }
     }
 
     &__btn {
@@ -83,8 +89,14 @@
         margin-top: 0.5rem;
         display: none;
 
+        h5 {
+          all: unset;
+          font-size: 0.875rem;
+          font-weight: 600;
+        }
         p {
           font-size: 0.75rem;
+          color: $gray-500;
         }
 
         @include media(md) {
@@ -98,6 +110,11 @@
         margin-top: 0.5rem;
 
         display: block;
+        h5 {
+          all: unset;
+          font-size: 0.875rem;
+          font-weight: 600;
+        }
         p {
           font-size: 0.75rem;
         }
