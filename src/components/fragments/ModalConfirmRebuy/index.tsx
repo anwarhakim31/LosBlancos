@@ -42,7 +42,10 @@ const ModalConfirmRebuy = ({
   };
 
   useEffect(() => {
-    if (diffrent?.length === 1 && diffrent[0].includes("habis")) {
+    if (
+      diffrent.filter((item) => item.includes("habis")).length ===
+      diffrent.length
+    ) {
       const timeout = setTimeout(() => {
         onClose();
       }, 3000);
@@ -51,10 +54,13 @@ const ModalConfirmRebuy = ({
         clearTimeout(timeout);
       };
     }
-  }, [diffrent.length, onClose]);
+  }, [diffrent, onClose]);
 
   useEffect(() => {
-    if (diffrent?.length === 1 && diffrent[0].includes("habis")) {
+    if (
+      diffrent.filter((item) => item.includes("habis")).length ===
+      diffrent.length
+    ) {
       const countdowns = setInterval(() => {
         if (countdown > 0) {
           setCountdown(countdown - 1);
@@ -67,7 +73,7 @@ const ModalConfirmRebuy = ({
         clearInterval(countdowns);
       };
     }
-  }, [countdown]);
+  }, [diffrent, countdown, setCountdown]);
 
   return (
     <PortalNotification onClose={() => {}}>
@@ -81,7 +87,8 @@ const ModalConfirmRebuy = ({
             })}
           </ol>
           <p>{`${
-            diffrent?.length === 1 && diffrent[0].includes("habis")
+            diffrent.filter((item) => item.includes("habis")).length ===
+            diffrent.length
               ? "Anda tidak bisa melanjutkan transaksi ini!"
               : "apakah ingin melanjutkan untuk melakukan pembelian ini?"
           }`}</p>
@@ -89,7 +96,8 @@ const ModalConfirmRebuy = ({
           <span>{countdown}</span>
         </div>
 
-        {diffrent?.length !== 1 && !diffrent[0].includes("habis") && (
+        {diffrent.filter((item) => item.includes("habis")).length !==
+          diffrent.length && (
           <div className={styles.modal__footer}>
             <div style={{ width: "100px" }}>
               <ButtonClick title="Tidak" onClick={onClose} loading={loading} />

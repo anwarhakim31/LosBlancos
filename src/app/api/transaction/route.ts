@@ -58,9 +58,9 @@ export async function POST(req: NextRequest) {
       subTotal: total,
       shippingCost: 0,
       totalPayment: total,
-      paymnetStatus: "tertunda",
+      paymentStatus: "tertunda",
       transactionStatus: "tertunda",
-      expired: new Date(new Date().getTime() + 60 * 1000),
+      expired: new Date(new Date().getTime() + 8 * 60 * 60 * 1000),
     });
 
     await transaction.save();

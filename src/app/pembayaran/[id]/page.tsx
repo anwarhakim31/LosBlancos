@@ -44,6 +44,16 @@ const payment = [
     name: "mandiri bill",
     image: "/payment/mandiri.png",
   },
+  {
+    id: 5,
+    name: "alfamart",
+    image: "/payment/alfamart.png",
+  },
+  {
+    id: 6,
+    name: "indomaret",
+    image: "/payment/indomaret.png",
+  },
 ];
 
 function getBankDetail(name: string) {
@@ -201,7 +211,11 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
                     className={styles.virtual_account}
                     style={{ pointerEvents: countdown === 0 ? "none" : "auto" }}
                   >
-                    <h3>Nomor Virtual Account</h3>
+                    <h3>
+                      {data?.paymentMethod === "bank_transfer"
+                        ? "Nomor Virtual Account"
+                        : "Nomor Transfer Bank"}
+                    </h3>
                     <div className={styles.number}>
                       {loading ? (
                         <div

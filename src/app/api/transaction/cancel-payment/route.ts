@@ -4,7 +4,7 @@ import { ResponseError } from "@/lib/response-error";
 import { NextRequest, NextResponse } from "next/server";
 
 const MIDTRANS_BASE_URL = process.env.MIDTRANS_BASE_URL;
-const MIDTRANS_SERVER_KEY = process.env.MIDTRANS_SECRET_KEY;
+const MIDTRANS_SERVER_KEY = process.env.MIDTRANS_SECRET_SERVER_KEY;
 
 const getAuthHeader = () => {
   return `Basic ${Buffer.from(MIDTRANS_SERVER_KEY as string).toString(

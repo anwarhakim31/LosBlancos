@@ -5,11 +5,16 @@ import Image from "next/image";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { setError, setPayment } from "@/store/slices/chechkoutSlice";
 
-const payment = [
+const bank = [
   { name: "bca", img: "/payment/bca.png" },
   { name: "bni", img: "/payment/bni.png" },
   { name: "bri", img: "/payment/bri.png" },
   { name: "mandiri bill", img: "/payment/mandiri.png" },
+];
+
+const counter = [
+  { name: "indomaret", img: "/payment/indomaret.png" },
+  { name: "alfamart", img: "/payment/alfamart.png" },
 ];
 
 const PaymentView = ({ isLoading }: { isLoading: boolean }) => {
@@ -33,17 +38,47 @@ const PaymentView = ({ isLoading }: { isLoading: boolean }) => {
       </h3>
 
       <div className={styles.row}>
-        <h4>Transfer Bank</h4>
-        <div className={styles.bank}>
+        <h4>Transfer pay</h4>
+        <div className={styles.pay}>
           {loading &&
-            payment.map((item) => (
+            bank.map((item) => (
               <div key={item.name} className={styles.skeleton}></div>
             ))}
           {!loading &&
-            payment.map((item) => (
+            bank.map((item) => (
               <button
                 key={item.name}
-                className={styles.bank__list}
+                className={styles.pay__list}
+                title={item.name}
+                onClick={() => {
+                  dispatch(setPayment(item.name));
+                  dispatch(setError({ payment: "" }));
+                }}
+                style={{
+                  borderColor: selected === item.name ? "blue" : "",
+                }}
+              >
+                <Image
+                  src={item.img}
+                  alt={item.name}
+                  width={100}
+                  height={100}
+                  priority
+                />
+              </button>
+            ))}
+        </div>
+        <h4>Over the Counter</h4>
+        <div className={styles.pay}>
+          {loading &&
+            counter.map((item) => (
+              <div key={item.name} className={styles.skeleton}></div>
+            ))}
+          {!loading &&
+            counter.map((item) => (
+              <button
+                key={item.name}
+                className={styles.pay__list}
                 title={item.name}
                 onClick={() => {
                   dispatch(setPayment(item.name));

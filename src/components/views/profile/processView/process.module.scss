@@ -25,7 +25,7 @@
     &__status {
       font-size: 0.875rem !important;
       font-weight: 400 !important;
-      color: $danger !important;
+      color: $success !important;
       margin-top: 0 !important;
     }
   }
@@ -111,6 +111,42 @@
     @include media(lg) {
       flex-wrap: nowrap;
       justify-content: space-between;
+    }
+
+    &__countdown {
+      padding: 0.5rem 1rem;
+      border-radius: 0.4rem;
+
+      p {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem !important;
+        font-weight: 500 !important;
+        color: $gray-700 !important;
+        margin-top: 0;
+
+        span {
+          display: block;
+          width: 75px;
+          text-align: center;
+        }
+      }
+
+      &.code {
+        background: rgb(255, 228, 228);
+
+        span {
+          color: $danger !important;
+        }
+      }
+
+      &.nocode {
+        background: rgb(255, 251, 229);
+        span {
+          color: $secondary !important;
+        }
+      }
     }
 
     &__btns {

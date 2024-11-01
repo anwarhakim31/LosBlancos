@@ -128,6 +128,7 @@ export type TypeTransaction = {
     postalCode: string;
     address: string;
   };
+  paymentMethod?: string;
   paymentCode?: string;
   paymentName?: string;
   paymentCreated?: Date;
