@@ -1,7 +1,6 @@
 import { ResponseError } from "@/lib/response-error";
 import { verifyTokenMember } from "@/lib/verify-token";
 
-import { formatDateToMidtrans } from "@/utils/contant";
 import { NextRequest, NextResponse } from "next/server";
 
 const MIDTRANS_BASE_URL = process.env.MIDTRANS_BASE_URL;
@@ -25,19 +24,10 @@ export async function POST(req: NextRequest) {
         Authorization: getAuthHeader(),
       },
       body: JSON.stringify({
-        payment_type: "cstore",
+        payment_type: "gopay",
         transaction_details: {
-          order_id: "order-id-12s34115",
+          order_id: "order-id-123412115",
           gross_amount: 10000,
-        },
-        cstore: {
-          store: "indomaret",
-          message: "Payment from Alfamart",
-        },
-        custom_expiry: {
-          order_time: formatDateToMidtrans(),
-          expiry_duration: 60,
-          unit: "minute",
         },
       }),
     });

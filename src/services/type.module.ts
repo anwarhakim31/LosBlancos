@@ -117,7 +117,7 @@ export type TypeTransaction = {
   _id?: string;
   expired: Date;
   invoice: string;
-  userId: string;
+  userId: TypeUser;
   items: itemTypeTransaction[];
   shippingAdress?: {
     fullname: string;
@@ -140,7 +140,7 @@ export type TypeTransaction = {
   totalPayment: number;
   address: string;
   statusPayment: string;
-  statusTransaction: string;
+  transactionStatus: string;
   transactionDate: Date;
 };
 

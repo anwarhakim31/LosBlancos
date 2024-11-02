@@ -66,7 +66,7 @@ const ProcessView = () => {
                 <h3>{formateDate(order.transactionDate)}</h3>
               </div>
               <p className={styles.card__header__status}>
-                {order.statusTransaction === "tertunda"
+                {order.transactionStatus === "tertunda"
                   ? "dalam proses"
                   : "dikemas"}
               </p>

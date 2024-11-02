@@ -8,6 +8,7 @@ export const transactionService = {
     total: number,
     cartId?: string
   ) => instance.post("/transaction", { userId, items, total, cartId }),
+
   get: (transactionId: string) =>
     instance.get("/transaction?transactionId=" + transactionId),
   payment: (
@@ -32,4 +33,5 @@ export const transactionService = {
     instance.get(`transaction/cek-stock?order_id=${order_id}`),
   rebuy: (order_id: string) =>
     instance.post("transaction/rebuy?order_id=" + order_id),
+  getAll: (quary: string) => instance.get("/transaction/admin?" + quary),
 };

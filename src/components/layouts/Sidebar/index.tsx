@@ -12,6 +12,7 @@ import {
   LibraryBig,
   MonitorCog,
   Package,
+  ShoppingBag,
   User,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
@@ -45,18 +46,7 @@ const sideList = [
     id: 3,
     name: "user",
     icon: <User width={20} height={20} strokeWidth={1.5} />,
-    dropdown: [
-      {
-        id: 1,
-        name: "Kelola User",
-        link: "/admin/user/kelola-user",
-      },
-      {
-        id: 2,
-        name: "Alamat User",
-        link: "/admin/user/alamat-user",
-      },
-    ],
+    link: "/admin/user",
   },
 
   {
@@ -82,6 +72,13 @@ const sideList = [
     name: "produk",
     icon: <Package width={20} height={20} strokeWidth={1.2} />,
     link: "/admin/product",
+  },
+
+  {
+    id: 8,
+    name: "transaksi",
+    icon: <ShoppingBag width={20} height={20} strokeWidth={1.2} />,
+    link: "/admin/transaction",
   },
 ];
 
