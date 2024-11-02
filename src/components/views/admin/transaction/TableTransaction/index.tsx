@@ -1,110 +1,37 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChevronLeft, ChevronRight, Edit, Trash, Trash2 } from "lucide-react";
 import style from "./table.module.scss";
-import { TypeStock, TypeUser } from "@/services/type.module";
+import { TypeTransaction } from "@/services/type.module";
 import { Fragment, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import SelectRow from "@/components/element/SelectRow";
 import Checkbox from "@/components/element/Checkbox";
-import Image from "next/image";
-import { formatCurrency } from "@/utils/contant";
+import { formatCurrency, formateDate } from "@/utils/contant";
 
 interface typeTable {
-  thead: {
-    title: string;
-    padding: string;
-    textAlign?: "left" | "center" | "right";
-  }[];
-  data: TypeUser[] | null;
+  data: TypeTransaction[] | null;
   loading: boolean;
 
-  tbody: string[];
   pagination: {
     page: number;
     limit: number;
     total: number;
     totalPage: number;
   };
-  setIsDeleteOne: React.Dispatch<React.SetStateAction<any | null>>;
-  setIsDeleteMany: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsEditData: React.Dispatch<React.SetStateAction<any | null>>;
+  // setIsDeleteOne: React.Dispatch<React.SetStateAction<any | null>>;
+  // setIsDeleteMany: React.Dispatch<React.SetStateAction<boolean>>;
+  // setIsEditData: React.Dispatch<React.SetStateAction<any | null>>;
   check: string[];
   setCheck: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-const TdComponent = (item: any, body: string) => {
-  switch (body) {
-    case "createdAt":
-      return (
-        <td style={{ textAlign: "center" }}>{item.createdAt?.split("T")[0]}</td>
-      );
-    case "description":
-      return (
-        <td className={`${style.table__description} `}>
-          <p>{item?.description}</p>
-        </td>
-      );
-    case "image":
-      return (
-        <td className={`${style.table__image} `}>
-          <Image
-            src={item?.image}
-            alt="image"
-            width={200}
-            height={200}
-            priority
-          />
-        </td>
-      );
-    case "stock":
-      return (
-        <td style={{ textAlign: "center" }}>
-          {item.stock.reduce(
-            (total: number, item: TypeStock) => total + (item.stock || 0),
-            0
-          )}
-        </td>
-      );
-    case "imageProduct":
-      return (
-        <td className={`${style.table__imageProduct} `}>
-          <Image
-            src={item?.image[0]}
-            alt="image"
-            width={100}
-            height={100}
-            priority
-          />
-        </td>
-      );
-    case "price":
-      return (
-        <td style={{ padding: "1rem 1rem" }}>{formatCurrency(item[body])}</td>
-      );
-    case "collectionName":
-      return <td>{item.collectionName.name}</td>;
-    case "value":
-      return (
-        <td
-          style={{ textAlign: "center", userSelect: "none" }}
-          title={item[body]}
-        >
-          {item[body]?.length}
-        </td>
-      );
-    default:
-      return <td>{item[body]}</td>;
-  }
-};
-
-const Table = ({
-  thead,
+const TableTransaction = ({
   data,
-  tbody,
+
   pagination,
-  setIsDeleteOne,
-  setIsDeleteMany,
-  setIsEditData,
+  // setIsDeleteOne,
+  // setIsDeleteMany,
+  // setIsEditData,
   loading,
   setCheck,
   check,
@@ -165,7 +92,7 @@ const Table = ({
               : style.deleteAll__disable
           }`}
           disabled={check?.length === 0}
-          onClick={() => setIsDeleteMany(true)}
+          // onClick={() => setIsDeleteMany(true)}
         >
           <Trash2 />
         </button>
@@ -189,29 +116,25 @@ const Table = ({
                       style={{ border: "1px solid white" }}
                     />
                   </th>
-                  {thead.map((item, i) => (
-                    <th
-                      key={i + 1}
-                      style={{
-                        padding: item.padding,
-                        textAlign: item.textAlign ? item.textAlign : "left",
-                      }}
-                    >
-                      {item.title}
-                    </th>
-                  ))}
+                  <th>Tanggal</th>
+                  <th>Invoice</th>
+                  <th>Customer</th>
+                  <th>Total Harga</th>
+                  <th style={{ textAlign: "center" }}>Status Pembayaran</th>
+                  <th style={{ textAlign: "center" }}>statu Transaksi</th>
+                  <th></th>
                 </tr>
               </thead>
 
               <tbody>
                 {data && data.length === 0 && (
                   <tr className={style.nodata}>
-                    <td colSpan={thead.length + 1}>Data Tidak ada.</td>
+                    <td colSpan={data.length + 1}>Data Tidak ada.</td>
                   </tr>
                 )}
                 {data &&
                   data.length > 0 &&
-                  data?.map((items: TypeUser, i) => (
+                  data?.map((items: TypeTransaction, i) => (
                     <tr
                       key={items._id}
                       style={{
@@ -235,20 +158,56 @@ const Table = ({
                           id={items._id}
                         />
                       </td>
-                      {tbody.map((body, i) => (
-                        <Fragment key={i}>{TdComponent(items, body)}</Fragment>
-                      ))}
+                      <td>{formateDate(items?.transactionDate)}</td>
+                      <td>{items?.invoice}</td>
+                      <td>{items?.userId.fullname}</td>
+                      <td>
+                        {formatCurrency(
+                          items?.subtotal + 1000 + items?.shippingCost
+                        )}
+                      </td>
+                      <td className={`${style.table__status} `}>
+                        <p
+                          className={`${
+                            items?.paymentStatus === "tertunda"
+                              ? style.tertunda
+                              : ""
+                          } ${
+                            items?.paymentStatus === "dibatalkan"
+                              ? style.dibatalkan
+                              : style.dibayar
+                          }`}
+                        >
+                          {" "}
+                          {items.paymentStatus}
+                        </p>
+                      </td>
+                      <td className={`${style.table__status} `}>
+                        <p
+                          className={`${
+                            items?.transactionStatus === "tertunda"
+                              ? style.tertunda
+                              : ""
+                          } ${
+                            items?.transactionStatus === "dibatalkan"
+                              ? style.dibatalkan
+                              : style.dibayar
+                          }`}
+                        >
+                          {items?.transactionStatus}
+                        </p>
+                      </td>
                       <td>
                         <div>
                           <button
                             className={style.edit}
-                            onClick={() => setIsEditData(items)}
+                            // onClick={() => setIsEditData(items)}
                           >
                             <Edit width={16} height={16} />
                           </button>
                           <button
                             className={style.trash}
-                            onClick={() => setIsDeleteOne(items)}
+                            // onClick={() => setIsDeleteOne(items)}
                           >
                             <Trash width={16} height={16} />
                           </button>
@@ -326,4 +285,4 @@ const Table = ({
   );
 };
 
-export default Table;
+export default TableTransaction;

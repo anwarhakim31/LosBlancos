@@ -214,21 +214,24 @@ export async function POST(req: NextRequest) {
     const updatedTransaction = await Transaction.findOneAndUpdate(
       { _id: transaction_id },
       {
-        expired: data.expiry_time,
-        shippingAddress: address(shippingAddress),
-        shippingCost: shipping.cost[0].value,
-        shippingName: shippingName,
-        totalPayment: grossAmount,
-        paymentMethod: payment_method(payment),
-        paymentStatus: "tertunda",
-        paymentCode: paymentCode(payment, data),
-        paymentName: payment,
-        paymentId: data.transaction_id,
-        paymentCreated: data.transaction_time,
-        paymentExpired: data.expiry_time,
+        $set: {
+          expired: data.expiry_time,
+          shippingAddress: address(shippingAddress),
+          shippingCost: shipping.cost[0].value,
+          shippingName: shippingName,
+          totalPayment: grossAmount,
+          paymentMethod: payment_method(payment),
+          paymentStatus: "tertunda",
+          paymentCode: paymentCode(payment, data),
+          paymentName: payment,
+          paymentId: data.transaction_id,
+          paymentCreated: data.transaction_time,
+          paymentExpired: data.expiry_time,
+        },
       },
       { new: true }
     ).select("_id items");
+    console.log({ updatedTransaction });
 
     for (const item of updatedTransaction.items) {
       const stockDB = await Stock.findOne({
