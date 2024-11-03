@@ -47,3 +47,34 @@ export async function GET(req: NextRequest) {
     return ResponseError(500, "Internal server error");
   }
 }
+
+export async function PUT(req: NextRequest) {
+  try {
+    const searchParams = req.nextUrl.searchParams;
+    const invoice = searchParams.get("invoice");
+    const { transactionStatus, paymentStatus } = await req.json();
+
+    const transaction = await Transaction.findOneAndUpdate(
+      {
+        invoice,
+      },
+      {
+        $set: {
+          transactionStatus,
+          paymentStatus,
+        },
+      }
+    );
+
+    if (!transaction) {
+      return ResponseError(404, "Transaksi tidak ditemukan");
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: "Transaksi berhasil diperbarui",
+    });
+  } catch (error) {
+    return ResponseError(500, "Internal server error");
+  }
+}
