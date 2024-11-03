@@ -34,4 +34,12 @@ export const transactionService = {
   rebuy: (order_id: string) =>
     instance.post("transaction/rebuy?order_id=" + order_id),
   getAll: (quary: string) => instance.get("/transaction/admin?" + quary),
+  editStatus: (
+    invoice: string,
+    data: { transactionStatus: string; paymentStatus: string }
+  ) => instance.put("/transaction/status?invoice=" + invoice, data),
+  deleteOne: (id: string) =>
+    instance.delete("/transaction?transactionId=" + id),
+  deleteMany: (data: string[]) =>
+    instance.delete("/transaction/delete-many", { data }),
 };

@@ -68,6 +68,8 @@ export async function POST(req: NextRequest) {
       statusMap[transaction_status as keyof typeof statusMap];
 
     if (transaction.paymentStatus === "dibayar") {
+      transaction.transactionStatus = "diproses";
+
       for (const item of transaction.items) {
         await Product.findOneAndUpdate(
           { _id: item.productId },

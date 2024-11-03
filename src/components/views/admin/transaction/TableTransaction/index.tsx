@@ -1,5 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ChevronLeft, ChevronRight, Edit, Trash, Trash2 } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Edit,
+  Eye,
+  Trash,
+  Trash2,
+} from "lucide-react";
 import style from "./table.module.scss";
 import { TypeTransaction } from "@/services/type.module";
 import { Fragment, useState } from "react";
@@ -18,9 +25,10 @@ interface typeTable {
     total: number;
     totalPage: number;
   };
-  // setIsDeleteOne: React.Dispatch<React.SetStateAction<any | null>>;
-  // setIsDeleteMany: React.Dispatch<React.SetStateAction<boolean>>;
-  // setIsEditData: React.Dispatch<React.SetStateAction<any | null>>;
+  setIsDeleteOne: React.Dispatch<React.SetStateAction<any | null>>;
+  setIsDeleteMany: React.Dispatch<React.SetStateAction<boolean>>;
+
+  setIsChange: React.Dispatch<React.SetStateAction<any | null>>;
   check: string[];
   setCheck: React.Dispatch<React.SetStateAction<string[]>>;
 }
@@ -29,9 +37,9 @@ const TableTransaction = ({
   data,
 
   pagination,
-  // setIsDeleteOne,
-  // setIsDeleteMany,
-  // setIsEditData,
+  setIsDeleteOne,
+  setIsDeleteMany,
+  setIsChange,
   loading,
   setCheck,
   check,
@@ -92,7 +100,7 @@ const TableTransaction = ({
               : style.deleteAll__disable
           }`}
           disabled={check?.length === 0}
-          // onClick={() => setIsDeleteMany(true)}
+          onClick={() => setIsDeleteMany(true)}
         >
           <Trash2 />
         </button>
@@ -118,7 +126,7 @@ const TableTransaction = ({
                   </th>
                   <th>Tanggal</th>
                   <th>Invoice</th>
-                  <th>Customer</th>
+                  <th>Pelanggan</th>
                   <th>Total Harga</th>
                   <th style={{ textAlign: "center" }}>Status Pembayaran</th>
                   <th style={{ textAlign: "center" }}>statu Transaksi</th>
@@ -129,7 +137,7 @@ const TableTransaction = ({
               <tbody>
                 {data && data.length === 0 && (
                   <tr className={style.nodata}>
-                    <td colSpan={data.length + 1}>Data Tidak ada.</td>
+                    <td colSpan={8}>Data Tidak ada.</td>
                   </tr>
                 )}
                 {data &&
@@ -173,7 +181,8 @@ const TableTransaction = ({
                               ? style.tertunda
                               : ""
                           } ${
-                            items?.paymentStatus === "dibatalkan"
+                            items?.paymentStatus === "dibatalkan" ||
+                            items?.paymentStatus === "kadaluwarsa"
                               ? style.dibatalkan
                               : style.dibayar
                           }`}
@@ -199,15 +208,18 @@ const TableTransaction = ({
                       </td>
                       <td>
                         <div>
+                          <button>
+                            <Eye width={16} height={16} />
+                          </button>
                           <button
                             className={style.edit}
-                            // onClick={() => setIsEditData(items)}
+                            onClick={() => setIsChange(items)}
                           >
                             <Edit width={16} height={16} />
                           </button>
                           <button
                             className={style.trash}
-                            // onClick={() => setIsDeleteOne(items)}
+                            onClick={() => setIsDeleteOne(items)}
                           >
                             <Trash width={16} height={16} />
                           </button>

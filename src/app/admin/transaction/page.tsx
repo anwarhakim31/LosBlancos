@@ -8,6 +8,10 @@ import TableTransaction from "@/components/views/admin/transaction/TableTransact
 import { ResponseError } from "@/utils/axios/response-error";
 import { transactionService } from "@/services/transaction/method";
 import { useSearchParams } from "next/navigation";
+import { TypeTransaction } from "@/services/type.module";
+import ModalEditTransaction from "@/components/views/admin/transaction/ModalEditTransaction";
+import ModalOneDelete from "@/components/fragments/ModalOneDelete";
+import ModalManyDelete from "@/components/fragments/ModalManyDelete";
 
 const TransactionPage = () => {
   const [pagination, setPagination] = useState({
@@ -17,13 +21,15 @@ const TransactionPage = () => {
     total: 0,
   });
   const useParams = useSearchParams();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [data, setData] = useState([]);
   const [check, setCheck] = useState<string[]>([]);
+  const [isChange, setIsChange] = useState<TypeTransaction | null>(null);
+  const [isDeleteOne, setIsDeleteOne] = useState<TypeTransaction | null>(null);
+  const [isDeleteMany, setIsDeleteMany] = useState(false);
 
   const getData = useCallback(async () => {
-    setLoading(true);
     const params = new URLSearchParams(useParams.toString());
 
     try {
@@ -72,7 +78,36 @@ const TransactionPage = () => {
         loading={loading}
         check={check}
         setCheck={setCheck}
+        setIsChange={setIsChange}
+        setIsDeleteOne={setIsDeleteOne}
+        setIsDeleteMany={setIsDeleteMany}
       />
+      {isChange && (
+        <ModalEditTransaction
+          onClose={() => setIsChange(null)}
+          callback={getData}
+          isEditData={isChange}
+        />
+      )}
+      {isDeleteOne && (
+        <ModalOneDelete
+          onClose={() => setIsDeleteOne(null)}
+          callback={getData}
+          title="Apakah anda yakin ingin menghapus transaksi ini?"
+          fetching={() =>
+            transactionService.deleteOne(isDeleteOne._id as string)
+          }
+        />
+      )}
+      {isDeleteMany && (
+        <ModalManyDelete
+          onClose={() => setIsDeleteMany(false)}
+          title="Apakah anda yakin ingin menghapus semua transaksi ini?"
+          setCheck={setCheck}
+          fetching={() => transactionService.deleteMany(check)}
+          callback={getData}
+        />
+      )}
     </Fragment>
   );
 };

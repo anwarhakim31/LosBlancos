@@ -84,7 +84,7 @@ export async function GET(req: NextRequest) {
   try {
     verifyTokenMember(req);
 
-    const { searchParams } = new URL(req.url);
+    const { searchParams } = req.nextUrl;
 
     const transactionId = searchParams.get("transactionId");
 
@@ -121,6 +121,34 @@ export async function GET(req: NextRequest) {
       success: true,
       message: "Data berhasil diambil",
       transaction,
+    });
+  } catch (error) {
+    console.log(error);
+    return ResponseError(500, "Internal Server Error");
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  try {
+    verifyTokenMember(req);
+
+    const { searchParams } = req.nextUrl;
+
+    const transactionId = searchParams.get("transactionId");
+
+    if (transactionId && transactionId.length !== 24) {
+      return ResponseError(404, "Transaksi tidak ditemukan dengan ID tersebut");
+    }
+
+    const transaction = await Transaction.findByIdAndDelete(transactionId);
+
+    if (!transaction) {
+      return ResponseError(404, "Transaksi tidak ditemukan dengan ID tersebut");
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: "Berhasil menghapus transaksi",
     });
   } catch (error) {
     console.log(error);
