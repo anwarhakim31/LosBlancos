@@ -30,7 +30,7 @@ const ModalEdit = ({ onClose, isEditData, callback }: PropsType) => {
     defaultValues: {
       fullname: isEditData?.fullname || "",
       phone: isEditData?.phone || "",
-      jenisKelamin: isEditData?.jenisKelamin || "",
+      gender: isEditData?.gender || "",
     },
   });
 
@@ -107,12 +107,12 @@ const ModalEdit = ({ onClose, isEditData, callback }: PropsType) => {
               )}
             />
             <Controller
-              name="jenisKelamin"
+              name="gender"
               control={control}
               rules={{ required: "Nama Lengkap tidak boleh kosong" }}
               render={({ field }) => (
                 <FormControlSelect
-                  id="jenisKelamin"
+                  id="gender"
                   name="Jenis Kelamin"
                   field={field}
                   error={errors}

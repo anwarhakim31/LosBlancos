@@ -6,7 +6,7 @@ export type TypeUser = {
   email?: string;
   password?: string;
   phone?: number | string;
-  jenisKelamin?: string;
+  gender?: string;
   createdAt?: string;
 };
 
@@ -119,7 +119,7 @@ export type TypeTransaction = {
   invoice: string;
   userId: TypeUser;
   items: itemTypeTransaction[];
-  shippingAdress?: {
+  shippingAddress?: {
     fullname: string;
     phone: string;
     province: string;

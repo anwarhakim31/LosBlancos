@@ -18,6 +18,7 @@ const initialState: ActionState = {
   dataEdit: undefined,
   editCarousel: undefined,
   editProduct: undefined,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
 };
 
 const actionSlice = createSlice({

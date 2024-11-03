@@ -7,16 +7,23 @@ export async function GET(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams;
     const page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "8");
+    const search = searchParams.get("search")?.toString() || "";
     const skip = (page - 1) * limit;
 
-    const transaction = await Transaction.find({})
+    const searchRegex = new RegExp(search.trim(), "i");
+
+    const filterQuery = {
+      $or: [{ invoice: { $regex: searchRegex } }],
+    };
+
+    const transaction = await Transaction.find(filterQuery)
       .skip(skip)
       .limit(limit)
       .sort({ transactionDate: -1 })
       .populate("userId")
       .exec();
 
-    const total = await Transaction.countDocuments({});
+    const total = await Transaction.countDocuments(filterQuery);
 
     return NextResponse.json({
       status: 200,

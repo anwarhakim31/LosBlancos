@@ -1,0 +1,155 @@
+.container {
+  margin-top: 2rem;
+
+  display: grid;
+
+  @include media(md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (min-width: 1300px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  gap: 1rem;
+
+  h2 {
+    border-top: 1px solid $gray-300;
+    padding-top: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: capitalize;
+    text-align: center;
+  }
+
+  h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: capitalize;
+    margin-bottom: 1rem;
+  }
+  .wrapper {
+    display: flex;
+    margin-bottom: 0.75rem;
+    p {
+      font-size: 0.8125rem;
+      font-weight: 500;
+      text-transform: capitalize;
+      min-width: 130px;
+    }
+    span {
+      font-size: 0.8125rem;
+      font-weight: 400;
+      color: $gray-800;
+    }
+  }
+
+  .box {
+    background: white;
+    border-radius: 0.25rem;
+    padding: 1rem;
+    border: 1px solid $gray-300;
+  }
+  .list {
+    display: flex;
+    padding-block: 0.5rem;
+    border-bottom: 1px solid $gray-300;
+    gap: 1rem;
+
+    &__img {
+      width: 60px;
+      height: 60px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 0.1rem;
+      }
+    }
+
+    &__info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+
+      span {
+        font-size: 0.75rem;
+        font-weight: 400;
+      }
+
+      h4 {
+        font-size: 0.8125rem;
+        font-weight: 500;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      p {
+        font-size: 0.75rem;
+        font-weight: 400;
+        text-transform: capitalize;
+      }
+    }
+  }
+
+  .info {
+    margin-bottom: 2rem;
+    .rounded {
+      width: 100px;
+      height: 100px;
+      margin-inline: auto;
+      margin-bottom: 2rem;
+      border-radius: 50%;
+      @include flex-center();
+
+      &.success {
+        background: rgb(227, 227, 255);
+      }
+
+      &.failed {
+        background: rgb(255, 227, 227);
+      }
+
+      .rounded2 {
+        width: 50px;
+        height: 50px;
+        @include flex-center();
+
+        border-radius: 50%;
+        &.success {
+          background: rgb(164, 164, 255);
+        }
+
+        &.failed {
+          background: rgb(255, 146, 146);
+        }
+
+        .icon {
+          width: 25px;
+          height: 25px;
+          @include flex-center();
+
+          border-radius: 50%;
+
+          &.success {
+            background: $primary;
+          }
+
+          &.failed {
+            background: $danger;
+          }
+
+          svg {
+            width: 20px;
+            height: 20px;
+            color: $white;
+          }
+        }
+      }
+    }
+  }
+}

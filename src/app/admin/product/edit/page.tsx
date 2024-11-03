@@ -52,21 +52,18 @@ const AddProductPage = () => {
 
   useEffect(() => {
     if (dataEdit) {
-      setValue("name", dataEdit.name);
-      setValue("description", dataEdit.description);
-      setValue("price", dataEdit.price.toString());
-      setValue("image", dataEdit.image);
-      setValue("category", dataEdit.category);
-      setValue("collectionName", dataEdit.collectionName.name);
-      setValue("attribute", dataEdit.attribute || "");
+      setValue("name", dataEdit?.name);
+      setValue("description", dataEdit?.description);
+      setValue("price", dataEdit?.price.toString());
+      setValue("image", dataEdit?.image);
+      setValue("category", dataEdit?.category);
+      setValue("collectionName", dataEdit?.collectionName?.name);
+      setValue("attribute", dataEdit?.attribute || "");
       if (dataEdit.stock) {
         const toAtribute =
           dataEdit.stock.map((item: TypeStock) => item.value) || [];
 
-        console.log(toAtribute);
-        console.log(dataEdit.attribute);
-
-        setAtribut({ name: dataEdit.attribute, value: toAtribute });
+        setAtribut({ name: dataEdit?.attribute, value: toAtribute });
       }
       setValue("stock", dataEdit.stock || []);
     } else {

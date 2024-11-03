@@ -43,6 +43,7 @@ const InputCurrency = ({ id, field }: propsType) => {
         value={value}
         onChange={handleChange}
         onBlur={field.onBlur}
+        autoComplete="off"
       />
     </div>
   );

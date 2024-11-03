@@ -60,7 +60,7 @@ const TdComponent = (item: any, body: string) => {
       return (
         <td style={{ textAlign: "center" }}>
           {item.stock.reduce(
-            (total: number, item: TypeStock) => total + (item.stock || 0),
+            (total: number, item: TypeStock) => total + (item?.stock || 0),
             0
           )}
         </td>
@@ -82,7 +82,7 @@ const TdComponent = (item: any, body: string) => {
         <td style={{ padding: "1rem 1rem" }}>{formatCurrency(item[body])}</td>
       );
     case "collectionName":
-      return <td>{item.collectionName.name}</td>;
+      return <td>{item?.collectionName?.name}</td>;
     case "value":
       return (
         <td

@@ -9,11 +9,12 @@ import {
 } from "lucide-react";
 import style from "./table.module.scss";
 import { TypeTransaction } from "@/services/type.module";
-import { Fragment, useState } from "react";
+import React, { Fragment, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import SelectRow from "@/components/element/SelectRow";
 import Checkbox from "@/components/element/Checkbox";
 import { formatCurrency, formateDate } from "@/utils/contant";
+import FilterStatus from "../FilterStatus";
 
 interface typeTable {
   data: TypeTransaction[] | null;
@@ -44,7 +45,8 @@ const TableTransaction = ({
   setCheck,
   check,
 }: typeTable) => {
-  const { replace } = useRouter();
+  const { replace, push } = useRouter();
+
   const pathname = usePathname();
   const query = useSearchParams();
 
@@ -105,6 +107,7 @@ const TableTransaction = ({
           <Trash2 />
         </button>
         <SelectRow limit={limit} />
+        <FilterStatus />
       </div>
       {loading ? (
         <div className={style.loading}>
@@ -116,7 +119,7 @@ const TableTransaction = ({
             <table className={style.table}>
               <thead>
                 <tr>
-                  <th>
+                  <th style={{ padding: "0.75rem 1rem" }}>
                     <Checkbox
                       id="all"
                       onChange={handleCheckAll}
@@ -129,7 +132,7 @@ const TableTransaction = ({
                   <th>Pelanggan</th>
                   <th>Total Harga</th>
                   <th style={{ textAlign: "center" }}>Status Pembayaran</th>
-                  <th style={{ textAlign: "center" }}>statu Transaksi</th>
+                  <th style={{ textAlign: "center" }}>status Transaksi</th>
                   <th></th>
                 </tr>
               </thead>
@@ -148,9 +151,11 @@ const TableTransaction = ({
                       style={{
                         borderBottom:
                           i + 1 === lastIndex ? "none" : "1px solid #d9dffa",
+                        cursor: "pointer",
                       }}
+                      onClick={() => push(`${pathname}/${items._id}`)}
                     >
-                      <td>
+                      <td style={{ padding: "0.75rem 1rem" }}>
                         <Checkbox
                           checked={
                             items._id !== undefined &&
@@ -208,18 +213,24 @@ const TableTransaction = ({
                       </td>
                       <td>
                         <div>
-                          <button>
+                          <button className={style.eye}>
                             <Eye width={16} height={16} />
                           </button>
                           <button
                             className={style.edit}
-                            onClick={() => setIsChange(items)}
+                            onClick={(e: React.MouseEvent<HTMLElement>) => {
+                              setIsChange(items);
+                              e.stopPropagation();
+                            }}
                           >
                             <Edit width={16} height={16} />
                           </button>
                           <button
                             className={style.trash}
-                            onClick={() => setIsDeleteOne(items)}
+                            onClick={(e: React.MouseEvent<HTMLElement>) => {
+                              setIsDeleteOne(items);
+                              e.stopPropagation();
+                            }}
                           >
                             <Trash width={16} height={16} />
                           </button>

@@ -38,6 +38,7 @@
   tbody {
     tr {
       border-bottom: 0.5px solid $gray-100;
+
       &:nth-child(even) {
         background-color: $gray-50;
       }
@@ -166,6 +167,24 @@
     &:disabled {
       background: $gray-300;
       cursor: default;
+    }
+  }
+}
+
+.eye {
+  svg {
+    stroke-width: 1.2;
+    color: $gray-900;
+  }
+
+  &:focus-visible {
+    border: 1px solid $secondary;
+  }
+  &:hover {
+    border: 1px solid $secondary;
+
+    * {
+      color: $secondary;
     }
   }
 }
