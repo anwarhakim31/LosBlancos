@@ -23,6 +23,8 @@ import { useRouter } from "next/navigation";
 import React, { Fragment, useEffect, useState } from "react";
 import AddressView from "@/components/views/checkout/AddressView";
 
+import ModalConfirmRepayment from "@/components/views/checkout/ModalRepayment";
+
 export interface TypeErrorCheckout {
   address: string;
   payment: string;
@@ -35,6 +37,7 @@ const Checkout = ({ params }: { params: { id: string } }) => {
   const { id } = params;
   const { replace, prefetch } = useRouter();
   const dispatch = useAppDispatch();
+  const [diffrent, setDiffrent] = useState<string[] | null>(null);
   const { transaction, payment, address, costs, loading, errorSubmit } =
     useAppSelector((state) => state.check);
 
@@ -72,10 +75,14 @@ const Checkout = ({ params }: { params: { id: string } }) => {
         );
 
         if (res.status === 200) {
-          prefetch(`/pembayaran/${res.data.transaction._id}`);
+          if (res.data.diffrent) {
+            setDiffrent(res.data.diffrent);
+          } else {
+            prefetch(`/pembayaran/${res.data.transaction._id}`);
 
-          replace(`/pembayaran/${res.data.transaction._id}`);
-          dispatch(resetCheckout());
+            replace(`/pembayaran/${res.data.transaction._id}`);
+            dispatch(resetCheckout());
+          }
         }
 
         if (res.status === 400) {
@@ -271,6 +278,13 @@ const Checkout = ({ params }: { params: { id: string } }) => {
             </div>
           </div>
         </section>
+        {diffrent && (
+          <ModalConfirmRepayment
+            id={id}
+            diffrent={diffrent}
+            onClose={() => setDiffrent(null)}
+          />
+        )}
       </main>
       <Footer />
     </Fragment>

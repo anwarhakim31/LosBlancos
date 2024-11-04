@@ -2,7 +2,7 @@
 import { ChevronLeft, ChevronRight, Edit, Trash, Trash2 } from "lucide-react";
 import style from "./table.module.scss";
 import { TypeStock, TypeUser } from "@/services/type.module";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import SelectRow from "@/components/element/SelectRow";
 import Checkbox from "@/components/element/Checkbox";
@@ -17,7 +17,8 @@ interface typeTable {
   }[];
   data: TypeUser[] | null;
   loading: boolean;
-
+  setIsAllChecked: React.Dispatch<React.SetStateAction<boolean>>;
+  isAllChecked: boolean;
   tbody: string[];
   pagination: {
     page: number;
@@ -118,12 +119,12 @@ const Table = ({
   loading,
   setCheck,
   check,
+  setIsAllChecked,
+  isAllChecked,
 }: typeTable) => {
   const { replace } = useRouter();
   const pathname = usePathname();
   const query = useSearchParams();
-
-  const [isAllChecked, setIsAllChecked] = useState(false);
 
   const { page, limit, total, totalPage } = pagination;
 

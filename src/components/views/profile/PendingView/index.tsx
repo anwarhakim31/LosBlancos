@@ -20,7 +20,6 @@ const PendingView = () => {
   const [isChange, setIsChange] = useState<string | null>(null);
 
   useEffect(() => {
-    setLoading(true);
     const getData = async () => {
       try {
         const res = await orderService.get(

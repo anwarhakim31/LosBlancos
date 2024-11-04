@@ -26,14 +26,14 @@ export async function POST(req: NextRequest) {
       if (stockDB?.stock === 0) {
         return ResponseError(
           400,
-          `Gagal.${item.product.name} ${item.atribute} ${item.atributeValue}, stock sudah habis`
+          `Gagal, ${item.product.name} ${item.atribute} ${item.atributeValue}, stock sudah habis`
         );
       }
 
       if (item.quantity > stockDB.stock) {
         return ResponseError(
           400,
-          `Gagal.${item.product.name} ${item.atribute} ${item.atributeValue}, stock yang tersedia tersisa ${stockDB.stock}`
+          `Gagal, ${item.product.name} ${item.atribute} ${item.atributeValue}, stock yang tersedia tersisa ${stockDB.stock}`
         );
       }
     }

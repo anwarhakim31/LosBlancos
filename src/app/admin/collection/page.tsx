@@ -28,6 +28,7 @@ const CollectionPage = () => {
   });
   const [isDeleteOne, setIsDeleteOne] = useState<TypeCollection | null>(null);
   const [isDeleteMany, setIsDeleteMany] = useState(false);
+  const [isAllChecked, setIsAllChecked] = useState(false);
 
   const setIsEditData = (data: TypeCollection | null) => {
     dispatch(setDataEdit(data));
@@ -116,6 +117,8 @@ const CollectionPage = () => {
         setIsDeleteOne={setIsDeleteOne}
         setIsEditData={setIsEditData}
         tbody={["name", "image", "description"]}
+        setIsAllChecked={setIsAllChecked}
+        isAllChecked={isAllChecked}
       />
       {isDeleteMany && (
         <ModalManyDelete
@@ -124,6 +127,7 @@ const CollectionPage = () => {
           title="Apakah anda yakin ingin mengapus kategori terpilih ?"
           callback={() => getAllCollection()}
           fetching={() => collectionSevice.deleteMany(check)}
+          setIsAllChecked={setIsAllChecked}
         />
       )}
       {isDeleteOne && (

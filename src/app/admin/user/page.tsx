@@ -26,7 +26,7 @@ const KelolaUserPage = () => {
   });
 
   const [data, setData] = useState(null);
-
+  const [isAllChecked, setIsAllChecked] = useState(false);
   const [isDeleteOne, setIsDeleteOne] = useState<TypeUser | null>(null);
   const [isDeleteMany, setIsDeleteMany] = useState(false);
   const [isEditData, setIsEditData] = useState<TypeUser | null>(null);
@@ -120,6 +120,8 @@ const KelolaUserPage = () => {
         loading={loading}
         setCheck={setCheck}
         check={check}
+        setIsAllChecked={setIsAllChecked}
+        isAllChecked={isAllChecked}
       />
       {isDeleteMany && (
         <ModalManyDelete
@@ -128,6 +130,7 @@ const KelolaUserPage = () => {
           title="Apakah anda yakin ingin menghapus data terpilih ?"
           fetching={() => userService.deleteMany(check)}
           callback={() => getAllUser()}
+          setIsAllChecked={setIsAllChecked}
         />
       )}
 

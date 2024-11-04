@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import style from "./table.module.scss";
 import { TypeTransaction } from "@/services/type.module";
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import SelectRow from "@/components/element/SelectRow";
 import Checkbox from "@/components/element/Checkbox";
@@ -20,7 +20,8 @@ import FilterSort from "../FilterSort";
 interface typeTable {
   data: TypeTransaction[] | null;
   loading: boolean;
-
+  isAllChecked: boolean;
+  setIsAllChecked: React.Dispatch<React.SetStateAction<boolean>>;
   pagination: {
     page: number;
     limit: number;
@@ -37,7 +38,8 @@ interface typeTable {
 
 const TableTransaction = ({
   data,
-
+  isAllChecked,
+  setIsAllChecked,
   pagination,
   setIsDeleteOne,
   setIsDeleteMany,
@@ -50,8 +52,6 @@ const TableTransaction = ({
 
   const pathname = usePathname();
   const query = useSearchParams();
-
-  const [isAllChecked, setIsAllChecked] = useState(false);
 
   const { page, limit, total, totalPage } = pagination;
 

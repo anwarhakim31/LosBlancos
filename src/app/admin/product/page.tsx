@@ -30,7 +30,7 @@ const ProductAdminPage = () => {
   const [check, setCheck] = useState<string[]>([]);
   const [isDeleteOne, setIsDeleteOne] = useState<TypeProduct | null>(null);
   const [isDeleteMany, setIsDeleteMany] = useState(false);
-
+  const [isAllChecked, setIsAllChecked] = useState(false);
   const page = parseInt(query.get("page") as string) || pagination.page;
   const limit = parseInt(query.get("limit") as string) || pagination.limit;
   const search = query.get("search") || "";
@@ -113,6 +113,8 @@ const ProductAdminPage = () => {
         }}
         setCheck={setCheck}
         check={check}
+        setIsAllChecked={setIsAllChecked}
+        isAllChecked={isAllChecked}
       />
       {isDeleteMany && (
         <ModalManyDelete
@@ -121,6 +123,7 @@ const ProductAdminPage = () => {
           setCheck={setCheck}
           callback={() => getData()}
           fetching={() => productService.deleteMany(check)}
+          setIsAllChecked={setIsAllChecked}
         />
       )}
       {isDeleteOne && (

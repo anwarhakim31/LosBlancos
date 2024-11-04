@@ -26,6 +26,7 @@ const CategoryPage = () => {
   const [isDeleteOne, setIsDeleteOne] = useState<TypeCategory | null>(null);
   const [isDeleteMany, setIsDeleteMany] = useState(false);
   const [check, setCheck] = useState<string[]>([]);
+  const [isAllChecked, setIsAllChecked] = useState(false);
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 8,
@@ -100,6 +101,8 @@ const CategoryPage = () => {
         setIsDeleteMany={setIsDeleteMany}
         setIsDeleteOne={setIsDeleteOne}
         tbody={["name"]}
+        setIsAllChecked={setIsAllChecked}
+        isAllChecked={isAllChecked}
       />
 
       {isAddData ? (
@@ -116,6 +119,7 @@ const CategoryPage = () => {
           title="Apakah anda yakin ingin menghapus kategori terpilih ?"
           setCheck={setCheck}
           fetching={() => categoryService.deleteMany(check)}
+          setIsAllChecked={setIsAllChecked}
         />
       ) : null}
 
