@@ -31,7 +31,7 @@ const SelectOptionFetch = ({
     if (value) {
       setSelect(value || "");
     }
-  }, [value, data]);
+  }, [value]);
 
   useEffect(() => {
     const getData = async () => {
@@ -39,6 +39,7 @@ const SelectOptionFetch = ({
         const res = await fetching();
 
         if (res.status === 200) {
+          console.log(res.data[name]);
           setData(res.data[name]);
         }
       } catch (error) {

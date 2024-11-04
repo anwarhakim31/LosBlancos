@@ -116,8 +116,8 @@ const AddProductPage = () => {
                 render={({ field: { onChange, value } }) => (
                   <SelectOptionFetch
                     placeholder="Pilih Koleksi"
-                    id="collectionName"
-                    name="collectionName"
+                    id="collection"
+                    name="collection"
                     value={value}
                     setValue={(value) => {
                       onChange(value.name);
