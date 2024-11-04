@@ -27,6 +27,7 @@ import { useAppDispatch } from "@/store/hook";
 interface PropsType {
   onClose: () => void;
   setAddress: Dispatch<SetStateAction<TypeShippingAddress[]>>;
+  transactionId: string;
 }
 
 interface InputShippingType {
@@ -43,7 +44,11 @@ interface InputShippingType {
   address: string;
 }
 
-const ModalAddAddress: FC<PropsType> = ({ onClose, setAddress }) => {
+const ModalAddAddress: FC<PropsType> = ({
+  onClose,
+  setAddress,
+  transactionId,
+}) => {
   const session = useSession();
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
@@ -97,7 +102,7 @@ const ModalAddAddress: FC<PropsType> = ({ onClose, setAddress }) => {
             getOngkir({
               desCity: res.data.address[0].city.name,
               desProvince: res.data.address[0].province.name,
-              weight: "100",
+              transactionId: transactionId,
             })
           );
           setAddress(res.data.address);

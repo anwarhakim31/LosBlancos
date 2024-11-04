@@ -91,6 +91,7 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
       price: (product.price as number) * quantity,
       atribute: product.attribute as string,
       atributeValue: selectValue as string,
+      weight: product.weight * quantity,
     });
 
     try {

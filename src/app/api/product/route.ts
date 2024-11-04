@@ -186,6 +186,7 @@ export async function POST(req: NextRequest) {
       category,
       collectionName,
       attribute,
+      weight,
     } = await req.json();
 
     const collectionDB = await Collection.findOne({ name: collectionName });
@@ -201,6 +202,7 @@ export async function POST(req: NextRequest) {
       category,
       collectionName: collectionDB._id,
       attribute,
+      weight: parseInt(weight),
     });
     const result = await product.save();
 

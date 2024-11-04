@@ -49,6 +49,7 @@ export async function POST(req: NextRequest) {
       atributeValue: item.atributeValue,
       quantity: item.quantity,
       price: item.price,
+      weight: item.quantity * item.product.weight || 0,
     }));
 
     const transaction = new Transaction({

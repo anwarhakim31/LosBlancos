@@ -92,6 +92,16 @@ const TdComponent = (item: any, body: string) => {
           {item[body]?.length}
         </td>
       );
+    case "averageRating":
+      return (
+        <td style={{ textAlign: "center" }}>
+          {item.averageRating ? item.averageRating : 0}
+        </td>
+      );
+    case "sold":
+      return (
+        <td style={{ textAlign: "center" }}>{item.sold ? item.sold : 0}</td>
+      );
     default:
       return <td>{item[body]}</td>;
   }

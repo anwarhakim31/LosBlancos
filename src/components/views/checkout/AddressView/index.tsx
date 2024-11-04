@@ -13,7 +13,13 @@ import { setShippingAddress } from "@/store/slices/chechkoutSlice";
 import { getOngkir } from "@/store/slices/ongkirSlice";
 import { setLoading as setLoadingOngkir } from "@/store/slices/ongkirSlice";
 
-const AddressView = ({ isLoading }: { isLoading: boolean }) => {
+const AddressView = ({
+  isLoading,
+  transactionId,
+}: {
+  isLoading: boolean;
+  transactionId: string;
+}) => {
   const session = useSession();
   const [address, setAddress] = useState<TypeShippingAddress[]>([]);
   const dispatch = useAppDispatch();
@@ -38,7 +44,7 @@ const AddressView = ({ isLoading }: { isLoading: boolean }) => {
               getOngkir({
                 desCity: res.data.address[0].city.name,
                 desProvince: res.data.address[0].province.name,
-                weight: "100",
+                transactionId: transactionId,
               })
             );
           } else if (res.data.address.length === 0) {
@@ -55,7 +61,7 @@ const AddressView = ({ isLoading }: { isLoading: boolean }) => {
     if (session?.data?.user?.id) {
       getAddress();
     }
-  }, [session?.data?.user?.id, dispatch]);
+  }, [session?.data?.user?.id, dispatch, transactionId]);
 
   return (
     <div
@@ -150,6 +156,7 @@ const AddressView = ({ isLoading }: { isLoading: boolean }) => {
         <ModalAddAddress
           onClose={() => setIsAdd(false)}
           setAddress={setAddress}
+          transactionId={transactionId}
         />
       )}
       {isChange && (
@@ -158,6 +165,7 @@ const AddressView = ({ isLoading }: { isLoading: boolean }) => {
           onClose={() => setIsChange(false)}
           address={address as TypeShippingAddress[]}
           setAddress={setAddress}
+          transactionId={transactionId}
         />
       )}
     </div>

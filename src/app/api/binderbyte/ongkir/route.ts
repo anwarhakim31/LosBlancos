@@ -1,3 +1,4 @@
+import Transaction from "@/lib/models/transaction-model";
 import { ResponseError } from "@/lib/response-error";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -27,9 +28,18 @@ export async function GET(req: NextRequest) {
     // const origin = params.get("origin");
     const desProvince = params.get("desProvince") || "";
     const desCity = params.get("desCity") || "";
-    const weight = params.get("weight");
+    const transactionId = params.get("transactionId");
 
     const key = process.env.RAJAONGKIR_KEY as string;
+
+    const transaction = await Transaction.findById(transactionId).populate({
+      path: "items.productId",
+    });
+
+    const weight = transaction?.items.reduce(
+      (total: number, item: { weight: number }) => total + item?.weight || 0,
+      0
+    );
 
     const resProvinsi = await fetch(
       "https://api.rajaongkir.com/starter/city?key=" + key

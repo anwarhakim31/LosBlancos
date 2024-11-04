@@ -9,15 +9,15 @@ export const getOngkir = createAsyncThunk(
     {
       desCity,
       desProvince,
-      weight,
+      transactionId,
     }: {
       desCity: string;
       desProvince: string;
-      weight: string;
+      transactionId: string;
     },
     { dispatch }
   ) => {
-    const res = await ongkirService.ongkir(desCity, desProvince, weight);
+    const res = await ongkirService.ongkir(desCity, desProvince, transactionId);
 
     dispatch(setOngkir(res.data.costs[0]));
     const data = res.data.costs;

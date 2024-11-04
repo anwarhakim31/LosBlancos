@@ -18,6 +18,7 @@ interface PropsType {
   address: TypeShippingAddress[];
   setAddress: Dispatch<SetStateAction<TypeShippingAddress[]>>;
   selected: TypeShippingAddress | null;
+  transactionId: string;
 }
 
 const ModalChangeAddress: FC<PropsType> = ({
@@ -25,6 +26,7 @@ const ModalChangeAddress: FC<PropsType> = ({
   address,
   setAddress,
   selected,
+  transactionId,
 }) => {
   const session = useSession();
   const dispatch = useAppDispatch();
@@ -35,7 +37,7 @@ const ModalChangeAddress: FC<PropsType> = ({
         getOngkir({
           desProvince: value.province.name,
           desCity: value.city.name,
-          weight: "100",
+          transactionId: transactionId,
         })
       );
       dispatch(setShippingAddress(value));
@@ -67,7 +69,7 @@ const ModalChangeAddress: FC<PropsType> = ({
           getOngkir({
             desProvince: res.data.address[0].province.name,
             desCity: res.data.address[0].city.name,
-            weight: "100",
+            transactionId: "transactionId",
           })
         );
 

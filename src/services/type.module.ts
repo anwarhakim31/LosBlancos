@@ -73,6 +73,7 @@ export type TypeProduct = {
   stockAtribut?: TypeStock[];
   averageRating?: number;
   reviewCount?: number;
+  weight: number;
 };
 
 export type TypeStock = {
@@ -95,6 +96,7 @@ export type itemCartType = {
   price: number;
   atribute: string;
   atributeValue: string;
+  weight: number;
 };
 
 export type cartType = {
@@ -111,6 +113,7 @@ export type itemTypeTransaction = {
   price: number;
   atribute: string;
   atributeValue: string;
+  weight: number;
 };
 
 export type TypeTransaction = {

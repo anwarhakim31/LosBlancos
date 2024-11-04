@@ -75,6 +75,7 @@ export async function PUT(
       collectionName,
       attribute,
       stock,
+      weight,
     } = await req.json();
 
     const collectionDB = await Collection.findOne({ name: collectionName });
@@ -91,6 +92,7 @@ export async function PUT(
       collectionName: collectionDB._id,
       attribute,
       stock: [],
+      weight,
     });
 
     if (!product) {
