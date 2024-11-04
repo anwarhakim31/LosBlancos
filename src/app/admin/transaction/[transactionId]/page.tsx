@@ -92,7 +92,7 @@ const TranscationId = async ({
               </span>
             </div>
           </div>
-          <div className={styles.box}>
+          <div className={styles.box + " " + styles.total}>
             <div className={styles.wrapper}>
               <p>SubTotal</p>
               <span>: {formatCurrency(transaction?.subtotal)}</span>
@@ -195,6 +195,27 @@ const TranscationId = async ({
                   </div>
                 </div>
               ))}
+            </div>
+            <div className={styles.box + " " + styles.totalMobile}>
+              <div className={styles.wrapper}>
+                <p>SubTotal</p>
+                <span>: {formatCurrency(transaction?.subtotal)}</span>
+              </div>
+              <div className={styles.wrapper}>
+                <p>Biaya Pengiriman</p>
+                <span>: {formatCurrency(transaction?.shippingCost)}</span>
+              </div>
+              <div className={styles.wrapper}>
+                <p>Biaya Admin</p>
+                <span>: {formatCurrency(1000)}</span>
+              </div>
+              <div className={styles.wrapper}>
+                <p>Diskon</p>
+                <span>: -</span>
+              </div>
+              <h2>
+                Total Transaksi : {formatCurrency(transaction.totalPayment)}
+              </h2>
             </div>
           </div>
         </div>

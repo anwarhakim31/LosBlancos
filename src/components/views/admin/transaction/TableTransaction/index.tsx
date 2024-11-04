@@ -15,6 +15,7 @@ import SelectRow from "@/components/element/SelectRow";
 import Checkbox from "@/components/element/Checkbox";
 import { formatCurrency, formateDate } from "@/utils/contant";
 import FilterStatus from "../FilterStatus";
+import FilterSort from "../FilterSort";
 
 interface typeTable {
   data: TypeTransaction[] | null;
@@ -108,6 +109,7 @@ const TableTransaction = ({
         </button>
         <SelectRow limit={limit} />
         <FilterStatus />
+        <FilterSort />
       </div>
       {loading ? (
         <div className={style.loading}>
@@ -155,19 +157,22 @@ const TableTransaction = ({
                       }}
                       onClick={() => push(`${pathname}/${items._id}`)}
                     >
-                      <td style={{ padding: "0.75rem 1rem" }}>
+                      <td
+                        style={{ padding: "0.75rem 1rem" }}
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         <Checkbox
                           checked={
                             items._id !== undefined &&
                             check !== null &&
                             check.some((item: string) => item === items._id)
                           }
-                          onChange={(e) =>
+                          onChange={(e) => {
                             handleCheck(
                               e,
                               items._id !== undefined ? items._id : ""
-                            )
-                          }
+                            );
+                          }}
                           id={items._id}
                         />
                       </td>

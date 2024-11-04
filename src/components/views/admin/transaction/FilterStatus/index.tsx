@@ -2,7 +2,7 @@ import SelectOption from "@/components/element/SelectOption";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import style from "./status.module.scss";
-import { SlidersHorizontal } from "lucide-react";
+import { CalendarClock } from "lucide-react";
 
 const FilterStatus = () => {
   const router = useRouter();
@@ -27,6 +27,8 @@ const FilterStatus = () => {
     };
   }, [active]);
 
+  console.log(active);
+
   return (
     <div ref={ref} className={style.filter}>
       <button
@@ -34,9 +36,9 @@ const FilterStatus = () => {
         aria-label="filter"
         className={style.filter__btn}
         onClick={() => setActive(!active)}
+        title="Filter"
       >
-        <span>Filter</span>
-        <SlidersHorizontal />
+        <CalendarClock />
       </button>
 
       {active && (
@@ -54,13 +56,14 @@ const FilterStatus = () => {
               id="status"
               name="status"
               placeholder="Status Pembayaran"
+              style={{ minHeight: "100px" }}
               field={{
-                value: statusTransaction,
+                value: statusPayment,
                 onChange: (value: string) => {
                   const searchParam = new URLSearchParams(query.toString());
 
                   if (value === "semua") {
-                    searchParam.delete("status-transaction");
+                    searchParam.delete("status-payment");
                   } else {
                     searchParam.set("status-payment", value);
                   }
@@ -84,13 +87,14 @@ const FilterStatus = () => {
               id="transaction"
               name="transaction"
               placeholder="Status Transaksi"
+              style={{ minHeight: "100px" }}
               field={{
-                value: statusPayment,
+                value: statusTransaction,
                 onChange: (value: string) => {
                   const searchParam = new URLSearchParams(query.toString());
 
                   if (value === "semua") {
-                    searchParam.delete("status-payment");
+                    searchParam.delete("status-transaction");
                   } else {
                     searchParam.set("status-transaction", value);
                   }
@@ -98,7 +102,37 @@ const FilterStatus = () => {
                   router.replace(`${pathname}?${searchParam.toString()}`);
                 },
               }}
-              error={{ status: false, message: "" }}
+            />
+          </div>
+          <div className={style.filter__dropdown__item}>
+            <label htmlFor="payment">Tanggal</label>
+            <SelectOption
+              options={[
+                "semua",
+                "ini hari",
+                "3 hari terakhir",
+                "7 hari terakhir",
+                "14 hari terakhir",
+                "30 hari terakhir",
+              ]}
+              id="Date"
+              name="Date"
+              placeholder="Tanggal"
+              style={{ minHeight: "100px" }}
+              field={{
+                value: query.get("date") || "semua",
+                onChange: (value: string) => {
+                  const searchParam = new URLSearchParams(query.toString());
+
+                  if (value === "semua") {
+                    searchParam.delete("date");
+                  } else {
+                    searchParam.set("date", value);
+                  }
+
+                  router.replace(`${pathname}?${searchParam.toString()}`);
+                },
+              }}
             />
           </div>
         </div>

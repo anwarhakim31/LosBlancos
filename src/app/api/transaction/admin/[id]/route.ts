@@ -49,6 +49,7 @@ export async function GET(
       transaction,
     });
   } catch (error) {
+    console.log(error);
     return ResponseError(500, "Internal Server Error");
   }
 }

@@ -11,7 +11,7 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  gap: 1rem;
+  gap: 2rem;
 
   h2 {
     border-top: 1px solid $gray-300;
@@ -97,7 +97,6 @@
   }
 
   .info {
-    margin-bottom: 2rem;
     .rounded {
       width: 100px;
       height: 100px;
@@ -151,5 +150,21 @@
         }
       }
     }
+  }
+}
+
+.total {
+  display: none;
+  margin-top: 2rem;
+  @include media(md) {
+    display: block;
+  }
+}
+
+.totalMobile {
+  display: block;
+  border: none !important;
+  @include media(md) {
+    display: none;
   }
 }
