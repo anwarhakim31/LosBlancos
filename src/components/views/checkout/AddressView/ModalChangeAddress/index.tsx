@@ -1,15 +1,17 @@
 import Modal from "@/components/element/Modal";
 import styles from "./modal.module.scss";
 import HeaderModal from "@/components/element/HeaderModal";
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 import { TypeShippingAddress } from "@/services/type.module";
 import { toast } from "sonner";
+import { useSession } from "next-auth/react";
 
+import { addressService } from "@/services/address/methods";
+import { ResponseError } from "@/utils/axios/response-error";
 import { Trash2 } from "lucide-react";
 import { useAppDispatch } from "@/store/hook";
 import { setShippingAddress } from "@/store/slices/chechkoutSlice";
 import { getOngkir } from "@/store/slices/ongkirSlice";
-import ModalDeleteAddress from "@/components/fragments/ModalDeleteAddress";
 
 interface PropsType {
   onClose: () => void;
@@ -26,8 +28,8 @@ const ModalChangeAddress: FC<PropsType> = ({
   selected,
   transactionId,
 }) => {
+  const session = useSession();
   const dispatch = useAppDispatch();
-  const [isOpen, setIsOpen] = useState<TypeShippingAddress | null>(null);
   const handleChange = (value: TypeShippingAddress) => {
     if (value) {
       toast.success("Berhasil mengganti alamat pengiriman");
@@ -40,6 +42,41 @@ const ModalChangeAddress: FC<PropsType> = ({
       );
       dispatch(setShippingAddress(value));
       onClose();
+    }
+  };
+
+  const handleRemove = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+    addressId: string
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    try {
+      const res = await addressService.delete(
+        addressId,
+        session.data?.user?.id as string
+      );
+
+      if (res.status === 200) {
+        setAddress(res.data.address);
+        toast.success("Berhasil menghapus alamat pengiriman");
+        dispatch(setShippingAddress(res?.data?.address[0]));
+
+        console.log(res?.data?.address[0]);
+
+        dispatch(
+          getOngkir({
+            desProvince: res.data.address[0].province.name,
+            desCity: res.data.address[0].city.name,
+            transactionId: "transactionId",
+          })
+        );
+
+        onClose();
+      }
+    } catch (error) {
+      ResponseError(error);
     }
   };
 
@@ -78,10 +115,7 @@ const ModalChangeAddress: FC<PropsType> = ({
                   type="button"
                   aria-label="hapus alamat"
                   title="hapus alamat pengiriman"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setIsOpen(item);
-                  }}
+                  onClick={(e) => handleRemove(e, item._id as string)}
                 >
                   <Trash2 />
                 </button>
@@ -89,14 +123,6 @@ const ModalChangeAddress: FC<PropsType> = ({
             ))}
         </div>
       </div>
-      {isOpen && (
-        <ModalDeleteAddress
-          onClose={() => setIsOpen(null)}
-          data={isOpen}
-          setAddress={setAddress}
-          setShipping={true}
-        />
-      )}
     </Modal>
   );
 };

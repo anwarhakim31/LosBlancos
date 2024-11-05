@@ -268,14 +268,7 @@ const Checkout = ({ params }: { params: { id: string } }) => {
                     isLoading
                   }
                 >
-                  {loading ? (
-                    "Loading"
-                  ) : (
-                    <>
-                      Lanjutkan Pembayaran
-                      <ArrowRight width={16} height={16} />
-                    </>
-                  )}
+                  Lanjutkan Pembayaran <ArrowRight width={16} height={16} />
                 </button>
               </div>
             </div>

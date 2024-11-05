@@ -94,29 +94,16 @@ const CourierView = ({ isLoading }: { isLoading: boolean }) => {
         )}
       </div>
       <div className={styles.footer}>
-        {loadingOngkir ? (
-          <div
-            className={styles.skeleton}
-            style={{
-              maxWidth: "120px",
-              height: "1.1rem",
-              marginBottom: "auto",
-            }}
-          ></div>
-        ) : (
-          <>
-            <Image src="/truck.png" alt="courier" width={30} height={18} />
-            <p>
-              Estimasi tiba{" "}
-              {loading
-                ? "0"
-                : costs?.cost[0].etd.startsWith("0")
-                ? "ini"
-                : costs?.cost[0].etd.split("HARI")}{" "}
-              hari
-            </p>
-          </>
-        )}
+        <Image src="/truck.png" alt="courier" width={30} height={18} />
+        <p>
+          Estimasi tiba{" "}
+          {loading
+            ? "0"
+            : costs?.cost[0].etd.startsWith("0")
+            ? "ini"
+            : costs?.cost[0].etd.split("HARI")}{" "}
+          hari
+        </p>
       </div>
       {address && costs && (
         <button
