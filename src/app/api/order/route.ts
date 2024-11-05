@@ -7,6 +7,10 @@ export async function GET(req: NextRequest) {
     await connectDB();
     const { searchParams } = req.nextUrl;
     const userId = searchParams.get("user");
+    const page = parseInt(searchParams.get("page") || "1");
+    const limit = parseInt(searchParams.get("limit") || "8");
+    const skip = (page - 1) * limit;
+
     const statusPayment = searchParams.get("payment");
     const statusTransaction = searchParams.get("transaction");
 
@@ -34,14 +38,22 @@ export async function GET(req: NextRequest) {
 
     const transaction = await Transaction.find(filter)
       .populate("items.productId")
-      .skip(0)
-      .limit(8)
+      .skip(skip)
+      .limit(limit)
       .sort({ transactionDate: -1 });
+
+    const total = await Transaction.countDocuments(filter);
 
     return NextResponse.json({
       success: true,
       message: "Data berhasil diambil",
       transaction,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPage: Math.ceil(total / limit),
+      },
     });
   } catch (error) {
     console.error(error);

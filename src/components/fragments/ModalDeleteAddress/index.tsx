@@ -11,16 +11,21 @@ import PortalNotification from "@/components/element/PortalNotification";
 import { addressService } from "@/services/address/methods";
 import { useSession } from "next-auth/react";
 import { TypeShippingAddress } from "@/services/type.module";
+import { useAppDispatch } from "@/store/hook";
+import { setShippingAddress } from "@/store/slices/chechkoutSlice";
 
 const ModalDeleteAddress = ({
   onClose,
   data,
   setAddress,
+  setShipping,
 }: {
   onClose: () => void;
   data: TypeShippingAddress;
   setAddress: Dispatch<SetStateAction<TypeShippingAddress[]>>;
+  setShipping?: boolean;
 }) => {
+  const dispatch = useAppDispatch();
   const session = useSession();
   const [loading, setLoading] = useState(false);
 
@@ -35,6 +40,9 @@ const ModalDeleteAddress = ({
       if (res.status === 200) {
         toast.success(res.data.message);
         setAddress(res.data.address);
+        if (setShipping) {
+          dispatch(setShippingAddress(res?.data?.address[0]));
+        }
         onClose();
       }
     } catch (error) {

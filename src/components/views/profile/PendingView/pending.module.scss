@@ -7,15 +7,25 @@
 
   &__header {
     display: flex;
-    align-items: center;
+
     background: $gray-100;
     padding: 1rem;
     border-bottom: 1px solid $gray-300;
-    justify-content: space-between;
+
+    flex-direction: column;
+    @include media(sm) {
+      align-items: center;
+      justify-content: space-between;
+      flex-direction: row;
+    }
 
     &__info {
       display: flex;
       gap: 1rem;
+      justify-content: space-between;
+      @include media(sm) {
+        justify-content: flex-start;
+      }
       h3 {
         font-size: 0.875rem;
         font-weight: 400;

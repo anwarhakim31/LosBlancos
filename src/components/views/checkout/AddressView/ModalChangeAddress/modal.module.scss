@@ -2,7 +2,7 @@
   border: 1px solid $gray-300;
   border-radius: 0.4rem;
   background: $white;
-  padding-bottom: 2rem;
+  padding-bottom: 0.5rem;
 
   width: 100%;
   margin-top: auto;
@@ -29,6 +29,10 @@
   transition: all 0.3s ease-in-out;
   cursor: pointer;
   position: relative;
+
+  &:nth-child(1) {
+    margin-top: 0.5rem;
+  }
 
   &:hover {
     border: 1px solid $primary;
