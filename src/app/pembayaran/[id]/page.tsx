@@ -72,6 +72,11 @@ const payment = [
     name: "gopay",
     image: "/payment/gopay.png",
   },
+  {
+    id: 9,
+    name: "qris",
+    image: "/payment/qris.png",
+  },
 ];
 
 function getBankDetail(name: string) {
@@ -239,8 +244,7 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
                       ></div>
                     </>
                   ) : data?.paymentName === "shopeepay" ||
-                    data?.paymentName === "gopay" ||
-                    data?.paymentName === "qris" ? (
+                    data?.paymentName === "gopay" ? (
                     <>
                       <h3>Bayar Sekarang </h3>
                       <Link
@@ -257,6 +261,19 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
                         Koneksi dengan {data?.paymentName}
                       </Link>
                     </>
+                  ) : data?.paymentName === "qris" ? (
+                    <>
+                      <h3>Scan QR Code </h3>
+                      <div className={styles.qrcode}>
+                        <Image
+                          src={actions[0].url as string}
+                          alt="qrcode"
+                          width={200}
+                          height={200}
+                          priority
+                        />
+                      </div>
+                    </>
                   ) : (
                     <div
                       className={styles.virtual_account}
@@ -267,7 +284,7 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
                       <h3>
                         {data?.paymentMethod === "bank_transfer"
                           ? "Nomor Virtual Account"
-                          : "Nomor Transfer Bank"}
+                          : "Nomor Pembayaran"}
                       </h3>
                       {
                         <div className={styles.number}>
@@ -457,7 +474,20 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
                 <div className={styles.note}>
                   <h3>Catatan</h3>
                   <ol className={styles.note__primaryList}>
-                    <li>Salin Nomor Transaksi untuk melakukan pembayaran</li>
+                    {data?.paymentMethod === "bank_transfer" && (
+                      <li>Salin Nomor Transaksi untuk melakukan pembayaran</li>
+                    )}
+                    {data?.paymentMethod === "over_thecounter" && (
+                      <li>Berikan Nomor Pembayaran ke kasir</li>
+                    )}
+                    {data?.paymentName === "gopay" ||
+                      (data?.paymentName === "shopeepay" && (
+                        <li>
+                          Klik bayar sekarang dan akan mengarahkan ke e-wallet
+                          untuk pembayaran
+                        </li>
+                      ))}
+                    {data?.paymentName === "qris" && <li>Scan QR Code </li>}
                     <li>
                       Halaman tidak perlu kamu refresh, status transaksi akan
                       update otomatis.
