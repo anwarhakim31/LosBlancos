@@ -6,7 +6,14 @@ import { ResponseError } from "@/utils/axios/response-error";
 import { useSession } from "next-auth/react";
 import React, { Fragment, useEffect, useState } from "react";
 import styles from "./payment.module.scss";
-import { AlertCircle, Banknote, Copy, Timer, X } from "lucide-react";
+import {
+  AlertCircle,
+  Banknote,
+  Copy,
+  Timer,
+  X,
+  Link as LinkIcon,
+} from "lucide-react";
 import { toast } from "sonner";
 import {
   formatCountdown,
@@ -22,6 +29,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import ModalRebuy from "@/components/views/payment/ModalRebuy";
 import StatusView from "@/components/views/payment/statusView";
 import { reviewService } from "@/services/review/method";
+import Link from "next/link";
 
 const payment = [
   {
@@ -54,6 +62,16 @@ const payment = [
     name: "indomaret",
     image: "/payment/indomaret.png",
   },
+  {
+    id: 7,
+    name: "shopeepay",
+    image: "/payment/spay.png",
+  },
+  {
+    id: 8,
+    name: "gopay",
+    image: "/payment/gopay.png",
+  },
 ];
 
 function getBankDetail(name: string) {
@@ -71,6 +89,7 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
   const [isRebuy, setIsRebuy] = useState(false);
   const [diffrent, setDiffrent] = useState(false);
   const [review, setReview] = useState<TypeReview[]>([]);
+  const [actions, setActions] = useState<{ name: string; url: string }[]>([]);
   const { replace } = useRouter();
   const status = useSearchParams().get("status");
 
@@ -81,6 +100,7 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
 
         if (res.status === 200) {
           const transactionData = res.data.transaction;
+          setActions(res.data.action);
           setData(transactionData);
 
           const paymentExpiredDate = new Date(transactionData?.paymentExpired);
@@ -207,48 +227,79 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
             <div className={styles.content}>
               <div className={styles.left}>
                 <div className={styles.detail}>
-                  <div
-                    className={styles.virtual_account}
-                    style={{ pointerEvents: countdown === 0 ? "none" : "auto" }}
-                  >
-                    <h3>
-                      {data?.paymentMethod === "bank_transfer"
-                        ? "Nomor Virtual Account"
-                        : "Nomor Transfer Bank"}
-                    </h3>
-                    <div className={styles.number}>
-                      {loading ? (
-                        <div
-                          className={styles.skeleton}
-                          style={{ width: "50%", height: "2.25rem" }}
-                        ></div>
-                      ) : (
-                        <h2>{data?.paymentCode}</h2>
-                      )}
-                      <button
-                        type="button"
-                        className={styles.copy}
-                        disabled={
-                          loading || !data?.paymentCode || countdown === 0
+                  {loading ? (
+                    <>
+                      <div
+                        className={styles.skeleton}
+                        style={{ maxWidth: "210px", height: "1.75rem" }}
+                      ></div>
+                      <div
+                        className={styles.skeleton}
+                        style={{ marginBlock: "1rem", height: "3.5rem" }}
+                      ></div>
+                    </>
+                  ) : data?.paymentName === "shopeepay" ||
+                    data?.paymentName === "gopay" ||
+                    data?.paymentName === "qris" ? (
+                    <>
+                      <h3>Bayar Sekarang </h3>
+                      <Link
+                        href={
+                          actions?.find(
+                            (item) => item.name === "deeplink-redirect"
+                          )?.url as string
                         }
-                        onClick={() =>
-                          navigator.clipboard
-                            .writeText(data?.paymentCode as string)
-                            .then(() => {
-                              const timeout = setTimeout(
-                                () => toast.success("Berhasil menyalin"),
-                                1000
-                              );
-
-                              return () => clearTimeout(timeout);
-                            })
-                        }
-                        title="salin"
+                        className={styles.ewallet}
+                        target="_blank"
+                        rel="noopener noreferrer"
                       >
-                        <Copy />
-                      </button>
+                        <LinkIcon />
+                        Koneksi dengan {data?.paymentName}
+                      </Link>
+                    </>
+                  ) : (
+                    <div
+                      className={styles.virtual_account}
+                      style={{
+                        pointerEvents: countdown === 0 ? "none" : "auto",
+                      }}
+                    >
+                      <h3>
+                        {data?.paymentMethod === "bank_transfer"
+                          ? "Nomor Virtual Account"
+                          : "Nomor Transfer Bank"}
+                      </h3>
+                      {
+                        <div className={styles.number}>
+                          <h2>{data?.paymentCode}</h2>
+
+                          <button
+                            type="button"
+                            className={styles.copy}
+                            disabled={
+                              loading || !data?.paymentCode || countdown === 0
+                            }
+                            onClick={() =>
+                              navigator.clipboard
+                                .writeText(data?.paymentCode as string)
+                                .then(() => {
+                                  const timeout = setTimeout(
+                                    () => toast.success("Berhasil menyalin"),
+                                    1000
+                                  );
+
+                                  return () => clearTimeout(timeout);
+                                })
+                            }
+                            title="salin"
+                          >
+                            <Copy />
+                          </button>
+                        </div>
+                      }
                     </div>
-                  </div>
+                  )}
+
                   <div className={styles.wrapper}>
                     {loading ? (
                       <div
@@ -309,7 +360,7 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
                   </div>
                   <div className={styles.footer}>
                     <div className={styles.wrapper}>
-                      <h3>Pembayaran melalui </h3>
+                      <h4>Pembayaran melalui </h4>
                       {loading ? (
                         <div className={styles.skeleton_payment}></div>
                       ) : (

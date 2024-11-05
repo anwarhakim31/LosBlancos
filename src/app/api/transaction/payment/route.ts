@@ -219,8 +219,8 @@ export async function POST(req: NextRequest) {
     const customerDetails = {
       first_name: shippingAddress.fullname,
       last_name: "-",
-      email: "XrNpR@example.com",
-      phone: "081234567890",
+      email: shippingAddress.email,
+      phone: shippingAddress.phone,
     };
 
     const res = await fetch((MIDTRANS_BASE_URL as string) + "/charge", {
@@ -371,8 +371,8 @@ export async function PUT(req: NextRequest) {
     const customerDetails = {
       first_name: shippingAddress.fullname,
       last_name: "-",
-      email: "XrNpR@example.com",
-      phone: "081234567890",
+      email: shippingAddress.email,
+      phone: shippingAddress.phone,
     };
 
     const res = await fetch((MIDTRANS_BASE_URL as string) + "/charge", {

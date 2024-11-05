@@ -17,6 +17,11 @@ const counter = [
   { name: "alfamart", img: "/payment/alfamart.png" },
 ];
 
+const wallet = [
+  { name: "shopeepay", img: "/payment/spay.png" },
+  { name: "gopay", img: "/payment/gopay.png" },
+];
+
 const PaymentView = ({ isLoading }: { isLoading: boolean }) => {
   const dispatch = useAppDispatch();
   const {
@@ -38,7 +43,7 @@ const PaymentView = ({ isLoading }: { isLoading: boolean }) => {
       </h3>
 
       <div className={styles.row}>
-        <h4>Transfer pay</h4>
+        <h4>Transfer Bank</h4>
         <div className={styles.pay}>
           {loading &&
             bank.map((item) => (
@@ -46,6 +51,36 @@ const PaymentView = ({ isLoading }: { isLoading: boolean }) => {
             ))}
           {!loading &&
             bank.map((item) => (
+              <button
+                key={item.name}
+                className={styles.pay__list}
+                title={item.name}
+                onClick={() => {
+                  dispatch(setPayment(item.name));
+                  dispatch(setError({ payment: "" }));
+                }}
+                style={{
+                  borderColor: selected === item.name ? "blue" : "",
+                }}
+              >
+                <Image
+                  src={item.img}
+                  alt={item.name}
+                  width={100}
+                  height={100}
+                  priority
+                />
+              </button>
+            ))}
+        </div>
+        <h4>E-Wallet</h4>
+        <div className={styles.pay}>
+          {loading &&
+            wallet.map((item) => (
+              <div key={item.name} className={styles.skeleton}></div>
+            ))}
+          {!loading &&
+            wallet.map((item) => (
               <button
                 key={item.name}
                 className={styles.pay__list}
