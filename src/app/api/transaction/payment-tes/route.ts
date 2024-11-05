@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         payment_type: "gopay",
         transaction_details: {
-          order_id: "order-id-123412115",
+          order_id: "order-id-123421115",
           gross_amount: 10000,
         },
       }),

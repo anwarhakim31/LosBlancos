@@ -23,6 +23,18 @@ export const transactionService = {
       transaction_id,
       shippingAddress,
     }),
+  ewalletPayment: (
+    shipping: TypeOngkir,
+    payment: string,
+    transaction_id: string,
+    shippingAddress: TypeShippingAddress
+  ) =>
+    instance.post("transaction/ewallet-payment", {
+      shipping,
+      payment,
+      transaction_id,
+      shippingAddress,
+    }),
   changePayment: (order_id: string) =>
     instance.post("transaction/change-payment", { order_id }),
   cancelPayment: (order_id: string) =>

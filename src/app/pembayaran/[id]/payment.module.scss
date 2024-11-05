@@ -30,13 +30,36 @@
       @include media(md) {
         padding: 2rem 2rem 1rem;
       }
-      .virtual_account {
-        h3 {
-          font-size: 1rem;
-          font-weight: 600;
-          margin-bottom: 1rem;
+      h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+
+      .ewallet {
+        padding: 1.25rem;
+        border: 1px solid $gray-300;
+        border-radius: 0.4rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+        font-weight: 400;
+        margin-bottom: 1.5rem;
+        transition: all 0.3s ease-in-out;
+
+        svg {
+          width: 1rem;
+          height: 1rem;
         }
 
+        &:hover {
+          border: 1px solid $primary;
+        }
+      }
+
+      .virtual_account {
         .number {
           position: relative;
           background: rgb(233, 233, 255);
@@ -50,21 +73,17 @@
           transition: all 0.3s ease-in-out;
 
           @include media(md) {
-            height: 90px;
+            height: 80px;
           }
 
           &:hover {
             border: 1px solid $primary;
-
-            h2 {
-              color: $primary;
-            }
           }
 
           h2 {
             // font-size: 1rem;
             word-break: break-all;
-            font-size: clamp(1rem, 2vw, 2rem);
+            font-size: clamp(1.25rem, 2vw, 2rem);
             color: $gray-700;
             font-weight: 600;
             transition: all 0.3s ease-in-out;
@@ -73,12 +92,8 @@
           .copy {
             position: absolute;
             top: 0.5rem;
-            right: 0.5rem;
+            right: 0.75rem;
 
-            @include media(md) {
-              top: 0.75rem;
-              right: 0.75rem;
-            }
             cursor: pointer;
             color: $primary;
             font-weight: 600;
@@ -86,11 +101,6 @@
             svg {
               width: 16px;
               height: 16px;
-
-              @include media(md) {
-                width: 20px;
-                height: 20px;
-              }
             }
           }
         }
@@ -99,9 +109,15 @@
       .wrapper {
         display: flex;
         margin: 1rem 0;
+
         flex-wrap: wrap;
         gap: 0.5rem;
         flex-direction: column;
+
+        h4 {
+          font-size: 0.875rem;
+          font-weight: 500;
+        }
         @include media(sm) {
           flex-wrap: nowrap;
           flex-direction: row;

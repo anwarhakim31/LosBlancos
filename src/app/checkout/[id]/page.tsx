@@ -67,26 +67,22 @@ const Checkout = ({ params }: { params: { id: string } }) => {
     if (payment && address && costs) {
       setIsLoading(true);
       try {
-        const res = await transactionService.payment(
-          costs,
-          payment,
-          id,
-          address
-        );
+        const paymentFunction =
+          payment === "shopeepay" || payment === "gopay" || payment === "qris"
+            ? transactionService.ewalletPayment
+            : transactionService.payment;
+
+        const res = await paymentFunction(costs, payment, id, address);
 
         if (res.status === 200) {
           if (res.data.diffrent) {
             setDiffrent(res.data.diffrent);
           } else {
-            prefetch(`/pembayaran/${res.data.transaction._id}`);
-
-            replace(`/pembayaran/${res.data.transaction._id}`);
+            const transactionId = res.data.transaction._id;
+            prefetch(`/pembayaran/${transactionId}`);
+            replace(`/pembayaran/${transactionId}`);
             dispatch(resetCheckout());
           }
-        }
-
-        if (res.status === 400) {
-          replace("/cart");
         }
       } catch (error) {
         ResponseError(error);

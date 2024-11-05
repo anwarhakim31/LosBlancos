@@ -6,6 +6,7 @@ import Transaction from "@/lib/models/transaction-model";
 import Cart from "@/lib/models/cart-model";
 import { verifyTokenMember } from "@/lib/verify-token";
 import { itemCartType } from "@/services/type.module";
+import Ewallet from "@/lib/models/ewallet-model";
 
 export async function POST(req: NextRequest) {
   try {
@@ -102,6 +103,20 @@ export async function GET(req: NextRequest) {
       },
     });
 
+    let action: { name: string; url: string; method: string }[] = [];
+
+    if (
+      transaction.paymentName === "shopeepay" ||
+      transaction.paymentName === "gopay" ||
+      transaction.paymentName === "qris"
+    ) {
+      const ewalletDoc = await Ewallet.findById({
+        _id: transaction.paymentCode,
+      }).select("actions");
+
+      action = ewalletDoc?.actions || [];
+    }
+
     if (!transaction) {
       return ResponseError(404, "Transaksi tidak ditemukan dengan ID tersebut");
     }
@@ -122,6 +137,7 @@ export async function GET(req: NextRequest) {
       success: true,
       message: "Data berhasil diambil",
       transaction,
+      action,
     });
   } catch (error) {
     return ResponseError(500, "Internal Server Error");
