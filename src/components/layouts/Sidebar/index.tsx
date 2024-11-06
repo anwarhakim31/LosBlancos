@@ -13,6 +13,7 @@ import {
   MonitorCog,
   Package,
   ShoppingBag,
+  Ticket,
   User,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
@@ -79,6 +80,12 @@ const sideList = [
     name: "transaksi",
     icon: <ShoppingBag width={20} height={20} strokeWidth={1.2} />,
     link: "/admin/transaction",
+  },
+  {
+    id: 9,
+    name: "diskon",
+    icon: <Ticket width={20} height={20} strokeWidth={1.2} />,
+    link: "/admin/discount",
   },
 ];
 
