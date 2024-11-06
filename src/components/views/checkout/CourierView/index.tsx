@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./courier.module.scss";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
-import { AlertCircle, ArrowRightLeft } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { formatCurrency } from "@/utils/contant";
 import Image from "next/image";
 import ModalChangeOngkir from "./ModalChangeOngkir";
@@ -118,20 +118,6 @@ const CourierView = ({ isLoading }: { isLoading: boolean }) => {
           </>
         )}
       </div>
-      {address && costs && (
-        <button
-          className={styles.switch}
-          onClick={() => setIsChange(true)}
-          aria-label="switch"
-          title="Ganti Alamat Pengiriman"
-          disabled={loadingOngkir}
-          style={{
-            display: address ? "block" : "none",
-          }}
-        >
-          <ArrowRightLeft />
-        </button>
-      )}
 
       {isChange && <ModalChangeOngkir onClose={() => setIsChange(false)} />}
     </div>

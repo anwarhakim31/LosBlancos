@@ -1,8 +1,8 @@
 .wrapper {
-  margin-top: 2rem;
   min-height: 140px;
   cursor: pointer;
-  border-radius: 0.4rem;
+  border-bottom-right-radius: 0.4rem;
+  border-bottom-left-radius: 0.4rem;
 
   flex-direction: column;
   display: flex;
@@ -74,23 +74,7 @@
     }
   }
 }
-.switch {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  width: 1rem;
-  height: 1rem;
-  border: none;
-  svg {
-    width: 18px;
-    height: 18px;
-  }
 
-  &:hover {
-    border: none;
-    color: $primary;
-  }
-}
 .skeleton {
   width: 100%;
   border: 1px solid $gray-300;

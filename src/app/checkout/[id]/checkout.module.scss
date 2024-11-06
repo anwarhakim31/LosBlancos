@@ -15,7 +15,7 @@
 
   h3 {
     font-weight: 500;
-
+    font-size: 1rem;
     width: 100%;
   }
 
@@ -117,6 +117,7 @@
         p {
           font-size: 0.875rem;
           font-weight: 500;
+          color: $gray-700;
         }
 
         span {
@@ -151,9 +152,7 @@
 
 .detailOrderMobile {
   display: block;
-  border: 1px solid $gray-300;
-  border-radius: 0.4rem;
-  margin-top: 2rem;
+  border-inline: 1px solid $gray-300;
 
   padding: 1rem;
   @include media(lg) {
