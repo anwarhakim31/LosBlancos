@@ -16,6 +16,14 @@ export async function POST(req: NextRequest) {
   try {
     const { order_id } = await req.json();
 
+    const isExist = await Transaction.findOne({
+      invoice: order_id,
+    });
+
+    if (!isExist) {
+      return ResponseError(404, "Transaksi tidak ditemukan");
+    }
+
     const res = await fetch(`${MIDTRANS_BASE_URL}/${order_id}/cancel`, {
       method: "POST",
       headers: {
@@ -31,6 +39,11 @@ export async function POST(req: NextRequest) {
           invoice: order_id,
         },
         {
+          $set: {
+            paymentStatus: "tertunda",
+            totalPayment: isExist.subtotal + 1000,
+            expired: new Date(new Date().getTime() + 1000 * 60 * 60 * 8),
+          },
           $unset: {
             paymentMethod: 1,
             paymentName: 1,
@@ -39,11 +52,6 @@ export async function POST(req: NextRequest) {
             paymentExpired: 1,
             shippingCost: 1,
             shippingName: 1,
-            totalPayment: 1,
-          },
-          $set: {
-            paymentStatus: "tertunda",
-            expired: new Date(new Date().getTime() + 1000 * 60 * 60 * 8),
           },
         }
       ).select("_id items paymentStatus");

@@ -145,7 +145,12 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const grossAmount = transaction.subtotal + shipping.cost[0].value + 1000;
+    let grossAmount = transaction.subtotal + shipping.cost[0].value + 1000;
+
+    if (transaction.diskon > 0) {
+      grossAmount -= transaction.diskon;
+    }
+
     const shippingName = `${shipping.courier} - ${shipping.service}`;
 
     const orderId = transaction.invoice;
@@ -182,26 +187,20 @@ export async function POST(req: NextRequest) {
 
     const ewallet = await actionEwallet.save();
 
-    const updatedTransaction = await Transaction.findOneAndUpdate(
-      { _id: transaction_id },
-      {
-        $set: {
-          expired: data.expiry_time,
-          shippingAddress: address(shippingAddress),
-          shippingCost: shipping.cost[0].value,
-          shippingName: shippingName,
-          totalPayment: grossAmount,
-          paymentMethod: "e-wallet",
-          paymentStatus: "tertunda",
-          paymentCode: ewallet._id,
-          paymentName: payment,
-          paymentId: data.transaction_id,
-          paymentCreated: data.transaction_time,
-          paymentExpired: data.expiry_time,
-        },
-      },
-      { new: true }
-    ).select("_id items");
+    transaction.expired = data.expiry_time;
+    transaction.shippingAddress = address(shippingAddress);
+    transaction.shippingCost = shipping.cost[0].value;
+    transaction.shippingName = shippingName;
+    transaction.totalPayment = grossAmount;
+    transaction.paymentMethod = "e-wallet";
+    transaction.paymentStatus = "tertunda";
+    transaction.paymentCode = ewallet._id;
+    transaction.paymentName = payment;
+    transaction.paymentId = data.transaction_id;
+    transaction.paymentCreated = data.transaction_time;
+    transaction.paymentExpired = data.expiry_time;
+
+    const saveTransaction = await transaction.save();
 
     transaction.items.forEach(
       async (item: {
@@ -224,7 +223,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       status: "success",
-      transaction: updatedTransaction,
+      transaction: saveTransaction,
     });
   } catch (error) {
     console.log(error);

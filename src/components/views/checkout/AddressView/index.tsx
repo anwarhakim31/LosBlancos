@@ -129,17 +129,28 @@ const AddressView = ({
       </div>
 
       <div className={styles.footer}>
-        <button
-          type="button"
-          aria-label="tambah alamat"
-          disabled={loading}
-          onClick={() => setIsAdd(true)}
-          style={{
-            display: address.length > 2 ? "none" : "block",
-          }}
-        >
-          Tambah
-        </button>
+        {loading ? (
+          <div
+            className={styles.skeleton}
+            style={{
+              maxWidth: "75px",
+              height: "2rem",
+              marginLeft: "auto",
+            }}
+          ></div>
+        ) : (
+          <button
+            type="button"
+            aria-label="tambah alamat"
+            disabled={loading}
+            onClick={() => setIsAdd(true)}
+            style={{
+              display: address.length > 2 ? "none" : "block",
+            }}
+          >
+            Tambah
+          </button>
+        )}
       </div>
       <button
         className={styles.switch}

@@ -6,7 +6,7 @@ import React, { Fragment, useRef, useState } from "react";
 import BreadCrubm from "@/components/element/BreadCrubm";
 import styles from "./cart.module.scss";
 import Image from "next/image";
-import { ArrowRight, Trash2 } from "lucide-react";
+import { ArrowRight, TicketPlus, Trash2, X } from "lucide-react";
 import QuantityAction from "@/components/element/Quantity";
 
 import { useAppDispatch, useAppSelector } from "@/store/hook";
@@ -24,6 +24,9 @@ import Link from "next/link";
 import { ResponseError } from "@/utils/axios/response-error";
 import { transactionService } from "@/services/transaction/method";
 import { useRouter } from "next/navigation";
+import { diskonService } from "@/services/discount/method";
+
+import { AxiosError } from "axios";
 
 const CartPage = () => {
   const router = useRouter();
@@ -31,6 +34,13 @@ const CartPage = () => {
   const summeryRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
   const session = useSession();
+  const [code, setCode] = useState<string>("");
+  const [discount, setDiscount] = useState<{
+    _id: string;
+    percent: number;
+    code: string;
+  } | null>(null);
+  const [error, setError] = useState<string>("");
   const { cart, loading } = useAppSelector((state) => state.cart);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -69,7 +79,8 @@ const CartPage = () => {
           session.data?.user?.id as string,
           cart?.items as itemCartType[],
           cart?.total as number,
-          cartId
+          cartId,
+          discount?._id
         );
 
         if (res.status == 200) {
@@ -86,6 +97,25 @@ const CartPage = () => {
       }
     }
   };
+
+  const handleApplyDiscount = async () => {
+    if (code) {
+      setError("");
+      try {
+        const res = await diskonService.apply(code);
+
+        if (res.status === 200) {
+          setDiscount(res.data.discount);
+        }
+      } catch (error) {
+        if (error instanceof AxiosError && error.response?.data) {
+          setError(error?.response?.data.message);
+        }
+      }
+    }
+  };
+
+  console.log(code);
 
   return (
     <Fragment>
@@ -163,9 +193,7 @@ const CartPage = () => {
                           <div className={styles.list__info__top}>
                             <small>{item.product.collectionName.name}</small>
                             <h3>{item.product.name}</h3>
-                            <p>
-                              <span>{item.atribute}</span>: {item.atributeValue}
-                            </p>
+                            <p>{item.atributeValue}</p>
                           </div>
 
                           <h4 className={styles.list__info__price}>
@@ -228,25 +256,72 @@ const CartPage = () => {
                     </div>
                     <div className={`${styles.summeryWrapper__summery}`}>
                       <p>Diskon</p>
-                      <span>{0}</span>
+                      <span>
+                        {discount && code ? "- " : ""}{" "}
+                        {(discount &&
+                          formatCurrency(
+                            (cart?.total * discount?.percent) / 100
+                          )) ||
+                          0}
+                      </span>
                     </div>
                   </div>
                   <div className={`${styles.summeryWrapper__summery}`}>
                     <span>Total</span>
-                    <span>{formatCurrency(cart?.total)}</span>
+                    <span>
+                      {discount
+                        ? formatCurrency(
+                            cart.total - (discount?.percent * cart?.total) / 100
+                          )
+                        : formatCurrency(cart?.total)}
+                    </span>
                   </div>
 
                   <div className={styles.summeryWrapper__discount}>
                     <input
                       type="text"
+                      value={code}
                       id="discount"
                       name="discount"
-                      placeholder="Masukkan Kode Diskon"
+                      placeholder="Masukkan kode diskon"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setCode(e.target.value)
+                      }
+                      autoComplete="off"
+                      disabled={
+                        isLoading ||
+                        loading ||
+                        cart?.items?.length === 0 ||
+                        discount !== null
+                      }
                     />
-                    <button type="button" aria-label="checkout">
-                      Terapkan
+                    {discount && (
+                      <div className={styles.percentage}>
+                        <p>{discount?.percent} %</p>{" "}
+                        <div
+                          onClick={() => {
+                            setCode("");
+                            setDiscount(null);
+                          }}
+                          className={styles.reset}
+                        >
+                          <X />
+                        </div>
+                      </div>
+                    )}
+                    <button
+                      type="button"
+                      aria-label="checkout"
+                      title="discount"
+                      onClick={handleApplyDiscount}
+                      disabled={
+                        isLoading || cart?.items?.length === 0 || loading
+                      }
+                    >
+                      <TicketPlus />
                     </button>
                   </div>
+                  <small>{error && error}</small>
 
                   <button
                     type="button"

@@ -60,8 +60,6 @@ const checkoutSlice = createSlice({
       state.costs = action.payload;
       if (state.transaction) {
         state.transaction.shippingCost = action.payload.cost[0].value;
-        state.transaction.totalPayment =
-          action.payload.cost[0].value + state.transaction.subtotal + 1000;
 
         state.errorSubmit.ongkir = false;
       }
@@ -89,7 +87,7 @@ const checkoutSlice = createSlice({
     builder.addCase(getCheckout.fulfilled, (state, action) => {
       state.transaction = action.payload as TypeTransaction;
 
-      state.transaction.totalPayment = state.transaction.subtotal + 1000;
+      state.transaction.totalPayment = state.transaction.totalPayment;
 
       state.loading = false;
     });

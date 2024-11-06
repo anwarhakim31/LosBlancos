@@ -46,8 +46,9 @@ const transactionSchema = new mongoose.Schema({
   },
   items: [transactionItemModel],
   diskon: {
-    type: String,
+    type: Number,
     required: false,
+    default: 0,
   },
   subtotal: {
     type: Number,
@@ -131,7 +132,9 @@ transactionSchema.pre("save", function (next) {
     return acc + item.price;
   }, 0);
 
-  this.totalPayment = this.subtotal + this.shippingCost;
+  // this.totalPayment = this.diskon
+  //   ? this.subtotal + this.shippingCost + 1000 - this.diskon
+  //   : this.subtotal + this.shippingCost + 1000;
 
   next();
 });

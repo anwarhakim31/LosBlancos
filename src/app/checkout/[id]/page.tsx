@@ -22,7 +22,6 @@ import { useRouter } from "next/navigation";
 
 import React, { Fragment, useEffect, useState } from "react";
 import AddressView from "@/components/views/checkout/AddressView";
-
 import ModalConfirmRepayment from "@/components/views/checkout/ModalRepayment";
 
 export interface TypeErrorCheckout {
@@ -71,7 +70,6 @@ const Checkout = ({ params }: { params: { id: string } }) => {
           payment === "shopeepay" || payment === "gopay" || payment === "qris"
             ? transactionService.ewalletPayment
             : transactionService.payment;
-
         const res = await paymentFunction(costs, payment, id, address);
 
         if (res.status === 200) {
@@ -236,6 +234,13 @@ const Checkout = ({ params }: { params: { id: string } }) => {
                     </span>
                   </div>
                   <div className={`${styles.summeryWrapper__summery}`}>
+                    <p>Diskon</p>
+                    <span>
+                      {transaction?.diskon ? "-" : ""}{" "}
+                      {formatCurrency((transaction?.diskon as number) || 0)}
+                    </span>
+                  </div>
+                  <div className={`${styles.summeryWrapper__summery}`}>
                     <p>Biaya Layanan</p>
                     <span>{formatCurrency(1000)}</span>
                   </div>
@@ -251,7 +256,10 @@ const Checkout = ({ params }: { params: { id: string } }) => {
                 <div className={`${styles.summeryWrapper__summery}`}>
                   <span>Total</span>
                   <span>
-                    {formatCurrency((transaction?.totalPayment as number) || 0)}
+                    {formatCurrency(
+                      ((transaction?.totalPayment as number) || 0) +
+                        ((transaction?.shippingCost as number) || 0)
+                    )}
                   </span>
                 </div>
 
@@ -268,7 +276,14 @@ const Checkout = ({ params }: { params: { id: string } }) => {
                     isLoading
                   }
                 >
-                  Lanjutkan Pembayaran <ArrowRight width={16} height={16} />
+                  {loading ? (
+                    "Loading"
+                  ) : (
+                    <>
+                      Lanjutkan Pembayaran
+                      <ArrowRight width={16} height={16} />
+                    </>
+                  )}
                 </button>
               </div>
             </div>

@@ -2,8 +2,7 @@
   border: 1px solid $gray-300;
   border-radius: 0.4rem;
   background: $white;
-  padding-bottom: 2rem;
-
+  padding-bottom: 0.5rem;
   width: 100%;
   margin-top: auto;
 
@@ -32,6 +31,10 @@
 
   &:hover {
     border: 1px solid $primary;
+  }
+
+  &:nth-child(1) {
+    margin-top: 0.5rem;
   }
 
   &__contact {

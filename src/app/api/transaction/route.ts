@@ -6,14 +6,15 @@ import Transaction from "@/lib/models/transaction-model";
 import Cart from "@/lib/models/cart-model";
 import { verifyTokenMember } from "@/lib/verify-token";
 import { itemCartType } from "@/services/type.module";
+import Diskon from "@/lib/models/diskon-model";
 import Ewallet from "@/lib/models/ewallet-model";
 
 export async function POST(req: NextRequest) {
   try {
     verifyTokenMember(req);
-    const { items, total, userId, cartId } = await req.json();
+    const { items, userId, cartId, discountId } = await req.json();
 
-    if (!userId || !total || !items) {
+    if (!userId || !items) {
       return ResponseError(400, "Data tidak boleh kosong");
     }
 
@@ -34,7 +35,7 @@ export async function POST(req: NextRequest) {
       if (item.quantity > stockDB.stock) {
         return ResponseError(
           400,
-          `Gagal, ${item.product.name} ${item.atribute} ${item.atributeValue}, stock yang tersedia tersisa ${stockDB.stock}`
+          `Gagal,${item.product.name} ${item.atribute} ${item.atributeValue}, stock yang tersedia tersisa ${stockDB.stock}`
         );
       }
     }
@@ -57,9 +58,7 @@ export async function POST(req: NextRequest) {
       invoice,
       userId,
       items: newitem,
-      subTotal: total,
       shippingCost: 0,
-      totalPayment: total,
       paymentStatus: "tertunda",
       transactionStatus: "tertunda",
       expired: new Date(new Date().getTime() + 8 * 60 * 60 * 1000),
@@ -69,6 +68,43 @@ export async function POST(req: NextRequest) {
 
     if (cartId) {
       await Cart.findOneAndDelete({ userId });
+    }
+
+    const totalPayment = newitem.reduce(
+      (total: number, item: itemCartType) => total + item.price * item.quantity,
+      0
+    );
+    if (discountId) {
+      const discount = await Diskon.findById({ _id: discountId });
+      if (!discount) {
+        return ResponseError(400, "Discount tidak ditemukan");
+      }
+
+      const discountValue = totalPayment * (discount.percent / 100);
+
+      const totalWithDiscount = totalPayment + 1000 - discountValue;
+
+      await Transaction.findByIdAndUpdate(
+        transaction._id,
+        {
+          totalPayment: totalWithDiscount,
+          diskon: discountValue,
+        },
+        {
+          upsert: true,
+        }
+      );
+    } else {
+      await Transaction.findByIdAndUpdate(
+        transaction._id,
+        {
+          totalPayment: totalPayment + 1000,
+          diskon: 0,
+        },
+        {
+          upsert: true,
+        }
+      );
     }
 
     return NextResponse.json({

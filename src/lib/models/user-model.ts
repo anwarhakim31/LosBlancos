@@ -46,6 +46,11 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  diskon: [
+    {
+      type: String,
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,

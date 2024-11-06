@@ -9,8 +9,11 @@ import { formatCountdown, formatCurrency, formateDate } from "@/utils/contant";
 import Link from "next/link";
 import Loader from "@/components/element/Loader";
 import ModalConfirmChangePayment from "./ModalConfirmChangePayment";
+import { useSearchParams } from "next/navigation";
+import Pagination from "@/components/element/Pagination";
 
 const PendingView = () => {
+  const searchParams = useSearchParams();
   const session = useSession();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<TypeTransaction[]>([]);
@@ -18,6 +21,15 @@ const PendingView = () => {
     { _id: string; expired: number }[]
   >([]);
   const [isChange, setIsChange] = useState<string | null>(null);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 8,
+    total: 0,
+    totalPage: 0,
+  });
+
+  const page = Number((searchParams.get("page") as string) || 1);
+  const limit = Number((searchParams.get("limit") as string) || 8);
 
   useEffect(() => {
     const getData = async () => {
@@ -25,12 +37,14 @@ const PendingView = () => {
         const res = await orderService.get(
           session?.data?.user?.id as string,
           "tertunda",
-          "tertunda"
+          "tertunda",
+          limit,
+          page
         );
 
         if (res.status === 200) {
           setData(res.data.transaction);
-
+          setPagination(res.data.pagination);
           const now = new Date();
 
           res.data.transaction.forEach((transaction: TypeTransaction) => {
@@ -111,6 +125,8 @@ const PendingView = () => {
     setArrExpired,
     data.length,
     setLoading,
+    page,
+    limit,
   ]);
 
   return (
@@ -222,6 +238,7 @@ const PendingView = () => {
           onClose={() => setIsChange(null)}
         />
       )}
+      {!loading && data.length > 0 && <Pagination pagination={pagination} />}
     </Fragment>
   );
 };

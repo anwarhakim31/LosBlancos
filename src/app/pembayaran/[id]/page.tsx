@@ -424,7 +424,7 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
                     ) : (
                       <div className={styles.status}>
                         <span>
-                          {countdown === 0 ? "Belum Dibayar" : "Belum Diproses"}
+                          {countdown === 0 ? "dibatalkan" : "Belum Dibayar"}
                         </span>
                       </div>
                     )}
@@ -483,8 +483,8 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
                     {data?.paymentName === "gopay" ||
                       (data?.paymentName === "shopeepay" && (
                         <li>
-                          Klik bayar sekarang dan akan mengarahkan ke e-wallet
-                          untuk pembayaran
+                          Klik Koneksi dan akan mengarahkan ke e-wallet untuk
+                          pembayaran
                         </li>
                       ))}
                     {data?.paymentName === "qris" && <li>Scan QR Code </li>}

@@ -6,8 +6,10 @@ export const transactionService = {
     userId: string,
     items: itemCartType[],
     total: number,
-    cartId?: string
-  ) => instance.post("/transaction", { userId, items, total, cartId }),
+    cartId?: string,
+    discountId?: string
+  ) =>
+    instance.post("/transaction", { userId, items, total, cartId, discountId }),
 
   get: (transactionId: string) =>
     instance.get("/transaction?transactionId=" + transactionId),
@@ -59,11 +61,12 @@ export const transactionService = {
     payment: string,
     transaction_id: string,
     shippingAddress: TypeShippingAddress
-  ) =>
-    instance.put("/transaction/payment", {
+  ) => {
+    return instance.put("/transaction", {
       shipping,
       payment,
       transaction_id,
       shippingAddress,
-    }),
+    });
+  },
 };

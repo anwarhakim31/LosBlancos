@@ -131,6 +131,7 @@ export type TypeTransaction = {
     postalCode: string;
     address: string;
   };
+  diskon: number;
   paymentMethod?: string;
   paymentCode?: string;
   paymentName?: string;
