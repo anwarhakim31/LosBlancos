@@ -145,9 +145,7 @@ const Checkout = ({ params }: { params: { id: string } }) => {
                       <div className={styles.detailOrderMobile__list__content}>
                         <div>
                           <h3>{item?.productId?.name}</h3>
-                          <p>
-                            {item.atribute} : {item?.atributeValue}
-                          </p>
+                          <p>{item?.atributeValue}</p>
                         </div>
                         <span>
                           {formatCurrency(Number(item?.productId?.price))} x{" "}
@@ -210,9 +208,7 @@ const Checkout = ({ params }: { params: { id: string } }) => {
                       <div className={styles.detailOrder__list__content}>
                         <div>
                           <h3>{item?.productId?.name}</h3>
-                          <p>
-                            {item.atribute} : {item.atributeValue}
-                          </p>
+                          <p>{item.atributeValue}</p>
                         </div>
                         <span>
                           {formatCurrency(Number(item?.productId?.price))} x{" "}
@@ -228,39 +224,116 @@ const Checkout = ({ params }: { params: { id: string } }) => {
                 <h3>Rincian Pesanan</h3>
                 <div className={styles.summeryWrapper__wrapper}>
                   <div className={`${styles.summeryWrapper__summery}`}>
-                    <p>Subtotal</p>
-                    <span>
-                      {formatCurrency((transaction?.subtotal as number) || 0)}
-                    </span>
+                    {loading ? (
+                      <>
+                        <div
+                          className={`${styles.skeleton}`}
+                          style={{ maxWidth: "100px", height: "1rem" }}
+                        ></div>
+                        <div
+                          className={`${styles.skeleton}`}
+                          style={{ width: "100px", height: "1rem" }}
+                        ></div>
+                      </>
+                    ) : (
+                      <>
+                        <p>Subtotal</p>
+                        <span>
+                          {formatCurrency(
+                            (transaction?.subtotal as number) || 0
+                          )}
+                        </span>
+                      </>
+                    )}
                   </div>
                   <div className={`${styles.summeryWrapper__summery}`}>
-                    <p>Diskon</p>
-                    <span>
-                      {transaction?.diskon ? "-" : ""}{" "}
-                      {formatCurrency((transaction?.diskon as number) || 0)}
-                    </span>
+                    {loading ? (
+                      <>
+                        <div
+                          className={`${styles.skeleton}`}
+                          style={{ maxWidth: "100px", height: "1rem" }}
+                        ></div>
+                        <div
+                          className={`${styles.skeleton}`}
+                          style={{ width: "100px", height: "1rem" }}
+                        ></div>
+                      </>
+                    ) : (
+                      <>
+                        <p>Diskon</p>
+                        <span>
+                          {transaction?.diskon ? "-" : ""}{" "}
+                          {formatCurrency((transaction?.diskon as number) || 0)}
+                        </span>
+                      </>
+                    )}
                   </div>
                   <div className={`${styles.summeryWrapper__summery}`}>
-                    <p>Biaya Layanan</p>
-                    <span>{formatCurrency(1000)}</span>
+                    {loading ? (
+                      <>
+                        <div
+                          className={`${styles.skeleton}`}
+                          style={{ maxWidth: "100px", height: "1rem" }}
+                        ></div>
+                        <div
+                          className={`${styles.skeleton}`}
+                          style={{ width: "100px", height: "1rem" }}
+                        ></div>
+                      </>
+                    ) : (
+                      <>
+                        <p>Biaya Layanan</p>
+                        <span>{formatCurrency(1000)}</span>
+                      </>
+                    )}
                   </div>
                   <div className={`${styles.summeryWrapper__summery}`}>
-                    <p>Biaya Pengiriman</p>
-                    <span>
-                      {formatCurrency(
-                        (transaction?.shippingCost as number) || 0
-                      )}
-                    </span>
+                    {loading ? (
+                      <>
+                        <div
+                          className={`${styles.skeleton}`}
+                          style={{ maxWidth: "100px", height: "1rem" }}
+                        ></div>
+                        <div
+                          className={`${styles.skeleton}`}
+                          style={{ width: "100px", height: "1rem" }}
+                        ></div>
+                      </>
+                    ) : (
+                      <>
+                        <p>Biaya Pengiriman</p>
+                        <span>
+                          {formatCurrency(
+                            (transaction?.shippingCost as number) || 0
+                          )}
+                        </span>
+                      </>
+                    )}
                   </div>
                 </div>
                 <div className={`${styles.summeryWrapper__summery}`}>
-                  <span>Total</span>
-                  <span>
-                    {formatCurrency(
-                      ((transaction?.totalPayment as number) || 0) +
-                        ((transaction?.shippingCost as number) || 0)
-                    )}
-                  </span>
+                  {loading ? (
+                    <>
+                      <div
+                        className={`${styles.skeleton}`}
+                        style={{ maxWidth: "100px", height: "1rem" }}
+                      ></div>
+                      <div
+                        className={`${styles.skeleton}`}
+                        style={{ width: "100px", height: "1rem" }}
+                      ></div>
+                    </>
+                  ) : (
+                    <>
+                      <span>Total</span>
+                      <span>
+                        {formatCurrency(
+                          ((transaction?.totalPayment as number) || 0) +
+                            ((transaction?.shippingCost as number) || 0)
+                        )}
+                      </span>
+                    </>
+                  )}
                 </div>
 
                 <button

@@ -377,21 +377,29 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
                   </div>
                   <div className={styles.footer}>
                     <div className={styles.wrapper}>
-                      <h4>Pembayaran melalui </h4>
                       {loading ? (
-                        <div className={styles.skeleton_payment}></div>
+                        <>
+                          <div
+                            className={styles.skeleton}
+                            style={{ width: "100px", height: "1.25rem" }}
+                          ></div>
+                          <div className={styles.skeleton_payment}></div>
+                        </>
                       ) : (
-                        <div className={styles.wrapper__image}>
-                          <Image
-                            src={
-                              getBankDetail(data?.paymentName as string)
-                                ?.image || "/default.png"
-                            }
-                            alt="logo"
-                            width={100}
-                            height={100}
-                          />
-                        </div>
+                        <>
+                          <h4>Pembayaran melalui </h4>
+                          <div className={styles.wrapper__image}>
+                            <Image
+                              src={
+                                getBankDetail(data?.paymentName as string)
+                                  ?.image || "/default.png"
+                              }
+                              alt="logo"
+                              width={100}
+                              height={100}
+                            />
+                          </div>
+                        </>
                       )}
                     </div>
 
@@ -415,43 +423,79 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
 
                 <div className={styles.transaction}>
                   <div className={styles.wrapper}>
-                    <p>Status Transaksi </p>
                     {loading ? (
-                      <div
-                        className={styles.skeleton}
-                        style={{ maxWidth: "200px", height: "1.5rem" }}
-                      ></div>
+                      <>
+                        <div
+                          className={styles.skeleton}
+                          style={{
+                            maxWidth: "110px",
+                            height: "1.5rem",
+                            marginRight: "50px",
+                          }}
+                        ></div>
+                        <div
+                          className={styles.skeleton}
+                          style={{ maxWidth: "150px", height: "1.5rem" }}
+                        ></div>
+                      </>
                     ) : (
-                      <div className={styles.status}>
-                        <span>
-                          {countdown === 0 ? "dibatalkan" : "Belum Dibayar"}
-                        </span>
-                      </div>
+                      <>
+                        <p>Status Transaksi </p>
+                        <div className={styles.status}>
+                          <span>
+                            {countdown === 0 ? "dibatalkan" : "Belum Dibayar"}
+                          </span>
+                        </div>
+                      </>
                     )}
                   </div>
                   <div className={styles.wrapper}>
-                    <p>No. Transaksi </p>
                     {loading ? (
-                      <div
-                        className={styles.skeleton}
-                        style={{ maxWidth: "200px", height: "1.5rem" }}
-                      ></div>
+                      <>
+                        <div
+                          className={styles.skeleton}
+                          style={{
+                            maxWidth: "110px",
+                            height: "1.5rem",
+                            marginRight: "50px",
+                          }}
+                        ></div>
+                        <div
+                          className={styles.skeleton}
+                          style={{ maxWidth: "150px", height: "1.5rem" }}
+                        ></div>
+                      </>
                     ) : (
-                      <p>{data?.invoice}</p>
+                      <>
+                        <p>No. Transaksi </p>
+                        <p>{data?.invoice}</p>
+                      </>
                     )}
                   </div>
                   <div className={styles.wrapper}>
-                    <p>Waktu Transaksi </p>
                     {loading ? (
-                      <div
-                        className={styles.skeleton}
-                        style={{ maxWidth: "200px", height: "1.5rem" }}
-                      ></div>
+                      <>
+                        <div
+                          className={styles.skeleton}
+                          style={{
+                            maxWidth: "110px",
+                            height: "1.5rem",
+                            marginRight: "50px",
+                          }}
+                        ></div>
+                        <div
+                          className={styles.skeleton}
+                          style={{ maxWidth: "150px", height: "1.5rem" }}
+                        ></div>
+                      </>
                     ) : (
-                      <p>
-                        {formateDate(data?.paymentCreated as Date)} -{" "}
-                        {formatTime(data?.paymentCreated as Date)}
-                      </p>
+                      <>
+                        <p>Waktu Transaksi </p>
+                        <p>
+                          {formateDate(data?.paymentCreated as Date)} -{" "}
+                          {formatTime(data?.paymentCreated as Date)}
+                        </p>
+                      </>
                     )}
                   </div>
                 </div>
@@ -472,30 +516,58 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
                 </div>
 
                 <div className={styles.note}>
-                  <h3>Catatan</h3>
-                  <ol className={styles.note__primaryList}>
-                    {data?.paymentMethod === "bank_transfer" && (
-                      <li>Salin Nomor Transaksi untuk melakukan pembayaran</li>
-                    )}
-                    {data?.paymentMethod === "over_thecounter" && (
-                      <li>Berikan Nomor Pembayaran ke kasir</li>
-                    )}
-                    {data?.paymentName === "gopay" ||
-                      (data?.paymentName === "shopeepay" && (
-                        <li>
-                          Klik Koneksi dan akan mengarahkan ke e-wallet untuk
-                          pembayaran
-                        </li>
+                  {loading ? (
+                    <>
+                      <div
+                        className={styles.skeleton}
+                        style={{
+                          height: "1.5rem",
+                          width: "100px",
+                          marginBottom: "1.25rem",
+                        }}
+                      ></div>
+                      {Array.from({ length: 5 }).map((_, index) => (
+                        <div
+                          key={index}
+                          className={styles.skeleton}
+                          style={{
+                            maxWidth: "250px",
+                            height: "1rem",
+                            marginBottom: "0.35rem",
+                          }}
+                        ></div>
                       ))}
-                    {data?.paymentName === "qris" && <li>Scan QR Code </li>}
-                    <li>
-                      Halaman tidak perlu kamu refresh, status transaksi akan
-                      update otomatis.
-                    </li>
-                    <li>Selesaikan pembayaran sebelum batas waktu.</li>
-                    <li>Bayar sesuai nominal yang tertera</li>
-                    <li>Jika perlu bantuan, chat ke WA Admin</li>
-                  </ol>
+                    </>
+                  ) : (
+                    <>
+                      <h3>Catatan</h3>
+                      <ol className={styles.note__primaryList}>
+                        {data?.paymentMethod === "bank_transfer" && (
+                          <li>
+                            Salin Nomor Transaksi untuk melakukan pembayaran
+                          </li>
+                        )}
+                        {data?.paymentMethod === "over_thecounter" && (
+                          <li>Berikan Nomor Pembayaran ke kasir</li>
+                        )}
+                        {data?.paymentName === "gopay" ||
+                          (data?.paymentName === "shopeepay" && (
+                            <li>
+                              Klik Koneksi dan akan mengarahkan ke e-wallet
+                              untuk pembayaran
+                            </li>
+                          ))}
+                        {data?.paymentName === "qris" && <li>Scan QR Code </li>}
+                        <li>
+                          Halaman tidak perlu kamu refresh, status transaksi
+                          akan update otomatis.
+                        </li>
+                        <li>Selesaikan pembayaran sebelum batas waktu.</li>
+                        <li>Bayar sesuai nominal yang tertera</li>
+                        <li>Jika perlu bantuan, chat ke WA Admin</li>
+                      </ol>
+                    </>
+                  )}
                 </div>
                 <button
                   className={styles.button}
