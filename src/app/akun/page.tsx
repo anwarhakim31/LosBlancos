@@ -64,8 +64,6 @@ const MyAccountPage = () => {
     }
   };
 
-  console.log(session);
-
   return (
     <ProfileMainView>
       <div className={styles.info}>

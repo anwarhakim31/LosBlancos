@@ -9,21 +9,30 @@ import TestimoniView from "@/components/views/home/Testimoni";
 import GaleriView from "@/components/views/home/Galeri";
 
 const Page = async () => {
-  const [dataCarousel, dataMarquee, dataNewProduct, dataBestSellProduct] =
-    await Promise.all([
-      fetch(ServerURL + "/master/carousel", { cache: "no-store" }).then((res) =>
-        res.json()
-      ),
-      fetch(ServerURL + "/master/marquee", { cache: "no-store" }).then((res) =>
-        res.json()
-      ),
-      fetch(ServerURL + "/product?limit=4", { cache: "no-store" }).then((res) =>
-        res.json()
-      ),
-      fetch(ServerURL + "/product?limit=4&sold=asc", {
-        cache: "no-store",
-      }).then((res) => res.json()),
-    ]);
+  const [
+    dataCarousel,
+    dataMarquee,
+    dataNewProduct,
+    dataBestSellProduct,
+    dataGaleri,
+  ] = await Promise.all([
+    fetch(ServerURL + "/master/carousel", { next: { revalidate: 10 } }).then(
+      (res) => res.json()
+    ),
+    fetch(ServerURL + "/master/marquee", { next: { revalidate: 10 } }).then(
+      (res) => res.json()
+    ),
+
+    fetch(ServerURL + "/product?limit=4", { cache: "no-store" }).then((res) =>
+      res.json()
+    ),
+    fetch(ServerURL + "/product?limit=4&sold=asc", {
+      cache: "no-store",
+    }).then((res) => res.json()),
+    fetch(ServerURL + "/master/galeri", { next: { revalidate: 10 } }).then(
+      (res) => res.json()
+    ),
+  ]);
 
   return (
     <Fragment>
@@ -41,7 +50,7 @@ const Page = async () => {
           data={dataBestSellProduct.products}
         />
         <TestimoniView />
-        <GaleriView />
+        <GaleriView data={dataGaleri.galeri.image} />
       </main>
       <Footer />
     </Fragment>

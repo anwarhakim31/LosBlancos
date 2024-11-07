@@ -16,4 +16,7 @@ export const masterService = {
     }),
   getMain: () => instance.get("/master/main"),
   editMain: (data: TypeMaster) => instance.patch("/master/main", data),
+  getGaleri: () => instance.get("/master/galeri"),
+  editGaleri: (data: { image: string; id: string }) =>
+    instance.post("/master/galeri", data),
 };
