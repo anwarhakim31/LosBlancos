@@ -1,4 +1,3 @@
-import Footer from "@/components/layouts/Footer";
 import DetailProductView from "@/components/views/DetailProduct/DetailViewMain";
 import { ServerURL } from "@/utils/contant";
 
@@ -21,7 +20,6 @@ const DetailProduct = async ({ params }: { params: { id: string } }) => {
       <main>
         <DetailProductView product={data.product} />
       </main>
-      <Footer />
     </Fragment>
   );
 };

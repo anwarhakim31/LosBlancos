@@ -6,7 +6,7 @@ import { X } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 
 import { Fragment, useEffect, useRef, useState } from "react";
-import Footer from "@/components/layouts/Footer";
+
 import Link from "next/link";
 import { removeWishlist } from "@/store/slices/wishSlice";
 import { useSession } from "next-auth/react";
@@ -138,7 +138,6 @@ const WishListPage = () => {
           </div>
         </section>
       </main>
-      <Footer />
     </Fragment>
   );
 };

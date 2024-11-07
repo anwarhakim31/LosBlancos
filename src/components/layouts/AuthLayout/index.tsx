@@ -11,7 +11,6 @@ import { signIn } from "next-auth/react";
 import ForgotView from "@/components/views/auth/ForgotPassword";
 import { Fragment, useState } from "react";
 import ResetPasswordView from "@/components/views/auth/ResetPassword";
-import Footer from "../Footer";
 
 const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
@@ -134,7 +133,6 @@ const AuthLayouts = () => {
           {renderView()}
         </div>
       </main>
-      <Footer />
     </Fragment>
   );
 };

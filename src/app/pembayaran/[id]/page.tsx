@@ -1,5 +1,5 @@
 "use client";
-import Footer from "@/components/layouts/Footer";
+
 import { transactionService } from "@/services/transaction/method";
 import { TypeReview, TypeTransaction } from "@/services/type.module";
 import { ResponseError } from "@/utils/axios/response-error";
@@ -607,7 +607,6 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
           />
         )}
       </main>
-      <Footer />
     </Fragment>
   );
 };

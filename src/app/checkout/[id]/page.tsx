@@ -1,7 +1,7 @@
 "use client";
 import styles from "./checkout.module.scss";
 import BreadCrubm from "@/components/element/BreadCrubm";
-import Footer from "@/components/layouts/Footer";
+
 import CourierView from "@/components/views/checkout/CourierView";
 import PaymentView from "@/components/views/checkout/PaymentView";
 import { transactionService } from "@/services/transaction/method";
@@ -370,7 +370,6 @@ const Checkout = ({ params }: { params: { id: string } }) => {
           />
         )}
       </main>
-      <Footer />
     </Fragment>
   );
 };

@@ -1,6 +1,5 @@
 "use client";
 
-import Footer from "@/components/layouts/Footer";
 import React, { Fragment, useRef, useState } from "react";
 
 import BreadCrubm from "@/components/element/BreadCrubm";
@@ -338,7 +337,6 @@ const CartPage = () => {
           </div>
         </section>
       </main>
-      <Footer />
     </Fragment>
   );
 };

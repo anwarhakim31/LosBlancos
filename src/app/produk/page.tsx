@@ -1,5 +1,5 @@
 import BreadCrubm from "@/components/element/BreadCrubm";
-import Footer from "@/components/layouts/Footer";
+
 import styles from "./product.module.scss";
 import { ServerURL } from "@/utils/contant";
 
@@ -60,7 +60,6 @@ const ProductPage = async ({ searchParams }: { searchParams: string }) => {
           <ProductMainView products={products} pagination={pagination} />
         </div>
       </section>
-      <Footer />
     </main>
   );
 };
