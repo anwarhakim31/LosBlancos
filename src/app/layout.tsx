@@ -12,6 +12,7 @@ import { CheckIcon } from "lucide-react";
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import Footer from "@/components/layouts/Footer";
 
 const inter = Inter_Tight({
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -48,6 +49,7 @@ export default async function RootLayout({
             <MasterProvider data={master.master}>
               <Header collection={collection.collection} />
               {children}
+              <Footer collection={collection.collection} />
               <Toaster
                 position="top-center"
                 richColors

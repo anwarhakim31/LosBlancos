@@ -1,4 +1,3 @@
-import Footer from "@/components/layouts/Footer";
 import HorizontalSlider from "@/components/views/home/HorizontalSlider";
 import HomeCarousel from "@/components/views/home/HomeCarousel";
 
@@ -60,7 +59,6 @@ const Page = async () => {
         <TestimoniView />
         <GaleriView data={dataGaleri.galeri.image} />
       </main>
-      <Footer />
     </Fragment>
   );
 };

@@ -1,6 +1,5 @@
 "use client";
 
-import Footer from "@/components/layouts/Footer";
 import React, { Fragment } from "react";
 
 import styles from "./profile.module.scss";
@@ -93,7 +92,6 @@ const ProfileMainLayout = ({ children }: { children: React.ReactNode }) => {
           </div>
         </section>
       </main>
-      <Footer />
     </Fragment>
   );
 };

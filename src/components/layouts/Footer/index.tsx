@@ -15,6 +15,8 @@ import {
   Twitter,
 } from "lucide-react";
 import { useMasterContext } from "@/context/MasterContext";
+import { usePathname } from "next/navigation";
+import { TypeCollection } from "@/services/type.module";
 
 export interface SocialLink {
   type: "website" | "facebook" | "instagram" | "twitter";
@@ -40,7 +42,7 @@ export interface Informasi {
 
 export interface FootersData {
   detail: FooterDetail[];
-  menu: MenuItem[];
+
   pembayaran: string[];
   informasi: Informasi[];
 }
@@ -68,27 +70,15 @@ const footers: FootersData = {
       ],
     },
   ],
-  menu: [
-    {
-      title: "Semua Produk",
-      link: "/product",
-    },
-    {
-      title: "pria",
-      link: "/product/pria",
-    },
-  ],
   pembayaran: [
     "/payment/bca.png",
     "/payment/bni.png",
     "/payment/bri.png",
     "/payment/mandiri.png",
-    "/payment/bsi.png",
-    "/payment/seabank.png",
-    "/payment/dana.png",
     "/payment/gopay.png",
-    "/payment/ovo.png",
     "/payment/spay.png",
+    "/payment/alfamart.png",
+    "/payment/indomaret.png",
     "/payment/QRIS.png",
   ],
   informasi: [
@@ -108,8 +98,13 @@ const footers: FootersData = {
   ],
 };
 
-const Footer = () => {
+const Footer = ({ collection }: { collection: TypeCollection[] }) => {
+  const pathname = usePathname();
   const context = useMasterContext();
+
+  if (pathname.startsWith("/admin")) {
+    return null;
+  }
 
   return (
     <footer className={styles.footer}>
@@ -149,16 +144,16 @@ const Footer = () => {
                   className={styles.footer__detail__social__item}
                 >
                   {social.type === "website" && (
-                    <Globe width={16} height={16} color="#fff" />
+                    <Globe width={16} height={16} />
                   )}
                   {social.type === "instagram" && (
-                    <Instagram width={16} height={16} color="#fff" />
+                    <Instagram width={16} height={16} />
                   )}
                   {social.type === "facebook" && (
-                    <Facebook width={16} height={16} color="#fff" />
+                    <Facebook width={16} height={16} className={styles.fb} />
                   )}
                   {social.type === "twitter" && (
-                    <Twitter width={16} height={16} color="#fff" />
+                    <Twitter width={16} height={16} />
                   )}
                 </Link>
               ))}
@@ -169,13 +164,16 @@ const Footer = () => {
         <div className={styles.footer__menu}>
           <h3 className={styles.footer__title}>Menu</h3>
           <div className={styles.footer__menu__list}>
-            {footers.menu.map((footer, i) => (
+            <Link href={`/produk}`} className={styles.footer__menu__list__item}>
+              Semua produk
+            </Link>
+            {collection.map((item: TypeCollection) => (
               <Link
-                key={i}
-                href={footer.link}
+                href={`/product/${item.slug}`}
                 className={styles.footer__menu__list__item}
+                key={item._id}
               >
-                {footer.title}
+                {item.name}
               </Link>
             ))}
           </div>
@@ -187,10 +185,10 @@ const Footer = () => {
               <div className={styles.footer__payment__wrapper__item} key={i}>
                 <Image
                   src={payment}
-                  alt="payment"
+                  alt={payment}
                   width={50}
-                  height={20}
-                  priority={true}
+                  height={50}
+                  priority
                 />
               </div>
             ))}
@@ -212,7 +210,9 @@ const Footer = () => {
                   } }`}
                 >
                   {i === 0 ? <LocateFixed width={16} height={16} /> : null}
-                  {i === 1 ? <Phone width={16} height={16} /> : null}
+                  {i === 1 ? (
+                    <Phone width={16} height={16} fill="white" />
+                  ) : null}
                   {i === 2 ? <Mail width={16} height={16} /> : null}
                 </div>
                 <p>{info && info.title}</p>
