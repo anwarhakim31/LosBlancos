@@ -15,11 +15,16 @@
     cursor: pointer;
     border: 2px solid $gray-100;
     text-transform: capitalize;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      border: 2px solid $secondary;
+    }
   }
 
   .active__tab {
     background: $secondary;
-    border: 2px solid $gray-100;
+    border: 2px solid $secondary;
     color: $white;
   }
 }

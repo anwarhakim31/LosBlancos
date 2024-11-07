@@ -48,8 +48,6 @@ const ModalEditAtrribute = ({ onClose, callback, isEditData }: PropsType) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log(formData.value.some((value) => value === ""));
-
     const valid = validation(setError, error, formData);
 
     if (valid) {
@@ -107,7 +105,7 @@ const ModalEditAtrribute = ({ onClose, callback, isEditData }: PropsType) => {
         onClick={(e) => e.stopPropagation()}
       >
         <HeaderModal
-          title="Edit Kategori"
+          title="Edit Atribut"
           onClose={loading ? () => {} : onClose}
         />
         <form onSubmit={handleSubmit}>
