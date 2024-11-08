@@ -33,8 +33,8 @@ const sideList = [
     dropdown: [
       {
         id: 1,
-        name: "Logo & Link",
-        link: "/admin/master-data/logo-link",
+        name: "Toko",
+        link: "/admin/master-data/store",
       },
       {
         id: 2,

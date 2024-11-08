@@ -17,6 +17,14 @@ export async function GET() {
         color: "#000000",
         displayName: false,
         favicon: "/default.png",
+        email: "example@example.com",
+        phone: "08123456789000",
+        media: [
+          {
+            name: "instagram",
+            url: "https://instagram.com",
+          },
+        ],
       });
 
       return NextResponse.json({
@@ -24,7 +32,6 @@ export async function GET() {
         master: newMaster,
       });
     }
-    console.log(master);
 
     return NextResponse.json({
       success: true,
@@ -51,6 +58,14 @@ export async function PATCH(req: NextRequest) {
         color: "#000000",
         displayName: false,
         favicon: "/default.png",
+        email: "example@example.com",
+        phone: "08123456789000",
+        media: [
+          {
+            name: "instagram",
+            url: "https://instagram.com",
+          },
+        ],
       });
     }
 

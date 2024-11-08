@@ -1,4 +1,4 @@
-export type TypeUser = {
+export interface TypeUser {
   _id?: string;
   role?: string;
   status?: string;
@@ -8,24 +8,24 @@ export type TypeUser = {
   phone?: number | string;
   gender?: string;
   createdAt?: string;
-};
+}
 
-export type TypeCollection = {
+export interface TypeCollection {
   _id?: string;
   name: string;
   image: string;
   description: string;
   slug: string;
   createdAt?: string;
-};
+}
 
-export type TypeCategory = {
+export interface TypeCategory {
   _id?: string;
   name: string;
   createdAt?: string;
-};
+}
 
-export type TypeCarousel = {
+export interface TypeCarousel {
   _id?: string;
   image: string;
   title: string;
@@ -33,15 +33,15 @@ export type TypeCarousel = {
   description: string;
   caption: string;
   createdAt?: string;
-};
+}
 
-export type TypeMarquee = {
+export interface TypeMarquee {
   _id?: string;
   display: boolean;
   image: string[];
-};
+}
 
-export type TypeMaster = {
+export interface TypeMaster {
   _id?: string;
   logo?: string;
   displayLogo?: boolean;
@@ -50,15 +50,22 @@ export type TypeMaster = {
   displayName?: boolean;
   favicon?: string;
   description?: string;
-};
+  email?: string;
+  phone?: string;
+  address?: string;
+  media?: {
+    name: string;
+    url: string;
+  }[];
+}
 
-export type TypeAttribute = {
+export interface TypeAttribute {
   _id?: string;
   name?: string;
   value?: string[];
-};
+}
 
-export type TypeProduct = {
+export interface TypeProduct {
   _id?: string;
   name: string;
   sold?: number;
@@ -74,22 +81,22 @@ export type TypeProduct = {
   averageRating?: number;
   reviewCount?: number;
   weight: number;
-};
+}
 
-export type TypeStock = {
+export interface TypeStock {
   _id?: string;
   attribute: string;
   value: string;
   stock: number;
-};
+}
 
-export type TypeWishlist = {
+export interface TypeWishlist {
   _id?: string;
   user: string;
   product: TypeProduct;
-};
+}
 
-export type itemCartType = {
+export interface itemCartType {
   _id?: string;
   product: TypeProduct;
   quantity: number;
@@ -97,16 +104,16 @@ export type itemCartType = {
   atribute: string;
   atributeValue: string;
   weight: number;
-};
+}
 
-export type cartType = {
+export interface cartType {
   _id?: string;
   userId: string;
   items: string[];
   total: number;
-};
+}
 
-export type itemTypeTransaction = {
+export interface itemTypeTransaction {
   _id?: string;
   productId: TypeProduct;
   quantity: number;
@@ -114,9 +121,9 @@ export type itemTypeTransaction = {
   atribute: string;
   atributeValue: string;
   weight: number;
-};
+}
 
-export type TypeTransaction = {
+export interface TypeTransaction {
   _id?: string;
   expired: Date;
   invoice: string;
@@ -146,9 +153,9 @@ export type TypeTransaction = {
   statusPayment: string;
   transactionStatus: string;
   transactionDate: Date;
-};
+}
 
-export type TypeShippingAddress = {
+export interface TypeShippingAddress {
   _id?: string;
   fullname: string;
   phone: string;
@@ -164,9 +171,9 @@ export type TypeShippingAddress = {
   subdistrict: string;
   postalCode: string;
   address: string;
-};
+}
 
-export type TypeOngkir = {
+export interface TypeOngkir {
   service: string;
   description: string;
   courier: string;
@@ -177,9 +184,9 @@ export type TypeOngkir = {
       note: string;
     }
   ];
-};
+}
 
-export type TypeReview = {
+export interface TypeReview {
   _id?: string;
   transactionId: string;
   itemId: string;
@@ -187,4 +194,4 @@ export type TypeReview = {
   user: TypeUser | string;
   comment: string;
   rating: number;
-};
+}

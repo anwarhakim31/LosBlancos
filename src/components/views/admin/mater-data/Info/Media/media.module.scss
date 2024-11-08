@@ -1,0 +1,69 @@
+.item {
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  position: relative;
+  input {
+    width: 100%;
+    padding: 0.6375rem;
+    border-radius: 0.4rem;
+    border: 1px solid $gray-300;
+    height: 2.25rem;
+    font-size: 0.75rem;
+
+    &:focus {
+      outline: $primary 1px solid;
+      border: 1px solid $primary;
+    }
+
+    &::placeholder {
+      font-size: 0.75rem;
+      color: $gray-400;
+    }
+    &.none {
+      border: none;
+      pointer-events: none;
+    }
+    padding-right: 2rem;
+
+    &.active {
+      border: auto;
+      pointer-events: initial;
+    }
+  }
+
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    stroke-width: 1.5;
+    color: $gray-700;
+  }
+
+  button {
+    position: absolute;
+    right: 2px;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 1px solid $gray-200;
+
+    @include flex-center();
+    border-radius: 50%;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      border: 1px solid $gray-200;
+      background: $primary;
+      svg {
+        color: $white;
+      }
+    }
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+      stroke-width: 1.5;
+      transition: all 0.3s ease-in-out;
+    }
+  }
+}

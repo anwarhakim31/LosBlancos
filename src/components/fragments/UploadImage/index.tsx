@@ -9,6 +9,7 @@ import { ArrowUp, Image as LucideImage, X } from "lucide-react";
 import { ResponseError } from "@/utils/axios/response-error";
 import styles from "./upload.module.scss";
 import { v4 as uuidv4 } from "uuid";
+import Image from "next/image";
 
 const UploadImage = ({
   setLoading,
@@ -161,6 +162,15 @@ const UploadImage = ({
       )}
       {preview && (
         <div className={styles.preview}>
+          <div className={styles.image}>
+            <Image
+              src={preview}
+              alt="preview"
+              width={500}
+              height={500}
+              priority
+            />
+          </div>
           <div className={styles.detail}>
             <span>{preview.split("/").slice(8).join("/")}</span>
             <button type="button" onClick={handleImageDelete}>
