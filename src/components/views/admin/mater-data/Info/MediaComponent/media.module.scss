@@ -51,6 +51,20 @@
     border-radius: 50%;
     transition: all 0.3s ease-in-out;
 
+    &.none {
+      background: none;
+      svg {
+        color: $gray-800;
+      }
+    }
+
+    &.active {
+      background: $primary;
+      svg {
+        color: $white;
+      }
+    }
+
     &:hover {
       border: 1px solid $gray-200;
       background: $primary;

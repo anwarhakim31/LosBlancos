@@ -24,6 +24,18 @@ export async function GET() {
             name: "instagram",
             url: "https://instagram.com",
           },
+          {
+            name: "facebook",
+            url: "",
+          },
+          {
+            name: "twitter",
+            url: "",
+          },
+          {
+            name: "website",
+            url: "",
+          },
         ],
       });
 
@@ -64,6 +76,18 @@ export async function PATCH(req: NextRequest) {
           {
             name: "instagram",
             url: "https://instagram.com",
+          },
+          {
+            name: "facebook",
+            url: "",
+          },
+          {
+            name: "twitter",
+            url: "",
+          },
+          {
+            name: "website",
+            url: "",
           },
         ],
       });
