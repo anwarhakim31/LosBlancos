@@ -152,6 +152,17 @@
   @include flex-center();
   flex-direction: column;
 
+  .image {
+    width: auto;
+    height: 100px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+
   .detail {
     @include flex-center();
     gap: 0.5rem;

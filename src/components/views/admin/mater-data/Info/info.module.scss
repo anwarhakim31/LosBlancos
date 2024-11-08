@@ -1,0 +1,74 @@
+.container {
+  background: $white;
+  border-radius: 0.25rem;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  @include flex-center();
+  flex-direction: column;
+  margin-top: 2rem;
+
+  .header {
+    width: 100%;
+    color: $white;
+    background: $primary;
+
+    &__box {
+      @include container2();
+      padding: 1rem 1rem;
+      width: 100%;
+      @include flex(space-between, center, null);
+    }
+
+    &__title {
+      @include flex(center, center, null);
+      gap: 0.5rem;
+
+      h5 {
+        all: unset;
+        font-size: 0.8125rem;
+        font-weight: 600;
+      }
+    }
+
+    &__btn {
+      @include flex(center, center, null);
+      gap: 0.5rem;
+      background: $white;
+      color: $primary;
+      font-size: 0.875rem;
+      padding: 0.25rem 1rem;
+      border-radius: 0.25rem;
+    }
+  }
+
+  .content {
+    width: 100%;
+    height: 100%;
+
+    @include container2();
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1rem;
+
+    @include media(md) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    &__list {
+      width: 100%;
+
+      padding: 1rem;
+      padding-bottom: 2rem;
+      min-height: max-content;
+
+      h5 {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: $gray-700;
+        margin-bottom: 1.5rem;
+      }
+    }
+  }
+}

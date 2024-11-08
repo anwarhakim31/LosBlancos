@@ -16,7 +16,7 @@
 
     &__box {
       @include container2();
-      padding: 1rem 2rem;
+      padding: 1rem 1rem;
       width: 100%;
       @include flex(space-between, center, null);
     }
