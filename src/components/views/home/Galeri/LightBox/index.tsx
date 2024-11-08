@@ -42,7 +42,7 @@ const LightBox: FC<propsType> = ({ onClose, data, isOpen }) => {
                 alt="galeri1"
                 width={1000}
                 height={1000}
-                priority
+                loading="lazy"
               />
               <p>
                 {newIndex} dari {data.length}

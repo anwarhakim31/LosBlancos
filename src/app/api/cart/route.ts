@@ -87,9 +87,9 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: `${
-        productDB.name
-      } ${atribute.toLowerCase()} ${atributeValue} ditambahkan ke keranjang`,
+      message: `${productDB.name}  ${
+        atributeValue.charAt(0).toUpperCase() + atributeValue.slice(1)
+      } ditambahkan ke keranjang`,
       cart: added,
     });
   } catch (error) {

@@ -6,7 +6,7 @@ import { Fragment, useEffect, useState } from "react";
 import { itemCartType, TypeProduct } from "@/services/type.module";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { postWishlist, removeWishlist } from "@/store/slices/wishSlice";
 import { postCart } from "@/store/slices/cartSlice";
 import QuantityAction from "@/components/element/Quantity";
@@ -16,6 +16,7 @@ import halfstar from "@/assets/halfstar.png";
 import Image from "next/image";
 
 const DetailInfoView = ({ product }: { product: TypeProduct }) => {
+  const pathaneme = usePathname();
   const session = useSession();
   const router = useRouter();
   const { wishlist, loading: loadingWishlist } = useAppSelector(
@@ -31,7 +32,7 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
 
   const handleWishlist = () => {
     if (session.status === "unauthenticated") {
-      router.push("/login");
+      router.push("/login?callbackUrl=" + encodeURIComponent(pathaneme));
       return;
     }
 
@@ -54,7 +55,7 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
 
   const handleAddToCart = () => {
     if (session.status === "unauthenticated") {
-      router.push("/login");
+      router.push("/login?callbackUrl=" + encodeURIComponent(pathaneme));
       return;
     }
     if (selectValue === "") {
@@ -73,7 +74,7 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
   };
   const handleCheckout = async () => {
     if (session.status === "unauthenticated") {
-      router.push("/login");
+      router.push("/login?callbackUrl=" + encodeURIComponent(pathaneme));
       return;
     }
     if (selectValue === "") {
@@ -110,8 +111,6 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
       setIsLoading(false);
     }
   };
-
-  console.log(product);
 
   useEffect(() => {
     const selectStock = product?.stock?.find(

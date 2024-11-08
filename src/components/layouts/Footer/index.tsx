@@ -9,8 +9,8 @@ import {
   Facebook,
   Globe,
   Instagram,
-  LocateFixed,
   Mail,
+  MapPin,
   Phone,
   Twitter,
 } from "lucide-react";
@@ -209,7 +209,7 @@ const Footer = ({ collection }: { collection: TypeCollection[] }) => {
                     i === 0 ? styles.marginButtom : ""
                   } }`}
                 >
-                  {i === 0 ? <LocateFixed width={16} height={16} /> : null}
+                  {i === 0 ? <MapPin width={16} height={16} /> : null}
                   {i === 1 ? (
                     <Phone width={16} height={16} fill="white" />
                   ) : null}
