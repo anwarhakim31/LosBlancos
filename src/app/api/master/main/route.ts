@@ -37,6 +37,10 @@ export async function GET() {
             url: "",
           },
         ],
+        address: {
+          province: "jawa barat",
+          city: "depok",
+        },
       });
 
       return NextResponse.json({
@@ -90,6 +94,10 @@ export async function PATCH(req: NextRequest) {
             url: "",
           },
         ],
+        address: {
+          province: "jawa barat",
+          city: "depok",
+        },
       });
     }
 

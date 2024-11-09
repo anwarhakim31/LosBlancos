@@ -3,11 +3,12 @@
 
   label {
     font-size: 0.75rem;
-    text-transform: capitalize;
-    display: block;
-    width: fit-content;
-    margin-bottom: 0.25rem;
     font-weight: 500;
+    color: $gray-600;
+    display: block;
+    text-transform: capitalize;
+    margin-bottom: 0.25rem;
+    width: fit-content;
   }
 }
 

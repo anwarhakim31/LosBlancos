@@ -49,8 +49,16 @@ const masterModel = new mongoose.Schema({
     type: String,
     required: false,
   },
+  googleMap: {
+    type: String,
+    required: false,
+  },
   address: {
     street: {
+      type: String,
+      required: false,
+    },
+    postalCode: {
       type: String,
       required: false,
     },
@@ -63,10 +71,6 @@ const masterModel = new mongoose.Schema({
       required: false,
     },
     subdistrict: {
-      type: String,
-      required: false,
-    },
-    googleMap: {
       type: String,
       required: false,
     },

@@ -52,7 +52,14 @@ export interface TypeMaster {
   description?: string;
   email?: string;
   phone?: string;
-  address?: string;
+  googleMap?: string;
+  address?: {
+    street: string;
+    postalCode: string;
+    city: string;
+    province: string;
+    subdistrict: string;
+  };
   media?: {
     name: string;
     url: string;
