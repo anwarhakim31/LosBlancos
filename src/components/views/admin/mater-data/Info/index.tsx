@@ -48,6 +48,7 @@ const InfoView = () => {
     email: "",
     phone: "",
     googleMap: "",
+    description: "",
   });
   const [loading, setLoading] = useState(false);
   const province = watch("province");
@@ -59,6 +60,7 @@ const InfoView = () => {
         media: context?.master?.media,
         email: context?.master?.email,
         phone: context?.master?.phone,
+        description: context?.master?.description,
       }));
     }
   }, [context?.master]);
@@ -131,6 +133,14 @@ const InfoView = () => {
               loading={loading}
             />
           ))}
+          <h5 style={{ marginTop: "2rem" }}>Deskripsi</h5>
+          <InfoFormControl
+            formData={formData}
+            setFormData={setFormData}
+            setLoading={setLoading}
+            name="description"
+            loading={loading}
+          />
         </div>
         <div className={styles.content__list}>
           <h5>Alamat</h5>
@@ -209,6 +219,7 @@ const InfoView = () => {
           <Controller
             control={control}
             name="street"
+            rules={{ required: "Jalan tidak boleh kosong" }}
             render={({ field }) => (
               <FormControlFragment
                 field={field}

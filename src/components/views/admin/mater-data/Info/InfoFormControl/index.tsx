@@ -7,6 +7,7 @@ import {
   Instagram,
   Mail,
   MapPin,
+  NotepadText,
   Phone,
   Twitter,
 } from "lucide-react";
@@ -32,6 +33,8 @@ function Icon(name: string) {
       return <Phone />;
     case "googleMap":
       return <MapPin />;
+    case "description":
+      return <NotepadText />;
     default:
       return <Globe />;
   }
@@ -77,7 +80,10 @@ const InfoFormControl = ({
         placeholder=""
         name={name}
         value={
-          name === "email" || name === "phone" || name === "googleMap"
+          name === "email" ||
+          name === "phone" ||
+          name === "googleMap" ||
+          name === "description"
             ? formData[name] || ""
             : formData.media?.find((media) => media.name === name)?.url || ""
         }
@@ -85,7 +91,12 @@ const InfoFormControl = ({
         disabled={edit !== name}
         readOnly={edit !== name}
         onChange={(e) => {
-          if (name === "email" || name === "phone" || name === "googleMap") {
+          if (
+            name === "email" ||
+            name === "phone" ||
+            name === "googleMap" ||
+            name === "description"
+          ) {
             setFormData({
               ...formData,
               [name]: e.target.value,
