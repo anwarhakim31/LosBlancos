@@ -63,7 +63,7 @@ const SelectOptionFetchSearch = ({
 
   const handleSelect = (value: any) => {
     setSelect(value[name] || "");
-    field?.onChange(value || { id: "" });
+    field?.onChange(value || null);
     setOpen(false);
     setSearch("");
   };
@@ -82,7 +82,7 @@ const SelectOptionFetchSearch = ({
   }, [open]);
 
   useEffect(() => {
-    setSelect(field?.value?.[name] || "");
+    setSelect(field?.value?.[name] || field?.value || "");
   }, [field, name]);
 
   return (
