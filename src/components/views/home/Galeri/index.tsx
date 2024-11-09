@@ -7,6 +7,7 @@ import { Fragment, useState } from "react";
 import LightBox from "./LightBox";
 import { Instagram } from "lucide-react";
 import Link from "next/link";
+import { useMasterContext } from "@/context/MasterContext";
 
 const lora = Lora({
   weight: ["400", "500", "600", "700"],
@@ -16,6 +17,7 @@ const lora = Lora({
 
 const GaleriView = ({ data }: { data: string[] }) => {
   const [isOpen, setIsOpen] = useState<number | null>(null);
+  const context = useMasterContext();
 
   const handleOpen = (index: number) => {
     setIsOpen(index);
@@ -28,8 +30,17 @@ const GaleriView = ({ data }: { data: string[] }) => {
         <p>
           Beberapa foto terbaru dari kami di Instagram. Jangan lupa untuk follow
           kami di{" "}
-          <Link href="https://instagram.com" target="_blank">
-            @Instagram
+          <Link
+            href={`${
+              context?.master?.media?.find((item) => item.name === "instagram")
+                ?.url || ""
+            }`}
+            target="_blank"
+          >
+            @
+            {context?.master?.media
+              ?.find((item) => item.name === "instagram")
+              ?.url.split("/")[3] || "instagram"}
           </Link>
           .
         </p>

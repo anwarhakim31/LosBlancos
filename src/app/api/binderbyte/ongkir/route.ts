@@ -1,3 +1,4 @@
+import Master from "@/lib/models/master-model";
 import Transaction from "@/lib/models/transaction-model";
 import { ResponseError } from "@/lib/response-error";
 import { NextRequest, NextResponse } from "next/server";
@@ -53,14 +54,20 @@ export async function GET(req: NextRequest) {
       });
     }
 
+    const master = await Master.findOne();
+
     const province = await resProvinsi.json();
 
     const city_id_origin = province.rajaongkir.results.filter(
       (item: { province: "string"; city_name: string }) =>
         item.province
           .toLocaleLowerCase()
-          .includes(provinceFilter("jawa barat")) &&
-        item.city_name.toLocaleLowerCase().includes(cityFilter("depok"))
+          .includes(
+            provinceFilter(master?.address?.province || "jawa barat")
+          ) &&
+        item.city_name
+          .toLocaleLowerCase()
+          .includes(cityFilter(master?.address?.city || "depok"))
     )[0].city_id;
 
     const city_id_destination = province.rajaongkir.results.filter(

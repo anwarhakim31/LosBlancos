@@ -47,57 +47,6 @@ export interface FootersData {
   informasi: Informasi[];
 }
 
-const footers: FootersData = {
-  detail: [
-    {
-      logo: "/logo.svg",
-      name: "",
-      description:
-        "Tunjukkan dukungan Anda untuk Real Madrid dengan bangga dan bergaya dengan kaos eksklusif ini. Tambahkan ke keranjang belanja Anda sekarang dan jadilah bagian dari komunitas penggemar yang bersemangat!",
-      sosial: [
-        {
-          type: "website",
-          link: "https://losblancos.com/",
-        },
-        {
-          type: "facebook",
-          link: "https://www.facebook.com/losblancos/",
-        },
-        {
-          type: "instagram",
-          link: "https://www.instagram.com/losblancos/",
-        },
-      ],
-    },
-  ],
-  pembayaran: [
-    "/payment/bca.png",
-    "/payment/bni.png",
-    "/payment/bri.png",
-    "/payment/mandiri.png",
-    "/payment/gopay.png",
-    "/payment/spay.png",
-    "/payment/alfamart.png",
-    "/payment/indomaret.png",
-    "/payment/QRIS.png",
-  ],
-  informasi: [
-    {
-      title:
-        "Jl.Bulak Timur, No. 23, Cikar, Cipayung, Taman Jaya, Kota Depok, Jawa Barat 16418",
-      link: "https://www.google.com/maps/place/Kec.+Cipayung,+Kota+Depok,+Jawa+Barat/@-6.4325274,106.7825288,16z/data=!3m1!4b1!4m6!3m5!1s0x2e69e99a875b16eb:0x91bd5deac4a9f2cf!8m2!3d-6.4197444!4d106.796065!16s%2Fg%2F120rrg2g?entry=ttu&g_ep=EgoyMDI0MDkxMS4wIKXMDSoASAFQAw%3D%3D",
-    },
-    {
-      title: "(+62) 813106352543",
-      link: "https://wa.me/62813106352543",
-    },
-    {
-      title: "admin@losblancos.com",
-      link: "mailto:admin@losblancos.com",
-    },
-  ],
-};
-
 const Footer = ({ collection }: { collection: TypeCollection[] }) => {
   const pathname = usePathname();
   const context = useMasterContext();
@@ -106,60 +55,118 @@ const Footer = ({ collection }: { collection: TypeCollection[] }) => {
     return null;
   }
 
+  const footers: FootersData = {
+    detail: [
+      {
+        description:
+          "Tunjukkan dukungan Anda untuk Real Madrid dengan bangga dan bergaya dengan kaos eksklusif ini. Tambahkan ke keranjang belanja Anda sekarang dan jadilah bagian dari komunitas penggemar yang bersemangat!",
+      },
+    ],
+    pembayaran: [
+      "/payment/bca.png",
+      "/payment/bni.png",
+      "/payment/bri.png",
+      "/payment/mandiri.png",
+      "/payment/gopay.png",
+      "/payment/spay.png",
+      "/payment/alfamart.png",
+      "/payment/indomaret.png",
+      "/payment/QRIS.png",
+    ],
+    informasi: [
+      {
+        title: `${context?.master.address?.street} ${
+          context?.master.address?.street ? "," : ""
+        } ${context?.master.address?.subdistrict} ${
+          context?.master.address?.subdistrict ? "," : ""
+        } ${context?.master.address?.city}, ${
+          context?.master.address?.province
+        } ${context?.master.address?.postalCode || ""}`,
+        link: `${
+          context?.master.googleMap ||
+          `https://maps.app.goo.gl/kYfCbTnWeNeTR3qE7`
+        }`,
+      },
+      {
+        title: `(+62) ${
+          context?.master.phone?.startsWith("0")
+            ? context?.master.phone?.slice(1)
+            : context?.master.phone?.startsWith("62")
+            ? context?.master.phone?.slice(2)
+            : context?.master.phone
+        }`,
+        link: `https://wa.me/${
+          context?.master.phone?.startsWith("0")
+            ? `62${context?.master.phone?.slice(1)}`
+            : context?.master.phone?.startsWith("62")
+            ? context?.master.phone
+            : context?.master.phone
+        }?text=Halo%20admin,%20saya%20butuh%20bantuan.`,
+      },
+      {
+        title: context?.master.email || "mail@example.com",
+        link: `mailto:${context?.master.email || "mail@example.com"}`,
+      },
+    ],
+  };
+
   return (
     <footer className={styles.footer}>
       <ButtonScroll />
       <div className={styles.footer__container}>
-        {footers.detail.map((footer, i) => (
-          <div key={i} className={styles.footer__detail}>
-            <div className={styles.footer__detail__mark}>
-              {context?.master.logo && (
-                <div className={styles.footer__detail__mark__logo}>
-                  <Image
-                    src={context?.master.logo || "../default.svg"}
-                    alt="logo"
-                    width={100}
-                    height={100}
-                    style={{ objectFit: "contain" }}
-                    priority
-                  />
-                </div>
-              )}
+        <div className={styles.footer__detail}>
+          <div className={styles.footer__detail__mark}>
+            {context?.master.logo && (
+              <div className={styles.footer__detail__mark__logo}>
+                <Image
+                  src={context?.master.logo || "../default.svg"}
+                  alt="logo"
+                  width={100}
+                  height={100}
+                  style={{ objectFit: "contain" }}
+                  priority
+                />
+              </div>
+            )}
 
-              {context?.master.displayName && (
-                <h3 className={styles.footer__detail__mark__name}>
-                  {context?.master.name}
-                </h3>
-              )}
-            </div>
-            <p className={styles.footer__detail__description}>
-              {footer.description}
-            </p>
-            <div className={styles.footer__detail__social}>
-              {footer.sosial?.map((social, i) => (
-                <Link
-                  href={social.link}
-                  key={i}
-                  target="__blank"
-                  className={styles.footer__detail__social__item}
-                >
-                  {social.type === "website" && (
-                    <Globe width={16} height={16} />
-                  )}
-                  {social.type === "instagram" && (
-                    <Instagram width={16} height={16} />
-                  )}
-                  {social.type === "facebook" && (
-                    <Facebook width={16} height={16} className={styles.fb} />
-                  )}
-                  {social.type === "twitter" && (
-                    <Twitter width={16} height={16} />
-                  )}
-                </Link>
-              ))}
-            </div>
+            {context?.master.displayName && (
+              <h3 className={styles.footer__detail__mark__name}>
+                {context?.master.name}
+              </h3>
+            )}
           </div>
-        ))}
+          {context?.master.description && (
+            <p className={styles.footer__detail__description}>
+              {context?.master.description}
+            </p>
+          )}
+          <div className={styles.footer__detail__social}>
+            {context?.master.media &&
+              context?.master?.media
+                .filter((media) => media.url !== "")
+                .map((media, i) => (
+                  <Link
+                    href={media.url}
+                    key={i}
+                    target="__blank"
+                    className={styles.footer__detail__social__item}
+                  >
+                    {media.name === "website" && (
+                      <Globe width={16} height={16} />
+                    )}
+                    {media.name === "instagram" && (
+                      <Instagram width={16} height={16} />
+                    )}
+                    {media.name === "facebook" && (
+                      <Facebook width={16} height={16} className={styles.fb} />
+                    )}
+                    {media.name === "twitter" && (
+                      <Twitter width={16} height={16} className={styles.tw} />
+                    )}
+                  </Link>
+                ))}
+          </div>
+        </div>
 
         <div className={styles.footer__menu}>
           <h3 className={styles.footer__title}>Menu</h3>
@@ -215,7 +222,15 @@ const Footer = ({ collection }: { collection: TypeCollection[] }) => {
                   ) : null}
                   {i === 2 ? <Mail width={16} height={16} /> : null}
                 </div>
-                <p>{info && info.title}</p>
+                <p
+                  style={
+                    i === 0
+                      ? { textTransform: "capitalize" }
+                      : { textTransform: "none" }
+                  }
+                >
+                  {info && info.title}
+                </p>
               </Link>
             ))}
           </div>
