@@ -11,6 +11,7 @@ import { signIn } from "next-auth/react";
 import ForgotView from "@/components/views/auth/ForgotPassword";
 import { Fragment, useState } from "react";
 import ResetPasswordView from "@/components/views/auth/ResetPassword";
+import { useMasterContext } from "@/context/MasterContext";
 
 const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
@@ -24,6 +25,7 @@ const AuthLayouts = () => {
   const pathname = usePathname();
   const [success, setSuccess] = useState<boolean>(false);
   const searchParams = useSearchParams();
+  const session = useMasterContext();
 
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
@@ -75,7 +77,7 @@ const AuthLayouts = () => {
               style={{ textAlign: success ? "center" : "left" }}
               className={`${styles.auth__form__header__title} ${poppins.className}`}
             >
-              Selamat datang di LosBlancos
+              Selamat datang di {session?.master?.name}
             </h3>
             <p
               style={{ textAlign: success ? "center" : "left" }}

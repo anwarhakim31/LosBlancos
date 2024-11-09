@@ -1,5 +1,6 @@
 import { TypeMaster } from "@/services/type.module";
 import {
+  Check,
   Edit2,
   Facebook,
   Globe,
@@ -72,11 +73,11 @@ const InfoFormControl = ({
       {Icon(name)}
       <input
         className={edit === name ? styles.active : styles.none}
-        type="text"
+        type={name === "phone" ? "number" : "text"}
         placeholder=""
         name={name}
         value={
-          name === "email" || name === "phone"
+          name === "email" || name === "phone" || name === "googleMap"
             ? formData[name] || ""
             : formData.media?.find((media) => media.name === name)?.url || ""
         }
@@ -84,7 +85,7 @@ const InfoFormControl = ({
         disabled={edit !== name}
         readOnly={edit !== name}
         onChange={(e) => {
-          if (name === "email" || name === "phone") {
+          if (name === "email" || name === "phone" || name === "googleMap") {
             setFormData({
               ...formData,
               [name]: e.target.value,
@@ -118,7 +119,7 @@ const InfoFormControl = ({
           }
         }}
       >
-        <Edit2 />
+        {edit === name ? <Check /> : <Edit2 />}
       </button>
     </div>
   );

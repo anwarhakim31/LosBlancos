@@ -24,7 +24,7 @@ const NavbarView: FC<propsType> = ({ collection }) => {
   const handleHelp = () => {
     const message = `Halo admin, saya butuh bantuan.`;
     const encodedMessage = encodeURIComponent(message);
-    const url = `https://wa.me/6281310635243?text=${encodedMessage}`;
+    const url = `https://wa.me/${context?.master.phone}?text=${encodedMessage}`;
 
     window.open(url, "_blank");
   };

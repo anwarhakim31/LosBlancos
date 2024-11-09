@@ -93,9 +93,15 @@
           .fb {
             fill: white;
           }
+          .tw {
+            fill: white;
+          }
         }
 
         .fb {
+          fill: $primary-variant;
+        }
+        .tw {
           fill: $primary-variant;
         }
 

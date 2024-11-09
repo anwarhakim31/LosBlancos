@@ -21,7 +21,7 @@ const MasterProvider = ({
   children: ReactNode;
   data: TypeMaster;
 }) => {
-  const [master, setMaster] = React.useState<object>(
+  const [master, setMaster] = React.useState(
     data || {
       logo: "/default.png",
       displayLogo: false,
@@ -30,6 +30,17 @@ const MasterProvider = ({
       displayName: false,
       favicon: "./default.png",
       description: "",
+      email: "",
+      phone: "",
+      googleMap: "",
+      address: {
+        street: "",
+        postalCode: "",
+        city: "",
+        province: "",
+        subdistrict: "",
+      },
+      media: [],
     }
   );
 
