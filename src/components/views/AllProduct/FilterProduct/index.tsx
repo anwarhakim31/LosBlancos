@@ -53,6 +53,8 @@ const FilterProductView = ({ onClose }: { onClose?: () => void }) => {
     router.push(`${pathname}?${searchParams.toString()}`, { scroll: false });
   };
 
+  console.log(pathname.split("/"));
+
   const updateCollection = (collection: string) => {
     const searchParams = new URLSearchParams(query.toString());
     if (collection) {
@@ -89,27 +91,29 @@ const FilterProductView = ({ onClose }: { onClose?: () => void }) => {
           placeholder="Cari Nama dari Produk"
         />
       </div>
-      <div className={styles.category}>
-        <h4>Koleksi</h4>
-        <div className={styles.category__wrapper}>
-          <SelectOptionFetch
-            placeholder="Pilih Koleksi"
-            id="koleksi"
-            name="collection"
-            fetching={() => collectionSevice.getCollection("")}
-            setValue={(value: TypeCollection) => {
-              if (value) {
-                setCollection(value.name);
-                updateCollection(value.name);
-              } else {
-                setCollection("");
-                updateCollection(value);
-              }
-            }}
-            value={collection}
-          />
+      {pathname.split("/")[2] === "collection" && (
+        <div className={styles.category}>
+          <h4>Koleksi</h4>
+          <div className={styles.category__wrapper}>
+            <SelectOptionFetch
+              placeholder="Pilih Koleksi"
+              id="koleksi"
+              name="collection"
+              fetching={() => collectionSevice.getCollection("")}
+              setValue={(value: TypeCollection) => {
+                if (value) {
+                  setCollection(value.name);
+                  updateCollection(value.name);
+                } else {
+                  setCollection("");
+                  updateCollection(value);
+                }
+              }}
+              value={collection}
+            />
+          </div>
         </div>
-      </div>
+      )}
       <div className={styles.price}>
         <h4>Harga</h4>
         <InputMultiRange />

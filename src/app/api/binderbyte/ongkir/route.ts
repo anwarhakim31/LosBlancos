@@ -8,9 +8,9 @@ function provinceFilter(province: string) {
 }
 function cityFilter(city: string) {
   let formattedCity = city.toLocaleLowerCase();
-  if (formattedCity.startsWith("kota ")) {
+  if (formattedCity.startsWith("kota adm. ")) {
     formattedCity = formattedCity
-      .split("kota ")
+      .split("kota adm. ")
       .filter((item: string) => item)
       .toString();
   } else if (formattedCity.startsWith("kab. ")) {
@@ -18,7 +18,13 @@ function cityFilter(city: string) {
       .split("kab. ")
       .filter((item: string) => item)
       .toString();
+  } else if (formattedCity.startsWith("kota ")) {
+    formattedCity = formattedCity
+      .split("kota ")
+      .filter((item: string) => item)
+      .toString();
   }
+
   return formattedCity;
 }
 
@@ -30,6 +36,8 @@ export async function GET(req: NextRequest) {
     const desProvince = params.get("desProvince") || "";
     const desCity = params.get("desCity") || "";
     const transactionId = params.get("transactionId");
+
+    console.log(cityFilter(desCity));
 
     const key = process.env.RAJAONGKIR_KEY as string;
 

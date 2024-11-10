@@ -25,7 +25,7 @@ const HomeMenu = ({ collection }: { collection: TypeCollection[] }) => {
       </Link>
       {collection.map((item: TypeCollection) => (
         <Link
-          href={`/product/${item.slug}`}
+          href={`/produk/${item.slug}`}
           className={styles.list}
           key={item._id}
           style={{ color: pathname !== "/" ? "black" : "" }}
