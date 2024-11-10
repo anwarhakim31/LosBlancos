@@ -15,7 +15,11 @@ interface PropsType {
   callback: () => void;
 }
 
-const ModalEditBanner = ({ onClose, isEditData, callback }: PropsType) => {
+const ModalEditBannerDiskon = ({
+  onClose,
+  isEditData,
+  callback,
+}: PropsType) => {
   const [loading, setLoading] = useState(false);
   const { handleSubmit, register, setValue } = useForm({
     defaultValues: {
@@ -69,4 +73,4 @@ const ModalEditBanner = ({ onClose, isEditData, callback }: PropsType) => {
   );
 };
 
-export default ModalEditBanner;
+export default ModalEditBannerDiskon;

@@ -10,6 +10,7 @@ import { ResponseError } from "@/utils/axios/response-error";
 import styles from "./upload.module.scss";
 import { v4 as uuidv4 } from "uuid";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 
 const UploadImage = ({
   setLoading,
@@ -24,6 +25,8 @@ const UploadImage = ({
   register: any;
   image?: string;
 }) => {
+  const searchParams = useSearchParams();
+  const tab = searchParams.get("tab");
   const inputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState("");
   const [files, setFiles] = useState<File>({} as File);
@@ -35,7 +38,6 @@ const UploadImage = ({
 
   useEffect(() => {
     if (image) {
-      console.log(image);
       setPreview(image);
     }
   }, [image]);
@@ -43,6 +45,37 @@ const UploadImage = ({
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     setFiles(file as File);
+
+    if (tab === "banner") {
+      console.log(true);
+      const img = document.createElement("img");
+      if (file) {
+        img.src = URL.createObjectURL(file);
+      }
+
+      const maxWidth = 1200;
+      const maxHeight = 400;
+
+      await new Promise<void>((resolve, reject) => {
+        img.onload = () => {
+          const { width, height } = img;
+          if (width > maxWidth || height > maxHeight) {
+            toast.error(
+              `Dimensi gambar maksimal adalah ${maxWidth}x${maxHeight}px`
+            );
+            reject();
+          } else {
+            resolve();
+          }
+        };
+        img.onerror = () => {
+          toast.error("Gagal memuat gambar. Pastikan file valid.");
+          reject();
+        };
+      });
+
+      URL.revokeObjectURL(img.src);
+    }
 
     if (!ALLOW_IMAGE_TYPE.includes(file?.type || "")) {
       return toast.error("Format file tidak didukung");

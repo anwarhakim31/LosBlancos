@@ -39,7 +39,7 @@ const sideList = [
       {
         id: 2,
         name: "Desain",
-        link: "/admin/master-data/desain",
+        link: "/admin/master-data/design",
       },
     ],
   },
