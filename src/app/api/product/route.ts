@@ -34,8 +34,12 @@ export async function GET(req: NextRequest) {
     const category = searchParams.getAll("category") || [];
     const max = parseInt(searchParams.get("max") || "500000");
     const min = parseInt(searchParams.get("min") || "0");
-    const collection = searchParams.get("collection") || "";
+    const collection = searchParams.get("collection");
     const sold = searchParams.get("sold");
+
+    const sanitizedCollection = collection
+      ? collection.replace(/[^a-zA-Z0-9]/g, " ")
+      : "";
 
     const search = searchParams.get("search")?.toString() || "";
 
@@ -58,9 +62,9 @@ export async function GET(req: NextRequest) {
     }
 
     if (collection) {
-      const { _id } = await Collection.findOne({ name: collection }).select(
-        "_id"
-      );
+      const { _id } = await Collection.findOne({
+        name: sanitizedCollection,
+      }).select("_id");
       filterQuery.collectionName = _id;
 
       page = 1;

@@ -175,6 +175,8 @@ const ProductMainView: FC<propsType> = ({ products, pagination }) => {
             aria-label={`page ${item}`}
             className={styles.pagination__page}
             key={item}
+            disabled={page === item}
+            style={{ cursor: "auto" }}
             onClick={() => {
               const query = new URLSearchParams(params);
 
