@@ -9,7 +9,7 @@ const TokoPage = () => {
   return (
     <Fragment>
       <HeaderPage
-        title="Halaman Toko"
+        title="Halaman Master Toko"
         description="Kelola Logo & Informasi Toko"
       />
       <LogoView />

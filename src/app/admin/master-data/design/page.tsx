@@ -18,7 +18,7 @@ const DesainPage = () => {
 
   useEffect(() => {
     if (!tabs.includes(tabParams || "")) {
-      replace("/admin/master-data/desain?tab=carousel");
+      replace("/admin/master-data/design?tab=carousel");
       setSelectedTab("carousel");
     }
   }, [tabParams, replace]);
@@ -26,7 +26,7 @@ const DesainPage = () => {
   return (
     <Fragment>
       <HeaderPage
-        title="Halaman Desain"
+        title="Halaman Master Beranda"
         description="Kelola desain toko yang digunakan pada halaman beranda"
       />
       <div className={styles.tabs}>
@@ -38,7 +38,7 @@ const DesainPage = () => {
             } `}
             onClick={() => {
               setSelectedTab(tab);
-              replace(`/admin/master-data/desain?tab=${tab}`);
+              replace(`/admin/master-data/design?tab=${tab}`);
             }}
           >
             {tab}
