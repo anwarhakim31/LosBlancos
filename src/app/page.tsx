@@ -5,7 +5,7 @@ import { Fragment } from "react";
 import { ServerURL } from "@/utils/contant";
 import ShowProductView from "@/components/views/home/ShowProduct";
 import TestimoniView from "@/components/views/home/Testimoni";
-import GaleriView from "@/components/views/home/Galeri";
+import HomeGaleriView from "@/components/views/home/HomeGaleri";
 import HomeBannerView from "@/components/views/home/HomeBanner";
 
 const Page = async () => {
@@ -57,7 +57,7 @@ const Page = async () => {
           data={dataBestSellProduct.products}
         />
         <TestimoniView />
-        <GaleriView data={dataGaleri.galeri.image} />
+        <HomeGaleriView data={dataGaleri.galeri.image} />
       </main>
     </Fragment>
   );

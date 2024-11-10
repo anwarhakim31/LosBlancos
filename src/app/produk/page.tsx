@@ -49,6 +49,7 @@ const ProductPage = async ({ searchParams }: { searchParams: string }) => {
 
   return (
     <main>
+      <div className={styles.banner}></div>
       <section className={styles.container}>
         <BreadCrubm />
 

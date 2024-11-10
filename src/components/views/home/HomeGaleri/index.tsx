@@ -15,7 +15,7 @@ const lora = Lora({
   display: "swap",
 });
 
-const GaleriView = ({ data }: { data: string[] }) => {
+const HomeGaleriView = ({ data }: { data: string[] }) => {
   const [isOpen, setIsOpen] = useState<number | null>(null);
   const context = useMasterContext();
 
@@ -74,4 +74,4 @@ const GaleriView = ({ data }: { data: string[] }) => {
   );
 };
 
-export default GaleriView;
+export default HomeGaleriView;
