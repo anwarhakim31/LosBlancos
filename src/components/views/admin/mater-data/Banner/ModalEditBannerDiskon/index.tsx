@@ -51,7 +51,7 @@ const ModalEditBannerDiskon = ({
         className={style.modal}
         onClick={(e) => e.stopPropagation()}
       >
-        <HeaderModal title="Edit Banner" onClose={onClose} />
+        <HeaderModal title="Edit Banner Diskon" onClose={onClose} />
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className={style.modal__content}>
             <UploadImage

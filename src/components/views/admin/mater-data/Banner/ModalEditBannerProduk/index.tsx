@@ -30,7 +30,7 @@ const ModalEditBannerProduk = ({
   const onSubmit = async (data: { image: string }) => {
     setLoading(true);
     try {
-      const res = await masterService.editBanner(data);
+      const res = await masterService.editMain({ banner: data.image });
 
       if (res.status === 200) {
         toast.success(res.data.message);
@@ -51,7 +51,7 @@ const ModalEditBannerProduk = ({
         className={style.modal}
         onClick={(e) => e.stopPropagation()}
       >
-        <HeaderModal title="Edit Banner" onClose={onClose} />
+        <HeaderModal title="Edit Banner Produk" onClose={onClose} />
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className={style.modal__content}>
             <UploadImage

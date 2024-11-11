@@ -14,7 +14,8 @@ import ModalEditBannerProduk from "./ModalEditBannerProduk";
 const BannerView = () => {
   const [loading, setLoading] = useState(true);
   const [checked, setChecked] = useState(false);
-  const [data, setData] = useState<string | null>(null);
+  const [diskon, setDiskon] = useState<string | null>(null);
+  const [produk, setProduk] = useState<string | null>(null);
   const [isEditData, setIsEditData] = useState<string | null>(null);
 
   const handleCheck = async () => {
@@ -31,8 +32,9 @@ const BannerView = () => {
   const fetchData = useCallback(async () => {
     try {
       const res = await masterService.getBanner();
-      setChecked(res.data.banner.display);
-      setData(res.data.banner.image);
+      setChecked(res.data.discount.display);
+      setDiskon(res.data.discount.image);
+      setProduk(res.data.product);
     } catch (error) {
       ResponseError(error);
     } finally {
@@ -69,12 +71,12 @@ const BannerView = () => {
         )}
         <div className={styles.content}>
           {loading && <div className={styles.skeleton}></div>}
-          {!loading && data && (
+          {!loading && diskon && (
             <div
               className={styles.content__box}
-              style={{ backgroundImage: `url(${data})` }}
+              style={{ backgroundImage: `url(${diskon})` }}
             >
-              <button aria-label="edit" onClick={() => setIsEditData(data)}>
+              <button aria-label="edit" onClick={() => setIsEditData(diskon)}>
                 <Edit width={18} height={18} strokeWidth={1.5} />
               </button>
             </div>
@@ -100,12 +102,12 @@ const BannerView = () => {
 
         <div className={styles.content}>
           {loading && <div className={styles.skeleton}></div>}
-          {!loading && data && (
+          {!loading && produk && (
             <div
               className={styles.content__box}
-              style={{ backgroundImage: `url(${data})` }}
+              style={{ backgroundImage: `url(${produk})` }}
             >
-              <button aria-label="edit" onClick={() => setIsEditData(data)}>
+              <button aria-label="edit" onClick={() => setIsEditData(produk)}>
                 <Edit width={18} height={18} strokeWidth={1.5} />
               </button>
             </div>

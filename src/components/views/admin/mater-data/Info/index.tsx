@@ -20,6 +20,7 @@ import { toast } from "sonner";
 
 const ArrMedia = ["website", "instagram", "facebook", "twitter"];
 const ArrContact = ["phone", "email", "googleMap"];
+const ArrAbout = ["about", "youtube"];
 
 const InfoView = () => {
   const context = useMasterContext();
@@ -120,7 +121,19 @@ const InfoView = () => {
               loading={loading}
             />
           ))}
+          <h5 style={{ marginTop: "2rem" }}>Tentang</h5>
+          {ArrAbout.map((item) => (
+            <InfoFormControl
+              key={item}
+              formData={formData}
+              setFormData={setFormData}
+              setLoading={setLoading}
+              name={item}
+              loading={loading}
+            />
+          ))}
         </div>
+
         <div className={styles.content__list}>
           <h5>Kontak</h5>
           {ArrContact.map((item) => (
