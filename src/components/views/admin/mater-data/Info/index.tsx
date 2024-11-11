@@ -62,6 +62,8 @@ const InfoView = () => {
         email: context?.master?.email,
         phone: context?.master?.phone,
         description: context?.master?.description,
+        youtube: context?.master?.youtube,
+        about: context?.master?.about,
       }));
     }
   }, [context?.master]);

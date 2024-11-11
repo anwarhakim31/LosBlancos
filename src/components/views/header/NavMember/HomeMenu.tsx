@@ -3,6 +3,9 @@ import styles from "./homemenu.module.scss";
 import Link from "next/link";
 import { TypeCollection } from "@/services/type.module";
 import { usePathname } from "next/navigation";
+import { PT_Sans } from "next/font/google";
+
+const font = PT_Sans({ weight: "400", subsets: ["latin"] });
 
 const HomeMenu = ({ collection }: { collection: TypeCollection[] }) => {
   const pathname = usePathname();
@@ -11,14 +14,14 @@ const HomeMenu = ({ collection }: { collection: TypeCollection[] }) => {
     <Fragment>
       <Link
         href={"/"}
-        className={`${styles.list} `}
+        className={`${styles.list}  ${font.className}`}
         style={{ color: pathname !== "/" ? "black" : "" }}
       >
         Beranda
       </Link>
       <Link
         href={"/produk"}
-        className={styles.list}
+        className={`${styles.list}  ${font.className}`}
         style={{ color: pathname !== "/" ? "black" : "" }}
       >
         produk
@@ -26,7 +29,7 @@ const HomeMenu = ({ collection }: { collection: TypeCollection[] }) => {
       {collection.map((item: TypeCollection) => (
         <Link
           href={`/produk/${item.slug}`}
-          className={styles.list}
+          className={`${styles.list}  ${font.className}`}
           key={item._id}
           style={{ color: pathname !== "/" ? "black" : "" }}
         >
@@ -35,17 +38,10 @@ const HomeMenu = ({ collection }: { collection: TypeCollection[] }) => {
       ))}
       <Link
         href={"/tentang"}
-        className={styles.list}
+        className={`${styles.list}  ${font.className}`}
         style={{ color: pathname !== "/" ? "black" : "" }}
       >
         Tentang
-      </Link>
-      <Link
-        href={"/kontak"}
-        className={styles.list}
-        style={{ color: pathname !== "/" ? "black" : "" }}
-      >
-        Kontak
       </Link>
     </Fragment>
   );

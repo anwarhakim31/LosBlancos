@@ -1,0 +1,20 @@
+.youtube {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  max-width: 800px;
+}
+.close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+
+  svg {
+    transition: all 0.3s ease-in-out;
+  }
+
+  &:hover {
+    svg {
+      color: $gray-100;
+    }
+  }
+}

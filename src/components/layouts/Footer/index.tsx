@@ -202,7 +202,7 @@ const Footer = ({ collection }: { collection: TypeCollection[] }) => {
           </div>
         </div>
         <div className={styles.footer__info}>
-          <h3 className={styles.footer__title}>Informasi</h3>
+          <h3 className={styles.footer__title}>Kontak</h3>
           <div className={styles.footer__info__wrapper}>
             {footers.informasi.map((info, i) => (
               <Link

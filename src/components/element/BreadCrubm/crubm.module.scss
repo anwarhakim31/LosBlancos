@@ -14,16 +14,16 @@
       text-transform: capitalize;
       @include flex-center();
       font-size: 0.875rem;
-      font-weight: 500;
-      color: $gray-600;
+      font-weight: 400;
+
       svg {
-        stroke-width: 1.25;
-        color: $gray-900;
+        stroke-width: 1.5;
+        color: black;
       }
     }
 
     svg {
-      stroke-width: 1;
+      stroke-width: 1.5;
     }
   }
 }
