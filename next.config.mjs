@@ -5,6 +5,7 @@ const nextConfig = {
       "res.cloudinary.com",
       "lh3.googleusercontent.com",
       "api.sandbox.midtrans.com",
+      "img.youtube.com",
     ],
   },
   sassOptions: {

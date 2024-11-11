@@ -54,3 +54,6 @@ export function formatDateToMidtrans() {
 
   return formattedDate;
 }
+export const youtubeid = (url: string) => {
+  return url.split("=")[1];
+};

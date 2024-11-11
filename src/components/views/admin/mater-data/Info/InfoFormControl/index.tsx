@@ -140,7 +140,8 @@ const InfoFormControl = ({
             name === "email" ||
             name === "phone" ||
             name === "googleMap" ||
-            name === "description"
+            name === "description" ||
+            name === "youtube"
           ) {
             setFormData({
               ...formData,

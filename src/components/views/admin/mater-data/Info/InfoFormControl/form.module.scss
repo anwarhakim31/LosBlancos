@@ -15,6 +15,14 @@
     resize: none;
     height: 5rem;
 
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $gray-300;
+    }
+
     &:focus {
       outline: $primary 1px solid;
       border: 1px solid $primary;
