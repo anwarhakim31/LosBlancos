@@ -3,29 +3,32 @@ import { TypeTransaction } from "@/services/type.module";
 import { ResponseError } from "@/utils/axios/response-error";
 import { useSession } from "next-auth/react";
 import React, { Fragment, useEffect, useState } from "react";
-import styles from "./process.module.scss";
+import styles from "./done.module.scss";
 import Image from "next/image";
 import { formatCurrency, formateDate } from "@/utils/contant";
 
 import Loader from "@/components/element/Loader";
 import ModalConfirmRebuy from "@/components/fragments/ModalConfirmRebuy";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { transactionService } from "@/services/transaction/method";
 import Pagination from "@/components/element/Pagination";
-import { useSearchParams } from "next/navigation";
 
-const ProcessView = () => {
+const DoneView = () => {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const session = useSession();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<TypeTransaction[]>([]);
   const [diffrent, setDiffrent] = useState<string[] | null>(null);
+  const [id, setId] = useState<string>("");
+
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 8,
     total: 0,
     totalPage: 0,
   });
-  const [id, setId] = useState<string>("");
 
   const page = Number((searchParams.get("page") as string) || 1);
   const limit = Number((searchParams.get("limit") as string) || 8);
@@ -36,7 +39,7 @@ const ProcessView = () => {
       try {
         const res = await orderService.get(
           session?.data?.user?.id as string,
-          "diproses",
+          "selesai",
           "dibayar",
           limit,
           page
@@ -58,15 +61,25 @@ const ProcessView = () => {
     }
   }, [session?.data?.user?.id, setLoading, page, limit]);
 
-  const handleChat = (order: TypeTransaction) => {
-    let text = "";
+  const handleRebuy = async (id: string) => {
+    try {
+      const res = await transactionService.cekStock(id);
 
-    text = `Halo admin, saya sudah membayar transaksi nomor invoice ${order.invoice}. Tolong segera proses pesanan saya.`;
+      if (res.status === 200) {
+        if (res.data.diffrent.length > 0) {
+          setId(id);
+          setDiffrent(res.data.diffrent);
+        } else {
+          const res = await transactionService.rebuy(id);
 
-    window.open(
-      `https://wa.me/6281310635243?text=${decodeURIComponent(text)}`,
-      "_blank"
-    );
+          if (res.status === 200) {
+            router.push(`/checkout/${res.data.id}`);
+          }
+        }
+      }
+    } catch (error) {
+      ResponseError(error);
+    }
   };
 
   return (
@@ -84,7 +97,7 @@ const ProcessView = () => {
               <p className={styles.card__header__status}>
                 {order.transactionStatus === "tertunda"
                   ? "Dalam Proses"
-                  : "Dikemas"}
+                  : "Selesai"}
               </p>
             </div>
             {order?.items?.map((product) => (
@@ -127,16 +140,15 @@ const ProcessView = () => {
                 >
                   Detail
                 </Link>
-                {order.paymentCode && (
-                  <button
-                    className={styles.card__footer__btn}
-                    type="button"
-                    aria-label="Beli Lagi"
-                    onClick={() => handleChat(order)}
-                  >
-                    Hubungi Admin
-                  </button>
-                )}
+
+                <button
+                  className={styles.card__footer__btn}
+                  type="button"
+                  aria-label="Diterima"
+                  onClick={() => handleRebuy(order.invoice as string)}
+                >
+                  Beli lagi
+                </button>
               </div>
             </div>
           </div>
@@ -162,4 +174,4 @@ const ProcessView = () => {
   );
 };
 
-export default ProcessView;
+export default DoneView;

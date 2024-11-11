@@ -30,102 +30,107 @@ const transactionItemModel = new mongoose.Schema({
   },
 });
 
-const transactionSchema = new mongoose.Schema({
-  invoice: {
-    type: String,
-    required: true,
-  },
-  expired: {
-    type: Date,
-    required: true,
-  },
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
-  items: [transactionItemModel],
-  diskon: {
-    type: Number,
-    required: false,
-    default: 0,
-  },
-  subtotal: {
-    type: Number,
-    required: true,
-    default: 0,
-  },
-  shippingAddress: {
-    fullname: {
+const transactionSchema = new mongoose.Schema(
+  {
+    invoice: {
+      type: String,
+      required: true,
+    },
+    expired: {
+      type: Date,
+      required: true,
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    items: [transactionItemModel],
+    diskon: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+    subtotal: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    shippingAddress: {
+      fullname: {
+        type: String,
+      },
+      phone: {
+        type: String,
+      },
+      province: {
+        type: String,
+      },
+      city: {
+        type: String,
+      },
+      subdistrict: {
+        type: String,
+      },
+      postalCode: {
+        type: String,
+      },
+      address: {
+        type: String,
+      },
+    },
+    shippingCost: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    shippingName: {
       type: String,
     },
-    phone: {
+    totalPayment: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    paymentCode: {
       type: String,
     },
-    province: {
+    paymentName: {
       type: String,
     },
-    city: {
-      type: String,
-    },
-    subdistrict: {
-      type: String,
-    },
-    postalCode: {
-      type: String,
-    },
-    address: {
-      type: String,
-    },
-  },
-  shippingCost: {
-    type: Number,
-    required: true,
-    default: 0,
-  },
-  shippingName: {
-    type: String,
-  },
-  totalPayment: {
-    type: Number,
-    required: true,
-    default: 0,
-  },
-  paymentCode: {
-    type: String,
-  },
-  paymentName: {
-    type: String,
-  },
 
-  paymentMethod: {
-    type: String,
-    enum: ["e-wallet", "bank_transfer", "over the counter"],
+    paymentMethod: {
+      type: String,
+      enum: ["e-wallet", "bank_transfer", "over the counter"],
+    },
+    paymentStatus: {
+      type: String,
+      required: true,
+      enum: ["tertunda", "dibayar", "ditolak", "dibatalkan", "kadaluwarsa"],
+      default: "tertunda",
+    },
+    paymentCreated: {
+      type: Date,
+    },
+    paymentExpired: {
+      type: Date,
+    },
+    transactionStatus: {
+      type: String,
+      required: true,
+      enum: ["tertunda", "diproses", "dikirim", "selesai", "dibatalkan"],
+      default: "tertunda",
+    },
+    transactionDate: {
+      type: Date,
+      default: Date.now,
+      required: true,
+    },
   },
-  paymentStatus: {
-    type: String,
-    required: true,
-    enum: ["tertunda", "dibayar", "ditolak", "dibatalkan", "kadaluwarsa"],
-    default: "tertunda",
-  },
-  paymentCreated: {
-    type: Date,
-  },
-  paymentExpired: {
-    type: Date,
-  },
-  transactionStatus: {
-    type: String,
-    required: true,
-    enum: ["tertunda", "diproses", "dikirim", "selesai", "dibatalkan"],
-    default: "tertunda",
-  },
-  transactionDate: {
-    type: Date,
-    default: Date.now,
-    required: true,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 transactionSchema.pre("save", function (next) {
   this.subtotal = this.items.reduce((acc, item) => {

@@ -86,7 +86,7 @@ const TentangPage = () => {
             </div>
             <div className={styles.text}>
               <h2>{context?.master.name}</h2>
-              <p>{context?.master.description}</p>
+              <p>{context?.master.about || ""}</p>
               <Link href="/produk">Belanja Sekarang</Link>
             </div>
           </div>

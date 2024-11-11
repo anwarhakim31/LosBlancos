@@ -8,24 +8,27 @@ import Image from "next/image";
 import { formatCurrency, formateDate } from "@/utils/contant";
 
 import Loader from "@/components/element/Loader";
-import ModalConfirmRebuy from "@/components/fragments/ModalConfirmRebuy";
-import Link from "next/link";
-import Pagination from "@/components/element/Pagination";
-import { useSearchParams } from "next/navigation";
 
-const ProcessView = () => {
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import Pagination from "@/components/element/Pagination";
+
+const SendView = ({
+  setActive,
+}: {
+  setActive: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const session = useSession();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<TypeTransaction[]>([]);
-  const [diffrent, setDiffrent] = useState<string[] | null>(null);
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 8,
     total: 0,
     totalPage: 0,
   });
-  const [id, setId] = useState<string>("");
 
   const page = Number((searchParams.get("page") as string) || 1);
   const limit = Number((searchParams.get("limit") as string) || 8);
@@ -36,7 +39,7 @@ const ProcessView = () => {
       try {
         const res = await orderService.get(
           session?.data?.user?.id as string,
-          "diproses",
+          "dikirim",
           "dibayar",
           limit,
           page
@@ -58,15 +61,17 @@ const ProcessView = () => {
     }
   }, [session?.data?.user?.id, setLoading, page, limit]);
 
-  const handleChat = (order: TypeTransaction) => {
-    let text = "";
+  const handleUpdate = async (id: string) => {
+    try {
+      const res = await orderService.diterima(id);
 
-    text = `Halo admin, saya sudah membayar transaksi nomor invoice ${order.invoice}. Tolong segera proses pesanan saya.`;
-
-    window.open(
-      `https://wa.me/6281310635243?text=${decodeURIComponent(text)}`,
-      "_blank"
-    );
+      if (res.status === 200) {
+        router.replace("/pesanan?status=selesai", { scroll: false });
+        setActive("selesai");
+      }
+    } catch (error) {
+      ResponseError(error);
+    }
   };
 
   return (
@@ -84,7 +89,7 @@ const ProcessView = () => {
               <p className={styles.card__header__status}>
                 {order.transactionStatus === "tertunda"
                   ? "Dalam Proses"
-                  : "Dikemas"}
+                  : "Dikirim"}
               </p>
             </div>
             {order?.items?.map((product) => (
@@ -127,16 +132,15 @@ const ProcessView = () => {
                 >
                   Detail
                 </Link>
-                {order.paymentCode && (
-                  <button
-                    className={styles.card__footer__btn}
-                    type="button"
-                    aria-label="Beli Lagi"
-                    onClick={() => handleChat(order)}
-                  >
-                    Hubungi Admin
-                  </button>
-                )}
+
+                <button
+                  className={styles.card__footer__btn}
+                  type="button"
+                  aria-label="Diterima"
+                  onClick={() => handleUpdate(order._id as string)}
+                >
+                  Beli
+                </button>
               </div>
             </div>
           </div>
@@ -147,19 +151,9 @@ const ProcessView = () => {
           <p>Tidak ada pesanan</p>
         </div>
       )}
-      {diffrent && (
-        <ModalConfirmRebuy
-          onClose={() => {
-            setDiffrent(null);
-            setId("");
-          }}
-          id={id}
-          diffrent={diffrent}
-        />
-      )}
       {!loading && data.length > 0 && <Pagination pagination={pagination} />}
     </Fragment>
   );
 };
 
-export default ProcessView;
+export default SendView;

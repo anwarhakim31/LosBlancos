@@ -89,12 +89,14 @@
 .content {
   margin: auto;
   margin-bottom: 8rem;
+  padding-block: 5rem;
   background: $gray-100;
 
   width: 100%;
 
   .container {
     @include container();
+    padding: 0;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -107,7 +109,8 @@
 
     .youtube {
       position: relative;
-      aspect-ratio: 2 / 1;
+      aspect-ratio: 16 / 9;
+      width: 100%;
       @include media(md) {
         width: 350px;
         height: 600px;
@@ -161,14 +164,14 @@
       flex: 1;
       padding: 1rem;
       h2 {
-        font-size: 2.5rem;
+        font-size: 2rem;
         font-weight: 600;
         margin-bottom: 2rem;
       }
 
       p {
         color: $gray-500;
-        font-size: 1rem;
+        font-size: 0.875rem;
         line-height: 1.5rem;
       }
 

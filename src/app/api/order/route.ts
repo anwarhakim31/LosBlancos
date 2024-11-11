@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
       .populate("items.productId")
       .skip(skip)
       .limit(limit)
-      .sort({ transactionDate: -1 });
+      .sort({ updatedAt: -1 });
 
     const total = await Transaction.countDocuments(filter);
 
@@ -53,6 +53,46 @@ export async function GET(req: NextRequest) {
         total,
         totalPage: Math.ceil(total / limit),
       },
+    });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Internal Server Error",
+      },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(req: NextRequest) {
+  try {
+    await connectDB();
+    const { order_id } = await req.json();
+
+    const transaction = await Transaction.findByIdAndUpdate(
+      { _id: order_id },
+      {
+        $set: {
+          transactionStatus: "selesai",
+        },
+      }
+    );
+
+    if (!transaction) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Transaction not found",
+        },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: "transaction selesai",
     });
   } catch (error) {
     console.error(error);
