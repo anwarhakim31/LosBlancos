@@ -1,10 +1,12 @@
 import { TypeMaster } from "@/services/type.module";
 import {
+  BookA,
   Check,
   Edit2,
   Facebook,
   Globe,
   Instagram,
+  LinkIcon,
   Mail,
   MapPin,
   NotepadText,
@@ -35,6 +37,8 @@ function Icon(name: string) {
       return <MapPin />;
     case "description":
       return <NotepadText />;
+    case "youtube":
+      return <LinkIcon />;
     default:
       return <Globe />;
   }
@@ -71,9 +75,49 @@ const InfoFormControl = ({
       setLoading(false);
     }
   };
+
+  if (name === "about") {
+    return (
+      <div className={styles.item} style={{ alignItems: "flex-start" }}>
+        <div title="about">
+          <BookA />
+        </div>
+        <textarea
+          className={edit === name ? styles.active : styles.none}
+          value={formData.about}
+          disabled={loading}
+          readOnly={loading}
+          onChange={(e) => {
+            setFormData((prev) => ({
+              ...prev,
+              about: e.target.value,
+            }));
+          }}
+        />
+        <button
+          disabled={loading}
+          type="button"
+          aria-label="edit about"
+          className={edit === name ? styles.active : styles.none}
+          style={{ marginTop: "10px" }}
+          onClick={() => {
+            if (edit === name) {
+              handleEdit();
+            } else {
+              setEdit("about");
+            }
+          }}
+        >
+          {edit === name ? <Check /> : <Edit2 />}
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.item}>
-      {Icon(name)}
+      <div title={name}>{Icon(name)}</div>
+
       <input
         className={edit === name ? styles.active : styles.none}
         type={name === "phone" ? "number" : "text"}
@@ -83,13 +127,14 @@ const InfoFormControl = ({
           name === "email" ||
           name === "phone" ||
           name === "googleMap" ||
-          name === "description"
+          name === "description" ||
+          name === "youtube"
             ? formData[name] || ""
             : formData.media?.find((media) => media.name === name)?.url || ""
         }
         id={name}
-        disabled={edit !== name}
-        readOnly={edit !== name}
+        disabled={loading}
+        readOnly={loading}
         onChange={(e) => {
           if (
             name === "email" ||

@@ -18,6 +18,7 @@ export async function GET() {
         displayName: false,
         favicon: "/default.png",
         email: "example@example.com",
+        banner: "/banner.png",
         phone: "08123456789000",
         media: [
           {
@@ -74,6 +75,7 @@ export async function PATCH(req: NextRequest) {
         color: "#000000",
         displayName: false,
         favicon: "/default.png",
+        banner: "/banner.png",
         email: "example@example.com",
         phone: "08123456789000",
         media: [

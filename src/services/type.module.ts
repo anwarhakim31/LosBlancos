@@ -53,6 +53,9 @@ export interface TypeMaster {
   email?: string;
   phone?: string;
   googleMap?: string;
+  banner?: string;
+  youtube?: string;
+  about?: string;
   address?: {
     street: string;
     postalCode: string;

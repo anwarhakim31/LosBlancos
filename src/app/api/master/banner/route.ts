@@ -1,5 +1,6 @@
 import connectDB from "@/lib/db";
 import Banner from "@/lib/models/banner-model";
+import Master from "@/lib/models/master-model";
 
 import { ResponseError } from "@/lib/response-error";
 import { verifyToken } from "@/lib/verify-token";
@@ -9,9 +10,9 @@ export async function GET() {
   try {
     await connectDB();
 
-    const banner = await Banner.findOne();
+    const discount = await Banner.findOne();
 
-    if (!banner) {
+    if (!discount) {
       const newMarquee = await Banner.create({
         display: true,
         image: "/banner.png",
@@ -23,9 +24,16 @@ export async function GET() {
       });
     }
 
+    const bannerProduct = await Master.findOne();
+
+    if (!bannerProduct.banner) {
+      await Master.updateOne({}, { $set: { banner: "/banner.png" } });
+    }
+
     return NextResponse.json({
       success: true,
-      banner,
+      discount: discount,
+      product: bannerProduct.banner,
     });
   } catch (error) {
     return ResponseError(500, "Internal Server Error");

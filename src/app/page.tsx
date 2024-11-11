@@ -49,8 +49,8 @@ const Page = async () => {
           header={"Produk Terbaru"}
           data={dataNewProduct.products}
         />
-        {dataBanner.banner.display && (
-          <HomeBannerView image={dataBanner.banner.image} />
+        {dataBanner.discount.display && (
+          <HomeBannerView image={dataBanner.discount.image} />
         )}
         <ShowProductView
           header={"Produk Terlaris"}

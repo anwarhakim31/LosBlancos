@@ -33,6 +33,20 @@ const HomeMenu = ({ collection }: { collection: TypeCollection[] }) => {
           {item.name}
         </Link>
       ))}
+      <Link
+        href={"/tentang"}
+        className={styles.list}
+        style={{ color: pathname !== "/" ? "black" : "" }}
+      >
+        Tentang
+      </Link>
+      <Link
+        href={"/kontak"}
+        className={styles.list}
+        style={{ color: pathname !== "/" ? "black" : "" }}
+      >
+        Kontak
+      </Link>
     </Fragment>
   );
 };

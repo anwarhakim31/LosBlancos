@@ -201,7 +201,7 @@ const UploadImage = ({
               alt="preview"
               width={500}
               height={500}
-              priority
+              loading="lazy"
             />
           </div>
           <div className={styles.detail}>

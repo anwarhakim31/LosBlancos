@@ -46,13 +46,19 @@ const ProductPage = async ({ searchParams }: { searchParams: string }) => {
   const { products, pagination } = await fetchData(
     new URLSearchParams(searchParams)
   );
+  const data = await fetch(ServerURL + "/banner", { cache: "no-store" }).then(
+    (res) => res.json()
+  );
 
   return (
     <main>
-      <div className={styles.banner}></div>
+      <div
+        className={styles.banner}
+        style={{ backgroundImage: `url(${data.banner || "/banner1.png"})` }}
+      ></div>
       <section className={styles.container}>
         <BreadCrubm />
-
+        sss
         <div className={styles.wrapper}>
           <div className={styles.filter}>
             <FilterProductView />

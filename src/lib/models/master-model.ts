@@ -53,6 +53,19 @@ const masterModel = new mongoose.Schema({
     type: String,
     required: false,
   },
+  banner: {
+    type: String,
+    required: false,
+  },
+
+  youtube: {
+    type: String,
+    required: false,
+  },
+  about: {
+    type: String,
+    required: false,
+  },
   address: {
     street: {
       type: String,

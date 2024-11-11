@@ -4,6 +4,38 @@
   gap: 0.5rem;
   align-items: center;
   position: relative;
+
+  textarea {
+    width: 100%;
+    padding: 0.6375rem;
+    border-radius: 0.4rem;
+    border: 1px solid $gray-300;
+    height: 2.25rem;
+    font-size: 0.75rem;
+    resize: none;
+    height: 5rem;
+
+    &:focus {
+      outline: $primary 1px solid;
+      border: 1px solid $primary;
+    }
+
+    &::placeholder {
+      font-size: 0.75rem;
+      color: $gray-400;
+    }
+    &.none {
+      border: none;
+      pointer-events: none;
+    }
+    padding-right: 2rem;
+
+    &.active {
+      border: auto;
+      pointer-events: initial;
+    }
+  }
+
   input {
     width: 100%;
     padding: 0.6375rem;
