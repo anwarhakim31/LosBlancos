@@ -8,7 +8,7 @@
     "build": "tsc",
     "watch": "tsc -w",
     "dev": "tsc -b && nodemon dist/index.js",
-    "start": "ts-node src/index.ts"
+    "start": "node --loader ts-node/esm src/index.ts"
   },
   "keywords": [],
   "author": "",
