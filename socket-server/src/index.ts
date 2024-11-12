@@ -310,6 +310,13 @@ app.post("/api/notification", async (req: Request, res: Response) => {
   res.status(200).json({ message: "Order received" });
 });
 
+setInterval(async () => {
+  try {
+    await fetch(`${origin}/api/keep-alive`);
+    console.log("Ping sent to Next.js");
+  } catch (error) {}
+}, 4 * 60 * 1000);
+
 app.get("/api/notification", (req: Request, res: Response) => {
   res.status(200).json({ message: "true" });
 });
