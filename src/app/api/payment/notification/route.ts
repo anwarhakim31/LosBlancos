@@ -1,5 +1,6 @@
 import connectDB from "@/lib/db";
 import Product from "@/lib/models/product-model";
+import Statistic from "@/lib/models/statistic-model";
 import Stock from "@/lib/models/stock-model";
 import Transaction from "@/lib/models/transaction-model";
 import { NextRequest, NextResponse } from "next/server";
@@ -74,6 +75,20 @@ export async function POST(req: NextRequest) {
           { $inc: { sold: item.quantity } }
         );
       }
+
+      await Statistic.findOneAndUpdate(
+        {},
+        {
+          $inc: {
+            produk: transaction.items.quantity,
+            transaksi: 1,
+            income: transaction.total,
+          },
+        },
+        {
+          upsert: true,
+        }
+      );
     }
 
     if (
