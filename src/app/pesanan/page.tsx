@@ -8,6 +8,8 @@ import ProfileMainLayout from "@/components/layouts/ProfileMainLayout";
 import PendingView from "@/components/views/profile/PendingView";
 import CancelView from "@/components/views/profile/CancelView";
 import ProcessView from "@/components/views/profile/processView";
+import SendView from "@/components/views/profile/SendView";
+import DoneView from "@/components/views/profile/DoneView";
 
 const stat = ["tertunda", "diproses", "dikirim", "selesai", "dibatalkan"];
 
@@ -45,6 +47,8 @@ const OrderPage = () => {
           {active === "tertunda" && <PendingView />}
           {active === "dibatalkan" && <CancelView />}
           {active === "diproses" && <ProcessView />}
+          {active === "dikirim" && <SendView setActive={setActive} />}
+          {active === "selesai" && <DoneView />}
         </div>
       </div>
     </ProfileMainLayout>

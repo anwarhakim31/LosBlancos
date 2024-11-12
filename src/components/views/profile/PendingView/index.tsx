@@ -2,7 +2,7 @@ import { orderService } from "@/services/order/method";
 import { TypeTransaction } from "@/services/type.module";
 import { ResponseError } from "@/utils/axios/response-error";
 import { useSession } from "next-auth/react";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 import styles from "./pending.module.scss";
 import Image from "next/image";
 import { formatCountdown, formatCurrency, formateDate } from "@/utils/contant";
@@ -11,6 +11,7 @@ import Loader from "@/components/element/Loader";
 import ModalConfirmChangePayment from "./ModalConfirmChangePayment";
 import { useSearchParams } from "next/navigation";
 import Pagination from "@/components/element/Pagination";
+import ModalConfirmCancel from "./ModalConfirmCancel";
 
 const PendingView = () => {
   const searchParams = useSearchParams();
@@ -21,6 +22,7 @@ const PendingView = () => {
     { _id: string; expired: number }[]
   >([]);
   const [isChange, setIsChange] = useState<string | null>(null);
+  const [isCancel, setIsCancel] = useState<string | null>(null);
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 8,
@@ -31,20 +33,50 @@ const PendingView = () => {
   const page = Number((searchParams.get("page") as string) || 1);
   const limit = Number((searchParams.get("limit") as string) || 8);
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const res = await orderService.get(
-          session?.data?.user?.id as string,
-          "tertunda",
-          "tertunda",
-          limit,
-          page
-        );
+  const getData = useCallback(async () => {
+    try {
+      const res = await orderService.get(
+        session?.data?.user?.id as string,
+        "tertunda",
+        "tertunda",
+        limit,
+        page
+      );
 
-        if (res.status === 200) {
-          setData(res.data.transaction);
-          setPagination(res.data.pagination);
+      if (res.status === 200) {
+        setData(res.data.transaction);
+        setPagination(res.data.pagination);
+        const now = new Date();
+
+        res.data.transaction.forEach((transaction: TypeTransaction) => {
+          const expired = new Date(
+            transaction.paymentExpired || transaction.expired
+          );
+
+          const diff = expired.getTime() - now.getTime();
+
+          if (expired > now) {
+            setArrExpired((prev) => {
+              if (prev.find((item) => item._id === transaction._id)) {
+                return prev;
+              } else {
+                return [
+                  ...prev,
+                  { _id: transaction._id as string, expired: diff },
+                ];
+              }
+            });
+          } else {
+            setArrExpired((prev) =>
+              prev.filter((item) => item._id !== transaction._id)
+            );
+            setData((prev) =>
+              prev.filter((item) => item._id !== transaction._id)
+            );
+          }
+        });
+
+        const interval = setInterval(() => {
           const now = new Date();
 
           res.data.transaction.forEach((transaction: TypeTransaction) => {
@@ -56,14 +88,13 @@ const PendingView = () => {
 
             if (expired > now) {
               setArrExpired((prev) => {
-                if (prev.find((item) => item._id === transaction._id)) {
-                  return prev;
-                } else {
-                  return [
-                    ...prev,
-                    { _id: transaction._id as string, expired: diff },
-                  ];
-                }
+                return prev.map((item) => {
+                  if (item._id === transaction._id) {
+                    return { ...item, expired: diff };
+                  } else {
+                    return item;
+                  }
+                });
               });
             } else {
               setArrExpired((prev) =>
@@ -74,60 +105,29 @@ const PendingView = () => {
               );
             }
           });
+        }, 1000);
 
-          const interval = setInterval(() => {
-            const now = new Date();
-
-            res.data.transaction.forEach((transaction: TypeTransaction) => {
-              const expired = new Date(
-                transaction.paymentExpired || transaction.expired
-              );
-
-              const diff = expired.getTime() - now.getTime();
-
-              if (expired > now) {
-                setArrExpired((prev) => {
-                  return prev.map((item) => {
-                    if (item._id === transaction._id) {
-                      return { ...item, expired: diff };
-                    } else {
-                      return item;
-                    }
-                  });
-                });
-              } else {
-                setArrExpired((prev) =>
-                  prev.filter((item) => item._id !== transaction._id)
-                );
-                setData((prev) =>
-                  prev.filter((item) => item._id !== transaction._id)
-                );
-              }
-            });
-          }, 1000);
-
-          return () => clearInterval(interval);
-        }
-      } catch (error) {
-        ResponseError(error);
-      } finally {
-        setLoading(false);
+        return () => clearInterval(interval);
       }
-    };
-
-    if (session?.data?.user?.id) {
-      getData();
+    } catch (error) {
+      ResponseError(error);
+    } finally {
+      setLoading(false);
     }
   }, [
     session?.data?.user?.id,
-    arrExpired.length,
     setData,
     setArrExpired,
-    data.length,
     setLoading,
     page,
     limit,
   ]);
+
+  useEffect(() => {
+    if (session?.data?.user?.id) {
+      getData();
+    }
+  }, [session?.data?.user?.id, getData]);
 
   return (
     <Fragment>
@@ -202,16 +202,20 @@ const PendingView = () => {
                 </p>
               </div>
               <div className={styles.card__footer__btns}>
-                {order.paymentCode && (
+                {
                   <button
                     className={styles.card__footer__btn}
                     type="button"
                     aria-label="ganti pembayaran"
-                    onClick={() => setIsChange(order.invoice as string)}
+                    onClick={() =>
+                      order.paymentCode
+                        ? setIsChange(order.invoice as string)
+                        : setIsCancel(order._id as string)
+                    }
                   >
-                    Ganti Pembayaran
+                    {order.paymentCode ? "Ganti Pembayaran" : "Batalkan"}
                   </button>
-                )}
+                }
                 <Link
                   className={`${styles.card__footer__btn} `}
                   href={`${
@@ -236,6 +240,13 @@ const PendingView = () => {
         <ModalConfirmChangePayment
           invoice={isChange as string}
           onClose={() => setIsChange(null)}
+        />
+      )}
+      {isCancel && (
+        <ModalConfirmCancel
+          id={isCancel as string}
+          onClose={() => setIsCancel(null)}
+          getData={getData}
         />
       )}
       {!loading && data.length > 0 && <Pagination pagination={pagination} />}

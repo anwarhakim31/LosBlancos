@@ -3,22 +3,35 @@ import { TypeTransaction } from "@/services/type.module";
 import { ResponseError } from "@/utils/axios/response-error";
 import { useSession } from "next-auth/react";
 import React, { Fragment, useEffect, useState } from "react";
-import styles from "./cancel.module.scss";
+import styles from "./process.module.scss";
 import Image from "next/image";
 import { formatCurrency, formateDate } from "@/utils/contant";
-import Link from "next/link";
-import Loader from "@/components/element/Loader";
-import { transactionService } from "@/services/transaction/method";
-import ModalConfirmRebuy from "@/components/fragments/ModalConfirmRebuy";
-import { useRouter } from "next/navigation";
 
-const CancelView = () => {
+import Loader from "@/components/element/Loader";
+
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import Pagination from "@/components/element/Pagination";
+
+const SendView = ({
+  setActive,
+}: {
+  setActive: React.Dispatch<React.SetStateAction<string>>;
+}) => {
+  const searchParams = useSearchParams();
   const router = useRouter();
   const session = useSession();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<TypeTransaction[]>([]);
-  const [diffrent, setDiffrent] = useState<string[] | null>(null);
-  const [id, setId] = useState<string>("");
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 8,
+    total: 0,
+    totalPage: 0,
+  });
+
+  const page = Number((searchParams.get("page") as string) || 1);
+  const limit = Number((searchParams.get("limit") as string) || 8);
 
   useEffect(() => {
     setLoading(true);
@@ -26,11 +39,15 @@ const CancelView = () => {
       try {
         const res = await orderService.get(
           session?.data?.user?.id as string,
-          "dibatalkan"
+          "dikirim",
+          "dibayar",
+          limit,
+          page
         );
 
         if (res.status === 200) {
           setData(res.data.transaction);
+          setPagination(res.data.pagination);
         }
       } catch (error) {
         ResponseError(error);
@@ -42,23 +59,15 @@ const CancelView = () => {
     if (session?.data?.user?.id) {
       getData();
     }
-  }, [session?.data?.user?.id, setLoading]);
+  }, [session?.data?.user?.id, setLoading, page, limit]);
 
-  const handleRebuy = async (id: string) => {
+  const handleUpdate = async (id: string) => {
     try {
-      const res = await transactionService.cekStock(id);
+      const res = await orderService.diterima(id);
 
       if (res.status === 200) {
-        if (res.data.diffrent.length > 0) {
-          setId(id);
-          setDiffrent(res.data.diffrent);
-        } else {
-          const res = await transactionService.rebuy(id);
-          console.log(res);
-          if (res.status === 200) {
-            router.push(`/checkout/${res.data.transaction}`);
-          }
-        }
+        router.replace("/pesanan?status=selesai", { scroll: false });
+        setActive("selesai");
       }
     } catch (error) {
       ResponseError(error);
@@ -78,9 +87,9 @@ const CancelView = () => {
                 <h3>{formateDate(order.transactionDate)}</h3>
               </div>
               <p className={styles.card__header__status}>
-                {order.paymentStatus === "kadaluwarsa"
-                  ? "Kadaluwarsa"
-                  : "Dibatalkan"}
+                {order.transactionStatus === "tertunda"
+                  ? "Dalam Proses"
+                  : "Dikirim"}
               </p>
             </div>
             {order?.items?.map((product) => (
@@ -117,22 +126,21 @@ const CancelView = () => {
             <div className={styles.card__footer}>
               <div></div>
               <div className={styles.card__footer__btns}>
-                {order.paymentCode && (
-                  <button
-                    className={styles.card__footer__btn}
-                    type="button"
-                    aria-label="Beli Lagi"
-                    onClick={() => handleRebuy(order.invoice as string)}
-                  >
-                    Beli Lagi
-                  </button>
-                )}
                 <Link
                   className={`${styles.card__footer__btn} `}
-                  href={`/pembayaran/${order._id}?status=gagal`}
+                  href={`${`/pembayaran/${order._id}`}?status=sukses`}
                 >
-                  Rincian
+                  Detail
                 </Link>
+
+                <button
+                  className={styles.card__footer__btn}
+                  type="button"
+                  aria-label="Diterima"
+                  onClick={() => handleUpdate(order._id as string)}
+                >
+                  Beli
+                </button>
               </div>
             </div>
           </div>
@@ -143,18 +151,9 @@ const CancelView = () => {
           <p>Tidak ada pesanan</p>
         </div>
       )}
-      {diffrent && (
-        <ModalConfirmRebuy
-          onClose={() => {
-            setDiffrent(null);
-            setId("");
-          }}
-          id={id}
-          diffrent={diffrent}
-        />
-      )}
+      {!loading && data.length > 0 && <Pagination pagination={pagination} />}
     </Fragment>
   );
 };
 
-export default CancelView;
+export default SendView;

@@ -53,7 +53,7 @@ const FilterProductView = ({ onClose }: { onClose?: () => void }) => {
     router.push(`${pathname}?${searchParams.toString()}`, { scroll: false });
   };
 
-  console.log(pathname.split("/"));
+  console.log(pathname.split("/")[2]);
 
   const updateCollection = (collection: string) => {
     const searchParams = new URLSearchParams(query.toString());
@@ -91,7 +91,7 @@ const FilterProductView = ({ onClose }: { onClose?: () => void }) => {
           placeholder="Cari Nama dari Produk"
         />
       </div>
-      {pathname.split("/")[2] === "collection" && (
+      {!pathname.split("/")[2] && (
         <div className={styles.category}>
           <h4>Koleksi</h4>
           <div className={styles.category__wrapper}>

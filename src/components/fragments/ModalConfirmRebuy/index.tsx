@@ -31,7 +31,7 @@ const ModalConfirmRebuy = ({
       const res = await transactionService.rebuy(id as string);
 
       if (res.status === 200) {
-        router.push(`/checkout/${res.data.id}`);
+        router.push(`/checkout/${res.data.transaction}`);
         onClose();
       }
     } catch (error) {

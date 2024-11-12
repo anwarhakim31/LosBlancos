@@ -11,7 +11,7 @@ export async function PUT(
 ) {
   await connectDB();
   try {
-    verifyToken(req);
+    verifyToken(req, []);
     const body = await req.json();
 
     const { id } = params;

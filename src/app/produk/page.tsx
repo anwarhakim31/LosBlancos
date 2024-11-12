@@ -58,7 +58,7 @@ const ProductPage = async ({ searchParams }: { searchParams: string }) => {
       ></div>
       <section className={styles.container}>
         <BreadCrubm />
-        sss
+
         <div className={styles.wrapper}>
           <div className={styles.filter}>
             <FilterProductView />

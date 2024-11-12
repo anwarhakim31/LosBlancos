@@ -3,16 +3,19 @@ import { TypeTransaction } from "@/services/type.module";
 import { ResponseError } from "@/utils/axios/response-error";
 import { useSession } from "next-auth/react";
 import React, { Fragment, useEffect, useState } from "react";
-import styles from "./cancel.module.scss";
+import styles from "./done.module.scss";
 import Image from "next/image";
 import { formatCurrency, formateDate } from "@/utils/contant";
-import Link from "next/link";
-import Loader from "@/components/element/Loader";
-import { transactionService } from "@/services/transaction/method";
-import ModalConfirmRebuy from "@/components/fragments/ModalConfirmRebuy";
-import { useRouter } from "next/navigation";
 
-const CancelView = () => {
+import Loader from "@/components/element/Loader";
+import ModalConfirmRebuy from "@/components/fragments/ModalConfirmRebuy";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { transactionService } from "@/services/transaction/method";
+import Pagination from "@/components/element/Pagination";
+
+const DoneView = () => {
+  const searchParams = useSearchParams();
   const router = useRouter();
   const session = useSession();
   const [loading, setLoading] = useState(true);
@@ -20,17 +23,31 @@ const CancelView = () => {
   const [diffrent, setDiffrent] = useState<string[] | null>(null);
   const [id, setId] = useState<string>("");
 
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 8,
+    total: 0,
+    totalPage: 0,
+  });
+
+  const page = Number((searchParams.get("page") as string) || 1);
+  const limit = Number((searchParams.get("limit") as string) || 8);
+
   useEffect(() => {
     setLoading(true);
     const getData = async () => {
       try {
         const res = await orderService.get(
           session?.data?.user?.id as string,
-          "dibatalkan"
+          "selesai",
+          "dibayar",
+          limit,
+          page
         );
 
         if (res.status === 200) {
           setData(res.data.transaction);
+          setPagination(res.data.pagination);
         }
       } catch (error) {
         ResponseError(error);
@@ -42,7 +59,7 @@ const CancelView = () => {
     if (session?.data?.user?.id) {
       getData();
     }
-  }, [session?.data?.user?.id, setLoading]);
+  }, [session?.data?.user?.id, setLoading, page, limit]);
 
   const handleRebuy = async (id: string) => {
     try {
@@ -78,9 +95,9 @@ const CancelView = () => {
                 <h3>{formateDate(order.transactionDate)}</h3>
               </div>
               <p className={styles.card__header__status}>
-                {order.paymentStatus === "kadaluwarsa"
-                  ? "Kadaluwarsa"
-                  : "Dibatalkan"}
+                {order.transactionStatus === "tertunda"
+                  ? "Dalam Proses"
+                  : "Selesai"}
               </p>
             </div>
             {order?.items?.map((product) => (
@@ -117,22 +134,21 @@ const CancelView = () => {
             <div className={styles.card__footer}>
               <div></div>
               <div className={styles.card__footer__btns}>
-                {order.paymentCode && (
-                  <button
-                    className={styles.card__footer__btn}
-                    type="button"
-                    aria-label="Beli Lagi"
-                    onClick={() => handleRebuy(order.invoice as string)}
-                  >
-                    Beli Lagi
-                  </button>
-                )}
                 <Link
                   className={`${styles.card__footer__btn} `}
-                  href={`/pembayaran/${order._id}?status=gagal`}
+                  href={`${`/pembayaran/${order._id}`}?status=sukses`}
                 >
-                  Rincian
+                  Detail
                 </Link>
+
+                <button
+                  className={styles.card__footer__btn}
+                  type="button"
+                  aria-label="Diterima"
+                  onClick={() => handleRebuy(order.invoice as string)}
+                >
+                  Beli lagi
+                </button>
               </div>
             </div>
           </div>
@@ -153,8 +169,9 @@ const CancelView = () => {
           diffrent={diffrent}
         />
       )}
+      {!loading && data.length > 0 && <Pagination pagination={pagination} />}
     </Fragment>
   );
 };
 
-export default CancelView;
+export default DoneView;
