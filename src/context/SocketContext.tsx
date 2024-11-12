@@ -56,7 +56,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       });
       socket.current.on("onlineUsers", (data) => setUserOnline(data));
 
-      if (session.data?.user?.role === "admin")
+      if (session.data?.user?.role === "admin") {
         socket?.current?.on("statistik", (data) => {
           setLoading(false);
           setStatistik({
@@ -71,10 +71,10 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
           setBestCollection(data.bestCollection);
         });
 
-      if (session.data?.user?.role === "admin")
         socket?.current?.on("notification", (data) => {
           console.log(data);
         });
+      }
 
       return () => {
         socket.current?.disconnect();

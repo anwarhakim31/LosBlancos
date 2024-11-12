@@ -194,7 +194,7 @@ app.post("/api/notification", async (req: Request, res: Response) => {
   const totaUser = await User.countDocuments({ role: "customer" });
   const { order_id } = req.body;
 
-  console.log(req.body);
+  console.log(order_id, totaUser, statisticDB);
 
   io.emit("statistik", {
     totalUser: totaUser || 0,
