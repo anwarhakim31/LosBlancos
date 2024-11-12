@@ -171,18 +171,21 @@ const Footer = ({ collection }: { collection: TypeCollection[] }) => {
         <div className={styles.footer__menu}>
           <h3 className={styles.footer__title}>Menu</h3>
           <div className={styles.footer__menu__list}>
-            <Link href={`/produk}`} className={styles.footer__menu__list__item}>
+            <Link href={`/produk`} className={styles.footer__menu__list__item}>
               Semua produk
             </Link>
             {collection.map((item: TypeCollection) => (
               <Link
-                href={`/product/${item.slug}`}
+                href={`/produk/${item.slug}`}
                 className={styles.footer__menu__list__item}
                 key={item._id}
               >
                 {item.name}
               </Link>
             ))}
+            <Link href={`/tentang`} className={styles.footer__menu__list__item}>
+              Tentang
+            </Link>
           </div>
         </div>
         <div className={styles.footer__payment}>

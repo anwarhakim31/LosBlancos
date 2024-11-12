@@ -1,20 +1,30 @@
-import { TypeProduct } from "@/services/type.module";
 import { Star } from "lucide-react";
 import Image from "next/image";
 import React, { Fragment } from "react";
 import halfstar from "@/assets/halfstar.png";
 import styles from "./star.module.scss";
 
-const StarComp = ({ item }: { item: TypeProduct }) => {
+const StarComp = ({
+  item,
+  name,
+}: {
+  item: {
+    averageRating?: number;
+    sold?: number;
+    rating?: number;
+  };
+  name: string;
+}) => {
+  const itemWithRating = name === "product" ? item.averageRating : item.rating;
+
   return (
     <div className={styles.rating}>
       {Array.from({ length: 5 }).map((_, index) => {
-        const isFullStar =
-          item.averageRating && item.averageRating >= index + 1;
+        const isFullStar = itemWithRating && itemWithRating >= index + 1;
         const isHalfStar =
-          item.averageRating &&
-          item.averageRating >= index + 0.5 &&
-          item.averageRating < index + 1;
+          itemWithRating &&
+          itemWithRating >= index + 0.5 &&
+          itemWithRating < index + 1;
 
         return (
           <Fragment key={index}>
@@ -34,7 +44,7 @@ const StarComp = ({ item }: { item: TypeProduct }) => {
           </Fragment>
         );
       })}
-      <p>| {item.sold} Terjual </p>
+      {name === "product" && <p>| {item.sold} Terjual </p>}
     </div>
   );
 };

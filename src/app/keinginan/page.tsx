@@ -113,7 +113,7 @@ const WishListPage = () => {
                           {item.product.name}
                         </h3>
                       </div>
-                      <StarComp item={item.product} />
+                      <StarComp item={item.product} name="product" />
                     </div>
                   </Link>
                 );

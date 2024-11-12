@@ -44,7 +44,7 @@ const InputSearch = ({
   useEffect(() => {
     const timeout = setTimeout(() => {
       const updatedParams = updateParams(params, value);
-      push(`${pathname}?${updatedParams}`);
+      push(`${pathname}?${updatedParams}`, { scroll: false });
     }, 300);
 
     return () => clearTimeout(timeout);

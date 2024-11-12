@@ -8,6 +8,8 @@ import ProductMainView from "@/components/views/AllProduct/MainProduct";
 import FilterProductView from "@/components/views/AllProduct/FilterProduct";
 
 const fetchData = async (collection: string, params: URLSearchParams) => {
+  console.log(params);
+
   const search = params.get("search") || "";
   const category = params.getAll("category") || [];
   const max = params.get("max");
@@ -39,7 +41,9 @@ const fetchData = async (collection: string, params: URLSearchParams) => {
     return console.log("gagal");
   }
 
-  return res.json();
+  const data = await res.json();
+
+  return data;
 };
 
 const getBanner = async (slug: string) => {
@@ -48,7 +52,7 @@ const getBanner = async (slug: string) => {
   });
 
   if (!res.ok) {
-    return console.log("gagal");
+    return { products: [], pagination: {} };
   }
 
   return res.json();
@@ -56,14 +60,16 @@ const getBanner = async (slug: string) => {
 
 const CollectionProductPage = async ({
   params,
+  searchParams,
 }: {
   params: { collection: string };
+  searchParams: string;
 }) => {
   const collection = params.collection;
   const data = await getBanner(collection);
   const { products, pagination } = await fetchData(
     collection,
-    new URLSearchParams()
+    new URLSearchParams(searchParams)
   );
 
   return (
@@ -82,7 +88,7 @@ const CollectionProductPage = async ({
             <FilterProductView />
           </div>
 
-          <ProductMainView products={products} pagination={pagination} />
+          <ProductMainView products={products || []} pagination={pagination} />
         </div>
       </section>
     </main>

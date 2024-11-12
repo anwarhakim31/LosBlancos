@@ -58,7 +58,7 @@ const ShowProductView: FC<PropsType> = ({ header, data }) => {
                   {formatCurrency(Number(item.price))}
                 </p>
 
-                <StarComp item={item} />
+                <StarComp item={item} name="product" />
               </Link>
             );
           })}

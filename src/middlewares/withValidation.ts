@@ -20,6 +20,7 @@ const failed = ["kadaluwarsa", "ditolak", "dibatalkan"];
 export default function withValidation(middleware: NextMiddleware) {
   return async (req: NextRequest, ev: NextFetchEvent) => {
     const pathname = req.nextUrl.pathname;
+
     const id = pathname.split("/")[2];
 
     if (pathname.startsWith("/checkout/") || pathname === "checkout") {

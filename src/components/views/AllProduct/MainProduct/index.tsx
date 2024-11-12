@@ -124,7 +124,7 @@ const ProductMainView: FC<propsType> = ({ products, pagination }) => {
                     <p className={styles.card__content__price}>
                       {formatCurrency(Number(item.price))}
                     </p>
-                    <StarComp item={item} />
+                    <StarComp item={item} name="product" />
                   </div>
                 </div>
               </Link>

@@ -65,6 +65,18 @@ export async function GET(req: NextRequest) {
       const { _id } = await Collection.findOne({
         name: sanitizedCollection,
       }).select("_id");
+
+      if (!_id)
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Koleksi tidak ditemukan",
+            products: [],
+            pagination: { page: 0, limit: 0, total: 0 },
+          },
+          { status: 404 }
+        );
+
       filterQuery.collectionName = _id;
 
       page = 1;
