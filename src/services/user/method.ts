@@ -6,6 +6,8 @@ export const userService = {
   updateUser: (id: string, data: TypeUser) => instance.put(`/user/${id}`, data),
   deleteOne: (id: string | undefined) => instance.delete(`/user/${id}`),
   deleteMany: (data: string[]) => instance.delete(`/user`, { data }),
+  changePsw: (userId: string, oldPassword: string, newPassword: string) =>
+    instance.post("/user/password", { userId, oldPassword, newPassword }),
 };
 
 export const imageService = {
