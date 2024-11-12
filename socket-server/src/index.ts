@@ -189,18 +189,25 @@ app.post("/", (req: Request, res: Response) => {
   res.send("Hello World");
 });
 
-app.post("/api/notification", (req: Request, res: Response) => {
-  const { order_id, transaction_status, otherData } = req.body;
+app.post("/api/notification", async (req: Request, res: Response) => {
+  const statisticDB = await Statistic.findOne({});
+  const totaUser = await User.countDocuments({ role: "customer" });
+  const { order_id } = req.body;
 
-  console.log({
-    order_id,
-    transaction_status,
-    otherData,
+  console.log(req.body);
+
+  io.emit("statistik", {
+    totalUser: totaUser || 0,
+    totalIncome: statisticDB?.income || 0,
+    totalProduct: statisticDB?.product || 0,
+    totalTransaction: statisticDB?.transaction || 0,
+    bestSaller: await getBestSaller(),
+    revenueData: await getRevenueData(),
+    bestCollection: await getBestCollection(),
   });
 
   io.emit("notification", {
     orderId: order_id,
-    details: otherData,
   });
 
   res.status(200).json({ message: "Order received" });

@@ -75,9 +75,7 @@ export async function POST(req: NextRequest) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            data: {
-              order_id: transaction.invoice,
-            },
+            order_id: transaction.invoice,
           }),
         }
       );
