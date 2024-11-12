@@ -71,9 +71,9 @@ const DoneView = () => {
           setDiffrent(res.data.diffrent);
         } else {
           const res = await transactionService.rebuy(id);
-
+          console.log(res);
           if (res.status === 200) {
-            router.push(`/checkout/${res.data.id}`);
+            router.push(`/checkout/${res.data.transaction}`);
           }
         }
       }

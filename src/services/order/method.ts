@@ -19,4 +19,5 @@ export const orderService = {
     return instance.get("/order?" + searchParams.toString());
   },
   diterima: (id: string) => instance.post(`/order`, { order_id: id }),
+  batalkan: (id: string) => instance.delete(`/order?id=${id}`),
 };

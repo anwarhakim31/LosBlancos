@@ -16,7 +16,9 @@ export async function POST(req: NextRequest) {
 
     const order_id = req.nextUrl.searchParams.get("order_id");
 
-    const transactionOld = await Transaction.findOne({ invoice: order_id });
+    const transactionOld = await Transaction.findOne({
+      invoice: order_id,
+    }).populate("items.productId");
 
     const newItem = [];
 
@@ -36,6 +38,7 @@ export async function POST(req: NextRequest) {
           atributeValue: item.atributeValue,
           quantity: stockDB.stock,
           price: item.productId.price * stockDB.stock,
+          weight: item.weight * stockDB.stock,
         });
       } else {
         newItem.push({
@@ -44,6 +47,7 @@ export async function POST(req: NextRequest) {
           atributeValue: item.atributeValue,
           quantity: item.quantity,
           price: item.price,
+          weight: item.weight * item.quantity,
         });
       }
     }

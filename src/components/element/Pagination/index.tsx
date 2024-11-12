@@ -11,6 +11,9 @@ const Pagination = ({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const page = Number(searchParams.get("page") || 1);
+
+  if (page === 1 && pagination.total < 8) return null;
+
   return (
     <div className={styles.pagination}>
       <button
@@ -37,7 +40,7 @@ const Pagination = ({
         onClick={() => {
           const query = new URLSearchParams(searchParams);
           query.set("page", (page + 1).toString());
-          router.replace(`${pathname}?${query.toString()}`);
+          router.replace(`${pathname}?${query.toString()}`, { scroll: true });
         }}
       >
         <ChevronRight />
