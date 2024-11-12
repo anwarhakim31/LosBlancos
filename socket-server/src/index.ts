@@ -1,6 +1,6 @@
 import express from "express";
 import http from "http";
-import socketIo from "socket.io";
+import { Server as Socket } from "socket.io";
 
 const app = express();
 
@@ -8,7 +8,7 @@ const server = http.createServer(app);
 
 const origin = process.env.ORIGIN || "http://localhost:3000";
 
-const io = new socketIo.Server(server, {
+const io = new Socket(server, {
   cors: {
     origin,
     methods: ["GET", "POST"],
