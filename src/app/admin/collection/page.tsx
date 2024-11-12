@@ -79,7 +79,7 @@ const CollectionPage = () => {
   return (
     <section>
       <HeaderPage
-        title="Halaman Koleksi"
+        title="Koleksi"
         description="Kelola koleksi produk untuk mengelompokkan berdasarkan tema"
       />
       <div className={styles.wrapper}>

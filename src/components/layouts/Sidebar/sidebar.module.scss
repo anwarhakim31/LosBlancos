@@ -1,5 +1,4 @@
 .sidebar {
-  width: 200px;
   height: 100vh;
   background: $white;
   position: fixed;
@@ -7,7 +6,7 @@
   left: -200px;
   top: 0;
   z-index: 10;
-  padding: 0 1rem;
+  padding: 0 0.75rem;
   box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.15);
   flex-direction: column;
   gap: 1.5rem;
@@ -30,8 +29,6 @@
     height: 65px;
 
     img {
-      width: 65px;
-      height: 65px;
       object-fit: contain;
     }
 
@@ -45,16 +42,31 @@
     @include flex-center();
     flex-direction: column;
     gap: 0.25rem;
-    padding: 0 1rem;
+    padding: 0 0.5rem;
 
     &__item {
-      display: flex;
-      align-items: center;
       width: 100%;
-      gap: 0.5rem;
-      padding: 0.5rem 0.75rem;
-      border-radius: 0.25rem;
       position: relative;
+
+      border-radius: 0.25rem;
+
+      &:hover {
+        & > div {
+          display: flex;
+        }
+      }
+
+      a {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        position: relative;
+        padding: 0.5rem 0.75rem;
+      }
+
+      &:hover {
+        background: $gray-100;
+      }
 
       &__icon {
         @include flex-center();
@@ -67,13 +79,17 @@
         font-weight: 500;
         color: $dark;
         text-transform: capitalize;
+        text-wrap: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       &__svg {
         position: absolute;
         top: 50%;
         transform: translate(0, -50%);
-        right: 1rem;
+        right: 0.5rem;
         width: 1rem;
         height: 1rem;
         stroke-width: 1.5;
@@ -86,8 +102,69 @@
 
       &__active {
         background: $primary;
-        & > * {
+        span {
           color: $white;
+        }
+
+        svg {
+          stroke: $white;
+        }
+
+        &:hover {
+          background: $primary;
+        }
+      }
+
+      &__dropdownhover {
+        min-width: 120px;
+        border-radius: 0.25rem;
+        border: 1px solid $gray-300;
+        background: $white;
+        position: absolute;
+        top: 0;
+        left: 4.1rem;
+        z-index: 10;
+        padding: 0.75rem;
+
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.5rem;
+        display: none;
+
+        &::before {
+          content: "";
+          position: absolute;
+          width: 1.75rem;
+          height: 2.25rem;
+          background: transparent;
+
+          top: 0;
+          left: -1.75rem;
+
+          z-index: -1;
+        }
+
+        p {
+          font-size: 0.8125rem;
+          font-weight: 500;
+          color: $dark !important;
+          text-transform: capitalize;
+          border-bottom: 1px solid $gray-300;
+          padding-bottom: 0.5rem;
+          width: 100%;
+          user-select: none;
+        }
+
+        a {
+          padding: 0 !important;
+          span {
+            font-size: 0.8125rem;
+            color: $dark !important;
+
+            &.active {
+              color: $primary !important;
+            }
+          }
         }
       }
     }
@@ -102,21 +179,92 @@
     &__item {
       display: flex;
       gap: 0.5rem;
-      padding: 0.5rem 1rem;
+      padding: 0.5rem 0.75rem;
       border-radius: 0.25rem;
       position: relative;
       cursor: pointer;
       transition: all 0.3s ease-in-out;
+
+      &:hover {
+        background: $gray-100;
+      }
     }
 
     &__name {
       font-size: 0.875rem;
       font-weight: 500;
       color: $dark;
+      text-align: center;
     }
 
     &__active {
       color: $primary;
+    }
+  }
+
+  &__minimize {
+    position: absolute;
+    top: 1rem;
+    right: -3.5rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: $white;
+    @include flex-center();
+    border: 1px solid $gray-200;
+    box-shadow: 0 0.1rem 0.1rem rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease-in-out;
+    display: none;
+    cursor: pointer;
+    z-index: 9;
+    &:focus-visible {
+      border: 1px solid $primary;
+    }
+
+    @include media(lg) {
+      display: flex;
+    }
+
+    &:hover {
+      box-shadow: 0 0.1rem 0.3rem $primary;
+    }
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+      stroke-width: 1.5;
+    }
+  }
+
+  &__close {
+    margin: auto;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: $white;
+    @include flex-center();
+    border: 1px solid $gray-200;
+    box-shadow: 0 0.1rem 0.1rem rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    cursor: pointer;
+    z-index: 9;
+    &:focus-visible {
+      border: 1px solid $primary;
+    }
+
+    @include media(lg) {
+      display: none;
+    }
+
+    &:hover {
+      box-shadow: 0 0.1rem 0.3rem $primary;
+    }
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+      stroke-width: 1.5;
     }
   }
 }

@@ -14,6 +14,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import Footer from "@/components/layouts/Footer";
 import ChatComponent from "@/components/element/ChatComponent";
+import SocketProvider from "@/context/SocketContext";
 
 const inter = Inter_Tight({
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -47,31 +48,33 @@ export default async function RootLayout({
       <body className={inter.className}>
         <SessionProviderClient session={session}>
           <StoreProvider>
-            <MasterProvider data={master.master}>
-              <Header collection={collection.collection} />
-              {children}
-              <Footer collection={collection.collection} />
-              <Toaster
-                position="top-center"
-                richColors
-                toastOptions={{
-                  duration: 1000,
-                  style: {
-                    background: "white",
-                    border: "1px solid #f5f5f5",
-                  },
-                  classNames: {
-                    info: "danger-info",
-                  },
-                }}
-                icons={{
-                  info: <CheckIcon />,
-                }}
-              />
-              <ChatComponent />
-              <div id="modal-root"></div>
-              <div id="portal-notif-root"></div>
-            </MasterProvider>
+            <SocketProvider>
+              <MasterProvider data={master.master}>
+                <Header collection={collection.collection} />
+                {children}
+                <Footer collection={collection.collection} />
+                <Toaster
+                  position="top-center"
+                  richColors
+                  toastOptions={{
+                    duration: 1000,
+                    style: {
+                      background: "white",
+                      border: "1px solid #f5f5f5",
+                    },
+                    classNames: {
+                      info: "danger-info",
+                    },
+                  }}
+                  icons={{
+                    info: <CheckIcon />,
+                  }}
+                />
+                <ChatComponent />
+                <div id="modal-root"></div>
+                <div id="portal-notif-root"></div>
+              </MasterProvider>
+            </SocketProvider>
           </StoreProvider>
         </SessionProviderClient>
       </body>

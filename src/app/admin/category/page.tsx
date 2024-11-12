@@ -64,8 +64,8 @@ const CategoryPage = () => {
   return (
     <Fragment>
       <HeaderPage
-        title="Halaman Kategori"
-        description="Kelola atribut product sebagai karakteristik atau fitur yang menggambarkan suatu produk"
+        title="Kategori"
+        description="Kelola Kategori untuk mengelompokkan jenis produk"
       />
       <div className={styles.head}>
         <p>

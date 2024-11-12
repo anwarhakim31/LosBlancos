@@ -1,7 +1,12 @@
-import React from "react";
+import HeaderPage from "@/components/element/HeaderPage";
+import React, { Fragment } from "react";
 
 const DashboardPage = () => {
-  return <div>DashboardPage</div>;
+  return (
+    <Fragment>
+      <HeaderPage title="User" description="Kelola data pelanggan anda" />
+    </Fragment>
+  );
 };
 
 export default DashboardPage;
