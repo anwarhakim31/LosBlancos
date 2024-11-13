@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
 
     const code = searchParams.get("code")?.toLowerCase();
 
-    if (token && token.constructor === NextRequest) {
+    if (token instanceof NextResponse) {
       return token;
     }
 
