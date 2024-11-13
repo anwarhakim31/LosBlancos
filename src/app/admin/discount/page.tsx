@@ -83,8 +83,8 @@ const DiscountPage = () => {
   return (
     <Fragment>
       <HeaderPage
-        title="Halaman Kategori"
-        description="Kelola atribut product sebagai karakteristik atau fitur yang menggambarkan suatu produk"
+        title="Diskon"
+        description="Kelola Diskon yang digunakan untuk mengurangi harga barang pada toko"
       />
       <div className={styles.head}>
         <p>

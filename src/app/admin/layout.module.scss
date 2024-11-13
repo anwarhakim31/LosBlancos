@@ -10,9 +10,15 @@
     margin-left: 0;
     margin-top: 4rem;
     overflow: hidden;
+    transition: all 0.3s ease-in-out;
 
     @include media(lg) {
-      margin-left: 12.5rem;
+      &.minimize {
+        margin-left: 5rem;
+      }
+      &.maximize {
+        margin-left: 12.5rem;
+      }
       padding: 2rem;
     }
   }

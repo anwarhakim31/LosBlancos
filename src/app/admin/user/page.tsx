@@ -88,10 +88,7 @@ const KelolaUserPage = () => {
 
   return (
     <Fragment>
-      <HeaderPage
-        title="Halaman User"
-        description="Kelola data pelanggan anda"
-      />
+      <HeaderPage title="User" description="Kelola data pelanggan anda" />
 
       <div className={style.action}>
         <p>

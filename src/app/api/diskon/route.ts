@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    const token = verifyToken(req, ["admin"]);
+    const token = verifyToken(req, ["customer"]);
     const { searchParams } = req.nextUrl;
 
     const code = searchParams.get("code")?.toLowerCase();

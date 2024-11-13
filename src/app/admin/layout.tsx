@@ -8,6 +8,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const sidebarRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+  const [isMinimized, setIsMinimized] = useState<boolean>(false);
 
   const handleToggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -30,11 +31,36 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     };
   }, [isSidebarOpen]);
 
+  useEffect(() => {
+    const resize = () => {
+      if (window.innerWidth < 990) {
+        setIsMinimized(false);
+      }
+    };
+
+    window.addEventListener("resize", resize);
+
+    return () => {
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
+
   return (
     <main className={styles.admin}>
-      <Sidebar isSidebarOpen={isSidebarOpen} ref={sidebarRef} />
+      <Sidebar
+        isSidebarOpen={isSidebarOpen}
+        ref={sidebarRef}
+        isMinimized={isMinimized}
+        setIsMinimized={setIsMinimized}
+        setIsSidebarOpen={setIsSidebarOpen}
+      />
       <AdminHeader handleToggleSidebar={handleToggleSidebar} />
-      <section ref={sectionRef} className={styles.admin__content}>
+      <section
+        ref={sectionRef}
+        className={`${styles.admin__content} ${
+          styles[`${isMinimized ? "minimize" : "maximize"}`]
+        }`}
+      >
         {children}
       </section>
     </main>

@@ -10,11 +10,14 @@ import {
   Layers3,
   LayoutDashboard,
   LibraryBig,
+  ListCollapse,
+  ListMinus,
   MonitorCog,
   Package,
   ShoppingBag,
   Ticket,
   User,
+  X,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useMasterContext } from "@/context/MasterContext";
@@ -91,10 +94,21 @@ const sideList = [
 
 interface SidebarProps {
   isSidebarOpen: boolean;
+  isMinimized: boolean;
+  setIsMinimized: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
-  ({ isSidebarOpen }: SidebarProps, ref: ForwardedRef<HTMLDivElement>) => {
+  (
+    {
+      isSidebarOpen,
+      isMinimized,
+      setIsMinimized,
+      setIsSidebarOpen,
+    }: SidebarProps,
+    ref: ForwardedRef<HTMLDivElement>
+  ) => {
     const context = useMasterContext();
     const pathname = usePathname();
     const [selected, setSelected] = useState(
@@ -107,14 +121,17 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
           isSidebarOpen ? styles["sidebar__active"] : ""
         }`}
         ref={ref}
+        style={{
+          width: isMinimized ? "85px" : "190px",
+        }}
       >
         <div className={styles.sidebar__logo}>
           {context?.master.displayLogo ? (
             <Image
               src={context?.master.logo || "/default.png"}
               alt="logo"
-              width={100}
-              height={100}
+              width={isMinimized ? 50 : 65}
+              height={isMinimized ? 50 : 65}
               priority
             />
           ) : null}
@@ -126,7 +143,9 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
                 fontSize: "1.25rem",
               }}
             >
-              {context?.master.name}
+              {isMinimized
+                ? context?.master.name?.charAt(0)
+                : context?.master.displayName}
             </p>
           ) : null}
         </div>
@@ -134,9 +153,7 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
           {sideList.map((item) => (
             <Fragment key={item.id}>
               {item.link ? (
-                <Link
-                  href={item.link!}
-                  scroll={false}
+                <div
                   className={`${styles.sidebar__primaryList__item} ${
                     pathname.startsWith(item.link!) &&
                     styles["sidebar__primaryList__item__active"]
@@ -146,41 +163,90 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
                     setSelected("");
                   }}
                 >
-                  <span className={styles.sidebar__primaryList__item__icon}>
-                    {item.icon}
-                  </span>
-                  <span className={styles.sidebar__primaryList__item__name}>
-                    {item.name}
-                  </span>
-                </Link>
+                  <Link href={item.link!} scroll={false}>
+                    <span className={styles.sidebar__primaryList__item__icon}>
+                      {item.icon}
+                    </span>
+                    <span
+                      className={styles.sidebar__primaryList__item__name}
+                      style={{ display: isMinimized ? "none" : "block" }}
+                    >
+                      {item.name}
+                    </span>
+                  </Link>
+                  {isMinimized && (
+                    <div
+                      className={
+                        styles.sidebar__primaryList__item__dropdownhover
+                      }
+                    >
+                      <p style={{ padding: "0", border: "none" }}>
+                        {item.name}
+                      </p>
+                    </div>
+                  )}
+                </div>
               ) : (
-                <a
+                <div
                   className={`${styles.sidebar__primaryList__item}  ${
                     pathname.split("-").join(" ").split("/")[2] === item.name &&
                     styles["sidebar__primaryList__item__active"]
                   }`}
                   onClick={() => {
-                    selected === item.name
-                      ? setSelected("")
-                      : setSelected(item.name);
+                    !isMinimized
+                      ? selected === item.name
+                        ? setSelected("")
+                        : setSelected(item.name)
+                      : null;
                   }}
                 >
-                  <span className={styles.sidebar__primaryList__item__icon}>
-                    {item.icon}
-                  </span>
-                  <span className={styles.sidebar__primaryList__item__name}>
-                    {item.name}
-                  </span>
-                  <button
-                    className={`${styles.sidebar__primaryList__item__svg} `}
-                  >
-                    <ChevronDown
-                      className={selected === item.name ? styles["rotate"] : ""}
-                    />
-                  </button>
-                </a>
+                  <a>
+                    <span className={styles.sidebar__primaryList__item__icon}>
+                      {item.icon}
+                    </span>
+                    <span
+                      className={styles.sidebar__primaryList__item__name}
+                      style={{ display: isMinimized ? "none" : "block" }}
+                    >
+                      {item.name}
+                    </span>
+                    <button
+                      className={`${styles.sidebar__primaryList__item__svg} `}
+                      style={{ display: isMinimized ? "none" : "flex" }}
+                    >
+                      <ChevronDown
+                        className={
+                          selected === item.name ? styles["rotate"] : ""
+                        }
+                      />
+                    </button>
+                  </a>
+                  {isMinimized && (
+                    <div
+                      className={
+                        styles.sidebar__primaryList__item__dropdownhover
+                      }
+                    >
+                      <p>{item.name}</p>
+                      {item?.dropdown?.map((dropdownItem) => (
+                        <Link href={dropdownItem.link} key={dropdownItem.id}>
+                          <span
+                            className={`${styles.sidebar__dropdown__name} ${
+                              pathname === dropdownItem.link
+                                ? styles.active
+                                : ""
+                            }`}
+                          >
+                            {dropdownItem.name}
+                          </span>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
               )}
-              {item.dropdown && (
+
+              {!isMinimized && item.dropdown && (
                 <div
                   className={`${styles.sidebar__dropdown} ${
                     selected === item.name ? styles.show : ""
@@ -208,6 +274,22 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
             </Fragment>
           ))}
         </div>
+        <button
+          type="button"
+          className={styles.sidebar__minimize}
+          onClick={() => setIsMinimized(!isMinimized)}
+          aria-label="expanda sidebar"
+        >
+          {isMinimized ? <ListMinus /> : <ListCollapse />}
+        </button>
+
+        <button
+          type="button"
+          className={styles.sidebar__close}
+          onClick={() => setIsSidebarOpen(false)}
+        >
+          <X />
+        </button>
       </aside>
     );
   }

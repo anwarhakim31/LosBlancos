@@ -67,7 +67,7 @@ const ProductAdminPage = () => {
   ];
   return (
     <Fragment>
-      <HeaderPage title="Produk" description="Kelola data produk" />
+      <HeaderPage title="Produk" description="Kelola data produk " />
       <div className={styles.wrapper}>
         <p>
           Semua Product{" "}

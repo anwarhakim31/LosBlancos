@@ -36,6 +36,7 @@ const AdminHeader = ({ handleToggleSidebar }: PropsType) => {
           />
           <div className={styles.header__user__profile__detail}>
             <p>{session.data?.user?.name}</p>
+            <span>Administrator</span>
           </div>
         </Link>
 
