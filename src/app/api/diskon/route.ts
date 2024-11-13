@@ -6,14 +6,14 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    verifyToken(req, ["customer"]);
+    const token = verifyToken(req, ["admin"]);
     const { searchParams } = req.nextUrl;
 
     const code = searchParams.get("code")?.toLowerCase();
 
-    // if (token instanceof NextRequest) {
-    //   return token;
-    // }
+    if (token && token.constructor === NextRequest) {
+      return token;
+    }
 
     // if (token && typeof token === "object" && "id" in token) {
     //   const user = await User.findById({ _id: token.id });
