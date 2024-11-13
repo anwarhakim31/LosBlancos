@@ -48,18 +48,18 @@ export async function POST(req: NextRequest) {
   try {
     const { code, percent, info } = await req.json();
 
-    code.toLowerCase();
+    const codeLowerCase = code.toLowerCase();
 
     if (!code || !percent) {
       return ResponseError(400, "Semua kolom harus diisi");
     }
-    const isExis = await Diskon.findOne({ code });
+    const isExis = await Diskon.findOne({ code: codeLowerCase });
 
     if (isExis) {
       return ResponseError(400, "Diskon dengan kode ini sudah ada");
     }
 
-    const diskon = new Diskon({ code, percent, info });
+    const diskon = new Diskon({ code: codeLowerCase, percent, info });
 
     await diskon.save();
 

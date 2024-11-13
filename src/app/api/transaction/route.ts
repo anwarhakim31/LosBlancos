@@ -8,6 +8,7 @@ import { verifyTokenMember } from "@/lib/verify-token";
 import { itemCartType } from "@/services/type.module";
 import Diskon from "@/lib/models/diskon-model";
 import Ewallet from "@/lib/models/ewallet-model";
+import User from "@/lib/models/user-model";
 
 export async function POST(req: NextRequest) {
   try {
@@ -93,6 +94,12 @@ export async function POST(req: NextRequest) {
         {
           upsert: true,
         }
+      );
+
+      await User.findByIdAndUpdate(
+        { _id: userId },
+        { $addToSet: { diskon: discount.code } },
+        { new: true, upsert: true }
       );
     } else {
       await Transaction.findByIdAndUpdate(

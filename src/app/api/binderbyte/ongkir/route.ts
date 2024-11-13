@@ -37,8 +37,6 @@ export async function GET(req: NextRequest) {
     const desCity = params.get("desCity") || "";
     const transactionId = params.get("transactionId");
 
-    console.log(cityFilter(desCity));
-
     const key = process.env.RAJAONGKIR_KEY as string;
 
     const transaction = await Transaction.findById(transactionId).populate({

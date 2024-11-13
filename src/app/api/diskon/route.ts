@@ -1,12 +1,27 @@
 import Diskon from "@/lib/models/diskon-model";
+// import User from "@/lib/models/user-model";
 import { ResponseError } from "@/lib/response-error";
+import { verifyToken } from "@/lib/verify-token";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
+    verifyToken(req, ["customer"]);
     const { searchParams } = req.nextUrl;
 
     const code = searchParams.get("code")?.toLowerCase();
+
+    // if (token instanceof NextRequest) {
+    //   return token;
+    // }
+
+    // if (token && typeof token === "object" && "id" in token) {
+    //   const user = await User.findById({ _id: token.id });
+
+    //   if (code && user.diskon.includes(code)) {
+    //     return ResponseError(400, "Kode diskon sudah digunakan");
+    //   }
+    // }
 
     const diskon = await Diskon.findOne({ code });
 

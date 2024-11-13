@@ -99,12 +99,12 @@ const CartPage = () => {
 
   const handleApplyDiscount = async () => {
     if (code) {
-      setError("");
       try {
         const res = await diskonService.apply(code);
 
         if (res.status === 200) {
           setDiscount(res.data.discount);
+          setError("");
         }
       } catch (error) {
         if (error instanceof AxiosError && error.response?.data) {
@@ -113,8 +113,6 @@ const CartPage = () => {
       }
     }
   };
-
-  console.log(code);
 
   return (
     <Fragment>

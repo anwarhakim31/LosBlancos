@@ -28,7 +28,7 @@ const ModalCancelPayment = ({
       if (res.status === 200) {
         toast.success("Transaksi berhasil dibatalkan, mohon tunggu");
         onClose();
-        replace("/");
+        replace("/pesanan?status=dibatalkan");
       }
     } catch (error) {
       ResponseError(error);

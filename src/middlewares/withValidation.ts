@@ -16,12 +16,32 @@ const getTransaction = async (id: string) => {
 };
 
 const failed = ["kadaluwarsa", "ditolak", "dibatalkan"];
+const row = [8, 16, 24];
 
 export default function withValidation(middleware: NextMiddleware) {
   return async (req: NextRequest, ev: NextFetchEvent) => {
     const pathname = req.nextUrl.pathname;
 
     const id = pathname.split("/")[2];
+
+    if (pathname.startsWith("/admin/")) {
+      const searchParams = req.nextUrl.searchParams;
+
+      const page = searchParams.get("page");
+      const limit = searchParams.get("limit");
+
+      if (page && parseInt(page) < 1) {
+        return NextResponse.redirect(
+          new URL(`${req.nextUrl.pathname}?page=1`, req.url)
+        );
+      }
+
+      if (limit && !row.includes(parseInt(limit))) {
+        return NextResponse.redirect(
+          new URL(`${req.nextUrl.pathname}?limit=8`, req.url)
+        );
+      }
+    }
 
     if (pathname.startsWith("/checkout/") || pathname === "checkout") {
       const data = await getTransaction(id);

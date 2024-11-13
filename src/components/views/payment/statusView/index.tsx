@@ -114,9 +114,7 @@ const StatusView = ({
                     <div className={styles.transaction__order__item__detail}>
                       <div>
                         <h3>{item.productId.name}</h3>
-                        <p>
-                          {item.atribute} {item.atributeValue}
-                        </p>
+                        <p>{item.atributeValue}</p>
                       </div>
                       <div
                         className={
