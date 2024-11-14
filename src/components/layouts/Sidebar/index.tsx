@@ -7,6 +7,7 @@ import Link from "next/link";
 import {
   AlignHorizontalSpaceAround,
   ChevronDown,
+  ChevronLeft,
   Layers3,
   LayoutDashboard,
   LibraryBig,
@@ -17,7 +18,6 @@ import {
   ShoppingBag,
   Ticket,
   User,
-  X,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useMasterContext } from "@/context/MasterContext";
@@ -180,9 +180,9 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
                         styles.sidebar__primaryList__item__dropdownhover
                       }
                     >
-                      <p style={{ padding: "0", border: "none" }}>
-                        {item.name}
-                      </p>
+                      <Link href={item.link!}>
+                        <span>{item.name}</span>
+                      </Link>
                     </div>
                   )}
                 </div>
@@ -288,7 +288,7 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
           className={styles.sidebar__close}
           onClick={() => setIsSidebarOpen(false)}
         >
-          <X />
+          <ChevronLeft />
         </button>
       </aside>
     );
