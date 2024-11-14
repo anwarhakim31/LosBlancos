@@ -5,11 +5,11 @@ const statisticSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  produk: {
+  product: {
     type: Number,
     required: true,
   },
-  transaksi: {
+  transaction: {
     type: Number,
     required: true,
   },

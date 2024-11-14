@@ -12,6 +12,8 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { transaction_status } = body;
 
+    console.log(transaction_status);
+
     const transaction = await Transaction.findOne({ invoice: body.order_id });
 
     if (!transaction) {
@@ -80,9 +82,12 @@ export async function POST(req: NextRequest) {
         {},
         {
           $inc: {
-            produk: transaction.items.quantity,
-            transaksi: 1,
-            income: transaction.total,
+            product: transaction.items.reduce(
+              (acc: number, item: { quantity: number }) => acc + item.quantity,
+              0
+            ),
+            transaction: 1,
+            income: transaction.subtotal + 1000 - transaction.diskon,
           },
         },
         {
