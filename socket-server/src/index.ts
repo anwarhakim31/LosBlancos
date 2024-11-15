@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const origin = process.env.ORIGIN || "http://localhost:3000";
-const mongo_url = process.env.DB_URL;
+const MONGO_URL = process.env.MONGODB_URL;
 const PORT = process.env.PORT || 4000;
 
 const app = express();
@@ -24,7 +24,7 @@ const io = new Socket(server, {
 
 const connectDB = async () => {
   try {
-    mongoose.connect(mongo_url as string, {
+    mongoose.connect(MONGO_URL as string, {
       dbName: "LosBlancos",
     });
 
@@ -46,24 +46,26 @@ const Statistic = mongoose.model(
 );
 
 const Transaction = mongoose.model("Transaction", new mongoose.Schema({}));
+const Products = mongoose.model("Product", new mongoose.Schema({}));
 
 const getRevenueData = async () => {
   const now = new Date();
   const startYear = now.getFullYear();
   const monthInterval = 1;
   const revenueData = [];
-
   for (let year = startYear; year <= now.getFullYear(); year++) {
     for (let month = 0; month < 12; month += monthInterval) {
       const firstDayOfMonth = new Date(year, month, 1);
       const lastDayOfMonth = new Date(year, month + monthInterval, 0);
-
       const aggregate = [
         {
           $match: {
             paymentStatus: "dibayar",
             transactionDate: { $gte: firstDayOfMonth, $lt: lastDayOfMonth },
           },
+        },
+        {
+          $unwind: "$items",
         },
         {
           $group: {
@@ -76,27 +78,12 @@ const getRevenueData = async () => {
             totalTransaction: {
               $sum: 1,
             },
-          },
-        },
-        {
-          $unwind: "$items",
-        },
-        {
-          $group: {
-            _id: null,
-            totalIncome: {
-              $sum: "$items.price",
-            },
-            totalTransaction: {
-              $sum: 1,
-            },
             totalProduct: {
               $sum: "$items.quantity",
             },
           },
         },
       ];
-
       const totalRevenue = await Transaction.aggregate(aggregate);
 
       revenueData.push({
@@ -107,8 +94,12 @@ const getRevenueData = async () => {
       });
     }
   }
-
   return revenueData;
+};
+
+const getBestSaller = async () => {
+  const bestSaller = await Products.find().sort({ sold: -1 }).limit(3);
+  return bestSaller;
 };
 
 const statistik = async () => {
@@ -121,7 +112,7 @@ const statistik = async () => {
       totalIncome: statisticDB?.income || 0,
       totalProduct: statisticDB?.product || 0,
       totalTransaction: statisticDB?.transaction || 0,
-
+      bestSaller: await getBestSaller(),
       revenueData: await getRevenueData(),
     });
   } catch (error) {
