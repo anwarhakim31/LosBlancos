@@ -192,12 +192,16 @@ app.post("/", (req: Request, res: Response) => {
 app.post("/api/notification", (req: Request, res: Response) => {
   const { order_id, transaction_status, otherData } = req.body;
 
-  if (transaction_status === "settlement") {
-    io.emit("notification", {
-      orderId: order_id,
-      details: otherData,
-    });
-  }
+  console.log({
+    order_id,
+    transaction_status,
+    otherData,
+  });
+
+  io.emit("notification", {
+    orderId: order_id,
+    details: otherData,
+  });
 
   res.status(200).json({ message: "Order received" });
 });
