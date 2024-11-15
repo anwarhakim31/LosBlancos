@@ -190,13 +190,14 @@ app.post("/", (req: Request, res: Response) => {
 });
 
 app.post("/api/notification", (req: Request, res: Response) => {
-  const { order_id, transaction_status, ...otherData } = req.body;
+  const { order_id, transaction_status, otherData } = req.body;
 
   if (transaction_status === "settlement") {
     io.emit("notification", {
       orderId: order_id,
       status: "settlement",
       details: otherData,
+      body: req.body,
     });
   }
 
