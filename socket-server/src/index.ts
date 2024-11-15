@@ -195,9 +195,7 @@ app.post("/api/notification", (req: Request, res: Response) => {
   if (transaction_status === "settlement") {
     io.emit("notification", {
       orderId: order_id,
-      status: "settlement",
       details: otherData,
-      body: req.body,
     });
   }
 
