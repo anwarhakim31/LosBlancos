@@ -1,9 +1,10 @@
 .tooltip {
   background: $white;
   border-radius: 0.4rem;
+
   padding: 0.5rem;
   box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.15);
-  width: 100px;
+  width: 150px;
 
   h5 {
     font-size: 0.75rem;
@@ -22,14 +23,66 @@
     margin-bottom: 0.5rem;
 
     p {
-      font-size: 0.75rem;
+      font-size: 0.6125rem;
       font-weight: 400;
       color: $gray-500;
     }
 
     span {
-      font-size: 0.75rem;
+      font-size: 0.6125rem;
       font-weight: 500;
     }
+  }
+}
+
+.loadingWrapper {
+  width: 100%;
+  padding: 0 1.5rem;
+  height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid $gray-300;
+
+  .list {
+    height: 100%;
+    width: 25%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 0.5rem;
+
+    .block_loader {
+      width: 10%;
+
+      background: $neutral;
+      border-radius: 0.25rem;
+
+      &:nth-child(1) {
+        height: 150px;
+      }
+      &:nth-child(2) {
+        height: 100px;
+      }
+
+      &:nth-child(3) {
+        height: 120px;
+      }
+
+      animation: loader 1s ease-in-out infinite;
+    }
+  }
+}
+
+@keyframes loader {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.75;
+  }
+
+  100% {
+    opacity: 1;
   }
 }

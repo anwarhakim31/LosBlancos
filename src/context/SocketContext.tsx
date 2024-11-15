@@ -1,5 +1,6 @@
 "use client";
 
+import { TypeProduct } from "@/services/type.module";
 import { useSession } from "next-auth/react";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
@@ -19,6 +20,7 @@ interface SocketContextProps {
     transaction: number;
     product: number;
   }[];
+  bestSeller: TypeProduct[];
 }
 
 const SocketContext = createContext<SocketContextProps | null>(null);
@@ -35,6 +37,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     totalTransaction: 0,
   });
   const [reveneuData, setReveneuData] = useState([]);
+  const [bestSeller, setBestSeller] = useState([]);
 
   const session = useSession();
 
@@ -58,8 +61,8 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
             totalTransaction: data.totalTransaction,
           });
 
-          console.log(data);
           setReveneuData(data.revenueData);
+          setBestSeller(data.bestSaller);
         });
 
       return () => {
@@ -70,7 +73,13 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <SocketContext.Provider
-      value={{ socket: socket.current, userOnline, statistik, reveneuData }}
+      value={{
+        socket: socket.current,
+        userOnline,
+        statistik,
+        reveneuData,
+        bestSeller,
+      }}
     >
       {children}
     </SocketContext.Provider>

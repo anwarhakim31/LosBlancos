@@ -1,82 +1,58 @@
-.areachart {
-  width: 100%;
-  min-height: 347px;
-  margin-top: 2rem;
-  padding: 1.5rem;
-  background: $white;
-  box-shadow: 0 0.1rem 0.1rem rgba(0, 0, 0, 0.15);
-  border-radius: 0.4rem;
-
-  &__title {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    border-bottom: 1px solid $gray-300;
-    padding-bottom: 1rem;
-
-    svg {
-      width: 1rem;
-      height: 1rem;
-      stroke-width: 1.5;
-      color: $primary;
-    }
-
-    h3 {
-      font-size: 0.8125rem;
-      font-weight: 400;
-      color: $gray-700;
-    }
-  }
-}
-
-.loadingWrapper {
-  width: 100%;
-  padding: 0 1.5rem;
-  height: 240px;
+.titlechart {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 0.5rem;
   border-bottom: 1px solid $gray-300;
+  padding-bottom: 1rem;
 
-  .list {
-    height: 100%;
-    width: 25%;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    gap: 0.5rem;
+  svg {
+    width: 1rem;
+    height: 1rem;
+    stroke-width: 1.5;
+    color: $primary;
+  }
 
-    .block_loader {
-      width: 10%;
-
-      background: $neutral;
-      border-radius: 0.25rem;
-
-      &:nth-child(1) {
-        height: 150px;
-      }
-      &:nth-child(2) {
-        height: 100px;
-      }
-
-      &:nth-child(3) {
-        height: 120px;
-      }
-
-      animation: loader 1s ease-in-out infinite;
-    }
+  h3 {
+    font-size: 0.8125rem;
+    font-weight: 400;
+    color: $gray-500;
   }
 }
 
-@keyframes loader {
-  0% {
-    opacity: 0.5;
-  }
-  50% {
-    opacity: 0.75;
-  }
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
 
-  100% {
-    opacity: 1;
+  min-height: 390px;
+
+  .barchart {
+    grid-column: span 4 / span 4;
+
+    @include media(xl) {
+      grid-column: span 3 / span 3;
+    }
+
+    padding: 1.5rem;
+    background: $white;
+    box-shadow: 0 0.1rem 0.1rem rgba(0, 0, 0, 0.15);
+    border-radius: 0.4rem;
+  }
+}
+
+.wrapper2 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+
+  height: 347px;
+  margin-top: 2rem;
+
+  &__list {
+    padding: 1.5rem;
+    background: $white;
+    box-shadow: 0 0.1rem 0.1rem rgba(0, 0, 0, 0.15);
+    border-radius: 0.4rem;
   }
 }

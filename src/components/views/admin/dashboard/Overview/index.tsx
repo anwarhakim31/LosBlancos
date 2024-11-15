@@ -18,20 +18,23 @@ const OverviewView: React.FC = () => {
     <div className={styles.overview}>
       <div className={styles.overview__boxes}>
         <div className={styles.overview__boxes__context}>
-          <p>Total Pendapatan</p>
-          <h1>
-            {loading ? (
-              <div className={styles.loader}></div>
-            ) : (
+          <p>Transaksi Dibayar</p>
+          {loading ? (
+            <div className={styles.loader}></div>
+          ) : (
+            <h1>
+              {" "}
               <AnimateCounter
-                value={socket?.statistik?.totalIncome || 0}
-                type="currency"
+                value={socket?.statistik.totalTransaction || 0}
+                type="number"
               />
-            )}
-          </h1>
+            </h1>
+          )}
         </div>
-        <div className={`${styles.overview__boxes__icon} ${styles.income}`}>
-          <Wallet />
+        <div
+          className={`${styles.overview__boxes__icon} ${styles.transaction}`}
+        >
+          <ArrowRightLeft />
         </div>
       </div>
       <div className={styles.overview__boxes}>
@@ -52,25 +55,23 @@ const OverviewView: React.FC = () => {
           <Boxes />
         </div>
       </div>
+
       <div className={styles.overview__boxes}>
         <div className={styles.overview__boxes__context}>
-          <p>Transaksi Dibayar</p>
-          {loading ? (
-            <div className={styles.loader}></div>
-          ) : (
-            <h1>
-              {" "}
+          <p>Total Pendapatan</p>
+          <h1>
+            {loading ? (
+              <div className={styles.loader}></div>
+            ) : (
               <AnimateCounter
-                value={socket?.statistik.totalTransaction || 0}
-                type="number"
+                value={socket?.statistik?.totalIncome || 0}
+                type="currency"
               />
-            </h1>
-          )}
+            )}
+          </h1>
         </div>
-        <div
-          className={`${styles.overview__boxes__icon} ${styles.transaction}`}
-        >
-          <ArrowRightLeft />
+        <div className={`${styles.overview__boxes__icon} ${styles.income}`}>
+          <Wallet />
         </div>
       </div>
       <div className={styles.overview__boxes}>
