@@ -75,7 +75,7 @@ const payment = [
   {
     id: 9,
     name: "qris",
-    image: "/payment/QRIS.png",
+    image: "/payment/qris.png",
   },
 ];
 

@@ -1,60 +1,49 @@
 "use client";
 
 import HeaderPage from "@/components/element/HeaderPage";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import styles from "./dashboard.module.scss";
-import { ArrowRightLeft, Boxes, Users2, Wallet } from "lucide-react";
+
 import { useSocket } from "@/context/SocketContext";
-import { formatCurrency } from "@/utils/contant";
+
+import BarChartComponent from "@/components/element/BarChart";
+import { ChartArea } from "lucide-react";
+import OverviewView from "@/components/views/admin/dashboard/Overview";
 
 const DashboardPage = () => {
   const socket = useSocket();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (socket?.socket) {
+      setLoading(false);
+    }
+  }, [socket]);
 
   return (
     <Fragment>
       <HeaderPage title="Dashboard" description="" />
-      <div className={styles.overview}>
-        <div className={styles.overview__boxes}>
-          <div className={styles.overview__boxes__context}>
-            <p>Pendapatan</p>
-            <h1>{formatCurrency(0)}</h1>
-            <span>Perbulan</span>
-          </div>
-          <div className={`${styles.overview__boxes__icon} ${styles.income}`}>
-            <Wallet />
-          </div>
+      <OverviewView />
+      <div className={styles.areachart}>
+        <div className={styles.areachart__title}>
+          <ChartArea />
+          <h3>Grafik Penjualan Perbulan</h3>
         </div>
-        <div className={styles.overview__boxes}>
-          <div className={styles.overview__boxes__context}>
-            <p>Produk Terjual</p>
-            <h1>0</h1>
-            <span> </span>
+        {loading && (
+          <div className={styles.loadingWrapper}>
+            {Array.from({ length: 5 }).map((_, index) => (
+              <div className={styles.list} key={index}>
+                <div className={styles.block_loader}></div>
+                <div className={styles.block_loader}></div>
+                <div className={styles.block_loader}></div>
+              </div>
+            ))}
           </div>
-          <div className={`${styles.overview__boxes__icon} ${styles.product}`}>
-            <Boxes />
-          </div>
-        </div>
-        <div className={styles.overview__boxes}>
-          <div className={styles.overview__boxes__context}>
-            <p>Transaksi Dibayar</p>
-            <h1>0</h1>
-          </div>
-          <div
-            className={`${styles.overview__boxes__icon} ${styles.transaction}`}
-          >
-            <ArrowRightLeft />
-          </div>
-        </div>
-        <div className={styles.overview__boxes}>
-          <div className={styles.overview__boxes__context}>
-            <p>Pelanggan Online</p>
-            <h1>{socket?.userOnline?.length}</h1>
-            <span>Total 100</span>
-          </div>
-          <div className={`${styles.overview__boxes__icon} ${styles.user}`}>
-            <Users2 />
-          </div>
-        </div>
+        )}
+
+        {!loading && (
+          <BarChartComponent revenueData={socket?.reveneuData || []} />
+        )}
       </div>
     </Fragment>
   );
