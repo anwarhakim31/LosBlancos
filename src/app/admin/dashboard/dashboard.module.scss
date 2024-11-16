@@ -43,10 +43,16 @@
 
 .wrapper2 {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  @include media(md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include media(xl) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
   gap: 1rem;
 
-  height: 347px;
   margin-top: 2rem;
 
   &__list {

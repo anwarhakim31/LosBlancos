@@ -7,11 +7,17 @@ import styles from "./dashboard.module.scss";
 // import { useSocket } from "@/context/SocketContext";
 
 import BarChartComponent from "@/components/views/admin/dashboard/BarChart";
-import { BarChart3Icon, BarChartHorizontalBig, ChartPie } from "lucide-react";
+import {
+  BarChart3Icon,
+  BarChartHorizontalBig,
+  ChartPie,
+  LineChart,
+} from "lucide-react";
 import OverviewView from "@/components/views/admin/dashboard/Overview";
 import BestSellerView from "@/components/views/admin/dashboard/BestSaller";
 import SimplePieCart from "@/components/views/admin/dashboard/SimplePieCart";
 import BarChartHorizontal from "@/components/views/admin/dashboard/BarChartHorizontal";
+import LineChartComponent from "@/components/views/admin/dashboard/LineChart";
 
 const DashboardPage = () => {
   // const socket = useSocket();
@@ -29,10 +35,11 @@ const DashboardPage = () => {
 
           <BarChartComponent />
         </div>
-        <BestSellerView />
+        <BestSellerView style="top" />
       </div>
 
       <div className={styles.wrapper2}>
+        <BestSellerView />
         <div className={styles.wrapper2__list}>
           <div className={styles.titlechart}>
             <ChartPie />
@@ -42,12 +49,18 @@ const DashboardPage = () => {
         </div>
         <div className={styles.wrapper2__list}>
           <div className={styles.titlechart}>
+            <LineChart />
+            <h3>Grafik Pendaftaran User</h3>
+          </div>
+          <LineChartComponent />
+        </div>
+        <div className={styles.wrapper2__list}>
+          <div className={styles.titlechart}>
             <BarChartHorizontalBig />
             <h3>Grafik Rating Produk</h3>
           </div>
           <BarChartHorizontal />
         </div>
-        <div className={styles.wrapper2__list}></div>
       </div>
     </Fragment>
   );

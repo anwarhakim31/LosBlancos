@@ -5,11 +5,15 @@ import Image from "next/image";
 import { useSocket } from "@/context/SocketContext";
 import StarComp from "@/components/element/Star";
 
-const BestSellerView = () => {
+const BestSellerView = ({ style }: { style?: string }) => {
   const socket = useSocket();
 
   return (
-    <div className={`${styles.bestsaller} ${styles.top}`}>
+    <div
+      className={`${styles.bestsaller} ${
+        style === "top" ? styles.top : styles.bottom
+      }`}
+    >
       <div className={styles.titlechart}>
         <ArrowsUpFromLine />
         <h3>Produk Terlaris</h3>
@@ -24,6 +28,7 @@ const BestSellerView = () => {
                   alt={item?.name}
                   width={500}
                   height={500}
+                  priority
                 />
               </figure>
               <div>

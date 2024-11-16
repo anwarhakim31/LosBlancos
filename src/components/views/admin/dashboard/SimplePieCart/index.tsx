@@ -33,12 +33,29 @@ const SimplePieCart = () => {
   const socket = useSocket();
 
   if (socket?.loading) {
-    return <div className={styles.loader}></div>;
+    return (
+      <div className={styles.loader}>
+        <div className={styles.rounded}></div>
+      </div>
+    );
+  }
+  if (socket?.reveneuData && socket?.bestCollection.length === 0) {
+    <div
+      style={{
+        width: "100%",
+        height: "250px",
+        justifyContent: "center",
+        alignItems: "center",
+        display: "flex",
+      }}
+    >
+      <p>Belum ada data</p>
+    </div>;
   }
 
   return (
     <ResponsiveContainer width="100%" height={250} style={{ margin: "auto" }}>
-      <PieChart width={300} height={300}>
+      <PieChart width={300} height={300} accessibilityLayer={false}>
         <Pie
           data={socket?.bestCollection || []}
           dataKey="total"

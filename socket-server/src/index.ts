@@ -143,6 +143,82 @@ const getBestCollection = async () => {
   return chartData;
 };
 
+const getRatingProduct = async () => {
+  const ranges = [
+    { id: 0, range: "0–0.5" },
+    { id: 0.5, range: "0.5–1" },
+    { id: 1, range: "1–1.5" },
+    { id: 1.5, range: "1.5–2" },
+    { id: 2, range: "2–2.5" },
+    { id: 2.5, range: "2.5–3" },
+    { id: 3, range: "3–3.5" },
+    { id: 3.5, range: "3.5–4" },
+    { id: 4, range: "4–4.5" },
+    { id: 4.5, range: "4.5–5" },
+  ];
+
+  const rating = await Products.aggregate([
+    {
+      $bucket: {
+        groupBy: "$averageRating",
+        boundaries: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5],
+        default: "Lainnya",
+        output: {
+          total: { $sum: 1 },
+        },
+      },
+    },
+    {
+      $addFields: {
+        range: {
+          $switch: {
+            branches: ranges.map(({ id, range }) => ({
+              case: { $eq: ["$_id", id] },
+              then: range,
+            })),
+            default: "Lainnya",
+          },
+        },
+      },
+    },
+    {
+      $project: { _id: 0, range: 1, total: 1 },
+    },
+  ]);
+
+  const result = ranges.map(({ range }) => {
+    const match = rating.find((r) => r.range === range);
+    return { range, total: match ? match.total : 0 };
+  });
+
+  return result;
+};
+
+const userGrowth = async () => {
+  const userGrowth = await User.aggregate([
+    {
+      $match: { role: "customer" },
+    },
+    {
+      $group: {
+        _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+        count: { $sum: 1 },
+      },
+    },
+    { $sort: { _id: 1 } },
+    {
+      $project: {
+        date: "$_id",
+        count: 1,
+        _id: 0,
+      },
+    },
+    { $limit: 4 },
+  ]);
+
+  return userGrowth;
+};
+
 const statistik = async () => {
   try {
     const totaUser = await User.countDocuments({ role: "customer" });
@@ -156,6 +232,8 @@ const statistik = async () => {
       bestSaller: await getBestSaller(),
       revenueData: await getRevenueData(),
       bestCollection: await getBestCollection(),
+      ratingProduct: await getRatingProduct(),
+      userGrowth: await userGrowth(),
     });
   } catch (error) {
     console.log(error);
@@ -194,20 +272,17 @@ app.post("/api/notification", async (req: Request, res: Response) => {
   const totaUser = await User.countDocuments({ role: "customer" });
   const { order_id } = req.body;
 
-  console.log(order_id, totaUser, statisticDB);
-
-  io.emit("statistik", {
-    totalUser: totaUser || 0,
-    totalIncome: statisticDB?.income || 0,
-    totalProduct: statisticDB?.product || 0,
-    totalTransaction: statisticDB?.transaction || 0,
-    bestSaller: await getBestSaller(),
-    revenueData: await getRevenueData(),
-    bestCollection: await getBestCollection(),
-  });
-
   io.emit("notification", {
     orderId: order_id,
+    statistic: {
+      totalUser: totaUser || 0,
+      totalIncome: statisticDB?.income || 0,
+      totalProduct: statisticDB?.product || 0,
+      totalTransaction: statisticDB?.transaction || 0,
+      bestSaller: await getBestSaller(),
+      revenueData: await getRevenueData(),
+      bestCollection: await getBestCollection(),
+    },
   });
 
   res.status(200).json({ message: "Order received" });

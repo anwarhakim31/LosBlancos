@@ -68,7 +68,9 @@ const FilterStatus = () => {
                     searchParam.set("status-payment", value);
                   }
 
-                  router.replace(`${pathname}?${searchParam.toString()}`);
+                  router.replace(`${pathname}?${searchParam.toString()}`, {
+                    scroll: false,
+                  });
                 },
               }}
             />
@@ -99,7 +101,9 @@ const FilterStatus = () => {
                     searchParam.set("status-transaction", value);
                   }
 
-                  router.replace(`${pathname}?${searchParam.toString()}`);
+                  router.replace(`${pathname}?${searchParam.toString()}`, {
+                    scroll: false,
+                  });
                 },
               }}
             />
@@ -130,7 +134,9 @@ const FilterStatus = () => {
                     searchParam.set("date", value);
                   }
 
-                  router.replace(`${pathname}?${searchParam.toString()}`);
+                  router.replace(`${pathname}?${searchParam.toString()}`, {
+                    scroll: false,
+                  });
                 },
               }}
             />

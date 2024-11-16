@@ -51,7 +51,9 @@ const FilterSort = () => {
                 } else {
                   params.set("sort", "total-asc");
                 }
-                router.replace(`${pathname}?${params.toString()}`);
+                router.replace(`${pathname}?${params.toString()}`, {
+                  scroll: false,
+                });
               }}
               id="total-asc"
             />
@@ -68,7 +70,9 @@ const FilterSort = () => {
                 } else {
                   params.set("sort", "total-desc");
                 }
-                router.replace(`${pathname}?${params.toString()}`);
+                router.replace(`${pathname}?${params.toString()}`, {
+                  scroll: false,
+                });
               }}
               id="total-desc"
             />

@@ -13,6 +13,13 @@
     }
   }
 
+  &.bottom {
+    display: block;
+    @include media(xl) {
+      display: none;
+    }
+  }
+
   &__skeletonList {
     display: flex;
     margin-block: 1rem;
@@ -20,8 +27,8 @@
     padding: 0.5rem 0;
 
     .img {
-      width: 65px;
-      height: 65px;
+      width: 60px;
+      height: 60px;
       overflow: hidden;
       border-radius: 0.25rem;
       background: $neutral;

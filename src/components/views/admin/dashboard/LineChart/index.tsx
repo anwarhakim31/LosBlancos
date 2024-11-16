@@ -1,9 +1,9 @@
 import { useSocket } from "@/context/SocketContext";
 import React from "react";
 import {
-  Bar,
-  BarChart,
   ResponsiveContainer,
+  LineChart,
+  Line,
   Tooltip,
   XAxis,
   YAxis,
@@ -12,7 +12,7 @@ import styles from "./chart.module.scss";
 
 interface PayloadItem {
   payload: {
-    range: string;
+    date: string;
   };
   collection: string;
   value: number;
@@ -29,7 +29,7 @@ const CustomTooltip = ({
     return (
       <div className={styles.tooltip}>
         <div className={styles.tooltip__list}>
-          <p>{payload[0].payload.range}</p>
+          <p>{payload[0].payload.date}</p>
           <span>{payload[0].value}</span>
         </div>
       </div>
@@ -37,29 +37,18 @@ const CustomTooltip = ({
   }
 };
 
-const BarChartHorizontal = () => {
+const LineChartComponent = () => {
   const socket = useSocket();
 
   if (socket?.loading) {
     return (
-      <div className={styles.loadingWrapper}>
-        <div
-          className={styles.loader}
-          style={{ width: "100%", height: "20px" }}
-        ></div>
-        <div
-          className={styles.loader}
-          style={{ width: "50%", height: "20px" }}
-        ></div>
-        <div
-          className={styles.loader}
-          style={{ width: "70%", height: "20px" }}
-        ></div>
+      <div className={styles.loader}>
+        <div className={styles.skeleton + " " + styles.skeleton_line1}></div>
       </div>
     );
   }
 
-  if (socket?.reveneuData && socket?.ratingProduct.length === 0) {
+  if (socket?.reveneuData && socket?.userGrowth.length === 0) {
     <div
       style={{
         width: "100%",
@@ -73,34 +62,42 @@ const BarChartHorizontal = () => {
     </div>;
   }
 
+  if (socket?.userGrowth.length === 0) {
+    return (
+      <div className={styles.empty}>
+        <p>There is no data to display</p>
+      </div>
+    );
+  }
+
   return (
     <ResponsiveContainer
       width="100%"
       height={270}
-      style={{ marginTop: "1rem" }}
+      style={{ marginTop: "1rem", maxWidth: "450px" }}
     >
-      <BarChart
-        data={socket?.ratingProduct || []}
-        layout="vertical"
-        barCategoryGap={"20%"}
-        barGap={5}
-      >
+      <LineChart data={socket?.userGrowth || []}>
         <YAxis
-          dataKey="range"
-          type="category"
+          dataKey="count"
           style={{ fontSize: "0.6125rem" }}
-          axisLine={false}
-          tickLine={false}
+          domain={["auto", "auto"]}
+          tickFormatter={(value: number) => Math.round(value).toString()}
         />
-        <XAxis type="number" dataKey="total" hide />
+        <XAxis dataKey="date" style={{ fontSize: "0.6125rem" }} />
         <Tooltip
           cursor={false}
           content={<CustomTooltip active={false} payload={[]} />}
         />
-        <Bar dataKey="total" barSize={20} radius={4} fill="#ffc658" />
-      </BarChart>
+        <Line
+          type="monotone"
+          dataKey="count"
+          stroke="#ffc658"
+          strokeWidth={2}
+          dot={false}
+        />
+      </LineChart>
     </ResponsiveContainer>
   );
 };
 
-export default BarChartHorizontal;
+export default LineChartComponent;

@@ -23,6 +23,11 @@ interface SocketContextProps {
   bestSeller: TypeProduct[];
   loading: boolean;
   bestCollection: TypeProduct[];
+  ratingProduct: { total: number; range: string }[];
+  userGrowth: {
+    date: string;
+    count: number;
+  }[];
 }
 
 const SocketContext = createContext<SocketContextProps | null>(null);
@@ -42,6 +47,8 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [bestSeller, setBestSeller] = useState([]);
   const [bestCollection, setBestCollection] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [ratingProduct, setRatingProduct] = useState([]);
+  const [userGrowth, setUserGrowth] = useState([]);
 
   const session = useSession();
 
@@ -69,10 +76,24 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
           setReveneuData(data.revenueData);
           setBestSeller(data.bestSaller);
           setBestCollection(data.bestCollection);
+          setRatingProduct(data.ratingProduct);
+          setUserGrowth(data.userGrowth);
         });
 
         socket?.current?.on("notification", (data) => {
-          console.log(data);
+          if (data.statistic) {
+            setStatistik({
+              totalUser: data.statistic.totalUser,
+              totalIncome: data.statistic.totalIncome,
+              totalProduct: data.statistic.totalProduct,
+              totalTransaction: data.statistic.totalTransaction,
+            });
+
+            setReveneuData(data.statistic.revenueData);
+            setBestSeller(data.statistic.bestSaller);
+            setBestCollection(data.statistic.bestCollection);
+            setUserGrowth(data.statistic.userGrowth);
+          }
         });
       }
 
@@ -92,6 +113,8 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         bestSeller,
         loading,
         bestCollection,
+        ratingProduct,
+        userGrowth,
       }}
     >
       {children}

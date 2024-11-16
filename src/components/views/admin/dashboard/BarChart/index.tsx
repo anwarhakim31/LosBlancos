@@ -81,7 +81,7 @@ const BarChartComponent = () => {
   return (
     <ResponsiveContainer
       width="100%"
-      height={250}
+      height={275}
       style={{ marginTop: "1rem" }}
     >
       <BarChart
@@ -91,11 +91,10 @@ const BarChartComponent = () => {
         <CartesianGrid strokeDasharray="0.1 0.1" />
         <XAxis
           dataKey="month"
-          interval="preserveStartEnd"
+          interval={2}
           textAnchor="end"
           style={{ fontSize: "0.6215rem" }}
         />
-
         <YAxis yAxisId="left" style={{ fontSize: "0.6215rem" }} />
         <YAxis
           yAxisId="right"
