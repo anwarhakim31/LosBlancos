@@ -13,6 +13,23 @@
     }
   }
 
+  &__skeletonList {
+    display: flex;
+    margin-block: 1rem;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+
+    .img {
+      width: 65px;
+      height: 65px;
+      overflow: hidden;
+      border-radius: 0.25rem;
+      background: $neutral;
+
+      @include shimmer();
+    }
+  }
+
   &__list {
     margin-block: 1rem;
     display: flex;
@@ -70,4 +87,11 @@
     font-weight: 400;
     color: $gray-500;
   }
+}
+
+.skeleton {
+  width: 100%;
+  background: $neutral;
+  border-radius: 0.25rem;
+  @include shimmer();
 }

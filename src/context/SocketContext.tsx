@@ -21,6 +21,8 @@ interface SocketContextProps {
     product: number;
   }[];
   bestSeller: TypeProduct[];
+  loading: boolean;
+  bestCollection: TypeProduct[];
 }
 
 const SocketContext = createContext<SocketContextProps | null>(null);
@@ -38,6 +40,8 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   });
   const [reveneuData, setReveneuData] = useState([]);
   const [bestSeller, setBestSeller] = useState([]);
+  const [bestCollection, setBestCollection] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const session = useSession();
 
@@ -54,6 +58,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
       if (session.data?.user?.role === "admin")
         socket?.current?.on("statistik", (data) => {
+          setLoading(false);
           setStatistik({
             totalUser: data.totalUser,
             totalIncome: data.totalIncome,
@@ -63,6 +68,12 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
           setReveneuData(data.revenueData);
           setBestSeller(data.bestSaller);
+          setBestCollection(data.bestCollection);
+        });
+
+      if (session.data?.user?.role === "admin")
+        socket?.current?.on("notification", (data) => {
+          console.log(data);
         });
 
       return () => {
@@ -79,6 +90,8 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         statistik,
         reveneuData,
         bestSeller,
+        loading,
+        bestCollection,
       }}
     >
       {children}

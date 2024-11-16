@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "./view.module.scss";
 import AnimateCounter from "@/components/element/AnimateCounter";
 import { ArrowRightLeft, Boxes, Users2, Wallet } from "lucide-react";
@@ -6,20 +6,13 @@ import { useSocket } from "@/context/SocketContext";
 
 const OverviewView: React.FC = () => {
   const socket = useSocket();
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (socket?.socket) {
-      setLoading(false);
-    }
-  }, [socket]);
 
   return (
     <div className={styles.overview}>
       <div className={styles.overview__boxes}>
         <div className={styles.overview__boxes__context}>
           <p>Transaksi Dibayar</p>
-          {loading ? (
+          {socket && socket.loading ? (
             <div className={styles.loader}></div>
           ) : (
             <h1>
@@ -40,7 +33,7 @@ const OverviewView: React.FC = () => {
       <div className={styles.overview__boxes}>
         <div className={styles.overview__boxes__context}>
           <p>Produk Terjual</p>
-          {loading ? (
+          {socket && socket.loading ? (
             <div className={styles.loader}></div>
           ) : (
             <h1>
@@ -60,7 +53,7 @@ const OverviewView: React.FC = () => {
         <div className={styles.overview__boxes__context}>
           <p>Total Pendapatan</p>
           <h1>
-            {loading ? (
+            {socket && socket.loading ? (
               <div className={styles.loader}></div>
             ) : (
               <AnimateCounter
@@ -77,7 +70,7 @@ const OverviewView: React.FC = () => {
       <div className={styles.overview__boxes}>
         <div className={styles.overview__boxes__context}>
           <p>Pelanggan Online</p>
-          {loading ? (
+          {socket && socket.loading ? (
             <div className={styles.loader}></div>
           ) : (
             <h1>
@@ -89,7 +82,7 @@ const OverviewView: React.FC = () => {
           )}
           <span>
             Total{" "}
-            {loading ? (
+            {socket && socket.loading ? (
               <p className={styles.smallLoader}></p>
             ) : (
               <AnimateCounter

@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import http from "http";
 import { Server as Socket } from "socket.io";
 import mongoose from "mongoose";
@@ -47,6 +47,12 @@ const Statistic = mongoose.model(
 
 const Transaction = mongoose.model("Transaction", new mongoose.Schema({}));
 const Products = mongoose.model("Product", new mongoose.Schema({}));
+const Collection = mongoose.model(
+  "Collection",
+  new mongoose.Schema({
+    name: String,
+  })
+);
 
 const getRevenueData = async () => {
   const now = new Date();
@@ -102,6 +108,41 @@ const getBestSaller = async () => {
   return bestSaller;
 };
 
+const getBestCollection = async () => {
+  const collection = await Collection.find();
+
+  if (!collection) {
+    return [];
+  }
+
+  const bestCollection = await Products.aggregate([
+    {
+      $match: {
+        collectionName: { $in: collection.map((c) => c._id) },
+      },
+    },
+    {
+      $group: {
+        _id: "$collectionName",
+        total: { $sum: 1 },
+      },
+    },
+    {
+      $sort: { total: -1 },
+    },
+  ]);
+
+  const chartData = collection.map((c, i) => ({
+    collection: c.name,
+    total:
+      bestCollection.find((b) => b._id.toString() === c._id.toString())
+        ?.total || 0,
+    fill: getColor(i),
+  }));
+
+  return chartData;
+};
+
 const statistik = async () => {
   try {
     const totaUser = await User.countDocuments({ role: "customer" });
@@ -114,6 +155,7 @@ const statistik = async () => {
       totalTransaction: statisticDB?.transaction || 0,
       bestSaller: await getBestSaller(),
       revenueData: await getRevenueData(),
+      bestCollection: await getBestCollection(),
     });
   } catch (error) {
     console.log(error);
@@ -141,11 +183,54 @@ io.on("connection", async (socket) => {
   });
 });
 
+app.use(express.json());
+
+app.post("/", (req: Request, res: Response) => {
+  res.send("Hello World");
+});
+
+app.post("/api/notification", (req: Request, res: Response) => {
+  const { order_id, transaction_status, ...otherData } = req.body;
+
+  if (transaction_status === "settlement") {
+    io.emit("notification", {
+      orderId: order_id,
+      status: "settlement",
+      details: otherData,
+    });
+  }
+
+  res.status(200).json({ message: "Order received" });
+});
+
+app.get("/api/notification", (req: Request, res: Response) => {
+  res.status(200).json({ message: "true" });
+});
+
 server.listen(PORT, () => {
   connectDB();
   console.log(`Server running on http://localhost:${PORT}`);
 });
 
-app.use("/", (req, res) => {
-  res.send("Hello World!");
-});
+const getColor = (index: number) => {
+  switch (index) {
+    case 0:
+      return "#12a7e3"; // Light blue
+    case 1:
+      return "#FFEB3B"; // Light Yellow
+    case 2:
+      return "#8BC34A"; // Light Green
+    case 3:
+      return "#00BCD4"; // Light Cyan
+    case 4:
+      return "#FF9800"; // Light Orange
+    case 5:
+      return "#9C27B0"; // Light Purple
+    case 6:
+      return "#FF5722"; // Light Red-Orange
+    case 7:
+      return "#00FF7F"; // Light Spring Green
+    default:
+      return "#000000"; // Default black
+  }
+};

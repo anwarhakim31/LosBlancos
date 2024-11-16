@@ -12,7 +12,9 @@ import {
   XAxis,
   Tooltip,
   YAxis,
+  Legend,
 } from "recharts";
+import { useSocket } from "@/context/SocketContext";
 
 const CustomTooltip = ({
   active,
@@ -44,19 +46,10 @@ const CustomTooltip = ({
   }
 };
 
-const BarChartComponent = ({
-  revenueData,
-  loading,
-}: {
-  revenueData: {
-    month: string;
-    income: number;
-    transaction: number;
-    product: number;
-  }[];
-  loading: boolean;
-}) => {
-  if (loading) {
+const BarChartComponent = () => {
+  const socket = useSocket();
+
+  if (socket?.loading) {
     return (
       <div className={styles.loadingWrapper}>
         {Array.from({ length: 5 }).map((_, index) => (
@@ -71,7 +64,7 @@ const BarChartComponent = ({
     );
   }
 
-  if (revenueData.length === 0) {
+  if (socket?.reveneuData && socket?.reveneuData.length === 0) {
     <div
       style={{
         width: "100%",
@@ -80,8 +73,11 @@ const BarChartComponent = ({
         alignItems: "center",
         display: "flex",
       }}
-    ></div>;
+    >
+      <p>Belum ada data</p>
+    </div>;
   }
+
   return (
     <ResponsiveContainer
       width="100%"
@@ -89,7 +85,7 @@ const BarChartComponent = ({
       style={{ marginTop: "1rem" }}
     >
       <BarChart
-        data={revenueData}
+        data={socket?.reveneuData}
         margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
       >
         <CartesianGrid strokeDasharray="0.1 0.1" />
@@ -106,9 +102,10 @@ const BarChartComponent = ({
           orientation="right"
           style={{ display: "none" }}
         />
-        {revenueData.length > 0 && (
+        {socket?.reveneuData && socket?.reveneuData.length > 0 && (
           <Tooltip content={<CustomTooltip active={true} payload={[]} />} />
         )}
+        <Legend iconSize={10} wrapperStyle={{ fontSize: "0.75rem" }} />
         <Bar
           yAxisId="left"
           dataKey="transaction"
