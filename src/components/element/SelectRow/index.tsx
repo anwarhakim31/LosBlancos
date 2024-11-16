@@ -28,6 +28,8 @@ const SelectRow = ({ limit }: { limit: number }) => {
     };
   }, [active]);
 
+  if (pathname === "/admin/collection") return null;
+
   return (
     <div className={style.select} ref={ref}>
       <button

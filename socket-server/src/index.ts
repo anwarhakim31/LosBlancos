@@ -3,6 +3,7 @@ import http from "http";
 import { Server as Socket } from "socket.io";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import { getColor } from "./util/constant";
 
 dotenv.config();
 
@@ -47,6 +48,12 @@ const Statistic = mongoose.model(
 
 const Transaction = mongoose.model("Transaction", new mongoose.Schema({}));
 const Products = mongoose.model("Product", new mongoose.Schema({}));
+const Collection = mongoose.model(
+  "Collection",
+  new mongoose.Schema({
+    name: String,
+  })
+);
 
 const getRevenueData = async () => {
   const now = new Date();
@@ -102,6 +109,41 @@ const getBestSaller = async () => {
   return bestSaller;
 };
 
+const getBestCollection = async () => {
+  const collection = await Collection.find();
+
+  if (!collection) {
+    return [];
+  }
+
+  const bestCollection = await Products.aggregate([
+    {
+      $match: {
+        collectionName: { $in: collection.map((c) => c._id) },
+      },
+    },
+    {
+      $group: {
+        _id: "$collectionName",
+        total: { $sum: 1 },
+      },
+    },
+    {
+      $sort: { total: -1 },
+    },
+  ]);
+
+  const chartData = collection.map((c, i) => ({
+    collection: c.name,
+    value:
+      bestCollection.find((b) => b._id.toString() === c._id.toString())
+        ?.total || 0,
+    fill: getColor(i),
+  }));
+
+  return chartData;
+};
+
 const statistik = async () => {
   try {
     const totaUser = await User.countDocuments({ role: "customer" });
@@ -114,6 +156,7 @@ const statistik = async () => {
       totalTransaction: statisticDB?.transaction || 0,
       bestSaller: await getBestSaller(),
       revenueData: await getRevenueData(),
+      bestCollection: await getBestCollection(),
     });
   } catch (error) {
     console.log(error);

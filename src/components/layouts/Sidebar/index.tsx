@@ -8,11 +8,11 @@ import {
   AlignHorizontalSpaceAround,
   ChevronDown,
   ChevronLeft,
+  ChevronsLeft,
+  ChevronsRight,
   Layers3,
   LayoutDashboard,
   LibraryBig,
-  ListCollapse,
-  ListMinus,
   MonitorCog,
   Package,
   ShoppingBag,
@@ -280,7 +280,7 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
           onClick={() => setIsMinimized(!isMinimized)}
           aria-label="expanda sidebar"
         >
-          {isMinimized ? <ListMinus /> : <ListCollapse />}
+          {isMinimized ? <ChevronsRight /> : <ChevronsLeft />}
         </button>
 
         <button

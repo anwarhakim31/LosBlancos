@@ -1,25 +1,19 @@
 "use client";
 
 import HeaderPage from "@/components/element/HeaderPage";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment } from "react";
 import styles from "./dashboard.module.scss";
 
-import { useSocket } from "@/context/SocketContext";
+// import { useSocket } from "@/context/SocketContext";
 
-import BarChartComponent from "@/components/element/BarChart";
-import { ChartArea } from "lucide-react";
+import BarChartComponent from "@/components/views/admin/dashboard/BarChart";
+import { BarChart3Icon, ChartPie } from "lucide-react";
 import OverviewView from "@/components/views/admin/dashboard/Overview";
 import BestSellerView from "@/components/views/admin/dashboard/BestSaller";
+import SimplePieCart from "@/components/views/admin/dashboard/SimplePieCart";
 
 const DashboardPage = () => {
-  const socket = useSocket();
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (socket?.socket) {
-      setLoading(false);
-    }
-  }, [socket]);
+  // const socket = useSocket();
 
   return (
     <Fragment>
@@ -28,21 +22,30 @@ const DashboardPage = () => {
       <div className={styles.wrapper}>
         <div className={styles.barchart}>
           <div className={styles.titlechart}>
-            <ChartArea />
+            <BarChart3Icon />
             <h3>Grafik Penjualan Perbulan</h3>
           </div>
 
-          <BarChartComponent
-            revenueData={socket?.reveneuData || []}
-            loading={loading}
-          />
+          <BarChartComponent />
         </div>
         <BestSellerView />
       </div>
 
       <div className={styles.wrapper2}>
-        <div className={styles.wrapper2__list}></div>
-        <div className={styles.wrapper2__list}></div>
+        <div className={styles.wrapper2__list}>
+          <div className={styles.titlechart}>
+            <ChartPie />
+            <h3>Grafik Koleksi Terlaris </h3>
+          </div>
+          <SimplePieCart />
+        </div>
+        <div className={styles.wrapper2__list}>
+          <div className={styles.titlechart}>
+            <ChartPie />
+            <h3>Grafik Rating Produk</h3>
+          </div>
+          {/* <SimplePieCart /> */}
+        </div>
         <div className={styles.wrapper2__list}></div>
       </div>
     </Fragment>
