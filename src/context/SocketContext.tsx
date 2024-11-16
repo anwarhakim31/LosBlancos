@@ -71,6 +71,11 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
           setBestCollection(data.bestCollection);
         });
 
+      if (session.data?.user?.role === "admin")
+        socket?.current?.on("notification", (data) => {
+          console.log(data);
+        });
+
       return () => {
         socket.current?.disconnect();
       };

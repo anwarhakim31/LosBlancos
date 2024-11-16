@@ -34,3 +34,28 @@
     }
   }
 }
+
+.loader {
+  width: 60%;
+  height: 60%;
+  margin: auto;
+  margin-top: 2rem;
+  background: $neutral;
+  border-radius: 50%;
+  border-top-color: $white;
+
+  animation: loader 1s infinite linear;
+}
+
+@keyframes loader {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.75;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

@@ -17,7 +17,6 @@ const CustomTooltip = ({
   active: boolean;
   payload: PayloadItem[];
 }) => {
-  console.log(payload);
   if (active && payload && payload.length) {
     return (
       <div className={styles.tooltip}>
@@ -32,6 +31,10 @@ const CustomTooltip = ({
 
 const SimplePieCart = () => {
   const socket = useSocket();
+
+  if (socket?.loading) {
+    return <div className={styles.loader}></div>;
+  }
 
   return (
     <ResponsiveContainer width="100%" height={250} style={{ margin: "auto" }}>

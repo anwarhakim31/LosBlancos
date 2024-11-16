@@ -7,10 +7,11 @@ import styles from "./dashboard.module.scss";
 // import { useSocket } from "@/context/SocketContext";
 
 import BarChartComponent from "@/components/views/admin/dashboard/BarChart";
-import { BarChart3Icon, ChartPie } from "lucide-react";
+import { BarChart3Icon, BarChartHorizontalBig, ChartPie } from "lucide-react";
 import OverviewView from "@/components/views/admin/dashboard/Overview";
 import BestSellerView from "@/components/views/admin/dashboard/BestSaller";
 import SimplePieCart from "@/components/views/admin/dashboard/SimplePieCart";
+import BarChartHorizontal from "@/components/views/admin/dashboard/BarChartHorizontal";
 
 const DashboardPage = () => {
   // const socket = useSocket();
@@ -41,10 +42,10 @@ const DashboardPage = () => {
         </div>
         <div className={styles.wrapper2__list}>
           <div className={styles.titlechart}>
-            <ChartPie />
+            <BarChartHorizontalBig />
             <h3>Grafik Rating Produk</h3>
           </div>
-          {/* <SimplePieCart /> */}
+          <BarChartHorizontal />
         </div>
         <div className={styles.wrapper2__list}></div>
       </div>
