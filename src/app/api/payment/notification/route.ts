@@ -67,6 +67,26 @@ export async function POST(req: NextRequest) {
       statusMap[transaction_status as keyof typeof statusMap];
 
     if (transaction.paymentStatus === "dibayar") {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SOCKET_URL}/api/notification`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            data: body,
+          }),
+        }
+      );
+
+      if (!res.ok) {
+        return NextResponse.json(
+          { message: "Gagal mengirim notifikasi" },
+          { status: 500 }
+        );
+      }
+
       transaction.transactionStatus = "diproses";
 
       for (const item of transaction.items) {
