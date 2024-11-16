@@ -83,6 +83,9 @@ const AdminHeader = ({ handleToggleSidebar }: PropsType) => {
             ) : (
               <Bell width={16} height={16} strokeWidth={1.5} />
             )}
+            {socket?.notif && socket?.notif?.length > 0 && (
+              <span className={styles.badge}>{socket?.notif?.length}</span>
+            )}
           </button>
 
           {isOpen && (

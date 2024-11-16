@@ -17,7 +17,7 @@ import { setDataEdit } from "@/store/slices/actionSlice";
 const CollectionPage = () => {
   const dispatch = useAppDispatch();
   const query = useSearchParams();
-  const { push, replace } = useRouter();
+  const { push } = useRouter();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState({
@@ -32,7 +32,7 @@ const CollectionPage = () => {
 
   const setIsEditData = (data: TypeCollection | null) => {
     dispatch(setDataEdit(data));
-    replace(`/admin/collection/edit?id=${data?._id}`);
+    push(`/admin/collection/edit?id=${data?._id}`);
   };
 
   const [check, setCheck] = useState<string[]>([]);
@@ -97,13 +97,15 @@ const CollectionPage = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        <div className={styles.wrapper__button}>
-          <ButtonClick
-            title={`Tambah Koleksi`}
-            onClick={() => push("/admin/collection/add")}
-            loading={loading}
-          />
-        </div>
+        {pagination.totalPage <= 8 && (
+          <div className={styles.wrapper__button}>
+            <ButtonClick
+              title={`Tambah Koleksi`}
+              onClick={() => push("/admin/collection/add")}
+              loading={loading}
+            />
+          </div>
+        )}
       </div>
 
       <Table
