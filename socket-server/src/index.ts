@@ -53,6 +53,7 @@ const Collection = mongoose.model(
     name: String,
   })
 );
+const Notification = mongoose.model("Notification", new mongoose.Schema({}));
 
 const getRevenueData = async () => {
   const now = new Date();
@@ -240,6 +241,20 @@ const statistik = async () => {
   }
 };
 
+const notifMessage = async () => {
+  try {
+    const notif = await Notification.find({ read: false }).sort({
+      createdAt: -1,
+    });
+
+    io.emit("notification", {
+      message: notif,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const userSocketMap = new Map();
 
 io.on("connection", async (socket) => {
@@ -251,6 +266,7 @@ io.on("connection", async (socket) => {
   io.emit("onlineUsers", Array.from(userSocketMap.keys()));
 
   if (role === "admin") await statistik();
+  if (role === "admin") await notifMessage();
 
   socket.on("disconnect", () => {
     userSocketMap.forEach((socketId, userId) => {
@@ -270,10 +286,15 @@ app.post("/", (req: Request, res: Response) => {
 app.post("/api/notification", async (req: Request, res: Response) => {
   const statisticDB = await Statistic.findOne({});
   const totaUser = await User.countDocuments({ role: "customer" });
+  const notif = await Notification.find({ read: false }).sort({
+    createdAt: -1,
+  });
+
   const { order_id } = req.body;
 
   io.emit("notification", {
-    orderId: order_id,
+    order_id,
+    message: notif,
     statistic: {
       totalUser: totaUser || 0,
       totalIncome: statisticDB?.income || 0,

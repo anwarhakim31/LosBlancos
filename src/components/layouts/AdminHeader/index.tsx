@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "./adminheader.module.scss";
 
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { AlignLeft, LogOut } from "lucide-react";
+import { AlignLeft, Bell, LogOut } from "lucide-react";
+
+import PanelNotification from "@/components/views/header/NavAdmin/panel";
 
 interface PropsType {
   handleToggleSidebar: () => void;
@@ -12,6 +14,50 @@ interface PropsType {
 
 const AdminHeader = ({ handleToggleSidebar }: PropsType) => {
   const session = useSession();
+
+  const ref = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [showContent, setShowContent] = React.useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = React.useState(false);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setShowContent(false);
+        setTimeout(() => {
+          setIsOpen(false);
+        }, 300);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
+
+  const handleClick = () => {
+    if (isButtonDisabled) return;
+
+    setIsButtonDisabled(true);
+
+    if (!isOpen) {
+      setIsOpen(true);
+      setTimeout(() => {
+        setShowContent(true);
+      }, 300);
+    }
+
+    if (isOpen) {
+      setShowContent(false);
+      setTimeout(() => {
+        setIsOpen(false);
+      }, 300);
+    }
+
+    setTimeout(() => {
+      setIsButtonDisabled(false);
+    }, 400);
+  };
 
   return (
     <div className={styles.header}>
@@ -22,6 +68,25 @@ const AdminHeader = ({ handleToggleSidebar }: PropsType) => {
         <AlignLeft width={16} height={16} />
       </button>
       <div className={styles.header__user}>
+        <div ref={ref} className={styles.wrapper}>
+          <button
+            type="button"
+            className={styles.button}
+            aria-label="notification"
+            onClick={handleClick}
+          >
+            <Bell width={16} height={16} strokeWidth={1.5} />
+          </button>
+
+          {isOpen && (
+            <PanelNotification
+              setShowContent={setShowContent}
+              showContent={showContent}
+              setIsOpen={setIsOpen}
+            />
+          )}
+        </div>
+
         <Link href={"/admin/profile"} className={styles.header__user__profile}>
           <Image
             src={

@@ -35,21 +35,26 @@
   }
 
   &__user {
-    @include flex(center, center, null);
+    @include flex(center, flex-start, null);
     gap: 0.5rem;
 
     &__profile {
       @include flex(center, center, null);
-      width: 9rem;
-      height: 2rem;
+
       border-radius: 0.25rem;
       background: $white;
-      overflow: hidden;
+
       border: none;
       &:focus-visible {
         border: 1px solid $primary;
       }
       gap: 0.5rem;
+
+      @include media(xs) {
+        width: 9rem;
+
+        height: 2.25rem;
+      }
 
       &__image {
         width: 2rem;
@@ -68,8 +73,11 @@
       }
 
       &__detail {
-        @include flex(center, flex-start, null);
-        flex-direction: column;
+        display: none;
+        @include media(xs) {
+          @include flex(center, flex-start, null);
+          flex-direction: column;
+        }
 
         p {
           width: 6rem;
@@ -105,6 +113,29 @@
       &:hover {
         box-shadow: 0 0.1rem 0.3rem $primary;
       }
+    }
+  }
+}
+.wrapper {
+  position: relative;
+
+  .button {
+    @include flex(center, center, null);
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    font-size: 1rem;
+    background: $white;
+    border: 1px solid $gray-200;
+    box-shadow: 0 0.1rem 0.1rem rgba(0, 0, 0, 0.5);
+    color: $gray-700;
+    cursor: pointer;
+    &:focus-visible {
+      border: 1px solid $primary;
+    }
+
+    &:hover {
+      box-shadow: 0 0.1rem 0.3rem $primary;
     }
   }
 }
