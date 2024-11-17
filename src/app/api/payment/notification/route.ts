@@ -1,4 +1,5 @@
 import connectDB from "@/lib/db";
+import Notification from "@/lib/models/notification-model";
 import Product from "@/lib/models/product-model";
 import Statistic from "@/lib/models/statistic-model";
 import Stock from "@/lib/models/stock-model";
@@ -88,6 +89,37 @@ export async function POST(req: NextRequest) {
       }
 
       transaction.transactionStatus = "diproses";
+
+      const notifNewOrder = new Notification({
+        title: "Pesanan Baru",
+        dataId: transaction._id,
+        description: `Pesanan ${transaction.invoice} telah dibayar`,
+      });
+
+      await notifNewOrder.save();
+
+      const stock = await Stock.find({
+        $match: {
+          stock: { $lte: 0 },
+          productId: {
+            $in: transaction.items.map(
+              (item: { productId: string }) => item.productId
+            ),
+          },
+        },
+      });
+
+      if (stock.length > 0) {
+        for (const item of stock) {
+          const notifStock = new Notification({
+            title: "Stok Habis",
+            dataId: item.productId,
+            description: `Stok ${item.productId} telah habis`,
+          });
+
+          await notifStock.save();
+        }
+      }
 
       for (const item of transaction.items) {
         await Product.findOneAndUpdate(

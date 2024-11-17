@@ -28,6 +28,13 @@ interface SocketContextProps {
     date: string;
     count: number;
   }[];
+  notif: {
+    _id: string;
+    dataId: string;
+    title: string;
+    desription: string;
+    read?: boolean;
+  }[];
 }
 
 const SocketContext = createContext<SocketContextProps | null>(null);
@@ -49,6 +56,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const [ratingProduct, setRatingProduct] = useState([]);
   const [userGrowth, setUserGrowth] = useState([]);
+  const [notif, setNotif] = useState([]);
 
   const session = useSession();
 
@@ -94,6 +102,9 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
             setBestCollection(data.statistic.bestCollection);
             setUserGrowth(data.statistic.userGrowth);
           }
+
+          if (data.notif) setNotif(data.notif);
+          console.log(data);
         });
       }
 
@@ -115,6 +126,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         bestCollection,
         ratingProduct,
         userGrowth,
+        notif,
       }}
     >
       {children}

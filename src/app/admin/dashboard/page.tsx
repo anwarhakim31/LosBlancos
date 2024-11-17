@@ -50,7 +50,7 @@ const DashboardPage = () => {
         <div className={styles.wrapper2__list}>
           <div className={styles.titlechart}>
             <LineChart />
-            <h3>Grafik Pendaftaran User</h3>
+            <h3>Grafik Pelnggan Baru</h3>
           </div>
           <LineChartComponent />
         </div>
