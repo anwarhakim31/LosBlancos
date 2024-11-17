@@ -113,26 +113,6 @@ export async function POST(req: NextRequest) {
         }
       }
 
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SOCKET_URL}/api/notification`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            order_id: transaction.invoice,
-          }),
-        }
-      );
-
-      if (!res.ok) {
-        return NextResponse.json(
-          { message: "Gagal mengirim notifikasi" },
-          { status: 500 }
-        );
-      }
-
       for (const item of transaction.items) {
         await Product.findOneAndUpdate(
           { _id: item.productId },
@@ -156,6 +136,26 @@ export async function POST(req: NextRequest) {
           upsert: true,
         }
       );
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SOCKET_URL}/api/notification`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            order_id: transaction.invoice,
+          }),
+        }
+      );
+
+      if (!res.ok) {
+        return NextResponse.json(
+          { message: "Gagal mengirim notifikasi" },
+          { status: 500 }
+        );
+      }
     }
 
     if (
