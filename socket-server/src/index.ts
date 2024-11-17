@@ -303,6 +303,7 @@ app.post("/api/notification", async (req: Request, res: Response) => {
       bestSaller: await getBestSaller(),
       revenueData: await getRevenueData(),
       bestCollection: await getBestCollection(),
+      userGrowth: await userGrowth(),
     },
   });
 

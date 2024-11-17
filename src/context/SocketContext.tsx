@@ -91,16 +91,16 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         socket?.current?.on("notification", (data) => {
           if (data.statistic) {
             setStatistik({
-              totalUser: data.statistic.totalUser,
-              totalIncome: data.statistic.totalIncome,
-              totalProduct: data.statistic.totalProduct,
-              totalTransaction: data.statistic.totalTransaction,
+              totalUser: data?.statistic?.totalUser,
+              totalIncome: data?.statistic?.totalIncome,
+              totalProduct: data?.statistic?.totalProduct,
+              totalTransaction: data.statistic?.totalTransaction,
             });
 
-            setReveneuData(data.statistic.revenueData);
-            setBestSeller(data.statistic.bestSaller);
-            setBestCollection(data.statistic.bestCollection);
-            setUserGrowth(data.statistic.userGrowth);
+            setReveneuData(data?.statistic?.revenueData);
+            setBestSeller(data?.statistic?.bestSaller);
+            setBestCollection(data?.statistic?.bestCollection);
+            setUserGrowth(data?.statistic?.userGrowth);
           }
 
           if (data.notif) setNotif(data.notif);

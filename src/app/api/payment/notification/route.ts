@@ -90,13 +90,21 @@ export async function POST(req: NextRequest) {
 
       transaction.transactionStatus = "diproses";
 
-      const notifNewOrder = new Notification({
-        title: "Pesanan Baru",
-        dataId: transaction._id,
-        description: `Pesanan ${transaction.invoice} telah dibayar`,
-      });
-
-      await notifNewOrder.save();
+      await Notification.findOneAndUpdate(
+        {
+          dataId: transaction._id,
+        },
+        {
+          $set: {
+            dataId: transaction._id,
+            title: "Pesanan Baru",
+            description: `Pesanan ${transaction.invoice} telah dibayar`,
+          },
+        },
+        {
+          upsert: true,
+        }
+      );
 
       const stock = await Stock.find({
         $match: {
