@@ -68,26 +68,6 @@ export async function POST(req: NextRequest) {
       statusMap[transaction_status as keyof typeof statusMap];
 
     if (transaction.paymentStatus === "dibayar") {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SOCKET_URL}/api/notification`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            order_id: transaction.invoice,
-          }),
-        }
-      );
-
-      if (!res.ok) {
-        return NextResponse.json(
-          { message: "Gagal mengirim notifikasi" },
-          { status: 500 }
-        );
-      }
-
       transaction.transactionStatus = "diproses";
 
       await Notification.findOneAndUpdate(
@@ -107,14 +87,18 @@ export async function POST(req: NextRequest) {
       );
 
       const stock = await Stock.find({
-        $match: {
-          stock: { $lte: 0 },
-          productId: {
-            $in: transaction.items.map(
-              (item: { productId: string }) => item.productId
-            ),
+        $or: [
+          {
+            stock: 0,
           },
-        },
+          {
+            productId: {
+              $in: transaction.items.map(
+                (item: { productId: string }) => item.productId
+              ),
+            },
+          },
+        ],
       });
 
       if (stock.length > 0) {
@@ -127,6 +111,26 @@ export async function POST(req: NextRequest) {
 
           await notifStock.save();
         }
+      }
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SOCKET_URL}/api/notification`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            order_id: transaction.invoice,
+          }),
+        }
+      );
+
+      if (!res.ok) {
+        return NextResponse.json(
+          { message: "Gagal mengirim notifikasi" },
+          { status: 500 }
+        );
       }
 
       for (const item of transaction.items) {
