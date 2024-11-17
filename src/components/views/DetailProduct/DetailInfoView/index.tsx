@@ -73,6 +73,7 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
     );
   };
   const handleCheckout = async () => {
+    router.prefetch(`/checkout/${product._id}`);
     if (session.status === "unauthenticated") {
       router.push("/login?callbackUrl=" + encodeURIComponent(pathaneme));
       return;
@@ -84,22 +85,18 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
     setIsLoading(false);
 
     const items = [] as itemCartType[];
-    const total = Number(quantity) * (product.price as number);
 
     items.push({
       product: product,
       quantity: quantity,
-      price: (product.price as number) * quantity,
       atribute: product.attribute as string,
       atributeValue: selectValue as string,
-      weight: product.weight * quantity,
     });
 
     try {
       const res = await transactionService.create(
         session.data?.user?.id as string,
-        items,
-        total
+        items
       );
 
       if (res.status == 200) {

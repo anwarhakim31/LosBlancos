@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
       cartDB.items[itemIndex].quantity += quantity;
       cartDB.items[itemIndex].price += productDB.price * quantity;
     } else {
-      cartDB.items.push({
+      cartDB.items.unshift({
         product: productId,
         quantity: quantity <= 1 ? 1 : quantity,
         atribute,
@@ -78,12 +78,14 @@ export async function POST(req: NextRequest) {
 
     await cartDB.save();
 
-    const added = await Cart.findOne({ userId }).populate({
-      path: "items.product",
-      populate: {
-        path: "collectionName stock",
-      },
-    });
+    const added = await Cart.findOne({ userId })
+      .populate({
+        path: "items.product",
+        populate: {
+          path: "collectionName stock",
+        },
+      })
+      .sort({ createdAt: -1 });
 
     return NextResponse.json({
       success: true,

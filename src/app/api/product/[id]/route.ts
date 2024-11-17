@@ -12,7 +12,6 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  await connectDB();
   try {
     const { id } = params;
 

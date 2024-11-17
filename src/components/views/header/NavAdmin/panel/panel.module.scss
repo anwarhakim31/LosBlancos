@@ -10,12 +10,12 @@
 
   z-index: 99;
   width: 16rem;
-  max-height: 100vh;
+  max-height: calc(100vh - 5.5rem);
   overflow-y: auto;
   background-color: $white;
   border-radius: 0.5rem;
   box-shadow: 0 0.1rem 0.5rem rgba(0, 0, 0, 0.15);
-  padding: 1rem;
+
   z-index: 99;
 
   opacity: 0;
@@ -34,9 +34,17 @@
     opacity: 1;
   }
 
+  &__sticky {
+    position: sticky;
+    top: 0;
+    background: $white;
+    padding-bottom: 0.5rem;
+    box-shadow: 0 0.1rem 0.1rem rgba(0, 0, 0, 0.15);
+  }
+
   &__header {
     @include flex(space-between, center, null);
-
+    padding: 1rem 1rem 0.5rem 1rem;
     h3 {
       font-size: 0.8125rem;
       font-weight: 400;
@@ -45,6 +53,7 @@
 
     &__close {
       @include flex-center();
+
       svg {
         width: 1.1rem;
         height: 1.1rem;
@@ -59,6 +68,7 @@
   &__mark {
     display: block;
     margin-left: auto;
+    transform: translateX(-1rem);
     width: max-content;
     font-size: 0.75rem;
     font-weight: 400;
@@ -69,7 +79,6 @@
   }
 
   &__content {
-    padding: 0.5rem 0;
     border-top: 1px solid $gray-300;
 
     span {
@@ -81,16 +90,34 @@
       user-select: none;
       font-size: 0.75rem;
       height: 2rem;
+      padding: 1rem;
+    }
+
+    &__date {
+      list-style: none;
+      background: $gray-100;
+      font-size: 0.8125rem;
+      font-weight: 400;
+      padding: 0.5rem 1rem;
     }
 
     &__list {
       list-style: none;
+      padding: 1rem 1rem;
+      border-bottom: 1px solid $gray-300;
+      cursor: pointer;
 
       h5 {
         font-size: 0.75rem;
-        font-weight: 400;
+        font-weight: 500;
         color: $dark;
-        margin-block: 0.5rem;
+        user-select: none;
+      }
+
+      p {
+        font-size: 0.75rem;
+        font-weight: 400;
+        color: $gray-500;
       }
     }
   }

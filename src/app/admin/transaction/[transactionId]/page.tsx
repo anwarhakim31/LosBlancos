@@ -7,7 +7,7 @@ import {
   ServerURL,
 } from "@/utils/contant";
 import React from "react";
-import { Check, X } from "lucide-react";
+import { Check, Hourglass, X } from "lucide-react";
 import { TypeTransaction } from "@/services/type.module";
 import Image from "next/image";
 
@@ -34,6 +34,8 @@ const TranscationId = async ({
 
   const transaction: TypeTransaction = await getData(transactionId);
 
+  console.log(transaction.paymentStatus);
+
   return (
     <section>
       <ButtonBackPage />
@@ -43,26 +45,38 @@ const TranscationId = async ({
             <h3>Detail Transaksi</h3>
             <div
               className={`${styles.rounded} ${
-                transaction.paymentStatus === "sukses"
+                transaction.paymentStatus === "dibayar"
                   ? styles.success
+                  : transaction.paymentStatus === "tertunda"
+                  ? styles.pending
                   : styles.failed
               }`}
             >
               <div
                 className={`${styles.rounded2} ${
-                  transaction.paymentStatus === "sukses"
+                  transaction.paymentStatus === "dibayar"
                     ? styles.success
+                    : transaction.paymentStatus === "tertunda"
+                    ? styles.pending
                     : styles.failed
                 }`}
               >
                 <div
                   className={`${styles.icon} ${
-                    transaction.paymentStatus === "sukses"
+                    transaction.paymentStatus === "dibayar"
                       ? styles.success
+                      : transaction.paymentStatus === "tertunda"
+                      ? styles.pending
                       : styles.failed
                   }`}
                 >
-                  {transaction.paymentStatus !== "dibayar" ? <X /> : <Check />}
+                  {transaction.paymentStatus === "dibayar" ? (
+                    <Check />
+                  ) : transaction?.paymentStatus === "tertunda" ? (
+                    <Hourglass />
+                  ) : (
+                    <X />
+                  )}
                 </div>
               </div>
             </div>

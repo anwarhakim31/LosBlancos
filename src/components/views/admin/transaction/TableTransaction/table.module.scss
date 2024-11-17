@@ -93,13 +93,13 @@
       }
 
       &.dibayar {
-        color: $success;
-        background: rgb(221, 255, 228);
+        color: $primary;
+        background: rgb(220, 220, 255);
       }
 
       &.tertunda {
-        color: $primary;
-        background: rgb(220, 220, 255);
+        color: $secondary;
+        background: rgb(255, 243, 221);
       }
     }
 

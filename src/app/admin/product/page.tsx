@@ -70,14 +70,13 @@ const ProductAdminPage = () => {
       <HeaderPage title="Produk" description="Kelola data produk " />
       <div className={styles.wrapper}>
         <p>
-          Semua Product{" "}
-          <span> ({pagination.total ? pagination.total : 0})</span>
+          Semua Produk <span> ({pagination.total ? pagination.total : 0})</span>
         </p>
         <div className={styles.wrapper__search}>
           <InputSearch
             id="search"
             name="search"
-            placeholder="Cari Nama dari product"
+            placeholder="Cari Nama dari Produk"
             loading={loading}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}

@@ -78,14 +78,17 @@ const cartSlice = createSlice({
 
       if (index !== -1) {
         state.cart.items[index].quantity += 1;
-        if (typeof state.cart.items[index].product.price === "number") {
-          state.cart.items[index].price +=
+        if (
+          state.cart.items[index].product &&
+          typeof state.cart.items[index].product.price === "number"
+        ) {
+          state.cart.items[index].price! +=
             state.cart.items[index].product.price;
         }
       }
 
       state.cart.total = state.cart.items.reduce(
-        (total, item) => total + item.price,
+        (total, item) => total + item.price!,
         0
       );
     },
@@ -97,13 +100,13 @@ const cartSlice = createSlice({
       if (index !== -1) {
         state.cart.items[index].quantity -= 1;
         if (typeof state.cart.items[index].product.price === "number") {
-          state.cart.items[index].price -=
+          state.cart.items[index].price! -=
             state.cart.items[index].product.price;
         }
       }
 
       state.cart.total = state.cart.items.reduce(
-        (total, item) => total + item.price,
+        (total, item) => total + item.price!,
         0
       );
     },

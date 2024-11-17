@@ -77,7 +77,6 @@ const CartPage = () => {
         const res = await transactionService.create(
           session.data?.user?.id as string,
           cart?.items as itemCartType[],
-          cart?.total as number,
           cartId,
           discount?._id
         );
@@ -194,7 +193,7 @@ const CartPage = () => {
                           </div>
 
                           <h4 className={styles.list__info__price}>
-                            {formatCurrency(item.price)}
+                            {formatCurrency(item.price || 0)}
                           </h4>
                         </div>
 

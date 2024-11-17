@@ -32,9 +32,22 @@ interface SocketContextProps {
     _id: string;
     dataId: string;
     title: string;
-    desription: string;
+    description: string;
+    createdAt: Date;
     read?: boolean;
   }[];
+  setNotif: React.Dispatch<
+    React.SetStateAction<
+      {
+        _id: string;
+        dataId: string;
+        title: string;
+        description: string;
+        createdAt: Date;
+        read?: boolean | undefined;
+      }[]
+    >
+  >;
 }
 
 const SocketContext = createContext<SocketContextProps | null>(null);
@@ -56,7 +69,16 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const [ratingProduct, setRatingProduct] = useState([]);
   const [userGrowth, setUserGrowth] = useState([]);
-  const [notif, setNotif] = useState([]);
+  const [notif, setNotif] = useState<
+    {
+      _id: string;
+      dataId: string;
+      title: string;
+      description: string;
+      createdAt: Date;
+      read?: boolean | undefined;
+    }[]
+  >([]);
 
   const session = useSession();
 
@@ -75,17 +97,17 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         socket?.current?.on("statistik", (data) => {
           setLoading(false);
           setStatistik({
-            totalUser: data.totalUser,
-            totalIncome: data.totalIncome,
-            totalProduct: data.totalProduct,
-            totalTransaction: data.totalTransaction,
+            totalUser: data?.totalUser,
+            totalIncome: data?.totalIncome,
+            totalProduct: data?.totalProduct,
+            totalTransaction: data?.totalTransaction,
           });
 
-          setReveneuData(data.revenueData);
-          setBestSeller(data.bestSaller);
-          setBestCollection(data.bestCollection);
-          setRatingProduct(data.ratingProduct);
-          setUserGrowth(data.userGrowth);
+          setReveneuData(data?.revenueData || []);
+          setBestSeller(data?.bestSaller || []);
+          setBestCollection(data?.bestCollection || []);
+          setRatingProduct(data?.ratingProduct || []);
+          setUserGrowth(data?.userGrowth || []);
         });
 
         socket?.current?.on("notification", (data) => {
@@ -97,14 +119,15 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
               totalTransaction: data.statistic?.totalTransaction,
             });
 
-            setReveneuData(data?.statistic?.revenueData);
-            setBestSeller(data?.statistic?.bestSaller);
-            setBestCollection(data?.statistic?.bestCollection);
-            setUserGrowth(data?.statistic?.userGrowth);
+            setReveneuData(data?.statistic?.revenueData || []);
+            setBestSeller(data?.statistic?.bestSaller || []);
+            setBestCollection(data?.statistic?.bestCollection || []);
+            setUserGrowth(data?.statistic?.userGrowth || []);
           }
 
-          if (data.notif) setNotif(data.notif);
-          console.log(data);
+          if (data.message) {
+            setNotif(data.message);
+          }
         });
       }
 
@@ -127,6 +150,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         ratingProduct,
         userGrowth,
         notif,
+        setNotif,
       }}
     >
       {children}

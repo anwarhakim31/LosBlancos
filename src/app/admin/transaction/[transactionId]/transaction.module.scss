@@ -116,6 +116,10 @@
         background: rgb(255, 227, 227);
       }
 
+      &.pending {
+        background: rgb(248, 233, 208);
+      }
+
       .rounded2 {
         width: 50px;
         height: 50px;
@@ -128,6 +132,10 @@
 
         &.failed {
           background: rgb(255, 146, 146);
+        }
+
+        &.pending {
+          background: rgb(255, 220, 164);
         }
 
         .icon {
@@ -143,6 +151,15 @@
 
           &.failed {
             background: $danger;
+          }
+
+          &.pending {
+            background: $secondary;
+
+            svg {
+              width: 15px !important;
+              height: 15px !important;
+            }
           }
 
           svg {

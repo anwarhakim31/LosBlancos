@@ -4,9 +4,10 @@ import styles from "./adminheader.module.scss";
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { AlignLeft, Bell, LogOut } from "lucide-react";
+import { AlignLeft, Bell, BellRing, LogOut } from "lucide-react";
 
 import PanelNotification from "@/components/views/header/NavAdmin/panel";
+import { useSocket } from "@/context/SocketContext";
 
 interface PropsType {
   handleToggleSidebar: () => void;
@@ -14,6 +15,7 @@ interface PropsType {
 
 const AdminHeader = ({ handleToggleSidebar }: PropsType) => {
   const session = useSession();
+  const socket = useSocket();
 
   const ref = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = React.useState(false);
@@ -74,8 +76,13 @@ const AdminHeader = ({ handleToggleSidebar }: PropsType) => {
             className={styles.button}
             aria-label="notification"
             onClick={handleClick}
+            disabled={socket?.loading}
           >
-            <Bell width={16} height={16} strokeWidth={1.5} />
+            {socket?.notif && socket?.notif?.length > 0 ? (
+              <BellRing width={16} height={16} strokeWidth={1.5} />
+            ) : (
+              <Bell width={16} height={16} strokeWidth={1.5} />
+            )}
           </button>
 
           {isOpen && (

@@ -111,10 +111,10 @@ export interface itemCartType {
   _id?: string;
   product: TypeProduct;
   quantity: number;
-  price: number;
+  price?: number;
   atribute: string;
   atributeValue: string;
-  weight: number;
+  weight?: number;
 }
 
 export interface cartType {

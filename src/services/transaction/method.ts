@@ -5,11 +5,9 @@ export const transactionService = {
   create: (
     userId: string,
     items: itemCartType[],
-    total: number,
     cartId?: string,
     discountId?: string
-  ) =>
-    instance.post("/transaction", { userId, items, total, cartId, discountId }),
+  ) => instance.post("/transaction", { userId, items, cartId, discountId }),
 
   get: (transactionId: string) =>
     instance.get("/transaction?transactionId=" + transactionId),

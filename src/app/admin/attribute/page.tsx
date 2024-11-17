@@ -73,7 +73,7 @@ const AttributePage = () => {
   return (
     <Fragment>
       <HeaderPage
-        title="Halaman Atribut"
+        title="Atribut"
         description="Kelola atribut product sebagai karakteristik atau fitur yang menggambarkan suatu produk"
       />
       <div className={styles.head}>

@@ -87,26 +87,19 @@ export async function POST(req: NextRequest) {
       );
 
       const stock = await Stock.find({
-        $or: [
-          {
-            stock: 0,
-          },
-          {
-            productId: {
-              $in: transaction.items.map(
-                (item: { productId: string }) => item.productId
-              ),
-            },
-          },
-        ],
+        productId: {
+          $in: transaction.items.map(
+            (item: { productId: string }) => item.productId
+          ),
+        },
+        stock: 0,
       });
-
       if (stock.length > 0) {
         for (const item of stock) {
           const notifStock = new Notification({
             title: "Stok Habis",
             dataId: item.productId,
-            description: `Stok ${item.productId} telah habis`,
+            description: `Stok ${item.productId} habis`,
           });
 
           await notifStock.save();

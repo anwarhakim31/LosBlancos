@@ -5,10 +5,11 @@ import { NextRequest, NextResponse } from "next/server";
 import Transaction from "@/lib/models/transaction-model";
 import Cart from "@/lib/models/cart-model";
 import { verifyTokenMember } from "@/lib/verify-token";
-import { itemCartType } from "@/services/type.module";
+import { itemTypeTransaction } from "@/services/type.module";
 import Diskon from "@/lib/models/diskon-model";
 import Ewallet from "@/lib/models/ewallet-model";
 import User from "@/lib/models/user-model";
+import Product from "@/lib/models/product-model";
 
 export async function POST(req: NextRequest) {
   try {
@@ -46,14 +47,33 @@ export async function POST(req: NextRequest) {
 
     const invoice = `${previx}-${Segment}`;
 
-    const newitem = items.map((item: itemCartType) => ({
-      productId: item.product,
-      atribute: item.atribute,
-      atributeValue: item.atributeValue,
-      quantity: item.quantity,
-      price: item.price,
-      weight: item.quantity * item.product.weight || 0,
-    }));
+    const newitem: itemTypeTransaction[] = [];
+
+    for (const item of items) {
+      const product = await Product.findById(item.product._id);
+
+      if (!product) {
+        return ResponseError(400, "Produk tidak ditemukan");
+      }
+
+      newitem.push({
+        productId: item.product,
+        atribute: item.atribute,
+        atributeValue: item.atributeValue,
+        quantity: item.quantity,
+        price: product.price * item.quantity,
+        weight: item.quantity * product.weight || 0,
+      });
+    }
+
+    // const newitem = items.map((item: itemCartType) => ({
+    //   productId: item.product,
+    //   atribute: item.atribute,
+    //   atributeValue: item.atributeValue,
+    //   quantity: item.quantity,
+    //   price: item.price,
+    //   weight: item.quantity * item.product.weight || 0,
+    // }));
 
     const transaction = new Transaction({
       invoice,
@@ -72,7 +92,7 @@ export async function POST(req: NextRequest) {
     }
 
     const totalPayment = newitem.reduce(
-      (total: number, item: itemCartType) => total + item.price * item.quantity,
+      (total: number, item: itemTypeTransaction) => total + item.price,
       0
     );
     if (discountId) {

@@ -59,3 +59,29 @@ export function formatDateToMidtrans() {
 export const youtubeid = (url: string) => {
   return url.split("=")[1];
 };
+
+export const formatDateMessage = (date: Date) => {
+  const now = new Date();
+  const messageData = new Date(date);
+  const startOfToday = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate()
+  );
+  const startOfDate = new Date(
+    messageData.getFullYear(),
+    messageData.getMonth(),
+    messageData.getDate()
+  );
+
+  const differenceInTime = startOfToday.getTime() - startOfDate.getTime();
+  const differenceInDays = Math.floor(differenceInTime / (1000 * 60 * 60 * 24));
+
+  if (differenceInDays === 0) {
+    return "Hari ini";
+  } else if (differenceInDays === 1) {
+    return "1 hari lalu";
+  } else {
+    return `${differenceInDays} hari lalu`;
+  }
+};
