@@ -13,7 +13,7 @@ type filterQuery = {
   price?: { $gte: number; $lte: number };
   collectionName?: string;
 };
-
+export const dynamic = "force-dynamic";
 function escapeRegex(string: string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }

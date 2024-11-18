@@ -96,13 +96,19 @@ export async function POST(req: NextRequest) {
       });
       if (stock.length > 0) {
         for (const item of stock) {
-          const notifStock = new Notification({
-            title: "Stok Habis",
-            dataId: item.productId,
-            description: `Stok ${item.productId} habis`,
-          });
-
-          await notifStock.save();
+          await Notification.updateOne(
+            {
+              title: "Stok Habis",
+              dataId: item.productId,
+              value: item.attributeValue,
+            },
+            {
+              $set: {
+                description: `Stok ${item.productId}  habis`,
+              },
+            },
+            { upsert: true }
+          );
         }
       }
 

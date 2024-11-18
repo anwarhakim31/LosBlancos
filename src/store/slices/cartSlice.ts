@@ -25,12 +25,13 @@ export const postCart = createAsyncThunk(
     try {
       const data = { userId, productId, quantity, atribute, atributeValue };
       const res = await cartService.postCart(data);
-
+      console.log(res);
       if (res.status === 200) {
         toast.success(res.data.message);
         return res.data.cart;
       }
     } catch (error) {
+      console.log(error);
       ResponseError(error);
     }
   }
@@ -121,12 +122,9 @@ const cartSlice = createSlice({
     builder.addCase(postCart.fulfilled, (state, action) => {
       state.loading = false;
 
-      if (action.payload) {
+      if (action.payload && action.payload.items.length > 0) {
         state.cart.items = action.payload?.items;
         state.cart.total = action.payload?.total;
-      } else {
-        state.cart.items = [];
-        state.cart.total = 0;
       }
     });
     builder.addCase(postCart.rejected, (state, action) => {
@@ -134,7 +132,7 @@ const cartSlice = createSlice({
       state.error = action.error.message || "Failed to fetch cartList";
     });
     builder.addCase(getCart.fulfilled, (state, action) => {
-      if (action.payload) {
+      if (action.payload.items.length > 0) {
         state.cart.items = action.payload?.items;
         state.cart.total = action.payload?.total;
       }

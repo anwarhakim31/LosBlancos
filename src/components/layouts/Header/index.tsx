@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import NavbarView from "@/components/views/header/NavMember";
 import { TypeCollection } from "@/services/type.module";
 import { useMasterContext } from "@/context/MasterContext";
-import { Phone, Send, Ticket } from "lucide-react";
+import { Megaphone, Phone, Send } from "lucide-react";
 
 export const authRender = [
   "/register",
@@ -77,7 +77,7 @@ const Header: FC<propsType> = ({ collection }) => {
               <p>{`${context?.master.email}`}</p>
             </div>
             <div className={styles.top__list}>
-              <Ticket width={18} height={18} />
+              <Megaphone width={18} height={18} />
               <p>Dapatkan Diskon Pertama Anda</p>
             </div>
           </div>

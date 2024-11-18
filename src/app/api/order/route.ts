@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
+    await connectDB();
     const { searchParams } = req.nextUrl;
     const userId = searchParams.get("user");
     const statusPayment = searchParams.get("payment");
@@ -15,13 +16,21 @@ export async function GET(req: NextRequest) {
 
     const now = new Date();
 
-    await Transaction.deleteMany({
-      userId,
-      paymentStatus: "tertunda",
-      transactionStatus: "tertunda",
-      expired: { $lt: now },
-    });
+    if (!userId || !statusTransaction) {
+      return NextResponse.json(
+        { success: false, message: "Parameter tidak lengkap." },
+        { status: 400 }
+      );
+    }
 
+    if (userId && statusPayment && statusTransaction) {
+      await Transaction.deleteMany({
+        userId,
+        paymentStatus: "tertunda",
+        transactionStatus: "tertunda",
+        expired: { $lt: now },
+      }).exec();
+    }
     const filter: {
       userId: string;
       transactionStatus: string;
@@ -39,7 +48,8 @@ export async function GET(req: NextRequest) {
       .populate("items.productId")
       .skip(skip)
       .limit(limit)
-      .sort({ updatedAt: -1 });
+      .sort({ updatedAt: -1 })
+      .lean();
 
     const total = await Transaction.countDocuments(filter);
 

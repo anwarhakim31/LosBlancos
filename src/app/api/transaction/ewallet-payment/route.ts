@@ -41,10 +41,14 @@ function payload(payment: string, orderId: string, grossAmount: number) {
           order_id: orderId,
           gross_amount: grossAmount,
         },
+
         custom_expiry: {
           order_time: formatDateToMidtrans(),
           expiry_duration: 60,
           unit: "minute",
+        },
+        shopeepay: {
+          callback_url: "https://midtrans.com/",
         },
       };
     case "gopay":
@@ -165,6 +169,8 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify(payload(payment, orderId, grossAmount)),
     });
     const data = await res.json();
+
+    console.log(data);
 
     if (!res.ok) {
       return NextResponse.json(
