@@ -15,7 +15,11 @@ const lora = Lora({
   display: "swap",
 });
 
-const HomeGaleriView = ({ data }: { data: string[] }) => {
+const HomeGaleriView = ({
+  data,
+}: {
+  data: { image: string[]; blurDataURL: string[] };
+}) => {
   const [isOpen, setIsOpen] = useState<number | null>(null);
   const context = useMasterContext();
 
@@ -46,7 +50,7 @@ const HomeGaleriView = ({ data }: { data: string[] }) => {
         </p>
 
         <div className={styles.container__wrapper}>
-          {data.map((item, index) => (
+          {data?.image?.map((item, index) => (
             <div
               className={styles.container__wrapper__item}
               key={index + 1}

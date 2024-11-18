@@ -16,16 +16,3 @@ export const middleware = withAuth(withValidation(mainMiddleware), [
   "alamat",
   "checkout",
 ]);
-
-export const config = {
-  matcher: [
-    "/admin/:path*",
-    "/login",
-    "/keinginan",
-    "/keranjang",
-    "/akun",
-    "/pesanan",
-    "/alamat",
-    "/checkout",
-  ],
-};

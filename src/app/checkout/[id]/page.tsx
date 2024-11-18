@@ -51,6 +51,7 @@ const Checkout = ({ params }: { params: { id: string } }) => {
   }, [session.data?.user?.id, dispatch, id]);
 
   const handlePayment = async () => {
+    prefetch(`/pembayaran/${id}`);
     if (!payment) {
       dispatch(setError({ payment: true }));
     }
@@ -77,7 +78,7 @@ const Checkout = ({ params }: { params: { id: string } }) => {
             setDiffrent(res.data.diffrent);
           } else {
             const transactionId = res.data.transaction._id;
-            prefetch(`/pembayaran/${transactionId}`);
+
             replace(`/pembayaran/${transactionId}`);
             dispatch(resetCheckout());
           }

@@ -16,6 +16,7 @@ import Checkbox from "@/components/element/Checkbox";
 import { formatCurrency, formateDate } from "@/utils/contant";
 import FilterStatus from "../FilterStatus";
 import FilterSort from "../FilterSort";
+import ResfreshComponent from "../refresh";
 
 interface typeTable {
   data: TypeTransaction[] | null;
@@ -110,6 +111,7 @@ const TableTransaction = ({
         <SelectRow limit={limit} />
         <FilterStatus />
         <FilterSort />
+        <ResfreshComponent />
       </div>
       {loading ? (
         <div className={style.loading}>
