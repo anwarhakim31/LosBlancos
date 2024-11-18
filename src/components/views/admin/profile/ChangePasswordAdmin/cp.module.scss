@@ -1,0 +1,16 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0;
+
+  @include media(lg) {
+    display: none;
+  }
+
+  label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: $gray-500;
+  }
+}

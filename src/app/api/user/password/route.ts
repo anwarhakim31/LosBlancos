@@ -22,6 +22,12 @@ export async function POST(req: NextRequest) {
       return ResponseError(404, "User tidak ditemukan");
     }
 
+    if (token && typeof token === "object" && "id" in token) {
+      if (token.id !== userId) {
+        return ResponseError(404, "anda bukan pemilik akun ini");
+      }
+    }
+
     const isMatch = await bcrypt.compare(oldPassword, user.password);
     if (!isMatch) {
       return ResponseError(400, "Password lama salah");

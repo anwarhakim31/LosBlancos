@@ -31,6 +31,7 @@ const ModalEdit = ({ onClose, isEditData, callback }: PropsType) => {
       fullname: isEditData?.fullname || "",
       phone: isEditData?.phone || "",
       gender: isEditData?.gender || "",
+      password: "",
     },
   });
 
@@ -118,6 +119,26 @@ const ModalEdit = ({ onClose, isEditData, callback }: PropsType) => {
                   error={errors}
                   placeholder="Pilih Jenis Kelamin"
                   options={["Laki-Laki", "Perempuan"]}
+                />
+              )}
+            />
+            <Controller
+              name="password"
+              control={control}
+              rules={{
+                minLength: {
+                  value: 6,
+                  message: "Passowrd minimal 6 karakter",
+                },
+              }}
+              render={({ field }) => (
+                <FormControlFragment
+                  type="text"
+                  placeholder="Password"
+                  name="Password"
+                  id="password"
+                  field={field}
+                  error={errors}
                 />
               )}
             />

@@ -11,7 +11,12 @@ export async function PUT(
 ) {
   await connectDB();
   try {
-    verifyToken(req, []);
+    const token = verifyToken(req, ["admin"]);
+
+    if (token instanceof NextResponse) {
+      return token;
+    }
+
     const body = await req.json();
 
     const { id } = params;
@@ -31,7 +36,10 @@ export async function PUT(
       body.password = await bcrypt.hash(body.password, salt);
     }
 
-    const user = await User.findByIdAndUpdate(id, body, { new: true });
+    const user = await User.findByIdAndUpdate(id, body, {
+      new: true,
+      upsert: true,
+    });
 
     return NextResponse.json(
       {

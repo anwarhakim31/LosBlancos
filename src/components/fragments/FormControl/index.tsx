@@ -23,7 +23,7 @@ const FormControlFragment = ({
   return (
     <Fragment>
       <div className={styles["input-group"]}>
-        <label htmlFor={id}>{name}</label>
+        <label htmlFor={id}>{name} </label>
         <InputAuth
           type={type}
           placeholder={placeholder}
