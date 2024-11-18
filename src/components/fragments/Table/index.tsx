@@ -45,6 +45,12 @@ const TdComponent = (item: any, body: string) => {
           <p>{item?.description}</p>
         </td>
       );
+    case "comment":
+      return (
+        <td className={`${style.table__description} `}>
+          <p>{item?.comment}</p>
+        </td>
+      );
     case "image":
       return (
         <td className={`${style.table__image} `}>
@@ -60,7 +66,7 @@ const TdComponent = (item: any, body: string) => {
     case "stock":
       return (
         <td style={{ textAlign: "center" }}>
-          {item.stock.reduce(
+          {item?.stock.reduce(
             (total: number, item: TypeStock) => total + (item?.stock || 0),
             0
           )}
@@ -96,7 +102,13 @@ const TdComponent = (item: any, body: string) => {
     case "averageRating":
       return (
         <td style={{ textAlign: "center" }}>
-          {item.averageRating ? item.averageRating : 0}
+          {item?.averageRating ? item.averageRating : 0}
+        </td>
+      );
+    case "rating":
+      return (
+        <td style={{ textAlign: "center" }}>
+          {item?.rating ? item.rating : 0}
         </td>
       );
     case "sold":
@@ -108,7 +120,7 @@ const TdComponent = (item: any, body: string) => {
     case "percent":
       return <td style={{ textAlign: "center" }}>{item.percent} %</td>;
     default:
-      return <td>{item[body]}</td>;
+      return <td>{item?.[body]}</td>;
   }
 };
 

@@ -15,11 +15,10 @@ const connectDB = async () => {
   }
 
   try {
+    mongoose.set("strictPopulate", false);
     mongoose.connect(MONGO_URL!, {
       dbName: "LosBlancos",
     });
-
-    console.log("connected");
   } catch (error) {
     console.log("Error in Connecting to database", error);
     throw new Error("Error connecting to database");

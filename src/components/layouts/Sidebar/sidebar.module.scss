@@ -130,6 +130,7 @@
         flex-direction: column;
         gap: 0.5rem;
         display: none;
+        text-transform: capitalize;
 
         &::before {
           content: "";
