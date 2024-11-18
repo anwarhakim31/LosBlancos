@@ -1,0 +1,30 @@
+.head {
+  @include flex(space-between, center, null);
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  &__search {
+    width: 100%;
+
+    order: 3;
+    @include media(md) {
+      margin-left: auto;
+      width: 50vh;
+      order: 2;
+    }
+  }
+
+  &__button {
+    order: 2;
+    width: 150px;
+    @include media(md) {
+      order: 3;
+    }
+  }
+
+  p {
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+}

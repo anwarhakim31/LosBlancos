@@ -163,16 +163,6 @@ export async function GET(req: NextRequest) {
 
     const totalPage = total.length > 0 ? Math.ceil(total[0].count / limit) : 0;
 
-    // const products =
-    //   (await Product.find(filterQuery)
-    //     .sort({ createdAt: -1 })
-    //     .skip(skip)
-    //     .limit(limit)
-    //     .populate("collectionName stock")
-    //     .exec()) || [];
-
-    // const total = await Product.countDocuments(filterQuery);
-
     return NextResponse.json({
       success: true,
       products,

@@ -16,6 +16,7 @@ import {
   MonitorCog,
   Package,
   ShoppingBag,
+  Star,
   Ticket,
   User,
 } from "lucide-react";
@@ -89,6 +90,12 @@ const sideList = [
     name: "diskon",
     icon: <Ticket width={20} height={20} strokeWidth={1.2} />,
     link: "/admin/discount",
+  },
+  {
+    id: 10,
+    name: "ulasan",
+    icon: <Star width={20} height={20} strokeWidth={1.2} />,
+    link: "/admin/reviews",
   },
 ];
 

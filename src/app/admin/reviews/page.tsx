@@ -2,9 +2,9 @@
 
 import HeaderPage from "@/components/element/HeaderPage";
 import React, { Fragment, useCallback, useEffect, useState } from "react";
-import styles from "./discount.module.scss";
+import styles from "./reviews.module.scss";
 import InputSearch from "@/components/element/InputSearch";
-import ButtonClick from "@/components/element/ButtonClick";
+
 import { useSearchParams } from "next/navigation";
 import { ResponseError } from "@/utils/axios/response-error";
 import Table from "@/components/fragments/Table";
@@ -13,22 +13,17 @@ import ModalManyDelete from "@/components/fragments/ModalManyDelete";
 
 import ModalOneDelete from "@/components/fragments/ModalOneDelete";
 
-import { diskonService } from "@/services/discount/method";
-import ModalAddDiskon from "@/components/views/admin/diskon/ModalAddDiskon";
-import ModalEditDiskon from "@/components/views/admin/diskon/ModalEditDiskon";
+import { reviewService } from "@/services/review/method";
+import ModalEditReview from "@/components/views/admin/reviews/ModalEditReview";
+import { TypeReview } from "@/services/type.module";
 
 const DiscountPage = () => {
   const params = useSearchParams();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isAddData, setIsAddData] = useState(false);
-  const [isEditData, setIsEditData] = useState<{
-    _id: string;
-    code: string;
-    percent: number | null;
-    info: string;
-  } | null>(null);
+
+  const [isEditData, setIsEditData] = useState<TypeReview | null>(null);
   const [isDeleteOne, setIsDeleteOne] = useState<{
     _id: string;
     code: string;
@@ -50,12 +45,16 @@ const DiscountPage = () => {
   const search = params.get("search") || "";
 
   const thead = [
-    { title: "Kode", padding: "1rem 1rem" },
-    { title: "Persentase", padding: "1rem 1rem", textAlign: "center" as const },
-    { title: "Keterangan", padding: "1rem 1rem" },
+    { title: "Nama Pelanggan", padding: "1rem 1rem" },
+    {
+      title: "Nama Produk",
+      padding: "1rem 1rem",
+    },
+    { title: "Rating", padding: "1rem 1rem", textAlign: "center" as const },
+    { title: "komentar", padding: "0.5rem 2rem" },
+    { title: "Tanggal", padding: "1rem 1rem", textAlign: "center" as const },
     { title: "", padding: "1rem 1rem" },
   ];
-
   const getData = useCallback(async () => {
     try {
       const searchParams = new URLSearchParams();
@@ -64,9 +63,10 @@ const DiscountPage = () => {
       searchParams.set("limit", limit.toString());
       searchParams.set("search", search.toString());
 
-      const res = await diskonService.get(searchParams.toString());
+      const res = await reviewService.getAdmin(searchParams.toString());
+
       if (res.status === 200) {
-        setData(res.data.diskon);
+        setData(res.data.reviews);
         setPagination(res.data.pagination);
       }
     } catch (error) {
@@ -80,15 +80,14 @@ const DiscountPage = () => {
     getData();
   }, [getData]);
 
+  console.log(data);
+
   return (
     <Fragment>
-      <HeaderPage
-        title="Diskon"
-        description="Kelola Diskon yang digunakan untuk mengurangi harga barang pada toko"
-      />
+      <HeaderPage title="Ulasan" description="Kelola ulasan dari pelanggan." />
       <div className={styles.head}>
         <p>
-          Semua Diskon<span>{pagination.total}</span>
+          Semua Ulasan <span>({pagination.total})</span>
         </p>
         <div className={styles.head__search}>
           <InputSearch
@@ -98,14 +97,6 @@ const DiscountPage = () => {
             loading={loading}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-
-        <div className={styles.head__button}>
-          <ButtonClick
-            title={`Tambah Diskon`}
-            onClick={() => setIsAddData(true)}
-            loading={loading}
           />
         </div>
       </div>
@@ -119,17 +110,10 @@ const DiscountPage = () => {
         setIsEditData={setIsEditData}
         setIsDeleteMany={setIsDeleteMany}
         setIsDeleteOne={setIsDeleteOne}
-        tbody={["code", "percent", "info"]}
+        tbody={["user", "product", "rating", "comment", "createdAt"]}
         setIsAllChecked={setIsAllChecked}
         isAllChecked={isAllChecked}
       />
-
-      {isAddData ? (
-        <ModalAddDiskon
-          callback={() => getData()}
-          onClose={() => setIsAddData(false)}
-        />
-      ) : null}
 
       {isDeleteMany ? (
         <ModalManyDelete
@@ -137,7 +121,7 @@ const DiscountPage = () => {
           callback={() => getData()}
           title="Apakah anda yakin ingin menghapus data terpilih ?"
           setCheck={setCheck}
-          fetching={() => diskonService.deleteMany(check)}
+          fetching={() => reviewService.deleteAll(check)}
           setIsAllChecked={setIsAllChecked}
         />
       ) : null}
@@ -145,14 +129,14 @@ const DiscountPage = () => {
       {isDeleteOne ? (
         <ModalOneDelete
           onClose={() => setIsDeleteOne(null)}
-          fetching={() => diskonService.deleteOne(isDeleteOne?._id as string)}
+          fetching={() => reviewService.deleteOne(isDeleteOne?._id as string)}
           title="Apakah anda yakin ingin menghapus data ini ?"
           callback={() => getData()}
         />
       ) : null}
 
       {isEditData ? (
-        <ModalEditDiskon
+        <ModalEditReview
           onClose={() => setIsEditData(null)}
           callback={() => getData()}
           isEditData={isEditData}
