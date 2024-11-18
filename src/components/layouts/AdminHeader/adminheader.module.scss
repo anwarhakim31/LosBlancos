@@ -137,5 +137,18 @@
     &:hover {
       box-shadow: 0 0.1rem 0.3rem $primary;
     }
+
+    .badge {
+      position: absolute;
+      top: -0.25rem;
+      right: -0.25rem;
+      width: 1rem;
+      height: 1rem;
+      border-radius: 50%;
+      background: $danger;
+      color: $white;
+      font-size: 0.75rem;
+      @include flex-center();
+    }
   }
 }

@@ -49,6 +49,11 @@ export async function POST(req: NextRequest) {
 
     const data = await req.json();
 
+    const total = await Collection.countDocuments();
+    if (total >= 8) {
+      return ResponseError(400, "Koleksi tidak boleh lebih dari 8");
+    }
+
     if (data.name) {
       const isExist = await Collection.findOne({ name: data.name });
 
