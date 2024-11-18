@@ -108,6 +108,10 @@ export async function POST(req: NextRequest) {
             {
               $set: {
                 description: `Stok ${item.productId} habis`,
+                dataId: item.productId,
+                title: "Stok Habis",
+                value: item.attributeValue,
+                read: false,
               },
             },
             { upsert: true }
