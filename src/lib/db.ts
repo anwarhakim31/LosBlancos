@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import "./models/index";
 const MONGO_URL = process.env.DATABASE_URL;
 
 const connectDB = async () => {
@@ -16,7 +16,7 @@ const connectDB = async () => {
 
   try {
     mongoose.set("strictPopulate", false);
-    mongoose.connect(MONGO_URL!, {
+    await mongoose.connect(MONGO_URL!, {
       dbName: "LosBlancos",
     });
   } catch (error) {

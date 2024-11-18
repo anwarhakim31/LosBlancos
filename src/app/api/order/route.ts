@@ -45,7 +45,9 @@ export async function GET(req: NextRequest) {
     }
 
     const transaction = await Transaction.find(filter)
-      .populate("items.productId")
+      .populate({
+        path: "items.productId",
+      })
       .skip(skip)
       .limit(limit)
       .sort({ updatedAt: -1 })
