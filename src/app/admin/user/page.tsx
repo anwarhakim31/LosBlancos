@@ -59,14 +59,9 @@ const KelolaUserPage = () => {
     getAllUser();
   }, [page, limit, search, getAllUser]);
 
-  const tbody: string[] = [
-    "fullname",
-    "email",
+  console.log(data);
 
-    "phone",
-    "jenisKelamin",
-    "createdAt",
-  ];
+  const tbody: string[] = ["fullname", "email", "phone", "gender", "createdAt"];
 
   const thead = [
     { title: "Nama Lengkap", padding: "1rem 1rem" },

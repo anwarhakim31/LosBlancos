@@ -37,10 +37,7 @@ const FormControlProfile = ({
         disabled={!isEdit}
       />
       <p className={styles.error}>
-        {" "}
-        <p className={styles["error-message"]}>
-          {errors[id] && errors[id]?.message && errors[id].message}
-        </p>
+        {errors[id] && errors[id]?.message && errors[id].message}
       </p>
     </Fragment>
   );

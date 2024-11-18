@@ -29,6 +29,7 @@ const userSchema = new mongoose.Schema({
   gender: {
     type: String,
     required: false,
+    enum: ["Laki-Laki", "Perempuan"],
   },
   provinsi: {
     type: String,

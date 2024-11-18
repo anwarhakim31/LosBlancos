@@ -119,6 +119,7 @@ const TdComponent = (item: any, body: string) => {
       return <td style={{ textTransform: "uppercase" }}>{item.code}</td>;
     case "percent":
       return <td style={{ textAlign: "center" }}>{item.percent} %</td>;
+
     default:
       return <td>{item?.[body]}</td>;
   }

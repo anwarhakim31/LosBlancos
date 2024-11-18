@@ -1,13 +1,61 @@
 .profile {
   background: $white;
-  padding: 5rem 2rem;
+  padding: 2rem 2rem;
   border-radius: 0.25rem;
   border: 1px solid $gray-300;
+  min-height: 400px;
 
-  @include media(lg) {
+  &__head {
     display: grid;
-    gap: 2rem;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 1rem;
+    margin-bottom: 2rem;
+    align-items: center;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    &__wrapper {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      label {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: $gray-500;
+      }
+
+      &__password {
+        display: none;
+        @include media(lg) {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+      }
+    }
+  }
+
+  &__content {
+    @include media(lg) {
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: flex-start;
+    }
+
+    &__left {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+
+      gap: 4rem;
+      flex-direction: column;
+
+      @include media(lg) {
+        flex-direction: row;
+      }
+    }
   }
 
   &__image__wrapper {
@@ -16,49 +64,10 @@
     margin-bottom: 2rem;
   }
 
-  &__image {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    background: $gray-100;
-    border: 1px solid $gray-300;
-    margin-inline: auto;
-    overflow: hidden;
-    position: relative;
-    cursor: pointer;
-    @include flex-center();
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
-    &__overlay {
-      position: absolute;
-
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.2);
-      z-index: 1;
-      @include flex-center();
-    }
-  }
-
-  &__content {
-    @include media(lg) {
-      grid-column: span 2 / span 2;
-    }
-  }
-
-  &__form {
+  form {
     width: 100%;
-    margin: 1rem;
-
-    &__button {
-      width: 200px;
-    }
+  }
+  .button {
+    width: 200px;
   }
 }
