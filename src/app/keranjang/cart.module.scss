@@ -9,14 +9,13 @@
 }
 
 .content {
-  flex: 1;
-
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
   gap: 1rem;
   min-height: 400px;
   position: relative;
 
   @include media(lg) {
-    display: grid;
     gap: 1rem;
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }

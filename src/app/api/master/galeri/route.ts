@@ -4,6 +4,7 @@ import Galeri from "@/lib/models/galeri-module";
 import { ResponseError } from "@/lib/response-error";
 import { verifyToken } from "@/lib/verify-token";
 import { NextRequest, NextResponse } from "next/server";
+import { getPlaiceholder } from "plaiceholder";
 
 export async function GET() {
   try {
@@ -13,7 +14,19 @@ export async function GET() {
 
     const image = Array(6).fill("/default.png");
 
-    console.log({ galeri });
+    let blurDataURL = [];
+
+    if (galeri.image.length > 0) {
+      await Promise.all(
+        (blurDataURL = galeri?.image?.map(async (item: string) => {
+          const response = await fetch(item);
+          const buffer = await response.arrayBuffer();
+          const { base64 } = await getPlaiceholder(Buffer.from(buffer));
+          return base64;
+        }))
+      );
+    }
+
     if (!galeri) {
       const newGaleri = await Galeri.create({
         image,
@@ -22,12 +35,18 @@ export async function GET() {
       return NextResponse.json({
         success: true,
         galeri: newGaleri,
+        blurDataURL,
       });
     }
 
+    const newArr = {
+      image: galeri.image,
+      blurDataURL,
+    };
+
     return NextResponse.json({
       success: true,
-      galeri,
+      galeri: newArr,
     });
   } catch (error) {
     return ResponseError(500, "Internal Server Error");

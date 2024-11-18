@@ -94,6 +94,9 @@ export async function POST(req: NextRequest) {
         },
         stock: 0,
       });
+
+      console.log(stock);
+
       if (stock.length > 0) {
         for (const item of stock) {
           await Notification.updateOne(
@@ -104,7 +107,7 @@ export async function POST(req: NextRequest) {
             },
             {
               $set: {
-                description: `Stok ${item.productId}  habis`,
+                description: `Stok ${item.productId} habis`,
               },
             },
             { upsert: true }

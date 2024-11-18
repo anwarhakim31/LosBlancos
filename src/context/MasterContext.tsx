@@ -8,7 +8,7 @@ interface MasterContextProps {
   handleUpdate: (data: TypeMaster) => void;
 }
 
-const MasterContext = createContext<MasterContextProps | undefined>(undefined);
+const MasterContext = createContext<MasterContextProps | null>(null);
 
 export const useMasterContext = () => {
   return React.useContext(MasterContext);

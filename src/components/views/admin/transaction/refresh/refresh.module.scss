@@ -1,0 +1,27 @@
+.refresh {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  border-radius: 0.25rem;
+  padding: 0.4rem 0.75rem;
+  transition: all 0.3s ease-in-out;
+  border: 1px solid $gray-300;
+
+  position: relative;
+  border-radius: 0.25rem;
+  cursor: pointer;
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+    transition: all 0.3s ease-in-out;
+  }
+
+  &:hover {
+    background: $primary;
+
+    svg {
+      color: $white;
+    }
+  }
+}

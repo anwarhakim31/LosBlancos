@@ -17,11 +17,11 @@ const Page = async () => {
     dataGaleri,
     dataBanner,
   ] = await Promise.all([
-    fetch(ServerURL + "/master/carousel", { next: { revalidate: 10 } }).then(
-      (res) => res.json()
+    fetch(ServerURL + "/master/carousel", { cache: "no-store" }).then((res) =>
+      res.json()
     ),
-    fetch(ServerURL + "/master/marquee", { next: { revalidate: 10 } }).then(
-      (res) => res.json()
+    fetch(ServerURL + "/master/marquee", { cache: "no-store" }).then((res) =>
+      res.json()
     ),
 
     fetch(ServerURL + "/product?limit=4", { cache: "no-store" }).then((res) =>
@@ -30,11 +30,11 @@ const Page = async () => {
     fetch(ServerURL + "/product?limit=4&sold=asc", {
       cache: "no-store",
     }).then((res) => res.json()),
-    fetch(ServerURL + "/master/galeri", { next: { revalidate: 10 } }).then(
-      (res) => res.json()
+    fetch(ServerURL + "/master/galeri", { cache: "no-store" }).then((res) =>
+      res.json()
     ),
-    fetch(ServerURL + "/master/banner", { next: { revalidate: 10 } }).then(
-      (res) => res.json()
+    fetch(ServerURL + "/master/banner", { cache: "no-store" }).then((res) =>
+      res.json()
     ),
   ]);
 
@@ -57,7 +57,7 @@ const Page = async () => {
           data={dataBestSellProduct.products}
         />
         <TestimoniView />
-        <HomeGaleriView data={dataGaleri.galeri.image} />
+        <HomeGaleriView data={dataGaleri.galeri} />
       </main>
     </Fragment>
   );

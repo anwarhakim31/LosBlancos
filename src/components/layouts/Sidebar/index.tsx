@@ -78,7 +78,6 @@ const sideList = [
     icon: <Package width={20} height={20} strokeWidth={1.2} />,
     link: "/admin/product",
   },
-
   {
     id: 8,
     name: "transaksi",

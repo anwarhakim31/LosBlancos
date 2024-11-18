@@ -95,7 +95,7 @@ const AuthLayouts = () => {
                 <>
                   {success
                     ? "Kami telah mengirimkan email untuk reset password"
-                    : "Masukan alamat email yang telah terdaftar untuk menerima email reset password."}
+                    : "Masukan alamat email yang telah terdaftar untuk menerima link reset password."}
                 </>
               ) : (
                 <>

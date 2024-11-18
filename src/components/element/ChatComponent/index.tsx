@@ -6,15 +6,13 @@ import { useMasterContext } from "@/context/MasterContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+const notAllow = ["/login", "/register", "/forget-password", "/reset-password"];
+
 const ChatComponent = () => {
   const context = useMasterContext();
   const pathname = usePathname();
 
-  if (
-    // pathname.startsWith("/checkout/") ||
-    // pathname.startsWith("/pembayaran/ ") ||
-    pathname.startsWith("/admin/")
-  ) {
+  if (pathname.startsWith("/admin/") || notAllow.includes(pathname)) {
     return null;
   }
   return (

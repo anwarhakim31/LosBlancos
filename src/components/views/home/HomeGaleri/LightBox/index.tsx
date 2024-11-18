@@ -1,12 +1,13 @@
-import Modal from "@/components/element/Modal";
 import React, { FC, useState } from "react";
 import Image from "next/image";
 import styles from "./lightbox.module.scss";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
+import PortalNotification from "@/components/element/PortalNotification";
+
 interface propsType {
   onClose: () => void;
-  data: string[];
+  data: { image: string[]; blurDataURL: string[] };
   isOpen: number;
 }
 
@@ -15,21 +16,24 @@ const LightBox: FC<propsType> = ({ onClose, data, isOpen }) => {
 
   const handleNext = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    isSelected < data.length ? setIsSelected(isSelected + 1) : setIsSelected(1);
+    isSelected < data?.image.length
+      ? setIsSelected(isSelected + 1)
+      : setIsSelected(1);
   };
 
   const handlePrevious = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     isSelected <= 1
-      ? setIsSelected(data.length)
+      ? setIsSelected(data.image.length)
       : setIsSelected(isSelected - 1);
   };
 
   return (
-    <Modal onClose={onClose}>
+    <PortalNotification onClose={onClose}>
       {data &&
-        data.map((item, index) => {
+        data.image.map((item, index) => {
           const newIndex = index + 1;
+
           return (
             <div
               key={newIndex}
@@ -43,9 +47,14 @@ const LightBox: FC<propsType> = ({ onClose, data, isOpen }) => {
                 width={1000}
                 height={1000}
                 loading="lazy"
+                // placeholder="blur"
+                // blurDataURL={
+                //   data?.blurDataURL[index] ||
+                //   "https://dummyimage.com/1000/1000/eee"
+                // }
               />
               <p>
-                {newIndex} dari {data.length}
+                {newIndex} dari {data.image.length}
               </p>
             </div>
           );
@@ -74,7 +83,7 @@ const LightBox: FC<propsType> = ({ onClose, data, isOpen }) => {
       >
         <ChevronLeft />
       </button>
-    </Modal>
+    </PortalNotification>
   );
 };
 

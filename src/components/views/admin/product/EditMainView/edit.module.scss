@@ -1,0 +1,141 @@
+.container {
+  margin-top: 1rem;
+  background: $white;
+  padding: 1.5rem;
+  border-radius: 0.4rem;
+
+  small {
+    height: 1.25rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+    color: $danger;
+    display: block;
+  }
+
+  @include media(md) {
+    small {
+      margin-left: 136px;
+      color: $danger;
+    }
+  }
+}
+
+.form {
+  @include media(xl) {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+.wrapper {
+  display: flex;
+
+  gap: 1rem;
+  flex-direction: column;
+
+  @include media(md) {
+    flex-direction: row;
+  }
+  label {
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  @include media(md) {
+    label {
+      min-width: 120px;
+    }
+  }
+}
+
+.stock {
+  margin-bottom: 2rem;
+
+  @include media(xl) {
+    grid-column: span 2 / span 2;
+  }
+
+  span {
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  @include media(md) {
+    span {
+      min-width: 120px;
+    }
+  }
+
+  .list {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-direction: column;
+  }
+  .input {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+  }
+
+  .info {
+    width: 100%;
+    max-width: 75px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0.6375rem;
+    border: 1px solid $gray-300;
+    border-right: none;
+    border-top-left-radius: 0.4rem;
+    border-bottom-left-radius: 0.4rem;
+    height: 2.25rem;
+    font-size: 0.75rem;
+    line-height: 0.9rem;
+    text-transform: capitalize;
+  }
+
+  .text {
+    width: 100%;
+    padding: 0.6375rem 2rem 0.6375rem 0.6375rem;
+    border: 1px solid $gray-300;
+    border-top-right-radius: 0.4rem;
+    border-bottom-right-radius: 0.4rem;
+    height: 2.25rem;
+    font-size: 0.75rem;
+
+    &:focus {
+      outline: $primary 1px solid;
+      border: 1px solid $primary;
+    }
+
+    &::placeholder {
+      font-size: 0.75rem;
+      color: $gray-400;
+    }
+  }
+
+  button {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 1.5rem;
+    width: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+
+    font-size: 0.75rem;
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+      color: $gray-500;
+    }
+  }
+}
