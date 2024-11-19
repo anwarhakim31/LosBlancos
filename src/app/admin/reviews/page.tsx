@@ -93,7 +93,7 @@ const DiscountPage = () => {
           <InputSearch
             id="search"
             name="search"
-            placeholder="Cari Kode atau Deskripsi dari Diskon"
+            placeholder="Cari Komentar dari Ulasan"
             loading={loading}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}

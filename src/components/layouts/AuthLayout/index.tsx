@@ -120,7 +120,13 @@ const AuthLayouts = () => {
                   signIn("google", { callbackUrl, redirect: false });
                 }}
               >
-                <Image src="/google.svg" width={20} height={20} alt="google" />
+                <Image
+                  src="/google.svg"
+                  width={20}
+                  height={20}
+                  alt="google"
+                  priority
+                />
                 {pathname === "/register" ? "Daftar" : "Masuk"} dengan Google
               </button>
 

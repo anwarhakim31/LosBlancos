@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from "react";
+import React, { FC, Fragment, useEffect, useRef } from "react";
 import styles from "./navbar.module.scss";
 import Link from "next/link";
 import Image from "next/image";
@@ -6,7 +6,7 @@ import Image from "next/image";
 import { authRender } from "@/components/layouts/Header";
 import UserMenu from "./UserMenu";
 import HomeMenu from "./HomeMenu";
-import { Menu, Phone, X } from "lucide-react";
+import { Megaphone, Menu, Phone, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useMasterContext } from "@/context/MasterContext";
 import { TypeCollection } from "@/services/type.module";
@@ -19,6 +19,7 @@ const NavbarView: FC<propsType> = ({ collection }) => {
   const context = useMasterContext();
   const navRef = useRef<HTMLDivElement>(null);
   const [isActive, setIsActive] = React.useState<boolean>(false);
+  const [width, setWidth] = React.useState<number>(0);
   const pathname = usePathname();
 
   const handleHelp = () => {
@@ -58,69 +59,97 @@ const NavbarView: FC<propsType> = ({ collection }) => {
     }
   }, [isActive, navRef]);
 
+  const handleClick = () => {
+    if (!isActive) {
+      setTimeout(() => setIsActive(true), 300);
+    }
+
+    if (isActive) {
+      setTimeout(() => setIsActive(false), 300);
+    }
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
-    <nav ref={navRef} className={styles.nav}>
-      <div>
-        <Link href={"/"} className={styles["nav__logo"]}>
-          {context?.master.displayLogo && (
-            <Image
-              src={context?.master?.logo || "/default.png"}
-              alt="logo"
-              width={50}
-              height={50}
-              style={{ objectFit: "contain" }}
-              priority
-            />
-          )}
+    <Fragment>
+      <nav ref={navRef} className={styles.nav}>
+        <div>
+          <Link href={"/"} className={styles["nav__logo"]}>
+            {context?.master.displayLogo && (
+              <Image
+                src={context?.master?.logo || "/default.png"}
+                alt="logo"
+                width={50}
+                height={50}
+                style={{ objectFit: "contain" }}
+                priority
+              />
+            )}
 
-          {context?.master.displayName && (
-            <span className={styles["nav__logo__text"]}>LosBlancos</span>
-          )}
-        </Link>
-      </div>
+            {context?.master.displayName && (
+              <span className={styles["nav__logo__text"]}>LosBlancos</span>
+            )}
+          </Link>
+        </div>
 
-      {!authRender.includes(pathname) && (
-        <>
-          <div className={styles["nav__menu"]}>
-            <HomeMenu collection={collection} />
+        {!authRender.includes(pathname) && (
+          <>
+            <div className={styles["nav__menu"]}>
+              <HomeMenu collection={collection} />
+            </div>
+            <UserMenu />
+          </>
+        )}
+
+        {authRender.includes(pathname) && (
+          <div className={styles["nav__help"]}>
+            <p>butuh bantuan?</p>
+            <button className={styles["nav__help__btn"]} onClick={handleHelp}>
+              <Phone />
+            </button>
           </div>
-          <UserMenu />
-        </>
-      )}
-
-      {authRender.includes(pathname) && (
-        <div className={styles["nav__help"]}>
-          <p>butuh bantuan?</p>
-          <button className={styles["nav__help__btn"]} onClick={handleHelp}>
-            <Phone />
+        )}
+        {!authRender.includes(pathname) && (
+          <button className={styles.nav__burger} onClick={handleClick}>
+            {isActive ? (
+              <X width={20} height={20} />
+            ) : (
+              <Menu width={20} height={20} />
+            )}
           </button>
-        </div>
-      )}
-      {!authRender.includes(pathname) && (
-        <button
-          className={styles.nav__burger}
-          onClick={() => setIsActive(!isActive)}
-        >
-          {isActive ? (
-            <X width={20} height={20} />
-          ) : (
-            <Menu width={20} height={20} />
-          )}
-        </button>
-      )}
+        )}
 
-      <div
-        className={`${styles.nav__menu__mobile} ${
-          isActive ? styles.nav__menu__mobile__active : ""
-        }`}
-      >
-        <div className={styles.nav__menu__mobile__wrapper}>
-          {!authRender.includes(pathname) && (
-            <HomeMenu collection={collection} />
-          )}
+        <div
+          className={`${styles.nav__menu__mobile} ${
+            isActive ? styles.nav__menu__mobile__active : ""
+          }`}
+        >
+          <div className={styles.nav__menu__mobile__wrapper}>
+            {!authRender.includes(pathname) && (
+              <HomeMenu collection={collection} />
+            )}
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+      {width <= 768 && isActive && (
+        <div className={styles.bottom}>
+          <div className={styles.bottom__list}>
+            <Megaphone width={18} height={18} />
+            <p>Dapatkan Diskon Pertama Anda</p>
+          </div>
+        </div>
+      )}
+    </Fragment>
   );
 };
 

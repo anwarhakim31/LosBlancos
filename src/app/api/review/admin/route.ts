@@ -10,11 +10,15 @@ export async function GET(req: NextRequest) {
     const page = Number(searchParams.get("page") || "1");
     const limit = Number(searchParams.get("limit") || "8");
     const skip = (page - 1) * limit;
+    const search = searchParams.get("search")?.toLocaleLowerCase() || "";
+
+    const searchRegex = new RegExp(search.trim(), "i");
 
     const product = await Product.find().select("_id");
 
     const query = {
       product: { $in: product.map((p) => p._id) },
+      comment: { $regex: searchRegex },
     };
 
     const reviews = await Review.find(query)
