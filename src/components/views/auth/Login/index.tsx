@@ -65,10 +65,6 @@ const LoginView = () => {
           control={control}
           rules={{
             required: "Email tidak boleh kosong",
-            pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-              message: "Email tidak valid",
-            },
           }}
           render={({ field: { ...field } }) => (
             <FormControlAnimate
@@ -87,7 +83,6 @@ const LoginView = () => {
           control={control}
           rules={{
             required: "Password tidak boleh kosong",
-            minLength: { value: 6, message: "Password minimal 6 karakter" },
           }}
           render={({ field: { ...field } }) => (
             <FormControlAnimate

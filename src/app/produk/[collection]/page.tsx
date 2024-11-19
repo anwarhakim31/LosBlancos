@@ -6,6 +6,8 @@ import { ServerURL } from "@/utils/contant";
 import ProductMainView from "@/components/views/AllProduct/MainProduct";
 
 import FilterProductView from "@/components/views/AllProduct/FilterProduct";
+import { Fragment } from "react";
+import ChatComponent from "@/components/element/ChatComponent";
 
 const fetchData = async (collection: string, params: URLSearchParams) => {
   console.log(params);
@@ -73,25 +75,31 @@ const CollectionProductPage = async ({
   );
 
   return (
-    <main>
-      <div
-        className={styles.banner}
-        style={{
-          backgroundImage: `url(${data.banner || "/collection1.png"}) `,
-        }}
-      ></div>
-      <section className={styles.container}>
-        <BreadCrubm />
+    <Fragment>
+      <main>
+        <div
+          className={styles.banner}
+          style={{
+            backgroundImage: `url(${data.banner || "/collection1.png"}) `,
+          }}
+        ></div>
+        <section className={styles.container}>
+          <BreadCrubm />
 
-        <div className={styles.wrapper}>
-          <div className={styles.filter}>
-            <FilterProductView />
+          <div className={styles.wrapper}>
+            <div className={styles.filter}>
+              <FilterProductView />
+            </div>
+
+            <ProductMainView
+              products={products || []}
+              pagination={pagination}
+            />
           </div>
-
-          <ProductMainView products={products || []} pagination={pagination} />
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
+      <ChatComponent />
+    </Fragment>
   );
 };
 

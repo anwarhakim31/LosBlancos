@@ -36,6 +36,7 @@ const HomeMenu = ({ collection }: { collection: TypeCollection[] }) => {
           {item.name}
         </Link>
       ))}
+
       <Link
         href={"/tentang"}
         className={`${styles.list}  ${font.className}`}

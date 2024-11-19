@@ -104,3 +104,28 @@
     box-shadow: none;
   }
 }
+
+.bottom {
+  padding: 0.5rem 1rem;
+  background: $dark;
+  color: $white;
+  font-size: 0.6125rem;
+  @include flex(center, center, null);
+  gap: 0.5rem;
+
+  &__list {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    svg {
+      fill: $white;
+    }
+
+    p {
+      color: $white;
+      font-size: 0.675rem;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+  }
+}

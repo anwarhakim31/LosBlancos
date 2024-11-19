@@ -11,6 +11,7 @@ import Link from "next/link";
 import { removeWishlist } from "@/store/slices/wishSlice";
 import { useSession } from "next-auth/react";
 import StarComp from "@/components/element/Star";
+import ChatComponent from "@/components/element/ChatComponent";
 const WishListPage = () => {
   const session = useSession();
   const dispatch = useAppDispatch();
@@ -138,6 +139,7 @@ const WishListPage = () => {
           </div>
         </section>
       </main>
+      <ChatComponent />
     </Fragment>
   );
 };

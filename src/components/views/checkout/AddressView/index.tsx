@@ -6,12 +6,22 @@ import { ResponseError } from "@/utils/axios/response-error";
 import { addressService } from "@/services/address/methods";
 import { useSession } from "next-auth/react";
 import { TypeShippingAddress } from "@/services/type.module";
-import ModalAddAddress from "../../../fragments/ModalAddAddress";
-import ModalChangeAddress from "./ModalChangeAddress";
+
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { setShippingAddress } from "@/store/slices/chechkoutSlice";
 import { getOngkir } from "@/store/slices/ongkirSlice";
 import { setLoading as setLoadingOngkir } from "@/store/slices/ongkirSlice";
+import dynamic from "next/dynamic";
+
+const ModalChangeAddress = dynamic(() => import("./ModalChangeAddress"), {
+  ssr: false,
+});
+const ModalAddAddress = dynamic(
+  () => import("../../../fragments/ModalAddAddress"),
+  {
+    ssr: false,
+  }
+);
 
 const AddressView = ({
   isLoading,
@@ -75,15 +85,15 @@ const AddressView = ({
         Alamat Pengiriman
       </h3>
 
-      {address.length === 0 && !loading && (
+      {address.length === 0 && !loading ? (
         <span>
           <AlertCircle width={18} height={18} /> Alamat Pengiriman anda masih
           kosong
         </span>
-      )}
+      ) : null}
 
       <div className={styles.list}>
-        {loading && (
+        {loading ? (
           <>
             <div
               className={styles.skeleton}
@@ -106,8 +116,8 @@ const AddressView = ({
               }}
             ></div>
           </>
-        )}
-        {selected && !loading && (
+        ) : null}
+        {selected && !loading ? (
           <>
             <div className={styles.list__contact}>
               <h4 className={loading ? styles.skeleton : ""}>
@@ -125,7 +135,7 @@ const AddressView = ({
               <p>{selected.postalCode}</p>
             </div>
           </>
-        )}
+        ) : null}
       </div>
 
       <div className={styles.footer}>

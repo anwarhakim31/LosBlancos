@@ -10,6 +10,7 @@ import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useAppSelector } from "@/store/hook";
 import { usePathname, useRouter } from "next/navigation";
+import ChatComponent from "@/components/element/ChatComponent";
 
 const menu = [
   {
@@ -92,6 +93,7 @@ const ProfileMainLayout = ({ children }: { children: React.ReactNode }) => {
           </div>
         </section>
       </main>
+      <ChatComponent />
     </Fragment>
   );
 };

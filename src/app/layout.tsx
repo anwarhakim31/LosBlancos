@@ -13,7 +13,7 @@ import { CheckIcon } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import Footer from "@/components/layouts/Footer";
-import ChatComponent from "@/components/element/ChatComponent";
+
 import SocketProvider from "@/context/SocketContext";
 
 const inter = Inter_Tight({
@@ -70,7 +70,7 @@ export default async function RootLayout({
                     info: <CheckIcon />,
                   }}
                 />
-                <ChatComponent />
+
                 <div id="modal-root"></div>
                 <div id="portal-notif-root"></div>
               </MasterProvider>

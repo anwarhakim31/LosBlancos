@@ -10,6 +10,7 @@ import Link from "next/link";
 import { Play } from "lucide-react";
 import ModalPlayYoutube from "./ModalPlayYoutube";
 import { youtubeid } from "@/utils/contant";
+import ChatComponent from "@/components/element/ChatComponent";
 
 const service = [
   {
@@ -93,6 +94,7 @@ const TentangPage = () => {
           {isOpen && <ModalPlayYoutube onClose={() => setIsOpen(false)} />}
         </div>
       </section>
+      <ChatComponent />
     </main>
   );
 };

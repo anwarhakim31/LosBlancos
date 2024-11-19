@@ -30,6 +30,8 @@ import ModalRebuy from "@/components/views/payment/ModalRebuy";
 import StatusView from "@/components/views/payment/statusView";
 import { reviewService } from "@/services/review/method";
 import Link from "next/link";
+import { resetCheckout } from "@/store/slices/chechkoutSlice";
+import { useAppDispatch } from "@/store/hook";
 
 const payment = [
   {
@@ -85,6 +87,7 @@ function getBankDetail(name: string) {
 
 const PembaranPage = ({ params }: { params: { id: string } }) => {
   const session = useSession();
+  const dispatch = useAppDispatch();
   const { id } = params;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<TypeTransaction | null>(null);
@@ -97,6 +100,10 @@ const PembaranPage = ({ params }: { params: { id: string } }) => {
   const [actions, setActions] = useState<{ name: string; url: string }[]>([]);
   const { replace } = useRouter();
   const status = useSearchParams().get("status");
+
+  useEffect(() => {
+    dispatch(resetCheckout());
+  }, [dispatch]);
 
   useEffect(() => {
     async function getData() {

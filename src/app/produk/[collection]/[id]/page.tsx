@@ -1,3 +1,4 @@
+import ChatComponent from "@/components/element/ChatComponent";
 import DetailProductView from "@/components/views/DetailProduct/DetailViewMain";
 import { ServerURL } from "@/utils/contant";
 import { redirect } from "next/navigation";
@@ -56,6 +57,7 @@ const DetailProduct = async ({
           ratingsSummary={dataReview.ratingsSummary}
         />
       </main>
+      <ChatComponent />
     </Fragment>
   );
 };

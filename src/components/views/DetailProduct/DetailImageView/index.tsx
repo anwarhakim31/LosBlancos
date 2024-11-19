@@ -58,8 +58,8 @@ const DetailImageView = ({ product }: { product: TypeProduct }) => {
         <Image
           src={product?.image[selected]}
           alt="image"
-          width={1000}
-          height={1000}
+          width={800}
+          height={800}
           priority
           draggable={false}
           className={styles.image__dekstop}

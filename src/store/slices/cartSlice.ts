@@ -132,7 +132,7 @@ const cartSlice = createSlice({
       state.error = action.error.message || "Failed to fetch cartList";
     });
     builder.addCase(getCart.fulfilled, (state, action) => {
-      if (action.payload.items.length > 0) {
+      if (action.payload && action.payload?.items?.length > 0) {
         state.cart.items = action.payload?.items;
         state.cart.total = action.payload?.total;
       }
