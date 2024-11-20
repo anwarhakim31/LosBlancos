@@ -52,7 +52,10 @@ const ModalConfirmCancel = ({
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <div className={styles.modal__content}>
           <TriangleAlert />
-          <p>Apakah anda yakin ingin batalkan pesasnan ini?</p>
+          <p>
+            Apakah anda yakin ingin batalkan pesanan ini? Maka riwayat pesanan
+            tidak akan disimpan.
+          </p>
         </div>
 
         <div className={styles.modal__footer}>

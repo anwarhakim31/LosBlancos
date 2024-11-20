@@ -1,13 +1,41 @@
 import BreadCrubm from "@/components/element/BreadCrubm";
 
 import styles from "./collcection.module.scss";
-import { ServerURL } from "@/utils/contant";
+import { formatCollectionName, ServerURL } from "@/utils/contant";
 
 import ProductMainView from "@/components/views/AllProduct/MainProduct";
 
 import FilterProductView from "@/components/views/AllProduct/FilterProduct";
 import { Fragment } from "react";
 import ChatComponent from "@/components/element/ChatComponent";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { collection: string };
+}) {
+  return {
+    title: `Koleksi Produk ${formatCollectionName(
+      params.collection.replace("-", " ")
+    )} `,
+    description: `Koleksi produk ${formatCollectionName(
+      params.collection.replace("-", " ")
+    )}`,
+    openGraph: {
+      title: `Koleksi Produk ${formatCollectionName(
+        params.collection.replace("-", " ")
+      )}`,
+      description: `Koleksi produk ${formatCollectionName(
+        params.collection.replace("-", " ")
+      )}`,
+      type: "website",
+      locale: "id_ID",
+      url: `${process.env.NEXT_PUBLIC_DOMAIN}/produk/${formatCollectionName(
+        params.collection.replace("-", " ")
+      )}`,
+    },
+  };
+}
 
 const fetchData = async (collection: string, params: URLSearchParams) => {
   console.log(params);

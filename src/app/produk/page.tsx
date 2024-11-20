@@ -9,6 +9,20 @@ import FilterProductView from "@/components/views/AllProduct/FilterProduct";
 import ChatComponent from "@/components/element/ChatComponent";
 import { Fragment } from "react";
 
+export async function generateMetadata() {
+  return {
+    title: `Semua Produk`,
+    description: `Semua Produk`,
+    openGraph: {
+      title: `Semua Produk`,
+      description: `Semua Produk`,
+      type: "website",
+      locale: "id_ID",
+      url: `${process.env.NEXT_PUBLIC_DOMAIN}/produk`,
+    },
+  };
+}
+
 const fetchData = async (params: URLSearchParams) => {
   const search = params.get("search") || "";
   const category = params.getAll("category") || [];

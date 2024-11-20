@@ -1,19 +1,19 @@
 "use client";
+
 import { usePathname, useSearchParams } from "next/navigation";
 import styles from "./order.module.scss";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import ProfileMainLayout from "@/components/layouts/ProfileMainLayout";
 
-import PendingView from "@/components/views/profile/PendingView";
-import CancelView from "@/components/views/profile/CancelView";
-import ProcessView from "@/components/views/profile/processView";
-import SendView from "@/components/views/profile/SendView";
-import DoneView from "@/components/views/profile/DoneView";
+import PendingView from "@/components/views/profile/pesanan/PendingView";
+import CancelView from "@/components/views/profile/pesanan/CancelView";
+import ProcessView from "@/components/views/profile/pesanan/processView";
+import SendView from "@/components/views/profile/pesanan/SendView";
+import DoneView from "@/components/views/profile/pesanan/DoneView";
 
 const stat = ["tertunda", "diproses", "dikirim", "selesai", "dibatalkan"];
-
-const OrderPage = () => {
+const PesananMainView = () => {
   const status = useSearchParams().get("status");
   const [active, setActive] = useState(
     !stat.includes(status as string) ? "tertunda" : status || "tertunda"
@@ -63,4 +63,4 @@ const OrderPage = () => {
   );
 };
 
-export default OrderPage;
+export default PesananMainView;

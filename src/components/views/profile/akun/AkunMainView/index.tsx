@@ -10,10 +10,9 @@ import ButtonSubmit from "@/components/element/ButtonSubmit";
 import { ResponseError } from "@/utils/axios/response-error";
 import { userService } from "@/services/user/method";
 import { toast } from "sonner";
-import ChangePasswordView from "@/components/views/profile/ChangePassword";
+import ChangePasswordView from "@/components/views/profile/akun/ChangePassword";
 import ProfileMainView from "@/components/layouts/ProfileMainLayout";
-
-const MyAccountPage = () => {
+const AkunMainView = () => {
   const session = useSession();
   const {
     register,
@@ -201,4 +200,4 @@ const MyAccountPage = () => {
   );
 };
 
-export default MyAccountPage;
+export default AkunMainView;

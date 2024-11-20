@@ -9,7 +9,9 @@ const ErrorPage = ({ reset }: { reset: () => void }) => {
       <div className={style.content}>
         <h1>500</h1>
         <p>Terjadi kesalahan sistem</p>
-        <button onClick={() => reset()}>Coba lagi</button>
+        <button onClick={() => reset()} className={style.button}>
+          Coba lagi
+        </button>
       </div>
     </main>
   );
