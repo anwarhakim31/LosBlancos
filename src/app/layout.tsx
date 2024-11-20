@@ -15,6 +15,8 @@ import { authOptions } from "@/lib/auth";
 import Footer from "@/components/layouts/Footer";
 
 import SocketProvider from "@/context/SocketContext";
+import { Metadata } from "next";
+import Head from "next/head";
 
 const inter = Inter_Tight({
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -34,6 +36,27 @@ const getCollection = async () => {
   return await res.json();
 };
 
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await getMaster();
+
+  return {
+    metadataBase: new URL(`${process.env.NEXT_PUBLIC_DOMAIN}/`),
+    title: {
+      default: ` ${data.master.name}`,
+      template: `%s | ${data.master.name}`,
+    },
+    description: data.description || "",
+    openGraph: {
+      title: data.master.name || "",
+      description: data.master.description || "",
+      type: "website",
+      locale: "id_ID",
+      url: `${process.env.NEXT_PUBLIC_DOMAIN}/`,
+      siteName: data.master.name,
+    },
+  };
+}
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -45,6 +68,9 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
+      <Head>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <body className={inter.className}>
         <SessionProviderClient session={session}>
           <StoreProvider>

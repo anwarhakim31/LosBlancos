@@ -30,7 +30,7 @@
     }
   }
 
-  a {
+  .button {
     @include btn();
     font-size: 0.75rem;
     height: 1.75rem;

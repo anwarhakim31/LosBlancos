@@ -23,6 +23,61 @@ const getReview = async (id: string, searchParams: URLSearchParams) => {
   return res.json();
 };
 
+export async function generateMetadata({ params }: { params: { id: string } }) {
+  const dataProduct = await getProduct(params.id);
+
+  if (!dataProduct.product) {
+    return {
+      title: "Produk tidak ditemukan",
+      description: "Halaman produk tidak ditemukan.",
+      openGraph: {
+        title: "Produk tidak ditemukan",
+        description: "Halaman produk tidak ditemukan.",
+        type: "website",
+        locale: "id_ID",
+        url: `${process.env.NEXT_PUBLIC_DOMAIN}/produk`,
+        siteName: "E-commerce",
+        images: [],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: "Produk tidak ditemukan",
+        description: "Halaman produk tidak ditemukan.",
+        images: [],
+      },
+    };
+  }
+
+  return {
+    title: `${dataProduct.product.name} - Beli sekarang dengan harga terbaik`,
+    description: `${dataProduct.product.description}`,
+    openGraph: {
+      title: `${dataProduct.product.name}`,
+      description: `${dataProduct.product.description}`,
+      type: "website",
+      locale: "id_ID",
+      url: `${
+        process.env.NEXT_PUBLIC_DOMAIN
+      }/${dataProduct.product.collectionName.name.replace(/\s/g, "-")}/${
+        dataProduct.product._id
+      }`,
+      siteName: dataProduct.product.name,
+      images: dataProduct.product.image,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${dataProduct.product.name}`,
+      description: `${dataProduct.product.description}`,
+      images: [dataProduct.product.image[0]],
+    },
+
+    robots: {
+      index: true,
+      follow: true,
+    },
+  };
+}
+
 const DetailProduct = async ({
   params,
   searchParams,

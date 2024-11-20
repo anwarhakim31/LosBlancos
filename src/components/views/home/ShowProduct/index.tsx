@@ -28,6 +28,29 @@ const ShowProductView: FC<PropsType> = ({ header, data }) => {
             const collection = item.collectionName.name.replace(/\s/g, "-");
             const id = item._id;
 
+            const structuredData = {
+              "@context": "https://schema.org",
+              "@type": "Product",
+              name: item.name,
+              description:
+                item.description || "Deskripsi produk belum tersedia",
+              image: item.image[0],
+              offers: {
+                "@type": "Offer",
+                priceCurrency: "IDR",
+                price: item.price,
+                availability:
+                  item.stock.reduce((a, b) => a + b.stock, 0) > 0
+                    ? "InStock"
+                    : "OutOfStock",
+                url: `/produk/${collection}/${id}`,
+              },
+              aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: item.averageRating || 0,
+                reviewCount: item.reviewCount || 0,
+              },
+            };
             return (
               <Link
                 href={`/produk/${collection}/${id}`}
@@ -59,6 +82,13 @@ const ShowProductView: FC<PropsType> = ({ header, data }) => {
                 </p>
 
                 <StarComp item={item} name="product" />
+
+                <script
+                  type="application/ld+json"
+                  dangerouslySetInnerHTML={{
+                    __html: JSON.stringify(structuredData),
+                  }}
+                />
               </Link>
             );
           })}
