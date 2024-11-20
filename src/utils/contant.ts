@@ -85,3 +85,10 @@ export const formatDateMessage = (date: Date) => {
     return `${differenceInDays} hari lalu`;
   }
 };
+
+export const formatCollectionName = (collection: string): string => {
+  return collection
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};

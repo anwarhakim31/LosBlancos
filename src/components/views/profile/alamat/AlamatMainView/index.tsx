@@ -13,7 +13,7 @@ import ModalDeleteAddress from "@/components/fragments/ModalDeleteAddress";
 import ProfileMainLayout from "@/components/layouts/ProfileMainLayout";
 import Loader from "@/components/element/Loader";
 
-const MyAddressPage = () => {
+const AlamatMainView = () => {
   const session = useSession();
   const [loading, setLoading] = useState(true);
   const [address, setAddress] = useState<TypeShippingAddress[]>([]);
@@ -147,4 +147,4 @@ const MyAddressPage = () => {
   );
 };
 
-export default MyAddressPage;
+export default AlamatMainView;

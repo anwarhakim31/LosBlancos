@@ -7,7 +7,9 @@ export default function NotFound() {
       <div className={styles.content}>
         <h1>4 0 4</h1>
         <p>Halaman yang anda cari tidak ditemukan.</p>
-        <Link href="/">Kembali</Link>
+        <Link className={styles.button} href="/">
+          Kembali
+        </Link>
       </div>
     </div>
   );
