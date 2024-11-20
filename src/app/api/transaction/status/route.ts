@@ -1,13 +1,10 @@
 import Transaction from "@/lib/models/transaction-model";
 import { ResponseError } from "@/lib/response-error";
-import { verifyTokenMember } from "@/lib/verify-token";
 
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    verifyTokenMember(req);
-
     const params = req.nextUrl.searchParams;
 
     const order_id = params.get("order_id");
