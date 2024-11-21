@@ -53,6 +53,7 @@ export async function generateMetadata(): Promise<Metadata> {
       locale: "id_ID",
       url: `${process.env.NEXT_PUBLIC_DOMAIN}/`,
       siteName: data.master.name,
+      images: [data.master.logo],
     },
   };
 }

@@ -82,18 +82,43 @@ export async function DELETE(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams;
     const reviewId = searchParams.get("reviewId");
 
-    const review = await Review.findByIdAndDelete(reviewId);
+    const review = await Review.findById(reviewId);
 
     if (!review) {
       return ResponseError(404, "Ulasan tidak ditemukan");
     }
 
+    const product = await Product.findById(review.product);
+    if (!product) {
+      return ResponseError(404, "Produk tidak ditemukan");
+    }
+
+    const totalReviews = product.totalReviews;
+    const averageRating = product.averageRating;
+
+    if (totalReviews <= 1) {
+      product.totalReviews = 0;
+      product.averageRating = 0;
+    } else {
+      const newTotalReviews = totalReviews - 1;
+      const newAverageRating =
+        (averageRating * totalReviews - review.rating) / newTotalReviews;
+
+      product.totalReviews = newTotalReviews;
+      product.averageRating = newAverageRating;
+    }
+
+    await Review.findByIdAndDelete(reviewId);
+
+    await product.save();
+
     return NextResponse.json({
       success: true,
       status: 200,
-      message: "Berhasil menghapus ulasan produk",
+      message: "Berhasil menghapus ulasan produk dan memperbarui data",
     });
   } catch (error) {
+    console.error(error);
     return ResponseError(500, "Internal Server Error");
   }
 }

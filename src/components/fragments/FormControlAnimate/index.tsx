@@ -47,6 +47,7 @@ const FormControlAnimate = ({
             type="button"
             className={styles["show-password"]}
             onClick={handleShowPassword}
+            aria-label="toggle visibility"
           >
             {type === "password" ? (
               <EyeIcon width={17} height={17} />
@@ -57,7 +58,7 @@ const FormControlAnimate = ({
         )}
       </div>
 
-      <p className={styles["error-message"]}>
+      <p data-testid={`error ${name}`} className={styles["error-message"]}>
         {error[name] && error[name]?.message && error[name].message}
       </p>
     </Fragment>
