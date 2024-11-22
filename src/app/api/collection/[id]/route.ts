@@ -41,7 +41,7 @@ export async function PUT(
   try {
     verifyToken(req);
     const { id } = params;
-    const data = await req.json();
+    const { image, description, name } = await req.json();
 
     const isExist = await Collection.findById(id);
 
@@ -51,11 +51,17 @@ export async function PUT(
 
     const publicId = isExist?.image.split("/")[7];
 
-    if (data.image !== isExist.image) {
+    if (image !== isExist.image) {
       await cloudinary.uploader.destroy(publicId);
     }
+    const slug = name.replace(/\s+/g, "-").toLowerCase();
 
-    await Collection.findByIdAndUpdate(id, data);
+    await Collection.findByIdAndUpdate(id, {
+      image,
+      description,
+      name,
+      slug,
+    });
 
     return NextResponse.json({
       success: true,

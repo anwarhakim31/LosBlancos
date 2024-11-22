@@ -3,7 +3,7 @@ import HeaderPage from "@/components/element/HeaderPage";
 import Table from "@/components/fragments/Table";
 import { collectionSevice } from "@/services/collection/method";
 import { ResponseError } from "@/utils/axios/response-error";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
 import styles from "./collection.module.scss";
 import InputSearch from "@/components/element/InputSearch";
@@ -11,13 +11,13 @@ import ButtonClick from "@/components/element/ButtonClick";
 import { TypeCollection } from "@/services/type.module";
 import ModalManyDelete from "@/components/fragments/ModalManyDelete";
 import ModalOneDelete from "@/components/fragments/ModalOneDelete";
-import { useAppDispatch } from "@/store/hook";
-import { setDataEdit } from "@/store/slices/actionSlice";
+
+import ModalAddCollection from "@/components/views/admin/collection/ModalAddCollection";
+import ModalEditCollection from "@/components/views/admin/collection/ModalEditCollection";
 
 const CollectionPage = () => {
-  const dispatch = useAppDispatch();
   const query = useSearchParams();
-  const { push } = useRouter();
+
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState({
@@ -26,17 +26,17 @@ const CollectionPage = () => {
     total: 0,
     totalPage: 0,
   });
+  const [isAdd, setIsAdd] = useState(false);
   const [isDeleteOne, setIsDeleteOne] = useState<TypeCollection | null>(null);
   const [isDeleteMany, setIsDeleteMany] = useState(false);
+  const [isEditData, setIsEditData] = useState<TypeCollection | null>(null);
   const [isAllChecked, setIsAllChecked] = useState(false);
-
-  const setIsEditData = (data: TypeCollection | null) => {
-    dispatch(setDataEdit(data));
-    push(`/admin/collection/edit?id=${data?._id}`);
-  };
-
   const [check, setCheck] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const handleEditData = (data: TypeCollection | null) => {
+    setIsEditData(data);
+  };
 
   const thead = [
     { title: "Nama", padding: "1rem 1rem" },
@@ -101,7 +101,7 @@ const CollectionPage = () => {
           <div className={styles.wrapper__button}>
             <ButtonClick
               title={`Tambah Koleksi`}
-              onClick={() => push("/admin/collection/add")}
+              onClick={() => setIsAdd(true)}
               loading={loading}
             />
           </div>
@@ -117,11 +117,24 @@ const CollectionPage = () => {
         setCheck={setCheck}
         setIsDeleteMany={setIsDeleteMany}
         setIsDeleteOne={setIsDeleteOne}
-        setIsEditData={setIsEditData}
+        setIsEditData={handleEditData}
         tbody={["name", "image", "description"]}
         setIsAllChecked={setIsAllChecked}
         isAllChecked={isAllChecked}
       />
+      {isAdd && (
+        <ModalAddCollection
+          callback={() => getAllCollection()}
+          onClose={() => setIsAdd(false)}
+        />
+      )}
+      {isEditData && (
+        <ModalEditCollection
+          callback={() => getAllCollection()}
+          onClose={() => setIsEditData(null)}
+          isEditData={isEditData}
+        />
+      )}
       {isDeleteMany && (
         <ModalManyDelete
           setCheck={() => setCheck([])}

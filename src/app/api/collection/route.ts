@@ -47,22 +47,29 @@ export async function POST(req: NextRequest) {
   try {
     verifyToken(req);
 
-    const data = await req.json();
+    const { name, image, description } = await req.json();
 
     const total = await Collection.countDocuments();
     if (total >= 8) {
       return ResponseError(400, "Koleksi tidak boleh lebih dari 8");
     }
 
-    if (data.name) {
-      const isExist = await Collection.findOne({ name: data.name });
+    if (name) {
+      const isExist = await Collection.findOne({ name });
 
       if (isExist) {
         return ResponseError(400, "Nama kolek sudah digunakan");
       }
     }
 
-    const collection = new Collection(data);
+    const slug = name.replace(/\s+/g, "-").toLowerCase();
+
+    const collection = new Collection({
+      name,
+      image,
+      description,
+      slug,
+    });
 
     await collection.save();
 

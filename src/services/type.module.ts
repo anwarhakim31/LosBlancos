@@ -16,7 +16,7 @@ export interface TypeCollection {
   name: string;
   image: string;
   description: string;
-  slug: string;
+  slug?: string;
   createdAt?: string;
 }
 

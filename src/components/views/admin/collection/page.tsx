@@ -1,51 +1,31 @@
 "use client";
 import ButtonBackPage from "@/components/element/ButtonBackPage";
-import { useAppSelector } from "@/store/hook";
-import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import styles from "./edit.module.scss";
 import HeaderPage from "@/components/element/HeaderPage";
-import ButtonSubmit from "@/components/element/ButtonSubmit";
-import UploadImage from "@/components/fragments/UploadImage";
+import styles from "./add.module.scss";
 import Input from "@/components/element/Input";
-import { toast } from "sonner";
+import { useForm } from "react-hook-form";
+import { Fragment, useState } from "react";
+
+import ButtonSubmit from "@/components/element/ButtonSubmit";
+import { TypeCollection } from "@/services/type.module";
 import { ResponseError } from "@/utils/axios/response-error";
 import { collectionSevice } from "@/services/collection/method";
-import { TypeCollection } from "@/services/type.module";
-import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import UploadImage from "@/components/fragments/UploadImage";
 
-const EditCategoryPage = () => {
-  const { replace } = useRouter();
-  const params = useSearchParams();
-  const dataEdit = useAppSelector((state) => state.action.dataEdit);
-
+const AddCategoryPage = () => {
   const {
     handleSubmit,
     register,
     reset,
     setValue,
-    watch,
     formState: { errors },
   } = useForm({
-    defaultValues: { name: "", image: "", description: "", slug: "" },
+    defaultValues: { name: "", image: "", description: "" },
   });
 
-  const id = params?.get("id") || "";
-
-  const image = watch("image");
-
-  useEffect(() => {
-    if (!id || (!dataEdit?.description && !dataEdit?.name)) {
-      replace("/admin/collection");
-    } else {
-      setValue("name", dataEdit?.name);
-      setValue("description", dataEdit?.description);
-      setValue("image", dataEdit?.image);
-      setValue("slug", dataEdit?.slug);
-    }
-  }, [id, dataEdit, replace, setValue]);
-
-  const { push } = useRouter();
+  const { replace } = useRouter();
 
   const [loading, setLoading] = useState(false);
 
@@ -53,12 +33,12 @@ const EditCategoryPage = () => {
     setLoading(true);
 
     try {
-      const res = await collectionSevice.editCollection(id, data);
+      const res = await collectionSevice.addCollection(data);
 
-      if (res.status === 200) {
+      if (res.status === 201) {
         toast.success(res.data.message);
         reset();
-        push("/admin/collection");
+        replace("/admin/collection");
       }
     } catch (error) {
       ResponseError(error);
@@ -68,7 +48,7 @@ const EditCategoryPage = () => {
   };
 
   return (
-    <section>
+    <Fragment>
       <ButtonBackPage />
 
       <div className={styles.container}>
@@ -82,7 +62,7 @@ const EditCategoryPage = () => {
             <Input
               id="nama"
               type="text"
-              placeholder="Masukkan Nama Koleksi"
+              placeholder="Masukkan Nama koleksi"
               field={{
                 ...register("name", {
                   required: "Nama tidak boleh kosong",
@@ -92,21 +72,7 @@ const EditCategoryPage = () => {
             />
           </div>
           <small>{errors.name && errors.name.message}</small>
-          <div className={styles.wrapper}>
-            <label htmlFor="nama">Slug </label>
-            <Input
-              id="slug"
-              type="text"
-              placeholder="Masukkan Slug koleksi. Contoh: nama"
-              field={{
-                ...register("slug", {
-                  required: "Slug tidak boleh kosong",
-                  maxLength: { value: 32, message: "Maksimal 32 karakter" },
-                }),
-              }}
-            />
-          </div>
-          <small>{errors.slug && errors.slug.message}</small>
+
           <div className={`${styles.wrapper} `}>
             <label htmlFor="image" onClick={(e) => e.preventDefault()}>
               Gambar
@@ -116,12 +82,11 @@ const EditCategoryPage = () => {
               loading={loading}
               setValue={setValue}
               register={register}
-              image={image}
             />
           </div>
           <small>{errors.image && errors.image.message}</small>
           <div className={styles.wrapper}>
-            <label htmlFor="nama">Deskripsi </label>
+            <label htmlFor="description">Deskripsi </label>
 
             <textarea
               placeholder="Masukkan deskripsi kategori"
@@ -144,8 +109,8 @@ const EditCategoryPage = () => {
           </div>
         </form>
       </div>
-    </section>
+    </Fragment>
   );
 };
 
-export default EditCategoryPage;
+export default AddCategoryPage;

@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import slugify from "slugify";
 
 const collectionModel = new mongoose.Schema({
   name: {
@@ -14,25 +13,11 @@ const collectionModel = new mongoose.Schema({
     type: String,
     required: true,
   },
-  slug: {
-    type: String,
-    required: true,
-  },
+
   createdAt: {
     type: Date,
     default: Date.now,
   },
-});
-
-collectionModel.pre("save", function (next) {
-  if (!this.slug) {
-    this.slug = slugify(this.name, {
-      lower: true,
-      strict: true,
-      remove: /[*+~.()'"!:@]/g,
-    });
-  }
-  next();
 });
 
 const Collection =
