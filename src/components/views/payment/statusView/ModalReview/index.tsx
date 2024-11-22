@@ -110,7 +110,7 @@ const ModalReview = ({
               </div>
             </div>
             <div className={styles.rating}>
-              <h3>Bagaimana Productnya</h3>
+              <h3>Bagaimana Barangnya</h3>
 
               <div className={styles.rating__wrapper}>
                 {Array.from({ length: 5 }).map((_, index) => (

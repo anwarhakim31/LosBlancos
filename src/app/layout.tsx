@@ -16,7 +16,6 @@ import Footer from "@/components/layouts/Footer";
 
 import SocketProvider from "@/context/SocketContext";
 import { Metadata } from "next";
-import Head from "next/head";
 
 const inter = Inter_Tight({
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -25,15 +24,25 @@ const inter = Inter_Tight({
 });
 
 const getMaster = async () => {
-  const res = await fetch(ServerURL + "/master/main", { cache: "no-cache" });
-  return await res.json();
+  try {
+    const res = await fetch(ServerURL + "/master/main", { cache: "no-cache" });
+    if (!res.ok) throw new Error("Failed to fetch master data");
+    return await res.json();
+  } catch (error) {
+    console.error(error);
+    return { master: {}, description: "" };
+  }
 };
 
 const getCollection = async () => {
-  const res = await fetch(ServerURL + "/collection", {
-    cache: "no-cache",
-  });
-  return await res.json();
+  try {
+    const res = await fetch(ServerURL + "/collection", { cache: "no-cache" });
+    if (!res.ok) throw new Error("Failed to fetch collection");
+    return await res.json();
+  } catch (error) {
+    console.error(error);
+    return { collection: [] };
+  }
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -44,6 +53,9 @@ export async function generateMetadata(): Promise<Metadata> {
     title: {
       default: ` ${data.master.name}`,
       template: `%s | ${data.master.name}`,
+    },
+    icons: {
+      icon: data.master.favicon,
     },
     description: data.description || "",
     openGraph: {
@@ -69,9 +81,6 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <Head>
-        <link rel="icon" href={master.master.favicon || "/favicon.ico"} />
-      </Head>
       <body className={inter.className}>
         <SessionProviderClient session={session}>
           <StoreProvider>

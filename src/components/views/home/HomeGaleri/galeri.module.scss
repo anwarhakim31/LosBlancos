@@ -34,6 +34,7 @@
     &__item {
       cursor: zoom-in;
       position: relative;
+      background: $gray-100;
 
       flex: 0 0 100%;
       @include media(sm) {
