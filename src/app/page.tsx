@@ -16,6 +16,7 @@ const Page = async () => {
     dataBestSellProduct,
     dataGaleri,
     dataBanner,
+    dataTestimoni,
   ] = await Promise.all([
     fetch(ServerURL + "/master/carousel", { cache: "no-store" }).then((res) =>
       res.json()
@@ -34,6 +35,9 @@ const Page = async () => {
       res.json()
     ),
     fetch(ServerURL + "/master/banner", { cache: "no-store" }).then((res) =>
+      res.json()
+    ),
+    fetch(ServerURL + "/review/testi", { cache: "no-store" }).then((res) =>
       res.json()
     ),
   ]);
@@ -56,7 +60,7 @@ const Page = async () => {
           header={"Produk Terlaris"}
           data={dataBestSellProduct.products}
         />
-        <TestimoniView />
+        <TestimoniView testimoni={dataTestimoni.review} />
         <HomeGaleriView data={dataGaleri.galeri} />
       </main>
     </Fragment>

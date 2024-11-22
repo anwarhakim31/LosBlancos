@@ -102,7 +102,7 @@ const ProductMainView: FC<propsType> = ({ products, pagination }) => {
                 key={item._id}
                 className={styles.card}
               >
-                <div className={styles.card__image}>
+                <figure className={styles.card__image}>
                   <Image
                     src={item.image[0]}
                     alt="image"
@@ -110,7 +110,7 @@ const ProductMainView: FC<propsType> = ({ products, pagination }) => {
                     height={1000}
                     priority
                   />
-                </div>
+                </figure>
                 <div className={styles.card__content}>
                   <div className={styles.card__content__head}>
                     <p className={styles.card__content__collection}>

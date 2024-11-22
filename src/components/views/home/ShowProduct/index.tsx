@@ -58,7 +58,7 @@ const ShowProductView: FC<PropsType> = ({ header, data }) => {
                 className={styles.scroller__card}
                 prefetch
               >
-                <div className={styles.scroller__card__image}>
+                <figure className={styles.scroller__card__image}>
                   <Image
                     src={item.image[0]}
                     alt="image"
@@ -66,7 +66,7 @@ const ShowProductView: FC<PropsType> = ({ header, data }) => {
                     height={500}
                     priority
                   />
-                </div>
+                </figure>
                 <div className={styles.scroller__card__content}>
                   <p className={styles.scroller__card__content__collection}>
                     {item.collectionName.name}

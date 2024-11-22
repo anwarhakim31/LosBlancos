@@ -102,14 +102,14 @@ const StatusView = ({
                     key={item._id}
                     className={styles.transaction__order__item}
                   >
-                    <div className={styles.transaction__order__item__image}>
+                    <figure className={styles.transaction__order__item__image}>
                       <Image
                         src={item.productId.image[0] || "/default.png"}
                         alt={item.productId.name}
                         width={100}
                         height={100}
                       />
-                    </div>
+                    </figure>
 
                     <div className={styles.transaction__order__item__detail}>
                       <div>
