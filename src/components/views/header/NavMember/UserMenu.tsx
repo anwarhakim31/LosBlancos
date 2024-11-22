@@ -2,9 +2,8 @@ import { useSession } from "next-auth/react";
 
 import styles from "./usermenu.module.scss";
 import Link from "next/link";
-import Cart from "@/assets/cart.svg";
 import Image from "next/image";
-import { Heart } from "lucide-react";
+import { Heart, ShoppingCart } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { useEffect } from "react";
@@ -46,7 +45,7 @@ const UserMenu = () => {
             className={styles.wrapper__user__cart}
             style={{ color: pathname !== "/" ? "black" : "" }}
           >
-            <Cart width={20} height={20} strokeWidth={1.75} />
+            <ShoppingCart width={20} height={20} strokeWidth={1.5} />
             <span className={styles.wrapper__user__count}>
               [
               {cart?.items?.length > 0

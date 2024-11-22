@@ -14,13 +14,11 @@ const nextConfig = {
       @use "@/styles/_mixins.scss" as *;
     `,
   },
-  webpack(config) {
+  webpack: (config) => {
     config.module.rules.push({
-      test: /\.svg$/i,
-      issuer: /\.[jt]sx?$/,
-      use: ["@svgr/webpack"],
+      test: /\.hbs$/,
+      loader: "handlebars-loader",
     });
-
     return config;
   },
 };

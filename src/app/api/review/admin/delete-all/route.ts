@@ -39,16 +39,16 @@ export async function DELETE(req: NextRequest) {
       if (product) {
         const { ratingsToSubtract, reviewsToSubtract } =
           productUpdates[productId];
-        const newTotalReviews = product.totalReviews - reviewsToSubtract;
+        const newTotalReviews = product.reviewCount - reviewsToSubtract;
 
         if (newTotalReviews <= 0) {
-          product.totalReviews = 0;
+          product.reviewCount = 0;
           product.averageRating = 0;
         } else {
-          const totalRating = product.averageRating * product.totalReviews;
+          const totalRating = product.averageRating * product.reviewCount;
           const newAverageRating =
             (totalRating - ratingsToSubtract) / newTotalReviews;
-          product.totalReviews = newTotalReviews;
+          product.reviewCount = newTotalReviews;
           product.averageRating = newAverageRating;
         }
 

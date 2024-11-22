@@ -2,13 +2,14 @@ import connectDB from "@/lib/db";
 import User from "@/lib/models/user-model";
 import { ResponseError } from "@/lib/response-error";
 import { NextRequest, NextResponse } from "next/server";
-import { Resend } from "resend";
+// import { Resend } from "resend";
 import { compileResetTemplate } from "@/lib/template/send";
 import VerifyToken from "@/lib/models/verify-model";
+import nodemailer from "nodemailer";
 
-const { RESEND_DOMAIN, RESEND_APIKEY } = process.env;
+// const { DOMAIN, RESEND_APIKEY } = process.env;
 
-const resend = new Resend(RESEND_APIKEY);
+// const resend = new Resend(RESEND_APIKEY);
 
 export async function POST(req: NextRequest) {
   await connectDB();
@@ -30,16 +31,31 @@ export async function POST(req: NextRequest) {
 
     const { _id: token } = await verify.save();
 
-    const confirmLink = `${RESEND_DOMAIN}/reset-password?token=${token} `;
+    const confirmLink = `${process.env.NEXT_PUBLIC_DOMAIN}/reset-password?token=${token} `;
 
     const emailHtml = await compileResetTemplate(confirmLink);
 
-    await resend.emails.send({
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_ADMIN,
+        pass: process.env.PASSWORD_APLIKASI_EMAIL,
+      },
+    });
+
+    await transporter.sendMail({
       from: "no-reply <onboarding@resend.dev>",
-      to: ["anwarhakim001@gmail.com"],
+      to: email,
       subject: "Reset Password",
       html: emailHtml,
     });
+
+    // await resend.emails.send({
+    //   from: "no-reply <onboarding@resend.dev>",
+    //   to: ["anwarhakim001@gmail.com"],
+    //   subject: "Reset Password",
+    //   html: emailHtml,
+    // });
 
     return NextResponse.json(
       { success: true, message: "Request reset password success" },

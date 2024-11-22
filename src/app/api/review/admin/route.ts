@@ -93,24 +93,23 @@ export async function DELETE(req: NextRequest) {
       return ResponseError(404, "Produk tidak ditemukan");
     }
 
-    const totalReviews = product.totalReviews;
+    const totalReviews = product.reviewCount;
     const averageRating = product.averageRating;
 
     if (totalReviews <= 1) {
-      product.totalReviews = 0;
+      product.reviewCount = 0;
       product.averageRating = 0;
     } else {
       const newTotalReviews = totalReviews - 1;
       const newAverageRating =
         (averageRating * totalReviews - review.rating) / newTotalReviews;
 
-      product.totalReviews = newTotalReviews;
-      product.averageRating = newAverageRating;
+      product.reviewCount = newTotalReviews;
+      product.averageRating = Math.round(newAverageRating);
     }
 
-    await Review.findByIdAndDelete(reviewId);
-
     await product.save();
+    await Review.findByIdAndDelete(reviewId);
 
     return NextResponse.json({
       success: true,

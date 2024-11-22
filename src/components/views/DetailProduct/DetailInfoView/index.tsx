@@ -1,6 +1,6 @@
 import styles from "./detail.module.scss";
-import Cart from "@/assets/cart.svg";
-import { Check, Heart, Star } from "lucide-react";
+
+import { Check, Heart, ShoppingCart, Star } from "lucide-react";
 import { formatCurrency } from "@/utils/contant";
 import { Fragment, useEffect, useState } from "react";
 import { itemCartType, TypeProduct } from "@/services/type.module";
@@ -259,7 +259,8 @@ const DetailInfoView = ({ product }: { product: TypeProduct }) => {
           onClick={handleAddToCart}
           disabled={isLoading}
         >
-          <Cart /> <span>Masukkan Keranjang</span>
+          <ShoppingCart width={18} height={18} strokeWidth={1.5} />
+          <span>Masukkan Keranjang</span>
         </button>
         <button
           className={styles.buy}
