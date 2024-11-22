@@ -14,6 +14,7 @@ const Input = ({ type, placeholder, name, id, field }: any) => {
       id={id}
       {...field}
       className={styles.input}
+      aria-label={id}
     />
   );
 };

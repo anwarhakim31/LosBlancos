@@ -89,7 +89,7 @@ const ResetPasswordView: FC<ResetViewProps> = ({ setSuccess }) => {
               label={true}
               name="password"
               type={isShowPassword1 ? "text" : "password"}
-              id="password"
+              id="Password"
               field={field}
               placeholder=""
               error={errors}
@@ -101,8 +101,7 @@ const ResetPasswordView: FC<ResetViewProps> = ({ setSuccess }) => {
           name="confirmPassword"
           control={control}
           rules={{
-            required: "Konfimasi Password tidak boleh kosong",
-            minLength: { value: 6, message: "Password minimal 6 karakter" },
+            required: "Konfirmasi Password tidak boleh kosong",
             validate: (value) => value === password || "Password tidak sama",
           }}
           render={({ field: { ...field } }) => (

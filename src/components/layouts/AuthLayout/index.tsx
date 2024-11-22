@@ -19,7 +19,7 @@ const poppins = Poppins({
   display: "swap",
 });
 
-const googleRender = ["/forget-password", "/reset-password"];
+const googleRender = ["/login", "/register"];
 
 const AuthLayouts = () => {
   const pathname = usePathname();
@@ -52,7 +52,7 @@ const AuthLayouts = () => {
     <Fragment>
       <main className={styles.auth}>
         <div className={styles.auth__form}>
-          {success && pathname === "/forgot-password" && (
+          {success && pathname === "/forget-password" && (
             <div className={styles.auth__form__success}>
               <Image
                 src={"/mailer.svg"}
@@ -111,7 +111,7 @@ const AuthLayouts = () => {
               </button>
             )}
           </div>
-          {!googleRender.includes(pathname) && (
+          {googleRender.includes(pathname) && (
             <div className={styles.auth__form__divider}>
               <button
                 className={styles.auth__form__divider__button}

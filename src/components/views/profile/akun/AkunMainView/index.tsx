@@ -11,7 +11,7 @@ import { ResponseError } from "@/utils/axios/response-error";
 import { userService } from "@/services/user/method";
 import { toast } from "sonner";
 import ChangePasswordView from "@/components/views/profile/akun/ChangePassword";
-import ProfileMainView from "@/components/layouts/ProfileMainLayout";
+import ProfileMainLayout from "@/components/layouts/ProfileMainLayout";
 const AkunMainView = () => {
   const session = useSession();
   const {
@@ -64,7 +64,7 @@ const AkunMainView = () => {
   };
 
   return (
-    <ProfileMainView>
+    <ProfileMainLayout>
       <div className={styles.info}>
         <h3>Akun dan Keamanan</h3>
         <p>
@@ -196,7 +196,7 @@ const AkunMainView = () => {
           </div>
         </div>
       </div>
-    </ProfileMainView>
+    </ProfileMainLayout>
   );
 };
 
