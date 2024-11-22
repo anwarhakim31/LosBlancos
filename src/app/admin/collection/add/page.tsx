@@ -77,7 +77,7 @@ const AddCategoryPage = () => {
             <Input
               id="slug"
               type="text"
-              placeholder="Masukkan Slug koleksi. Contoh: nama"
+              placeholder="Masukkan Slug koleksi. Contoh: nama-koleksi"
               field={{
                 ...register("slug", {
                   required: "Slug tidak boleh kosong",

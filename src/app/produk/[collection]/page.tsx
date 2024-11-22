@@ -38,8 +38,6 @@ export async function generateMetadata({
 }
 
 const fetchData = async (collection: string, params: URLSearchParams) => {
-  console.log(params);
-
   const search = params.get("search") || "";
   const category = params.getAll("category") || [];
   const max = params.get("max");
@@ -68,7 +66,7 @@ const fetchData = async (collection: string, params: URLSearchParams) => {
   );
 
   if (!res.ok) {
-    return console.log("gagal");
+    return { products: [], pagination: {} };
   }
 
   const data = await res.json();

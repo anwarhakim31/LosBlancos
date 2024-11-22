@@ -7,6 +7,7 @@ import ShowProductView from "@/components/views/home/ShowProduct";
 import TestimoniView from "@/components/views/home/Testimoni";
 import HomeGaleriView from "@/components/views/home/HomeGaleri";
 import HomeBannerView from "@/components/views/home/HomeBanner";
+import ChatComponent from "@/components/element/ChatComponent";
 
 const Page = async () => {
   const [
@@ -63,6 +64,7 @@ const Page = async () => {
         <TestimoniView testimoni={dataTestimoni.review} />
         <HomeGaleriView data={dataGaleri.galeri} />
       </main>
+      <ChatComponent />
     </Fragment>
   );
 };

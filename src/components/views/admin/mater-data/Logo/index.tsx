@@ -83,6 +83,44 @@ const LogoView = () => {
     }
   };
 
+  const handleUploadIcon = async (file: File) => {
+    console.log(file.type);
+
+    if (
+      !["image/png", "image/jpeg", "image/jpg", "image/x-icon"].includes(
+        file.type
+      )
+    ) {
+      return toast.error("Format file tidak didukung");
+    }
+
+    if (file.size > 2 * 1024 * 1024) {
+      return toast.error("Ukuran file terlalu besar");
+    }
+
+    if (file) {
+      const formData = new FormData();
+
+      formData.append("file", file);
+      formData.append("upload_preset", process.env.NEXT_PUBLIC_CLOUD_PRESET!);
+
+      const originalFileName = `${uuid()}/${file.name.split(".")[0]}`;
+      formData.append("public_id", originalFileName);
+      setLoading(true);
+      try {
+        const res = await imageService.upload(formData, () => {});
+
+        if (res.status === 200) {
+          setFormData((prev) => ({ ...prev, favicon: res.data.url }));
+        }
+      } catch (error) {
+        ResponseError(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -201,11 +239,15 @@ const LogoView = () => {
           </div>
           <InputFile
             id="favicon"
-            onChange={(file) => handleUploadLogo(file)}
+            onChange={(file) => handleUploadIcon(file)}
             value={formData.favicon.split("/").slice(8).join("")}
           />
-          <div style={{ marginTop: "10px" }} className="flex-center">
-            <ImageFormat />
+          <div
+            style={{ marginTop: "10px", textAlign: "center", fontSize: "12px" }}
+            className="flex-center"
+          >
+            <span style={{ fontWeight: "bold" }}>Format File</span>: ICO, PNG,
+            JPG, JPEG.
           </div>
           <small style={{ textAlign: "center", display: "block" }}>
             Ukuran gambar maksimal 2 MB

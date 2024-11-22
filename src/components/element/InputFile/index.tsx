@@ -35,7 +35,7 @@ const InputFile = ({
         type="file"
         id={id}
         name={id}
-        accept=".jpg, .jpeg, .png, .webp, .svg"
+        accept="image/*"
         onChange={handleFileChange}
         className={styles.inputfile}
       />

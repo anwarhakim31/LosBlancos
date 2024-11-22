@@ -80,6 +80,12 @@ const NavbarView: FC<propsType> = ({ collection }) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (authRender.includes(pathname)) {
+      setIsActive(false);
+    }
+  }, [pathname]);
+
   return (
     <Fragment>
       <nav ref={navRef} className={styles.nav}>

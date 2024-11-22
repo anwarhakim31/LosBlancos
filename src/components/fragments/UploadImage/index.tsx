@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { imageService } from "@/services/image/method";
 import { ALLOW_IMAGE_TYPE } from "@/utils/AllowImageType";
 import { toast } from "sonner";
-import Cloud from "@/assets/cloud.svg";
+import cloud from "@/assets/cloud.svg";
 import { ArrowUp, Image as LucideImage, X } from "lucide-react";
 import { ResponseError } from "@/utils/axios/response-error";
 import styles from "./upload.module.scss";
@@ -169,7 +169,7 @@ const UploadImage = ({
       {!preview && progress <= 0 && (
         <div className={styles.upload}>
           <div className={styles.upload__icon}>
-            <Cloud width={100} height={100} strokeWidth={1} />
+            <Image src={cloud} alt="cloud" width={50} height={50} />
             <div className={styles.upload__icon__top}>
               <ArrowUp />
             </div>
