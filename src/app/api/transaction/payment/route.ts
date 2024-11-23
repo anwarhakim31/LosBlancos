@@ -268,6 +268,8 @@ export async function POST(req: NextRequest) {
     transaction.paymentCreated = data.transaction_time;
     transaction.paymentExpired = data.expiry_time;
 
+    console.log("estimated", shipping.cost[0].etd);
+
     const saveTransaction = await transaction.save();
 
     transaction.items.forEach(
@@ -418,6 +420,9 @@ export async function PUT(req: NextRequest) {
     transaction.paymentId = data.transaction_id;
     transaction.paymentCreated = data.transaction_time;
     transaction.paymentExpired = data.expiry_time;
+    transaction.estimated = shipping.cost[0].etd;
+
+    console.log("estimated", shipping.cost[0].etd);
 
     const saveTransaction = await transaction.save();
 

@@ -124,7 +124,17 @@ const SendView = ({
               </h5>
             </div>
             <div className={styles.card__footer}>
-              <div></div>
+              <div className={styles.card__footer__estimated}>
+                <p>
+                  Estimasi tiba{" "}
+                  {loading
+                    ? "0"
+                    : order.estimated.startsWith("0")
+                    ? "ini"
+                    : order.estimated.split("HARI")}{" "}
+                  hari
+                </p>
+              </div>
               <div className={styles.card__footer__btns}>
                 <Link
                   className={`${styles.card__footer__btn} `}
@@ -139,7 +149,7 @@ const SendView = ({
                   aria-label="Diterima"
                   onClick={() => handleUpdate(order._id as string)}
                 >
-                  Beli
+                  Selesai
                 </button>
               </div>
             </div>

@@ -7,7 +7,11 @@ import PaymentView from "@/components/views/checkout/PaymentView";
 import { transactionService } from "@/services/transaction/method";
 
 import { useAppDispatch, useAppSelector } from "@/store/hook";
-import { getCheckout, setError } from "@/store/slices/chechkoutSlice";
+import {
+  getCheckout,
+  resetCheckout,
+  setError,
+} from "@/store/slices/chechkoutSlice";
 import { ResponseError } from "@/utils/axios/response-error";
 
 import { formatCurrency } from "@/utils/contant";
@@ -86,7 +90,7 @@ const Checkout = ({ params }: { params: { id: string } }) => {
           } else {
             const transactionId = res.data.transaction._id;
             replace(`/pembayaran/${transactionId}`);
-
+            dispatch(resetCheckout());
             setIsNavigate(true);
           }
         }

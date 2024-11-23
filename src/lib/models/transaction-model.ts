@@ -87,6 +87,10 @@ const transactionSchema = new mongoose.Schema(
     shippingName: {
       type: String,
     },
+    estimated: {
+      type: String,
+      required: true,
+    },
     totalPayment: {
       type: Number,
       required: true,

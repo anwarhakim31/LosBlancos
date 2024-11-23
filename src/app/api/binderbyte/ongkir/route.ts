@@ -48,8 +48,6 @@ export async function GET(req: NextRequest) {
       0
     );
 
-    console.log(transaction.items, weight);
-
     const resProvinsi = await fetch(
       "https://api.rajaongkir.com/starter/city?key=" + key
     );
@@ -114,8 +112,6 @@ export async function GET(req: NextRequest) {
 
     const data1 = await resJNE.json();
     const data2 = await resPOS.json();
-
-    console.log(data1, data2);
 
     const jne = data1.rajaongkir.results[0].costs
       .filter((item: { service: string }) => item.service !== "JTR")
