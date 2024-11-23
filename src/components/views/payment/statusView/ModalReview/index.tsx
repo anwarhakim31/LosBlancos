@@ -104,9 +104,7 @@ const ModalReview = ({
               </div>
               <div className={styles.item__detail}>
                 <h3>{data?.productId?.name}</h3>
-                <p>
-                  {data?.atribute} {data?.atributeValue}
-                </p>
+                <p>{data?.atributeValue}</p>
               </div>
             </div>
             <div className={styles.rating}>

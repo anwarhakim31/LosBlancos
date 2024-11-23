@@ -29,7 +29,7 @@ const CustomTooltip = ({
         <h5 className={styles.label}>{payload[0].payload.month}</h5>
         <div className={styles.tooltip__list}>
           <p className={styles.label}>Transaksi</p>
-          <span className={styles.value}>{payload[1].value}</span>
+          <span className={styles.value}>{payload[0].value}</span>
         </div>
         <div className={styles.tooltip__list}>
           <p className={styles.label}>Produk</p>

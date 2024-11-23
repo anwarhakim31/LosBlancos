@@ -67,27 +67,39 @@ const getRevenueData = async () => {
       const aggregate = [
         {
           $match: {
-            paymentStatus: "dibayar",
-            transactionDate: { $gte: firstDayOfMonth, $lt: lastDayOfMonth },
+            createdAt: {
+              $gte: firstDayOfMonth,
+              $lte: lastDayOfMonth,
+            },
           },
         },
         {
-          $unwind: "$items",
+          $unwind: "$items", // Jika transaksi memiliki array items
         },
         {
           $group: {
-            _id: null,
+            _id: "$_id", // Grup berdasarkan transaksi
+            totalSubtotal: { $first: "$subtotal" },
+            totalDiskon: { $first: "$diskon" },
+            totalQuantity: {
+              $sum: "$items.quantity", // Total produk dalam transaksi
+            },
+          },
+        },
+        {
+          $group: {
+            _id: null, // Gabungkan semua transaksi dalam bulan tersebut
+            totalTransaction: { $sum: 1 }, // Total transaksi
             totalIncome: {
               $sum: {
-                $add: ["$subtotal", 1000, { $subtract: ["$diskon", 0] }],
+                $add: [
+                  "$totalSubtotal",
+                  1000,
+                  { $subtract: ["$totalDiskon", 0] },
+                ],
               },
             },
-            totalTransaction: {
-              $sum: 1,
-            },
-            totalProduct: {
-              $sum: "$items.quantity",
-            },
+            totalProduct: { $sum: "$totalQuantity" }, // Total produk
           },
         },
       ];
@@ -126,11 +138,13 @@ const getBestCollection = async () => {
     {
       $group: {
         _id: "$collectionName",
-        total: { $sum: 1 },
+        total: { $sum: "$sold" },
       },
     },
     {
-      $sort: { total: -1 },
+      $sort: {
+        total: -1,
+      },
     },
   ]);
 

@@ -25,7 +25,7 @@ export const postCart = createAsyncThunk(
     try {
       const data = { userId, productId, quantity, atribute, atributeValue };
       const res = await cartService.postCart(data);
-      console.log(res);
+
       if (res.status === 200) {
         toast.success(res.data.message);
         return res.data.cart;

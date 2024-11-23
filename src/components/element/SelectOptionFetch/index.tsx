@@ -39,7 +39,6 @@ const SelectOptionFetch = ({
         const res = await fetching();
 
         if (res.status === 200) {
-          console.log(res.data[name]);
           setData(res.data[name]);
         }
       } catch (error) {
@@ -56,6 +55,14 @@ const SelectOptionFetch = ({
     setSelect(value?.name || "");
     setValue(value);
     setOpen(false);
+  };
+
+  const handleKeyDown = (value: any, e: React.KeyboardEvent<HTMLElement>) => {
+    if (e.key === "Enter") {
+      setSelect(value?.name || "");
+      setValue(value);
+      setOpen(!open);
+    }
   };
 
   useEffect(() => {
@@ -87,26 +94,32 @@ const SelectOptionFetch = ({
         <ChevronDown className={open ? styles.active : ""} />
       </div>
       {open && (
-        <div role="dialog" className={styles.dropdown}>
-          <span
+        <ul
+          role="dialog"
+          className={styles.dropdown}
+          tabIndex={-1}
+          aria-labelledby={id}
+        >
+          <li
             tabIndex={0}
             onClick={() => handleSelect("")}
-            onKeyDown={() => handleSelect("")}
+            onKeyDown={(e) => handleKeyDown("", e)}
           >
             {placeholder}
-          </span>
+          </li>
+
           {data?.length > 0 &&
             data.map((item: any) => (
-              <span
+              <li
                 key={item._id}
                 tabIndex={0}
                 onClick={() => handleSelect(item)}
-                onKeyDown={() => handleSelect(item)}
+                onKeyDown={(e) => handleKeyDown(item, e)}
               >
                 {item.name}
-              </span>
+              </li>
             ))}
-        </div>
+        </ul>
       )}
     </div>
   );

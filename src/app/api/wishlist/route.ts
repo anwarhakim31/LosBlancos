@@ -1,4 +1,5 @@
 import connectDB from "@/lib/db";
+import Product from "@/lib/models/product-model";
 import Stock from "@/lib/models/stock-model";
 import Wishlist from "@/lib/models/wishlist-mode";
 import { ResponseError } from "@/lib/response-error";
@@ -48,17 +49,18 @@ export async function GET(req: NextRequest) {
   try {
     const id = new URL(req.url).searchParams.get("user") as string;
 
-    const wishlist = await Wishlist.find({ user: id }).populate({
-      path: "product",
-      populate: {
-        path: "collectionName",
-      },
-    });
+    const wishlist = await Wishlist.find({ user: id });
 
     for (const item of wishlist) {
       const stockDB = await Stock.find({
-        productId: item.product._id,
+        productId: item.product,
       });
+
+      const productDB = await Product.findById(item.product);
+
+      if (!productDB) {
+        await Wishlist.findByIdAndDelete({ _id: item._id });
+      }
 
       const totalStock = stockDB.reduce((a, b) => a + b.stock, 0);
 
@@ -67,10 +69,17 @@ export async function GET(req: NextRequest) {
       }
     }
 
+    const wishlistPopulate = await Wishlist.find({ user: id }).populate({
+      path: "product",
+      populate: {
+        path: "collectionName",
+      },
+    });
+
     return NextResponse.json({
       success: true,
       message: "Berhasil mengambil wishlist",
-      wishlist,
+      wishlist: wishlistPopulate,
     });
   } catch (error) {
     console.log(error);

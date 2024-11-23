@@ -10,6 +10,7 @@ import React from "react";
 import { Check, Hourglass, X } from "lucide-react";
 import { TypeTransaction } from "@/services/type.module";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
 const getData = async (id: string) => {
   const res = await fetch(`${ServerURL}/transaction/admin/` + id, {
@@ -17,7 +18,7 @@ const getData = async (id: string) => {
   });
 
   if (!res.ok) {
-    throw new Error("Failed to fetch data");
+    return null;
   }
 
   const data = await res.json();
@@ -34,7 +35,9 @@ const TranscationId = async ({
 
   const transaction: TypeTransaction = await getData(transactionId);
 
-  console.log(transaction.paymentStatus);
+  if (!transaction) {
+    redirect("/admin/transaction");
+  }
 
   return (
     <section>
@@ -221,6 +224,7 @@ const TranscationId = async ({
                     <p>
                       {item.atribute} {item.atributeValue}
                     </p>
+                    <p style={{ marginTop: "0" }}>Jumlah {item.quantity}</p>
                   </div>
                 </div>
               ))}

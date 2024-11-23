@@ -29,7 +29,7 @@ const Page = async () => {
     fetch(ServerURL + "/product?limit=4", { cache: "no-store" }).then((res) =>
       res.json()
     ),
-    fetch(ServerURL + "/product?limit=4&sold=asc", {
+    fetch(ServerURL + "/product/bestseller", {
       cache: "no-store",
     }).then((res) => res.json()),
     fetch(ServerURL + "/master/galeri", { cache: "no-store" }).then((res) =>

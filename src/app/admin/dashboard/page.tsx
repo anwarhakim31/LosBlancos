@@ -43,7 +43,7 @@ const DashboardPage = () => {
         <div className={styles.wrapper2__list}>
           <div className={styles.titlechart}>
             <ChartPie />
-            <h3>Grafik Koleksi</h3>
+            <h3>Grafik Koleksi Terlaris</h3>
           </div>
           <SimplePieCart />
         </div>

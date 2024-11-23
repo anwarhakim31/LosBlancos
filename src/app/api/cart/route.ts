@@ -103,12 +103,7 @@ export async function GET(req: NextRequest) {
   try {
     const userId = new URL(req.url).searchParams.get("userId");
 
-    const cart = await Cart.findOne({ userId }).populate({
-      path: "items.product",
-      populate: {
-        path: "stock collectionName",
-      },
-    });
+    const cart = await Cart.findOne({ userId });
 
     if (!cart) {
       const cart = new Cart({ userId, items: [] });
@@ -119,12 +114,20 @@ export async function GET(req: NextRequest) {
     if (cart && cart.items.length > 0) {
       for (const item of cart.items) {
         const stockDB = await Stock.findOne({
-          productId: item.product._id,
+          productId: item.product,
           attribute: item.atribute,
           value: item.atributeValue,
         });
 
-        if (stockDB?.stock === 0) {
+        const productDB = await Product.findById(item.product);
+
+        if (!productDB) {
+          await cart.items.remove(item._id);
+
+          await cart.save();
+        }
+
+        if (productDB && stockDB?.stock === 0) {
           await cart.items.remove(item._id);
 
           await cart.save();
@@ -140,10 +143,17 @@ export async function GET(req: NextRequest) {
       }
     }
 
+    const cartPopulate = await cart.populate({
+      path: "items.product",
+      populate: {
+        path: "stock collectionName",
+      },
+    });
+
     return NextResponse.json({
       success: true,
       message: "Data berhasil diambil",
-      cart: cart,
+      cart: cartPopulate,
     });
   } catch (error) {
     console.log(error);

@@ -176,17 +176,17 @@ const CartMainView = () => {
                     }}
                   >
                     {cart?.items?.length > 0 &&
-                      cart.items.map((item) => (
-                        <div className={styles.list} key={item._id}>
+                      cart?.items?.map((item) => (
+                        <div className={styles.list} key={item?._id}>
                           <Link
-                            href={`/produk/${item.product.collectionName.name.replace(
+                            href={`/produk/${item?.product?.collectionName.name.replace(
                               /\s/g,
                               "-"
-                            )}/${item.product._id}`}
+                            )}/${item?.product?._id}`}
                             className={styles.list__image}
                           >
                             <Image
-                              src={item.product.image[0] || "/default.png"}
+                              src={item?.product?.image[0] || "/default.png"}
                               alt="image"
                               width={500}
                               height={500}
@@ -196,9 +196,11 @@ const CartMainView = () => {
 
                           <div className={styles.list__info}>
                             <div className={styles.list__info__top}>
-                              <small>{item.product.collectionName.name}</small>
-                              <h3>{item.product.name}</h3>
-                              <p>{item.atributeValue}</p>
+                              <small>
+                                {item?.product?.collectionName.name}
+                              </small>
+                              <h3>{item?.product?.name}</h3>
+                              <p>{item?.atributeValue}</p>
                             </div>
 
                             <h4 className={styles.list__info__price}>
