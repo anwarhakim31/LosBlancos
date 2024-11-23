@@ -120,6 +120,7 @@ const getBestCollection = async () => {
     {
       $match: {
         collectionName: { $in: collection.map((c) => c._id) },
+        sold: { $gt: 0 },
       },
     },
     {

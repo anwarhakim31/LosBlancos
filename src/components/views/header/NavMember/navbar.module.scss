@@ -61,12 +61,12 @@
 
   &__logo {
     @include flex(center, center, null);
-
-    height: 60px;
-
+    width: 55px;
+    height: 55px;
     img {
-      width: 55px;
-      height: 55px;
+      object-fit: contain;
+      object-position: center;
+      pointer-events: none;
     }
 
     &__text {

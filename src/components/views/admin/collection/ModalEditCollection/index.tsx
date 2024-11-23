@@ -89,7 +89,7 @@ const ModalEditCollection = ({ onClose, callback, isEditData }: PropsType) => {
                   type="text"
                   placeholder="Masukkan Nama koleksi"
                   field={field}
-                  name="nama"
+                  name="name"
                   error={errors}
                 />
               )}

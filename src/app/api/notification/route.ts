@@ -5,7 +5,6 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   try {
     const { dataId, messageId } = await req.json();
-    console.log(dataId, messageId);
 
     const notif = await Notification.findOne({ dataId, _id: messageId });
 

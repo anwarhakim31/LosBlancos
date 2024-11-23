@@ -77,7 +77,7 @@ const ModalAddCollection = ({ onClose, callback }: PropsType) => {
               }}
               render={({ field }) => (
                 <FormControlFragment
-                  id="nama"
+                  id="name"
                   type="text"
                   placeholder="Masukkan Nama koleksi"
                   field={field}
