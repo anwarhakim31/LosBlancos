@@ -145,6 +145,8 @@ const Table = ({
 
   const { page, limit, total, totalPage } = pagination;
 
+  console.log(pagination);
+
   const lastIndex = page > totalPage ? 0 : page * limit;
   const firstIndex = lastIndex - limit;
 

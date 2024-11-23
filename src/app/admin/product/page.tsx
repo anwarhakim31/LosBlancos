@@ -40,6 +40,7 @@ const ProductAdminPage = () => {
       const res = await productService.getProducts(search, page, limit);
 
       if (res.status === 200) {
+        console.log(res.data);
         setData(res.data.products);
         setPagination(res.data.pagination);
       }

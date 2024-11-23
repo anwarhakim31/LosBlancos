@@ -13,10 +13,11 @@ type filterQuery = {
   price?: { $gte: number; $lte: number };
   collectionName?: string;
 };
-export const dynamic = "force-dynamic";
+
 function escapeRegex(string: string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
+
 export async function GET(req: NextRequest) {
   await connectDB();
   try {
@@ -32,8 +33,8 @@ export async function GET(req: NextRequest) {
     let page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "8");
     const category = searchParams.getAll("category") || [];
-    const max = parseInt(searchParams.get("max") || "500000");
-    const min = parseInt(searchParams.get("min") || "0");
+    const max = searchParams.get("max");
+    const min = searchParams.get("min");
     const collection = searchParams.get("collection");
     const sold = searchParams.get("sold");
 
@@ -52,7 +53,10 @@ export async function GET(req: NextRequest) {
     };
 
     if (min || max) {
-      filterQuery.price = { $lte: max, $gte: min };
+      filterQuery.price = {
+        $lte: parseInt(max || "0"),
+        $gte: parseInt(min || "500000"),
+      };
       page = 1;
     }
 
