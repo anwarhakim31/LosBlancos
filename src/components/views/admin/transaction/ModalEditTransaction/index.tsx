@@ -75,10 +75,11 @@ const ModalEditTransaction = ({ onClose, callback, isEditData }: PropsType) => {
                     name="paymentStatus"
                     field={field}
                     options={[
+                      "tertunda",
                       "dibayar",
                       "dibatalkan",
                       "ditolak",
-                      "tetunda",
+
                       "kadaluwarsa",
                     ]}
                     placeholder="Pilih Status Bayar"

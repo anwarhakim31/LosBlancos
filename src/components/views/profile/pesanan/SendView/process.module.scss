@@ -113,9 +113,10 @@
       justify-content: space-between;
     }
 
-    &__countdown {
+    &__estimated {
       padding: 0.5rem 1rem;
       border-radius: 0.4rem;
+      background: rgb(223, 223, 255);
 
       p {
         display: flex;
@@ -123,28 +124,13 @@
         gap: 0.5rem;
         font-size: 0.875rem !important;
         font-weight: 500 !important;
-        color: $gray-700 !important;
+        color: $primary !important;
         margin-top: 0;
 
         span {
           display: block;
           width: 75px;
           text-align: center;
-        }
-      }
-
-      &.code {
-        background: rgb(255, 228, 228);
-
-        span {
-          color: $danger !important;
-        }
-      }
-
-      &.nocode {
-        background: rgb(255, 251, 229);
-        span {
-          color: $secondary !important;
         }
       }
     }

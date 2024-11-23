@@ -205,6 +205,7 @@ const StatusView = ({
           </div>
         </section>
       )}
+
       {isDataReview && (
         <ModalReview
           onClose={handleClose}
