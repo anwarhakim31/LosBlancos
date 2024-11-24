@@ -47,7 +47,7 @@ const CarouselView = () => {
           </div>
           <button disabled={loading || data.length >= 5}>
             <Link
-              href="/admin/master-data/desain/carousel"
+              href="/admin/master-data/design/carousel"
               className={styles.header__btn}
             >
               Tambah
@@ -98,7 +98,7 @@ const CarouselView = () => {
                   aria-label="edit"
                   onClick={() => {
                     dispatch(setEditCarousel(item));
-                    push("/admin/master-data/desain/carousel?id=" + item._id);
+                    push("/admin/master-data/design/carousel?id=" + item._id);
                   }}
                 >
                   <Edit

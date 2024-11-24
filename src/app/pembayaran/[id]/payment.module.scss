@@ -20,20 +20,3 @@
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 }
-
-.button {
-  @include btn();
-  width: 130px;
-  font-size: 0.75rem;
-  height: 1.5rem;
-  transition: all 0.2s ease-in-out;
-
-  &:hover {
-    background: $primary-hover;
-  }
-
-  &:disabled {
-    opacity: 0.8;
-    cursor: not-allowed;
-  }
-}

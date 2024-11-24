@@ -47,7 +47,7 @@ const ManageCarousel = () => {
       setValue("title", dataEdit.title);
       setValue("url", dataEdit.url);
     } else if (!dataEdit && id) {
-      replace("/admin/master-data/desain");
+      replace("/admin/master-data/design");
     }
   }, [id, dataEdit, replace, setValue]);
 
@@ -59,7 +59,7 @@ const ManageCarousel = () => {
         const res = await masterService.editCarousel(id, data);
         if (res.status === 200) {
           toast.success(res.data.message);
-          replace("/admin/master-data/desain");
+          replace("/admin/master-data/design");
         }
       } catch (error) {
         ResponseError(error);
@@ -73,7 +73,7 @@ const ManageCarousel = () => {
 
         if (res.status === 201) {
           toast.success(res.data.message);
-          replace("/admin/master-data/desain");
+          replace("/admin/master-data/design");
         }
       } catch (error) {
         ResponseError(error);
@@ -156,7 +156,7 @@ const ManageCarousel = () => {
               placeholder="Masukkan Deskripsi"
               {...register("description", {
                 required: "Deskripsi tidak boleh kosong",
-                maxLength: { value: 112, message: "Maksimal 112 karakter" },
+                maxLength: { value: 255, message: "Maksimal 255 karakter" },
               })}
               className={styles.textarea}
               cols={30}
