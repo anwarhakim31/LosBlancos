@@ -55,7 +55,7 @@ export async function generateMetadata(): Promise<Metadata> {
       template: `%s | ${data.master.name}`,
     },
     icons: {
-      icon: data.master.favicon || "/favicon.ico",
+      icon: "/favicon.ico",
     },
     description: data.description || "",
     openGraph: {

@@ -1,6 +1,7 @@
 import Product from "@/lib/models/product-model";
 import Review from "@/lib/models/review-model";
 import { ResponseError } from "@/lib/response-error";
+import { verifyToken } from "@/lib/verify-token";
 
 import { NextRequest, NextResponse } from "next/server";
 
@@ -54,6 +55,11 @@ export async function GET(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   try {
+    const token = verifyToken(req, ["admin"]);
+
+    if (token instanceof NextResponse) {
+      return token;
+    }
     const searchParams = req.nextUrl.searchParams;
     const reviewId = searchParams.get("reviewId");
     const { comment } = await req.json();

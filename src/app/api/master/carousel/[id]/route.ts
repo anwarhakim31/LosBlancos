@@ -12,7 +12,11 @@ export async function DELETE(
   await connectDB();
 
   try {
-    verifyToken(req);
+    const token = verifyToken(req, ["admin"]);
+
+    if (token instanceof NextResponse) {
+      return token;
+    }
 
     const { id } = params;
 
@@ -55,7 +59,11 @@ export async function PUT(
   await connectDB();
 
   try {
-    verifyToken(req);
+    const token = verifyToken(req, ["admin"]);
+
+    if (token instanceof NextResponse) {
+      return token;
+    }
     const data = await req.json();
     const { id } = params;
 

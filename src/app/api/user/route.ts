@@ -9,7 +9,11 @@ export async function GET(req: NextRequest) {
   await connectDB();
 
   try {
-    verifyToken(req);
+    const token = verifyToken(req as NextRequest, ["admin"]);
+
+    if (token instanceof NextResponse) {
+      return token;
+    }
     const { searchParams } = new URL(req.url);
 
     const page = parseInt(searchParams.get("page") || "1");
@@ -56,7 +60,11 @@ export async function GET(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   await connectDB();
   try {
-    verifyToken(req);
+    const token = verifyToken(req, ["admin"]);
+
+    if (token instanceof NextResponse) {
+      return token;
+    }
 
     const data = await req.json();
 

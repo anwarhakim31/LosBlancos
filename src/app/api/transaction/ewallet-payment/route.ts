@@ -3,7 +3,7 @@ import Ewallet from "@/lib/models/ewallet-model";
 import Stock from "@/lib/models/stock-model";
 import Transaction from "@/lib/models/transaction-model";
 import { ResponseError } from "@/lib/response-error";
-import { verifyTokenMember } from "@/lib/verify-token";
+
 import { TypeShippingAddress } from "@/services/type.module";
 import { formatDateToMidtrans } from "@/utils/contant";
 import { NextRequest, NextResponse } from "next/server";
@@ -83,8 +83,6 @@ function payload(payment: string, orderId: string, grossAmount: number) {
 
 export async function POST(req: NextRequest) {
   try {
-    verifyTokenMember(req);
-
     const json = await req.json();
 
     const { shipping, payment, transaction_id, shippingAddress } = json;

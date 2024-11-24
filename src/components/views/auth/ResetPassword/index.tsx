@@ -54,6 +54,7 @@ const ResetPasswordView: FC<ResetViewProps> = ({ setSuccess }) => {
         setSuccess(true);
       }
     } catch (error) {
+      setIsLoading(false);
       if (
         error instanceof AxiosError &&
         error.response &&
@@ -61,8 +62,6 @@ const ResetPasswordView: FC<ResetViewProps> = ({ setSuccess }) => {
       ) {
         setIsError(error.response.data.message);
       }
-    } finally {
-      setIsLoading(false);
     }
   };
 

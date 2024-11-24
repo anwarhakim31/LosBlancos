@@ -3,11 +3,9 @@ import { ResponseError } from "@/lib/response-error";
 
 import { NextRequest, NextResponse } from "next/server";
 import Transaction from "@/lib/models/transaction-model";
-import { verifyTokenMember } from "@/lib/verify-token";
 
 export async function GET(req: NextRequest) {
   try {
-    verifyTokenMember(req);
     const invoice = req.nextUrl.searchParams.get("order_id");
 
     const transaction = await Transaction.findOne({

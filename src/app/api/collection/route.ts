@@ -45,7 +45,11 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   await connectDB();
   try {
-    verifyToken(req);
+    const token = verifyToken(req, ["admin"]);
+
+    if (token instanceof NextResponse) {
+      return token;
+    }
 
     const { name, image, description } = await req.json();
 

@@ -18,7 +18,6 @@ const LoginView = () => {
     control,
     formState: { errors },
     handleSubmit,
-    reset,
   } = useForm<FormData>({ defaultValues: { email: "", password: "" } });
 
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
@@ -45,14 +44,12 @@ const LoginView = () => {
 
       if (res?.ok) {
         push(callbackUrl);
-        reset();
       } else {
         setIsError("Email dan Password salah");
       }
     } catch (error) {
-      console.log(error);
-    } finally {
       setIsLoading(false);
+      console.log(error);
     }
   };
 

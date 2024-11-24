@@ -63,7 +63,11 @@ export async function GET() {
 export async function PATCH(req: NextRequest) {
   await connectDB();
   try {
-    verifyToken(req);
+    const token = verifyToken(req, ["admin"]);
+
+    if (token instanceof NextResponse) {
+      return token;
+    }
     const data = await req.json();
     let master = await Master.findOne();
 

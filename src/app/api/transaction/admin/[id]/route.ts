@@ -1,6 +1,6 @@
 import Transaction from "@/lib/models/transaction-model";
 import { ResponseError } from "@/lib/response-error";
-import { verifyTokenMember } from "@/lib/verify-token";
+import { verifyToken } from "@/lib/verify-token";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -10,7 +10,11 @@ export async function GET(
   try {
     const { id } = params;
 
-    verifyTokenMember(req);
+    const token = verifyToken(req, ["admin", "customer"]);
+
+    if (token instanceof NextResponse) {
+      return token;
+    }
 
     if (id && id.length !== 24) {
       return ResponseError(404, "Transaksi tidak ditemukan dengan ID tersebut");

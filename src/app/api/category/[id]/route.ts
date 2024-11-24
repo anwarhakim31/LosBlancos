@@ -10,7 +10,11 @@ export async function DELETE(
 ) {
   await connectDB();
   try {
-    verifyToken(req);
+    const token = verifyToken(req, ["admin"]);
+
+    if (token instanceof NextResponse) {
+      return token;
+    }
     const { id } = params;
 
     const isExis = await Category.findById(id);
@@ -37,7 +41,11 @@ export async function PUT(
 ) {
   await connectDB();
   try {
-    verifyToken(req);
+    const token = verifyToken(req, ["admin"]);
+
+    if (token instanceof NextResponse) {
+      return token;
+    }
     const { id } = params;
     const data = await req.json();
 

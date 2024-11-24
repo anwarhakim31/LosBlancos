@@ -2,14 +2,19 @@
 
 import Link from "next/link";
 import styles from "./auths.module.scss";
-import { redirect, usePathname, useSearchParams } from "next/navigation";
+import {
+  redirect,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 import { Poppins } from "next/font/google";
 import RegisterView from "@/components/views/auth/Register";
 import LoginView from "@/components/views/auth/Login";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 import ForgotView from "@/components/views/auth/ForgotPassword";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import ResetPasswordView from "@/components/views/auth/ResetPassword";
 import { useMasterContext } from "@/context/MasterContext";
 
@@ -26,6 +31,7 @@ const AuthLayouts = () => {
   const [success, setSuccess] = useState<boolean>(false);
   const searchParams = useSearchParams();
   const session = useMasterContext();
+  const router = useRouter();
 
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
@@ -47,6 +53,10 @@ const AuthLayouts = () => {
         return null;
     }
   };
+
+  useEffect(() => {
+    router.prefetch("/");
+  }, [router]);
 
   return (
     <Fragment>

@@ -2,7 +2,7 @@ import Cart from "@/lib/models/cart-model";
 import Product from "@/lib/models/product-model";
 import Stock from "@/lib/models/stock-model";
 import { ResponseError } from "@/lib/response-error";
-import { verifyTokenMember } from "@/lib/verify-token";
+import { verifyToken } from "@/lib/verify-token";
 
 import { NextRequest, NextResponse } from "next/server";
 
@@ -15,7 +15,11 @@ interface CartItem {
 
 export async function POST(req: NextRequest) {
   try {
-    verifyTokenMember(req);
+    const token = verifyToken(req, ["customer"]);
+
+    if (token instanceof NextResponse) {
+      return token;
+    }
 
     const { userId, productId, quantity, atribute, atributeValue } =
       await req.json();

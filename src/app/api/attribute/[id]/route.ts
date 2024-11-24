@@ -11,7 +11,11 @@ export async function DELETE(
   await connectDB();
 
   try {
-    verifyToken(req);
+    const token = verifyToken(req, ["admin"]);
+
+    if (token instanceof NextResponse) {
+      return token;
+    }
     const { id } = params;
 
     const attribute = await Attribute.findOneAndDelete({ _id: id });
@@ -36,7 +40,11 @@ export async function PUT(
   await connectDB();
 
   try {
-    verifyToken(req);
+    const token = verifyToken(req, ["admin"]);
+
+    if (token instanceof NextResponse) {
+      return token;
+    }
     const { id } = params;
     const data = await req.json();
 

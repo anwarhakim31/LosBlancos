@@ -4,7 +4,7 @@ import { v4 as uuid } from "uuid";
 import { NextRequest, NextResponse } from "next/server";
 import Transaction from "@/lib/models/transaction-model";
 import Cart from "@/lib/models/cart-model";
-import { verifyTokenMember } from "@/lib/verify-token";
+
 import { itemTypeTransaction } from "@/services/type.module";
 import Diskon from "@/lib/models/diskon-model";
 import Ewallet from "@/lib/models/ewallet-model";
@@ -13,7 +13,6 @@ import Product from "@/lib/models/product-model";
 
 export async function POST(req: NextRequest) {
   try {
-    verifyTokenMember(req);
     const { items, userId, cartId, discountId } = await req.json();
 
     if (!userId || !items) {
@@ -147,8 +146,6 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
-    verifyTokenMember(req);
-
     const { searchParams } = req.nextUrl;
 
     const transactionId = searchParams.get("transactionId");
@@ -209,8 +206,6 @@ export async function GET(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    verifyTokenMember(req);
-
     const { searchParams } = req.nextUrl;
 
     const transactionId = searchParams.get("transactionId");

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ResponseError } from "./response-error";
+
 import jwt from "jsonwebtoken";
 
 export const verifyToken = (req: NextRequest, roles: string[] = []) => {
@@ -42,16 +42,4 @@ export const verifyToken = (req: NextRequest, roles: string[] = []) => {
       { status: 401 }
     );
   }
-};
-
-export const verifyTokenMember = (req: NextRequest) => {
-  const token = req.headers.get("authorization")?.split(" ")[1];
-
-  if (!token) {
-    return ResponseError(401, "Unauthorized");
-  }
-
-  const verify = jwt.verify(token, process.env.NEXTAUTH_SECRET || "");
-
-  return verify;
 };

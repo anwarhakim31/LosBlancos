@@ -3,11 +3,11 @@ import { ResponseError } from "@/lib/response-error";
 import { v4 as uuid } from "uuid";
 import { NextRequest, NextResponse } from "next/server";
 import Transaction from "@/lib/models/transaction-model";
-import { verifyTokenMember } from "@/lib/verify-token";
+import { verifyToken } from "@/lib/verify-token";
 
 export async function POST(req: NextRequest) {
   try {
-    const token = verifyTokenMember(req);
+    const token = verifyToken(req, ["customer"]);
     let userId = "";
 
     if (token && typeof token === "object" && "id" in token) {

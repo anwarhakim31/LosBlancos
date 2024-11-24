@@ -1,5 +1,6 @@
 import Diskon from "@/lib/models/diskon-model";
 import { ResponseError } from "@/lib/response-error";
+import { verifyToken } from "@/lib/verify-token";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -46,6 +47,11 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    const token = verifyToken(req, ["admin"]);
+
+    if (token instanceof NextResponse) {
+      return token;
+    }
     const { code, percent, info } = await req.json();
 
     const codeLowerCase = code.toLowerCase();

@@ -3,11 +3,15 @@ import { ResponseError } from "@/lib/response-error";
 import { NextRequest, NextResponse } from "next/server";
 
 import ShippingAddress from "@/lib/models/adress-model";
-import { verifyTokenMember } from "@/lib/verify-token";
+import { verifyToken } from "@/lib/verify-token";
 
 export async function POST(req: NextRequest) {
   try {
-    verifyTokenMember(req);
+    const token = verifyToken(req, ["customer"]);
+
+    if (token instanceof NextResponse) {
+      return token;
+    }
 
     const {
       userId,
@@ -92,7 +96,11 @@ export async function GET(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    verifyTokenMember(req);
+    const token = verifyToken(req, ["customer"]);
+
+    if (token instanceof NextResponse) {
+      return token;
+    }
 
     const params = new URL(req.url);
     const addressId = params.searchParams.get("addressId");

@@ -42,6 +42,7 @@ const RegisterView = () => {
         }
       }
     } catch (error) {
+      setLoading(false);
       if (
         error instanceof AxiosError &&
         error.response &&
@@ -52,8 +53,6 @@ const RegisterView = () => {
           message: error.response.data.message,
         });
       }
-    } finally {
-      setLoading(false);
     }
   };
 

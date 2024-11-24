@@ -2,7 +2,7 @@
 import Stock from "@/lib/models/stock-model";
 import Transaction from "@/lib/models/transaction-model";
 import { ResponseError } from "@/lib/response-error";
-import { verifyTokenMember } from "@/lib/verify-token";
+
 import {
   itemTypeTransaction,
   TypeShippingAddress,
@@ -142,8 +142,6 @@ function paymentCode(payment: string, data: any) {
 
 export async function POST(req: NextRequest) {
   try {
-    verifyTokenMember(req);
-
     const json = await req.json();
 
     const { shipping, payment, transaction_id, shippingAddress } = json;
@@ -301,8 +299,6 @@ export async function POST(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   try {
-    verifyTokenMember(req);
-
     const json = await req.json();
 
     const { shipping, payment, transaction_id, shippingAddress } = json;

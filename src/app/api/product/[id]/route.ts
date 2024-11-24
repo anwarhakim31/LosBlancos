@@ -7,7 +7,7 @@ import { verifyToken } from "@/lib/verify-token";
 import { TypeStock } from "@/services/type.module";
 
 import { NextRequest, NextResponse } from "next/server";
-export const dynamic = "force-dynamic";
+
 export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
@@ -37,7 +37,11 @@ export async function DELETE(
 ) {
   await connectDB();
   try {
-    verifyToken(req);
+    const token = verifyToken(req, ["admin"]);
+
+    if (token instanceof NextResponse) {
+      return token;
+    }
     const { id } = params;
 
     const product = await Product.findByIdAndDelete(id);

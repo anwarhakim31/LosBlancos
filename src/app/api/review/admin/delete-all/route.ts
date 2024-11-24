@@ -1,10 +1,16 @@
 import Product from "@/lib/models/product-model";
 import Review from "@/lib/models/review-model";
 import { ResponseError } from "@/lib/response-error";
+import { verifyToken } from "@/lib/verify-token";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function DELETE(req: NextRequest) {
   try {
+    const token = verifyToken(req, ["admin"]);
+
+    if (token instanceof NextResponse) {
+      return token;
+    }
     const data = await req.json();
     const reviews = await Review.find({ _id: { $in: data } });
 
