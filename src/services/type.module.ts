@@ -210,3 +210,12 @@ export interface TypeReview {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+export interface TypeTesti {
+  _id?: string;
+  transactionId: string;
+  name: string;
+  image: TypeProduct | string;
+  comment: string;
+  status: boolean;
+}
