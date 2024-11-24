@@ -78,8 +78,8 @@
       white-space: wrap !important;
       padding: 0.75rem 0.75rem !important;
       overflow: hidden;
-      max-width: 150px;
-      min-width: 150px;
+      max-width: 200px;
+      min-width: 200px;
       p {
         max-height: 30px !important;
         overflow: auto;
@@ -88,7 +88,8 @@
 
     .status {
       @include flex(center, center, null);
-      padding: 1rem 0.75rem !important;
+
+      padding: 1.25rem 0.75rem !important;
     }
   }
 }
