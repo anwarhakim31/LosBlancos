@@ -5,14 +5,14 @@ import styles from "./testimoni.module.scss";
 import { Lora } from "next/font/google";
 import { useRef } from "react";
 import Image from "next/image";
-import { TypeReview } from "@/services/type.module";
+import { TypeTesti } from "@/services/type.module";
 const lora = Lora({
   weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
   display: "swap",
 });
 
-const TestimoniView = ({ testimoni }: { testimoni: TypeReview[] }) => {
+const TestimoniView = ({ testimoni }: { testimoni: TypeTesti[] }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -46,7 +46,7 @@ const TestimoniView = ({ testimoni }: { testimoni: TypeReview[] }) => {
             <div className={styles.container__item} key={index}>
               <div className={styles.container__item__img}>
                 <Image
-                  src={item.user.image || "default.png"}
+                  src={item.image || "default.png"}
                   alt={`testimoni ${index}`}
                   width={100}
                   height={100}

@@ -35,12 +35,16 @@ const Page = async () => {
     fetch(ServerURL + "/master/galeri", { cache: "no-store" }).then((res) =>
       res.json()
     ),
-    fetch(ServerURL + "/master/banner", { cache: "no-store" }).then((res) =>
-      res.json()
-    ),
-    fetch(ServerURL + "/review/testi", { cache: "no-store" }).then((res) =>
-      res.json()
-    ),
+    fetch(ServerURL + "/master/banner", { cache: "no-store" }).then((res) => {
+      if (!res.ok) return { discount: [] };
+
+      return res.json();
+    }),
+    fetch(ServerURL + "/testi/all", { cache: "no-store" }).then((res) => {
+      if (!res.ok) return { testimoni: [] };
+
+      return res.json();
+    }),
   ]);
 
   return (
@@ -61,7 +65,7 @@ const Page = async () => {
           header={"Produk Terlaris"}
           data={dataBestSellProduct.products}
         />
-        <TestimoniView testimoni={dataTestimoni.review} />
+        <TestimoniView testimoni={dataTestimoni.testimoni} />
         <HomeGaleriView data={dataGaleri.galeri} />
       </main>
       <ChatComponent />

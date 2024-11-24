@@ -158,7 +158,9 @@ const TableTestimonial = ({
                         />
                       </td>
                       <td>{items.name}</td>
-                      <td className={style.comment}>{items.comment}</td>
+                      <td className={style.comment}>
+                        <p>{items.comment}</p>
+                      </td>
                       <td className={style.status}>
                         <Checkbox
                           checked={items.status}

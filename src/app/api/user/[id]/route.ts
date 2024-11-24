@@ -11,7 +11,7 @@ export async function PUT(
 ) {
   await connectDB();
   try {
-    const token = verifyToken(req, ["admin"]);
+    const token = verifyToken(req, ["admin", "customer"]);
 
     if (token instanceof NextResponse) {
       return token;

@@ -163,7 +163,6 @@ const AkunMainView = () => {
                   id="phone"
                   className={isEdit ? styles.active : ""}
                   disabled={!isEdit}
-                  readOnly={!isEdit}
                   {...register("phone", {
                     required: "Nomer Telepon harus diisi",
                   })}

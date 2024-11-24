@@ -215,7 +215,7 @@ export interface TypeTesti {
   _id?: string;
   transactionId: string;
   name: string;
-  image: TypeProduct | string;
+  image: string;
   comment: string;
   status: boolean;
 }

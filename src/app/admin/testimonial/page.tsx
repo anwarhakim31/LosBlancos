@@ -82,16 +82,19 @@ const TestimoniPage = () => {
 
   return (
     <Fragment>
-      <HeaderPage title="Ulasan" description="Kelola ulasan dari pelanggan." />
+      <HeaderPage
+        title="Testimoni"
+        description="Kelola Testimoni dari pelanggan dan tampilkan di halaman utama."
+      />
       <div className={styles.head}>
         <p>
-          Semua Ulasan <span>({pagination.total})</span>
+          Semua Testimoni <span>({pagination.total})</span>
         </p>
         <div className={styles.head__search}>
           <InputSearch
             id="search"
             name="search"
-            placeholder="Cari Komentar dari Ulasan"
+            placeholder="Cari Komentar dari Testimoni"
             loading={loading}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}

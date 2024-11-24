@@ -68,6 +68,12 @@ const SelectOptionFetchSearch = ({
     setSearch("");
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLElement>, value: any) => {
+    if (e.key === "Enter") {
+      handleSelect(value);
+    }
+  };
+
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (compRef.current && !compRef.current.contains(e.target as Node)) {
@@ -114,7 +120,7 @@ const SelectOptionFetchSearch = ({
           />
           <span
             onClick={() => handleSelect("")}
-            onKeyDown={() => handleSelect("")}
+            onKeyDown={(e) => handleKeyDown(e, "")}
           >
             {placeholder}
           </span>
@@ -125,7 +131,7 @@ const SelectOptionFetchSearch = ({
                   key={i + 1}
                   tabIndex={0}
                   onClick={() => handleSelect(item)}
-                  onKeyDown={() => handleSelect(item)}
+                  onKeyDown={(e) => handleKeyDown(item, e)}
                   style={{
                     color: field.value === item[name] ? "blue" : "black",
                   }}

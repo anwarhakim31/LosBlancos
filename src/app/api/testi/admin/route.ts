@@ -16,8 +16,11 @@ export async function GET(req: NextRequest) {
     const page = searchParams.get("page");
     const limit = searchParams.get("limit");
     const skip = (Number(page) - 1) * Number(limit);
+    const search = searchParams.get("search") || "";
 
-    const testimoni = await Testimoni.find()
+    const searchRegex = new RegExp(search.trim().toLocaleLowerCase(), "i");
+
+    const testimoni = await Testimoni.find({ comment: { $regex: searchRegex } })
       .skip(skip)
       .limit(Number(limit))
       .sort({ createdAt: -1 })
