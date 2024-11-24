@@ -4,15 +4,18 @@ import { Check, Home, Star } from "lucide-react";
 import Image from "next/image";
 
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import {
   itemTypeTransaction,
   TypeReview,
   TypeTransaction,
 } from "@/services/type.module";
 import { formatCurrency, formateDate } from "@/utils/contant";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import ModalReview from "./ModalReview";
+import ModalFeedback from "./ModalFeedback";
+import { ResponseError } from "@/utils/axios/response-error";
+import { testimoniService } from "@/services/testi/method";
 
 const methodPayment = (method: string) => {
   switch (method) {
@@ -43,6 +46,10 @@ const StatusView = ({
   const [isDataReview, setIsDataReview] = useState<itemTypeTransaction | null>(
     null
   );
+  const [isTesti, setIsTesti] = useState(false);
+
+  const pathname = usePathname();
+  const id = pathname.split("/").pop();
 
   const handleClose = () => {
     setIsDataReview(null);
@@ -51,6 +58,25 @@ const StatusView = ({
   const handleAddReview = (item: TypeReview) => {
     setReview((prev) => [...prev, { ...item }]);
   };
+
+  useEffect(() => {
+    const getTesti = async () => {
+      try {
+        const res = await testimoniService.get(id as string);
+        if (res.status === 200) {
+          if (!res.data.testimoni) {
+            setIsTesti(true);
+          }
+        }
+      } catch (error) {
+        ResponseError(error);
+      }
+    };
+
+    if (id) {
+      getTesti();
+    }
+  }, [id]);
 
   return (
     <>
@@ -205,6 +231,7 @@ const StatusView = ({
           </div>
         </section>
       )}
+      {isTesti && <ModalFeedback onClose={() => setIsTesti(false)} />}
       {isDataReview && (
         <ModalReview
           onClose={handleClose}

@@ -13,6 +13,7 @@ import {
   Layers3,
   LayoutDashboard,
   LibraryBig,
+  MessageSquareQuote,
   MonitorCog,
   Package,
   ShoppingBag,
@@ -95,6 +96,12 @@ const sideList = [
     name: "ulasan",
     icon: <Star width={20} height={20} strokeWidth={1.2} />,
     link: "/admin/reviews",
+  },
+  {
+    id: 11,
+    name: "Testimonial",
+    icon: <MessageSquareQuote width={20} height={20} strokeWidth={1.2} />,
+    link: "/admin/testimonial",
   },
 ];
 

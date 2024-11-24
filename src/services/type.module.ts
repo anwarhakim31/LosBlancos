@@ -157,6 +157,7 @@ export interface TypeTransaction {
   paymentExpired?: Date;
   paymentStatus?: string;
   subtotal: number;
+  estimated: string;
   shippingName: string;
   shippingCost: number;
   totalPayment: number;
@@ -179,6 +180,7 @@ export interface TypeShippingAddress {
     name: string;
     id_province: string;
   };
+
   subdistrict: string;
   postalCode: string;
   address: string;
@@ -207,4 +209,13 @@ export interface TypeReview {
   rating: number;
   createdAt?: Date;
   updatedAt?: Date;
+}
+
+export interface TypeTesti {
+  _id?: string;
+  transactionId: string;
+  name: string;
+  image: string;
+  comment: string;
+  status: boolean;
 }

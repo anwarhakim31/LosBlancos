@@ -203,6 +203,7 @@ export async function POST(req: NextRequest) {
     transaction.paymentId = data.transaction_id;
     transaction.paymentCreated = data.transaction_time;
     transaction.paymentExpired = data.expiry_time;
+    transaction.estimated = shipping.cost[0].etd;
 
     const saveTransaction = await transaction.save();
 
