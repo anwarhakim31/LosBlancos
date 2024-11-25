@@ -1,11 +1,11 @@
-// import HorizontalSlider from "@/components/views/home/HorizontalSlider";
+import HorizontalSlider from "@/components/views/home/HorizontalSlider";
 import HomeCarousel from "@/components/views/home/HomeCarousel";
 
 import { Fragment } from "react";
 import { ServerURL } from "@/utils/contant";
 import ShowProductView from "@/components/views/home/ShowProduct";
 import TestimoniView from "@/components/views/home/Testimoni";
-// import HomeGaleriView from "@/components/views/home/HomeGaleri";
+import HomeGaleriView from "@/components/views/home/HomeGaleri";
 
 import dynamic from "next/dynamic";
 
@@ -21,19 +21,19 @@ const HomeBannerView = dynamic(
 const Page = async () => {
   const [
     dataCarousel,
-    // dataMarquee,
+    dataMarquee,
     dataNewProduct,
     dataBestSellProduct,
-    // dataGaleri,
+    dataGaleri,
     dataBanner,
     dataTestimoni,
   ] = await Promise.all([
     fetch(ServerURL + "/master/carousel", { cache: "no-store" }).then((res) =>
       res.json()
     ),
-    // fetch(ServerURL + "/master/marquee", { cache: "no-store" }).then((res) =>
-    //   res.json()
-    // ),
+    fetch(ServerURL + "/master/marquee", { cache: "no-store" }).then((res) =>
+      res.json()
+    ),
 
     fetch(ServerURL + "/product?limit=4", { cache: "no-store" }).then((res) =>
       res.json()
@@ -41,9 +41,9 @@ const Page = async () => {
     fetch(ServerURL + "/product/bestseller", {
       cache: "no-store",
     }).then((res) => res.json()),
-    // fetch(ServerURL + "/master/galeri", { cache: "no-store" }).then((res) =>
-    //   res.json()
-    // ),
+    fetch(ServerURL + "/master/galeri", { cache: "no-store" }).then((res) =>
+      res.json()
+    ),
     fetch(ServerURL + "/master/banner", { cache: "no-store" }).then((res) => {
       if (!res.ok) return { discount: [] };
 
@@ -60,9 +60,9 @@ const Page = async () => {
     <Fragment>
       <main>
         <HomeCarousel data={dataCarousel} />
-        {/* {dataMarquee.marquee.display && (
+        {dataMarquee.marquee.display && (
           <HorizontalSlider data={dataMarquee.marquee.image} />
-        )} */}
+        )}
         <ShowProductView
           header={"Produk Terbaru"}
           data={dataNewProduct.products}
@@ -75,7 +75,7 @@ const Page = async () => {
           data={dataBestSellProduct.products}
         />
         <TestimoniView testimoni={dataTestimoni.testimoni} />
-        {/* <HomeGaleriView data={dataGaleri.galeri} /> */}
+        <HomeGaleriView data={dataGaleri.galeri} />
         <ChatComponent />
       </main>
     </Fragment>
