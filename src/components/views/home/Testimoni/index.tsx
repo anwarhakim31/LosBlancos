@@ -44,16 +44,19 @@ const TestimoniView = ({ testimoni }: { testimoni: TypeTesti[] }) => {
         <div className={styles.container__wrapper} ref={wrapperRef}>
           {testimoni.map((item, index) => (
             <div className={styles.container__item} key={index}>
-              <div className={styles.container__item__img}>
-                <Image
-                  src={item.image || "default.png"}
-                  alt={`testimoni ${index}`}
-                  width={100}
-                  height={100}
-                />
-                <div className={styles.container__item__img__quote}>
-                  <Quote />
+              <div className={styles.container__item__head}>
+                <div className={styles.container__item__img}>
+                  <Image
+                    src={item.image || "default.png"}
+                    alt={`testimoni ${index}`}
+                    width={100}
+                    height={100}
+                  />
+                  <div className={styles.container__item__img__quote}>
+                    <Quote />
+                  </div>
                 </div>
+                <h3>{item.name}</h3>
               </div>
               <div className={styles.container__item__content}>
                 <div className={styles.container__item__content__decor}></div>

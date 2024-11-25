@@ -28,6 +28,8 @@ const LightBox: FC<propsType> = ({ onClose, data, isOpen }) => {
       : setIsSelected(isSelected - 1);
   };
 
+  console.log(data.blurDataURL);
+
   return (
     <PortalNotification onClose={onClose}>
       {data &&
@@ -47,11 +49,6 @@ const LightBox: FC<propsType> = ({ onClose, data, isOpen }) => {
                 width={1000}
                 height={1000}
                 loading="lazy"
-                // placeholder="blur"
-                // blurDataURL={
-                //   data?.blurDataURL[index] ||
-                //   "https://dummyimage.com/1000/1000/eee"
-                // }
               />
               <p>
                 {newIndex} dari {data.image.length}

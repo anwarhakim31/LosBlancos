@@ -17,13 +17,14 @@ export async function GET() {
     let blurDataURL = [];
 
     if (galeri.image.length > 0) {
-      await Promise.all(
-        (blurDataURL = galeri?.image?.map(async (item: string) => {
+      blurDataURL = await Promise.all(
+        galeri.image.map(async (item: string) => {
           const response = await fetch(item);
           const buffer = await response.arrayBuffer();
           const { base64 } = await getPlaiceholder(Buffer.from(buffer));
+
           return base64;
-        }))
+        })
       );
     }
 
