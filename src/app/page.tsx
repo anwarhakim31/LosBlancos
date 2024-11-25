@@ -24,7 +24,6 @@ const Page = async () => {
     dataMarquee,
     dataNewProduct,
     dataBestSellProduct,
-    dataGaleri,
     dataBanner,
     dataTestimoni,
   ] = await Promise.all([
@@ -41,9 +40,7 @@ const Page = async () => {
     fetch(ServerURL + "/product/bestseller", {
       cache: "no-store",
     }).then((res) => res.json()),
-    fetch(ServerURL + "/master/galeri", { cache: "no-store" }).then((res) =>
-      res.json()
-    ),
+
     fetch(ServerURL + "/master/banner", { cache: "no-store" }).then((res) => {
       if (!res.ok) return { discount: [] };
 
@@ -75,7 +72,7 @@ const Page = async () => {
           data={dataBestSellProduct.products}
         />
         <TestimoniView testimoni={dataTestimoni.testimoni} />
-        <HomeGaleriView data={dataGaleri.galeri} />
+        <HomeGaleriView />
         <ChatComponent />
       </main>
     </Fragment>

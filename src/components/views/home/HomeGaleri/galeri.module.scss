@@ -1,7 +1,6 @@
 .container {
   display: block;
   margin-block: 8rem 0;
-  overflow: hidden;
 
   h1 {
     text-align: center;
@@ -30,6 +29,7 @@
     display: flex;
     margin-block: 5rem 0rem;
     flex-wrap: wrap;
+    height: 250px;
 
     &__item {
       cursor: zoom-in;

@@ -3,11 +3,13 @@
 import Image from "next/image";
 import styles from "./galeri.module.scss";
 import { Lora } from "next/font/google";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import LightBox from "./LightBox";
 import { Instagram } from "lucide-react";
 import Link from "next/link";
 import { useMasterContext } from "@/context/MasterContext";
+import { ResponseError } from "@/lib/response-error";
+import { masterService } from "@/services/master/method";
 
 const lora = Lora({
   weight: ["400", "500", "600", "700"],
@@ -15,13 +17,27 @@ const lora = Lora({
   display: "swap",
 });
 
-const HomeGaleriView = ({
-  data,
-}: {
-  data: { image: string[]; blurDataURL: string[] };
-}) => {
+const HomeGaleriView = () => {
   const [isOpen, setIsOpen] = useState<number | null>(null);
   const context = useMasterContext();
+  const [data, setData] = useState<string[]>();
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const res = await masterService.getGaleri();
+
+        if (res.status === 200) {
+          setData(res.data.galeri.image);
+          console.log(res);
+        }
+      } catch (error) {
+        ResponseError;
+      }
+    };
+
+    getData();
+  }, []);
 
   const handleOpen = (index: number) => {
     setIsOpen(index);
@@ -50,7 +66,7 @@ const HomeGaleriView = ({
         </p>
 
         <div className={styles.container__wrapper}>
-          {data?.image?.map((item, index) => (
+          {data?.map((item, index) => (
             <div
               className={styles.container__wrapper__item}
               key={index + 1}
@@ -72,7 +88,11 @@ const HomeGaleriView = ({
         </div>
       </div>
       {isOpen ? (
-        <LightBox data={data} isOpen={isOpen} onClose={() => setIsOpen(null)} />
+        <LightBox
+          data={data || []}
+          isOpen={isOpen}
+          onClose={() => setIsOpen(null)}
+        />
       ) : null}
     </Fragment>
   );

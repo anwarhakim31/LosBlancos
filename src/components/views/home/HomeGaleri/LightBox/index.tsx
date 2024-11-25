@@ -7,7 +7,7 @@ import PortalNotification from "@/components/element/PortalNotification";
 
 interface propsType {
   onClose: () => void;
-  data: { image: string[]; blurDataURL: string[] };
+  data: string[];
   isOpen: number;
 }
 
@@ -16,7 +16,7 @@ const LightBox: FC<propsType> = ({ onClose, data, isOpen }) => {
 
   const handleNext = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    isSelected < data?.image.length
+    isSelected < data?.length
       ? setIsSelected(isSelected + 1)
       : setIsSelected(1);
   };
@@ -24,16 +24,14 @@ const LightBox: FC<propsType> = ({ onClose, data, isOpen }) => {
   const handlePrevious = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     isSelected <= 1
-      ? setIsSelected(data.image.length)
+      ? setIsSelected(data.length)
       : setIsSelected(isSelected - 1);
   };
-
-  console.log(data.blurDataURL);
 
   return (
     <PortalNotification onClose={onClose}>
       {data &&
-        data.image.map((item, index) => {
+        data.map((item, index) => {
           const newIndex = index + 1;
 
           return (
@@ -48,10 +46,10 @@ const LightBox: FC<propsType> = ({ onClose, data, isOpen }) => {
                 alt="galeri1"
                 width={1000}
                 height={1000}
-                loading="lazy"
+                priority
               />
               <p>
-                {newIndex} dari {data.image.length}
+                {newIndex} dari {data.length}
               </p>
             </div>
           );
