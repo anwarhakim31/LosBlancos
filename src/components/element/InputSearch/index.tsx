@@ -33,7 +33,7 @@ const InputSearch = ({
       params.set("search", value);
     } else {
       params.delete("search");
-      if (params.size === 1) {
+      if (params.size === 1 && params.get("page") === "1") {
         params.delete("page");
       }
     }

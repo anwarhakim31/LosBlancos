@@ -26,7 +26,7 @@ const ProductAdminPage = () => {
     totalPage: 0,
   });
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(query.get("search") || "");
   const [check, setCheck] = useState<string[]>([]);
   const [isDeleteOne, setIsDeleteOne] = useState<TypeProduct | null>(null);
   const [isDeleteMany, setIsDeleteMany] = useState(false);

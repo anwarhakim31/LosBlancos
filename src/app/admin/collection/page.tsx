@@ -32,7 +32,7 @@ const CollectionPage = () => {
   const [isEditData, setIsEditData] = useState<TypeCollection | null>(null);
   const [isAllChecked, setIsAllChecked] = useState(false);
   const [check, setCheck] = useState<string[]>([]);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(query.get("search") || "");
 
   const handleEditData = (data: TypeCollection | null) => {
     setIsEditData(data);

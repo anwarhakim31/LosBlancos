@@ -246,7 +246,7 @@ const Table = ({
                       key={items._id}
                       style={{
                         borderBottom:
-                          i + 1 === lastIndex ? "none" : "1px solid #d9dffa",
+                          i + 1 === limit ? "none" : "1px solid #d9dffa",
                       }}
                     >
                       <td>

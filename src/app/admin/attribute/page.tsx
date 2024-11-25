@@ -19,7 +19,7 @@ const AttributePage = () => {
   const params = useSearchParams();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(params.get("search") || "");
   const [isAddData, setIsAddData] = useState(false);
   const [isEditData, setIsEditData] = useState<TypeAttribute | null>(null);
   const [isDeleteOne, setIsDeleteOne] = useState<TypeAttribute | null>(null);

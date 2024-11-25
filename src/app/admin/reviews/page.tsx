@@ -21,7 +21,7 @@ const DiscountPage = () => {
   const params = useSearchParams();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(params.get("search") || "");
 
   const [isEditData, setIsEditData] = useState<TypeReview | null>(null);
   const [isDeleteOne, setIsDeleteOne] = useState<{

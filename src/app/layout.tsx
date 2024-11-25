@@ -76,8 +76,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await getServerSession(authOptions);
-  const master = await getMaster();
-  const collection = await getCollection();
+  const [master, collection] = await Promise.all([
+    getMaster(),
+    getCollection(),
+  ]);
 
   return (
     <html lang="en">

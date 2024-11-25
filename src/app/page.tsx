@@ -6,8 +6,17 @@ import { ServerURL } from "@/utils/contant";
 import ShowProductView from "@/components/views/home/ShowProduct";
 import TestimoniView from "@/components/views/home/Testimoni";
 import HomeGaleriView from "@/components/views/home/HomeGaleri";
-import HomeBannerView from "@/components/views/home/HomeBanner";
-import ChatComponent from "@/components/element/ChatComponent";
+
+import dynamic from "next/dynamic";
+
+const ChatComponent = dynamic(
+  () => import("@/components/element/ChatComponent"),
+  { ssr: false }
+);
+const HomeBannerView = dynamic(
+  () => import("@/components/views/home/HomeBanner"),
+  { ssr: false }
+);
 
 const Page = async () => {
   const [
@@ -67,8 +76,8 @@ const Page = async () => {
         />
         <TestimoniView testimoni={dataTestimoni.testimoni} />
         <HomeGaleriView data={dataGaleri.galeri} />
+        <ChatComponent />
       </main>
-      <ChatComponent />
     </Fragment>
   );
 };

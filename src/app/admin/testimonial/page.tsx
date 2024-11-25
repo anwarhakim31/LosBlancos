@@ -20,7 +20,7 @@ const TestimoniPage = () => {
   const params = useSearchParams();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(params.get("search") || "");
 
   const [isDeleteOne, setIsDeleteOne] = useState<{
     _id: string;

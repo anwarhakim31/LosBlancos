@@ -20,7 +20,7 @@ const CategoryPage = () => {
   const params = useSearchParams();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(params.get("search") || "");
   const [isAddData, setIsAddData] = useState(false);
   const [isEditData, setIsEditData] = useState<TypeCategory | null>(null);
   const [isDeleteOne, setIsDeleteOne] = useState<TypeCategory | null>(null);

@@ -22,7 +22,7 @@ const TransactionPage = () => {
   });
   const useParams = useSearchParams();
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(useParams.get("search") || "");
   const [data, setData] = useState([]);
   const [check, setCheck] = useState<string[]>([]);
   const [isChange, setIsChange] = useState<TypeTransaction | null>(null);
