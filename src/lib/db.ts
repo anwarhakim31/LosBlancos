@@ -18,7 +18,7 @@ const connectDB = async () => {
     mongoose.set("strictPopulate", false);
     await mongoose.connect(MONGO_URL!, {
       dbName: "LosBlancos",
-      serverSelectionTimeoutMS: 5000,
+      serverSelectionTimeoutMS: 15000,
     });
   } catch (error) {
     console.log("Error in Connecting to database", error);

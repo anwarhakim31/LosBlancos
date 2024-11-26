@@ -10,7 +10,13 @@ const ChatComponent = () => {
 
   return (
     <Link
-      href={`https://wa.me/${context?.master?.phone}`}
+      href={`https://wa.me/${
+        context?.master.phone?.startsWith("0")
+          ? `62${context?.master.phone?.slice(1)}`
+          : context?.master.phone?.startsWith("62")
+          ? context?.master.phone
+          : context?.master.phone
+      }`}
       aria-label="chat admin"
       target="__blank"
       className={styles.chat}

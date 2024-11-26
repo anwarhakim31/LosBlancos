@@ -71,7 +71,7 @@ const Footer = ({ collection }: { collection: TypeCollection[] }) => {
       "/payment/spay.png",
       "/payment/alfamart.png",
       "/payment/indomaret.png",
-      "/payment/QRIS.png",
+      "/payment/qris.png",
     ],
     informasi: [
       {

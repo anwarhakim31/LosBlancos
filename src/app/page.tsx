@@ -1,4 +1,4 @@
-// import HorizontalSlider from "@/components/views/home/HorizontalSlider";
+import HorizontalSlider from "@/components/views/home/HorizontalSlider";
 import HomeCarousel from "@/components/views/home/HomeCarousel";
 
 import { Fragment } from "react";
@@ -19,59 +19,20 @@ const HomeBannerView = dynamic(
 );
 
 const Page = async () => {
-  const [
-    dataCarousel,
-    // dataMarquee,
-    dataNewProduct,
-    dataBestSellProduct,
-    dataBanner,
-    dataTestimoni,
-  ] = await Promise.all([
-    fetch(ServerURL + "/master/carousel", { cache: "no-store" }).then((res) =>
+  const { carousel, marquee, newProduct, bestProduct, testimoni, banner } =
+    await fetch(ServerURL + "/home", { cache: "no-cache" }).then((res) =>
       res.json()
-    ),
-    // fetch(ServerURL + "/master/marquee", { cache: "no-store" }).then((res) =>
-    //   res.json()
-    // ),
-
-    fetch(ServerURL + "/product?limit=4", { cache: "no-store" }).then((res) =>
-      res.json()
-    ),
-    fetch(ServerURL + "/product/bestseller", {
-      cache: "no-store",
-    }).then((res) => res.json()),
-
-    fetch(ServerURL + "/master/banner", { cache: "no-store" }).then((res) => {
-      if (!res.ok) return { discount: [] };
-
-      return res.json();
-    }),
-    fetch(ServerURL + "/testi/all", { cache: "no-store" }).then((res) => {
-      if (!res.ok) return { testimoni: [] };
-
-      return res.json();
-    }),
-  ]);
+    );
 
   return (
     <Fragment>
       <main>
-        <HomeCarousel data={dataCarousel} />
-        {/* {dataMarquee.marquee.display && (
-          <HorizontalSlider data={dataMarquee.marquee.image} />
-        )} */}
-        <ShowProductView
-          header={"Produk Terbaru"}
-          data={dataNewProduct.products}
-        />
-        {dataBanner.discount.display && (
-          <HomeBannerView image={dataBanner.discount.image} />
-        )}
-        <ShowProductView
-          header={"Produk Terlaris"}
-          data={dataBestSellProduct.products}
-        />
-        <TestimoniView testimoni={dataTestimoni.testimoni} />
+        <HomeCarousel data={carousel} />
+        {marquee.display && <HorizontalSlider data={marquee.image} />}
+        <ShowProductView header={"Produk Terbaru"} data={newProduct} />
+        {banner.display && <HomeBannerView image={banner.image} />}
+        <ShowProductView header={"Produk Terlaris"} data={bestProduct} />
+        <TestimoniView testimoni={testimoni} />
         <HomeGaleriView />
         <ChatComponent />
       </main>

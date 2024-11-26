@@ -6,14 +6,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { TypeCarousel } from "@/services/type.module";
 
-const HomeCarousel = ({
-  data,
-}: {
-  data: { success: boolean; carousel: TypeCarousel[]; message: string };
-}) => {
+const HomeCarousel = ({ data }: { data: TypeCarousel[] }) => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
-  const item = data.carousel || [];
+  const item = data || [];
 
   const nextSilde = useCallback(() => {
     if (activeIndex === item.length - 1) {
@@ -95,7 +91,7 @@ const HomeCarousel = ({
                 <p className={styles.content_mobile__description}>
                   {item?.description}
                 </p>
-                <Link href="/product" className={styles.content_mobile__btn}>
+                <Link href={item?.url} className={styles.content_mobile__btn}>
                   Belanja Sekarang
                 </Link>
               </Fragment>
