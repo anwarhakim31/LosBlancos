@@ -1,36 +1,162 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
+  <h1>LosBlancos</h1>
+  <p>E-commerce</p>
+</div>
+
+![School Management System](https://github.com/user-attachments/assets/1a004898-ce13-4ef0-bd46-9c8dfcea15db)
+
+## About
+
+LosBlancos is a cutting-edge e-commerce platform designed to offer a seamless shopping experience while empowering store administrators with a robust Content Management System (CMS). The platform integrates a secure payment gateway for smooth transactions and includes real-time shipping cost calculation, ensuring customers can easily view the total price before completing their purchase.
+
+LosBlancos enhances user interaction with a dynamic real-time dashboard, giving administrators instant insights into crucial activities such as stock availability and new customer orders. The platform's notification system promptly alerts administrators when a product is out of stock or when a new order is placed, ensuring efficient management and timely responses.
+
+Additionally, LosBlancos integrates Raja Ongkir, a popular shipping cost service, allowing customers to calculate accurate shipping fees based on their location. This ensures transparent pricing and provides a smooth checkout experience for both customers and administrators.
+
+## Screenshots
+|                                                                                                        |                                                                                                         |
+| :----------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: |
+|  ![Macbook-Air-los-blancos vercel app (1)](https://github.com/user-attachments/assets/9f0b3fc1-e0dc-4173-a8e7-5407d657e1a4)  |     ![Macbook-Air-los-blancos vercel app (2)](https://github.com/user-attachments/assets/0483c03c-1119-4ecf-8cbe-219c9f2d9f7c)    |
+| ![Macbook-Air-los-blancos vercel app (3)](https://github.com/user-attachments/assets/8204d491-3399-44c4-b9de-c520888caa36) | ![Macbook-Air-los-blancos vercel app (5)](https://github.com/user-attachments/assets/6c271e21-93b3-4458-ba78-0e7478dd4666) |
+|     ![Macbook-Air-los-blancos vercel app (6)](https://github.com/user-attachments/assets/de16afe1-1baf-49d3-998d-714543db2ddc)   |     ![Macbook-Air-los-blancos vercel app (7)](https://github.com/user-attachments/assets/3fc8b384-514e-4a71-9702-56d5ea05321b)     |
+|  ![Macbook-Air-los-blancos vercel app (10)](https://github.com/user-attachments/assets/da380a55-6ef7-4362-be0f-7418ce877d5b)   |     ![Macbook-Air-los-blancos vercel app (11)](https://github.com/user-attachments/assets/985128a4-7895-47ce-ae95-63833bad6bd0)   |
+
+
+## The dependencies that this project uses:
+
+_Frontend_
+
+-scss: for stayling
+
+-React Hook Form: For Form validation
+
+-axios-interceptors: For making HTTP requests
+
+-rechart js: For making chart
+
+-Redux Toolkit : For State management feature
+
+-next-auth : For authentication
+
+-Sonner : For toast notification
+
+-socket.io : For real-time data transmission.
+
+-lucide: icon
+
+_Backend_
+
+-mongoose: For interacting with MongoDB
+
+-bcryptjs: For hashing passwords
+
+-jsonwebtoken: For authentication
+
+-next-auth:For authencatication 
+
+-cloudinary: for upload image
+
+-midtrans: for payment gateway
+
+-nodemailer: for send email
+
+-express: For creating the server-socket
+
+-socket-io: For real-time data transmission.
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed on your machine:
+
+- Node.js: [Download and install Node.js](https://nodejs.org/)
+- npm: Node.js package manager (comes with Node.js installation)
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+   ```bash
+   git clone https://github.com/anwarhakim31/LosBlancos.git
+   ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Navigate to root project directory and install depedencies:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+   ```bash
+   cd LosBlancos
+    npm install
+   ```
+3. Navigate to socket-server directory and install depedencies
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   ```bash
+   cd socket-server
+   npm install
+   ```
 
-## Learn More
+## Setup Environment
 
-To learn more about Next.js, take a look at the following resources:
+1. Create a .env file in the root next.js of your project.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+NEXT_PUBLIC_PROCESS = development
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+DATABASE_URL = 
 
-## Deploy on Vercel
+NEXTAUTH_SECRET = 
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+NEXTAUTH_URL=http://localhost:3000
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+NEXT_PUBLIC_BASE_URL = /api
+
+GOOGLE_OAUTH_CLIENT_ID =
+
+GOOGLE_OAUTH_CLIENT_SECRET = 
+
+NEXT_PUBLIC_CLOUD_PRESET = 
+
+NEXT_PUBLIC_CLOUD_NAME = 
+
+NEXT_PUBLIC_CLOUD_APIKEY =
+
+NEXT_PUBLIC_CLOUD_SECRETKEY = 
+
+//binderbyte untuk mengambil provinsi, kota
+BINDERBYTE_KEY = 
+
+RAJAONGKIR_KEY = 
+
+MIDTRANS_SECRET_SERVER_KEY = 
+
+MIDTRANS_BASE_URL = https://api.sandbox.midtrans.com/v2
+
+NEXT_PUBLIC_SOCKET_URL = http://localhost:4000
+
+NEXT_PUBLIC_DOMAIN = http://localhost:3000
+
+EMAIL_ADMIN = 
+
+PASSWORD_APLIKASI_EMAIL  =
+
+
+
+2. Create a .env file in the server-socket of your project.
+   
+ORIGIN = http://localhost:3000
+
+MONGODB_URL =
+
+## Development
+
+1. To start the root , run:
+
+   ```bash
+   npm run dev
+   ```
+
+2. To start the socket-server run :
+
+   ```bash
+   npm run dev
+   ```
+
+## Deployment
+
+Deploy the `dist` directory to your hosting platform of choice.
