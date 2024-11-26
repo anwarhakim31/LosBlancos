@@ -34,13 +34,13 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
+  await connectDB();
   try {
     const token = verifyToken(req, ["admin"]);
 
     if (token instanceof NextResponse) {
       return token;
     }
-    await connectDB();
 
     const { image, id: index } = await req.json();
 

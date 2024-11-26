@@ -67,21 +67,23 @@ const ShowProductView: FC<PropsType> = ({ header, data }) => {
                     priority
                   />
                 </figure>
-                <div className={styles.scroller__card__content}>
-                  <p className={styles.scroller__card__content__collection}>
-                    {item.collectionName.name}
+                <div className={styles.scroller__cart__content}>
+                  <div className={styles.scroller__card__top}>
+                    <p className={styles.scroller__card__top__collection}>
+                      {item.collectionName.name}
+                    </p>
+
+                    <h3 className={styles.scroller__card__top__title}>
+                      {item.name}
+                    </h3>
+                  </div>
+
+                  <p className={styles.scroller__card__price}>
+                    {formatCurrency(Number(item.price))}
                   </p>
 
-                  <h3 className={styles.scroller__card__content__title}>
-                    {item.name}
-                  </h3>
+                  <StarComp item={item} name="product" />
                 </div>
-
-                <p className={styles.scroller__card__price}>
-                  {formatCurrency(Number(item.price))}
-                </p>
-
-                <StarComp item={item} name="product" />
 
                 <script
                   type="application/ld+json"

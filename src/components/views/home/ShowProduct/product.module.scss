@@ -1,6 +1,6 @@
 .container {
   width: 100%;
-  height: 100%;
+  height: 500px;
   display: block;
 
   @include container();
@@ -20,20 +20,13 @@
     display: flex;
 
     gap: 1rem;
-    overflow-x: auto;
+    overflow: hidden;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
-    &::-webkit-scrollbar {
-      height: 10px;
-      width: 10px;
-    }
+    height: 400px;
 
-    &::-webkit-scrollbar-thumb {
-      background-color: $gray-300;
-    }
-
-    &::-webkit-scrollbar-track {
-      background-color: transparent;
+    &:hover {
+      overflow-x: auto;
     }
 
     &__card {
@@ -41,6 +34,7 @@
       flex: 0 0 230px;
       overflow: hidden;
       margin: 1rem;
+      height: fit-content;
 
       &:hover {
         img {
@@ -72,6 +66,10 @@
       }
 
       &__content {
+        height: max-content;
+      }
+
+      &__top {
         display: flex;
         flex-direction: column;
         align-items: flex-start;

@@ -1,8 +1,10 @@
+import connectDB from "@/lib/db";
 import Product from "@/lib/models/product-model";
 import { ResponseError } from "@/lib/response-error";
 import { NextResponse } from "next/server";
 
 export async function GET() {
+  await connectDB();
   try {
     const products = await Product.find({ sold: { $gt: 0 } })
       .limit(4)
