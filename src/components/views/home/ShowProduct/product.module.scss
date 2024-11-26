@@ -20,10 +20,11 @@
     display: flex;
 
     gap: 1rem;
+
     overflow-x: auto;
+    overflow-y: hidden;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
-    height: 400px;
 
     &__card {
       scroll-snap-align: start;
@@ -51,6 +52,7 @@
         aspect-ratio: 1 / 1.1;
         background: $gray-200;
         overflow: hidden;
+        height: 250px;
 
         img {
           width: 100%;
