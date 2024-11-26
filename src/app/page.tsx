@@ -1,4 +1,4 @@
-import HorizontalSlider from "@/components/views/home/HorizontalSlider";
+// import HorizontalSlider from "@/components/views/home/HorizontalSlider";
 import HomeCarousel from "@/components/views/home/HomeCarousel";
 
 import { Fragment } from "react";
@@ -21,7 +21,7 @@ const HomeBannerView = dynamic(
 const Page = async () => {
   const [
     dataCarousel,
-    dataMarquee,
+    // dataMarquee,
     dataNewProduct,
     dataBestSellProduct,
     dataBanner,
@@ -30,9 +30,9 @@ const Page = async () => {
     fetch(ServerURL + "/master/carousel", { cache: "no-store" }).then((res) =>
       res.json()
     ),
-    fetch(ServerURL + "/master/marquee", { cache: "no-store" }).then((res) =>
-      res.json()
-    ),
+    // fetch(ServerURL + "/master/marquee", { cache: "no-store" }).then((res) =>
+    //   res.json()
+    // ),
 
     fetch(ServerURL + "/product?limit=4", { cache: "no-store" }).then((res) =>
       res.json()
@@ -57,9 +57,9 @@ const Page = async () => {
     <Fragment>
       <main>
         <HomeCarousel data={dataCarousel} />
-        {dataMarquee.marquee.display && (
+        {/* {dataMarquee.marquee.display && (
           <HorizontalSlider data={dataMarquee.marquee.image} />
-        )}
+        )} */}
         <ShowProductView
           header={"Produk Terbaru"}
           data={dataNewProduct.products}
