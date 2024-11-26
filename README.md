@@ -11,6 +11,16 @@ LosBlancos is a cutting-edge e-commerce platform designed to offer a seamless sh
 
 LosBlancos enhances user interaction with a dynamic real-time dashboard, giving administrators instant insights into crucial activities such as stock availability and new customer orders. The platform's notification system promptly alerts administrators when a product is out of stock or when a new order is placed, ensuring efficient management and timely responses.
 
+Additionally, LosBlancos integrates Raja Ongkir, a popular shipping cost service, allowing customers to calculate accurate shipping fees based on their location. This ensures transparent pricing and provides a smooth checkout experience for both customers and administrators.
+
+## Screenshots
+|                                                                                                        |                                                                                                         |
+| :----------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: |
+|  ![Macbook-Air-los-blancos vercel app (1)](https://github.com/user-attachments/assets/9f0b3fc1-e0dc-4173-a8e7-5407d657e1a4)  |     ![Macbook-Air-los-blancos vercel app (2)](https://github.com/user-attachments/assets/0483c03c-1119-4ecf-8cbe-219c9f2d9f7c)    |
+| ![Macbook-Air-los-blancos vercel app (3)](https://github.com/user-attachments/assets/8204d491-3399-44c4-b9de-c520888caa36) | ![Macbook-Air-los-blancos vercel app (5)](https://github.com/user-attachments/assets/6c271e21-93b3-4458-ba78-0e7478dd4666) |
+|     ![Macbook-Air-los-blancos vercel app (6)](https://github.com/user-attachments/assets/de16afe1-1baf-49d3-998d-714543db2ddc)   |     ![Macbook-Air-los-blancos vercel app (7)](https://github.com/user-attachments/assets/3fc8b384-514e-4a71-9702-56d5ea05321b)     |
+|  ![Macbook-Air-los-blancos vercel app (10)](https://github.com/user-attachments/assets/da380a55-6ef7-4362-be0f-7418ce877d5b)   |     ![Macbook-Air-los-blancos vercel app (11)](https://github.com/user-attachments/assets/985128a4-7895-47ce-ae95-63833bad6bd0)   |
+
 
 ## The dependencies that this project uses:
 
@@ -30,13 +40,11 @@ _Frontend_
 
 -Sonner : For toast notification
 
--socket.io : For real time dashboard
+-socket.io : For real-time data transmission.
 
 -lucide: icon
 
 _Backend_
-
--express: For creating the server
 
 -mongoose: For interacting with MongoDB
 
@@ -51,6 +59,10 @@ _Backend_
 -midtrans: for payment gateway
 
 -nodemailer: for send email
+
+-express: For creating the server-socket
+
+-socket-io: For real-time data transmission.
 
 ## Prerequisites
 
