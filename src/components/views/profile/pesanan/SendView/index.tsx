@@ -3,7 +3,7 @@ import { TypeTransaction } from "@/services/type.module";
 import { ResponseError } from "@/utils/axios/response-error";
 import { useSession } from "next-auth/react";
 import React, { Fragment, useEffect, useState } from "react";
-import styles from "./process.module.scss";
+import styles from "./send.module.scss";
 import Image from "next/image";
 import { formatCurrency, formateDate } from "@/utils/contant";
 

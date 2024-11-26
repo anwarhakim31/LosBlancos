@@ -50,6 +50,8 @@
       border: 1px solid $gray-300;
       border-radius: 0.4rem;
       overflow: hidden;
+      flex-shrink: 0;
+
       img {
         object-fit: cover;
         object-position: center;

@@ -6,15 +6,11 @@ import { ServerURL } from "@/utils/contant";
 import ShowProductView from "@/components/views/home/ShowProduct";
 import TestimoniView from "@/components/views/home/Testimoni";
 import HomeGaleriView from "@/components/views/home/HomeGaleri";
-
+import HomeBannerView from "@/components/views/home/HomeBanner";
 import dynamic from "next/dynamic";
 
 const ChatComponent = dynamic(
   () => import("@/components/element/ChatComponent"),
-  { ssr: false }
-);
-const HomeBannerView = dynamic(
-  () => import("@/components/views/home/HomeBanner"),
   { ssr: false }
 );
 
