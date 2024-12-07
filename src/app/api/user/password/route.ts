@@ -7,9 +7,8 @@ import bcrypt from "bcrypt";
 
 export async function POST(req: NextRequest) {
   await connectDB();
+  const token = verifyToken(req);
   try {
-    const token = verifyToken(req);
-
     if (token instanceof NextResponse) {
       return token;
     }

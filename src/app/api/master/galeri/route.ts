@@ -34,9 +34,8 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
+  const token = verifyToken(req, ["admin"]);
   try {
-    const token = verifyToken(req, ["admin"]);
-
     if (token instanceof NextResponse) {
       return token;
     }

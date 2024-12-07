@@ -81,9 +81,8 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   await connectDB();
+  verifyToken(req);
   try {
-    verifyToken(req);
-
     const data = await req.json();
 
     await Category.deleteMany({ _id: { $in: data } });

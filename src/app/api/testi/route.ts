@@ -4,9 +4,8 @@ import { verifyToken } from "@/lib/verify-token";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
+  const token = verifyToken(req, ["customer"]);
   try {
-    const token = verifyToken(req, ["customer"]);
-
     if (token instanceof NextResponse) {
       return token;
     }
@@ -38,9 +37,8 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
+  const token = verifyToken(req, ["customer"]);
   try {
-    const token = verifyToken(req, ["customer"]);
-
     if (token instanceof NextResponse) {
       return token;
     }

@@ -10,9 +10,8 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   await connectDB();
+  const token = verifyToken(req, ["admin"]);
   try {
-    const token = verifyToken(req, ["admin"]);
-
     if (token instanceof NextResponse) {
       return token;
     }
@@ -42,9 +41,8 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   await connectDB();
+  const token = verifyToken(req, ["admin"]);
   try {
-    const token = verifyToken(req, ["admin"]);
-
     if (token instanceof NextResponse) {
       return token;
     }

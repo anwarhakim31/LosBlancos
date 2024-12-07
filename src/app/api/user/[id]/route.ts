@@ -10,9 +10,8 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   await connectDB();
+  const token = verifyToken(req, ["admin", "customer"]);
   try {
-    const token = verifyToken(req, ["admin", "customer"]);
-
     if (token instanceof NextResponse) {
       return token;
     }
@@ -67,8 +66,8 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   await connectDB();
+  verifyToken(req);
   try {
-    verifyToken(req);
     const { id } = params;
 
     const isExist = await User.findById(id);

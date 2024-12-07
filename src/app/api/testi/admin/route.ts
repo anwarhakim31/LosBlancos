@@ -4,9 +4,8 @@ import { verifyToken } from "@/lib/verify-token";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
+  const token = verifyToken(req, ["admin"]);
   try {
-    const token = verifyToken(req, ["admin"]);
-
     if (token instanceof NextResponse) {
       return token;
     }
@@ -46,9 +45,8 @@ export async function GET(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
+  const token = verifyToken(req, ["admin"]);
   try {
-    const token = verifyToken(req, ["admin"]);
-
     if (token instanceof NextResponse) {
       return token;
     }
@@ -74,9 +72,9 @@ export async function DELETE(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
-  try {
-    const token = verifyToken(req, ["admin"]);
+  const token = verifyToken(req, ["admin"]);
 
+  try {
     if (token instanceof NextResponse) {
       return token;
     }

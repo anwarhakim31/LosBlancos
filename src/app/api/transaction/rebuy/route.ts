@@ -6,8 +6,8 @@ import Transaction from "@/lib/models/transaction-model";
 import { verifyToken } from "@/lib/verify-token";
 
 export async function POST(req: NextRequest) {
+  const token = verifyToken(req, ["customer"]);
   try {
-    const token = verifyToken(req, ["customer"]);
     let userId = "";
 
     if (token && typeof token === "object" && "id" in token) {

@@ -27,10 +27,8 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   await connectDB();
-
+  const token = verifyToken(req, ["admin"]);
   try {
-    const token = verifyToken(req, ["admin"]);
-
     if (token instanceof NextResponse) {
       return token;
     }

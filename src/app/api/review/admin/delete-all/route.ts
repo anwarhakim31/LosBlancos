@@ -5,9 +5,8 @@ import { verifyToken } from "@/lib/verify-token";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function DELETE(req: NextRequest) {
+  const token = verifyToken(req, ["admin"]);
   try {
-    const token = verifyToken(req, ["admin"]);
-
     if (token instanceof NextResponse) {
       return token;
     }

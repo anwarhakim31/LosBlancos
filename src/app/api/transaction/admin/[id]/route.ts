@@ -7,10 +7,9 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const token = verifyToken(req, ["admin", "customer"]);
   try {
     const { id } = params;
-
-    const token = verifyToken(req, ["admin", "customer"]);
 
     if (token instanceof NextResponse) {
       return token;

@@ -43,9 +43,8 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   await connectDB();
+  const token = verifyToken(req, ["admin"]);
   try {
-    const token = verifyToken(req, ["admin"]);
-
     if (token instanceof NextResponse) {
       return token;
     }
@@ -78,8 +77,8 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   await connectDB();
+  verifyToken(req);
   try {
-    verifyToken(req);
     const data = await req.json();
 
     for (const id of data) {

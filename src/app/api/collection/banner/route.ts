@@ -12,7 +12,6 @@ export async function GET(req: NextRequest) {
 
     const collection = await Collection.findOne({ slug });
 
-    console.log(collection);
     if (!collection) {
       return ResponseError(404, "Koleksi tidak ditemukan");
     }

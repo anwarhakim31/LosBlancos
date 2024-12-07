@@ -1,3 +1,4 @@
+import connectDB from "@/lib/db";
 import Cart from "@/lib/models/cart-model";
 import Product from "@/lib/models/product-model";
 import Stock from "@/lib/models/stock-model";
@@ -14,9 +15,10 @@ interface CartItem {
 }
 
 export async function POST(req: NextRequest) {
-  try {
-    const token = verifyToken(req, ["customer"]);
+  await connectDB();
+  const token = verifyToken(req, ["customer"]);
 
+  try {
     if (token instanceof NextResponse) {
       return token;
     }

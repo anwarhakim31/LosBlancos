@@ -41,9 +41,8 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
+  const token = verifyToken(req, ["admin"]);
   try {
-    const token = verifyToken(req, ["admin"]);
-
     if (token instanceof NextResponse) {
       return token;
     }
@@ -71,10 +70,9 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
+  await connectDB();
+  verifyToken(req);
   try {
-    await connectDB();
-    verifyToken(req);
-
     const { display } = await req.json();
 
     const banner = await Banner.findOne();

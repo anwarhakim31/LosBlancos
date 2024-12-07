@@ -1,3 +1,4 @@
+import connectDB from "@/lib/db";
 import Diskon from "@/lib/models/diskon-model";
 import User from "@/lib/models/user-model";
 import { ResponseError } from "@/lib/response-error";
@@ -5,8 +6,9 @@ import { verifyToken } from "@/lib/verify-token";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
+  await connectDB();
+  const token = verifyToken(req, ["customer"]);
   try {
-    const token = verifyToken(req, ["customer"]);
     const { searchParams } = req.nextUrl;
 
     const code = searchParams.get("code")?.toLowerCase();
