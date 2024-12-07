@@ -70,7 +70,7 @@ export const authOptions: NextAuthOptions = {
           if (!isMatch) {
             return null;
           }
-          console.log({ user: user });
+
           return user;
         } catch (error) {
           console.error("Error during authentication:", error);

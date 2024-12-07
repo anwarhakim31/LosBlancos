@@ -50,9 +50,9 @@ const FormControlAnimate = ({
             aria-label="toggle visibility"
           >
             {type === "password" ? (
-              <EyeIcon width={17} height={17} />
-            ) : (
               <EyeOff width={17} height={17} />
+            ) : (
+              <EyeIcon width={17} height={17} />
             )}
           </button>
         )}

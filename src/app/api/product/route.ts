@@ -211,7 +211,7 @@ export async function POST(req: NextRequest) {
     const product = new Product({
       name,
       description,
-      price,
+      price: parseInt(price),
       image,
       category,
       collectionName: collectionDB._id,
