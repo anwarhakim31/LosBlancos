@@ -8,6 +8,7 @@ dotenv.config();
 
 const origin = process.env.ORIGIN || "http://localhost:3000";
 const mongo_url = process.env.DB_URL || "mongodb://localhost:27017/";
+const PORT = process.env.port || 4000;
 
 const app = express();
 
@@ -55,7 +56,6 @@ io.on("connection", (socket) => {
   });
 });
 
-const PORT = process.env.PORT || 4000;
 server.listen(PORT, () => {
   connectDB();
   console.log(`Server running on http://localhost:${PORT}`);

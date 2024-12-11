@@ -10,7 +10,7 @@ interface SessionProviderProps {
 }
 const SessionProviderClient = ({ children, session }: SessionProviderProps) => {
   return (
-    <NextAuthSessionProvider refetchInterval={60} session={session}>
+    <NextAuthSessionProvider session={session}>
       {children}
     </NextAuthSessionProvider>
   );
