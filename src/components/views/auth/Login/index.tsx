@@ -45,11 +45,11 @@ const LoginView = () => {
       if (res?.ok) {
         push(callbackUrl);
       } else {
+        setIsLoading(false);
         setIsError("Email dan Password salah");
       }
     } catch (error) {
       setIsLoading(false);
-      console.log(error);
     }
   };
 
