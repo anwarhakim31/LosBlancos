@@ -67,17 +67,18 @@ const ShowProductView: FC<PropsType> = ({ header, data }) => {
                     priority
                   />
                 </figure>
-                <div className={styles.scroller__cart__content}>
-                  <div className={styles.scroller__card__top}>
-                    <p className={styles.scroller__card__top__collection}>
-                      {item.collectionName.name}
-                    </p>
 
-                    <h3 className={styles.scroller__card__top__title}>
-                      {item.name}
-                    </h3>
-                  </div>
+                <div className={styles.scroller__card__top}>
+                  <p className={styles.scroller__card__top__collection}>
+                    {item.collectionName.name}
+                  </p>
 
+                  <h3 className={styles.scroller__card__top__title}>
+                    {item.name}
+                  </h3>
+                </div>
+
+                <div className={styles.scroller__card__footer}>
                   <p className={styles.scroller__card__price}>
                     {formatCurrency(Number(item.price))}
                   </p>
